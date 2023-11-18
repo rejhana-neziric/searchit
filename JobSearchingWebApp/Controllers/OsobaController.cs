@@ -52,7 +52,7 @@ namespace JobSearchingWebApp.Controllers
         }
 
         [HttpPut]
-        public ActionResult UpdateOsobe([FromBody] OsobaUpdateRequest podaci)
+        public ActionResult Update([FromBody] OsobaUpdateRequest podaci)
         {
             var osoba = dbContext.Osobe.Where(x => x.Id == podaci.id).FirstOrDefault();
             if (osoba == null)
