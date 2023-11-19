@@ -11,6 +11,6 @@ namespace JobSearchingWebApp.Models
         public string Email { get; set; }
         public string BrojTelefona { get; set; }
         public string OpisProfila { get; set; }
-        public byte[] Slika { get; set; }
+        public string Slika { get; set; }
     }
 }
