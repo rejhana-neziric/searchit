@@ -66,7 +66,6 @@ namespace JobSearchingWebApp.Controllers
             if (kandidat == null) 
                 return new NotFoundResult();
 
-            kandidat.Id = k.id;
             kandidat.Ime = k.ime;
             kandidat.Prezime = k.prezime;
             kandidat.MjestoPrebivalista = k.mjesto_prebivalista;

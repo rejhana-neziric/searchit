@@ -2,6 +2,7 @@
 
 namespace JobSearchingWebApp.Models
 {
+    [Table("Oglasi")]
     public class Oglas
     {
         public int Id { get; set; }

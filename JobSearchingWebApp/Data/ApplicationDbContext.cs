@@ -8,7 +8,7 @@ namespace JobSearchingWebApp.Data
         public DbSet<Osoba> Osobe { get; set; }
         public DbSet<Kompanija> Kompanije { get; set; }
         public DbSet<Kandidat> Kandidati { get; set; }
-
+        public DbSet<Oglas> Oglasi { get; set; }
 
         public ApplicationDbContext(
             DbContextOptions options) : base(options)
