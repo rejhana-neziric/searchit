@@ -2,6 +2,7 @@
 
 namespace JobSearchingWebApp.Models
 {
+    [Table("Osobe")]
     public class Osoba
     {
         public int Id { get; set; }

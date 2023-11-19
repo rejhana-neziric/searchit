@@ -1,11 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace JobSearchingWebApp.Models
 {
-    public class Kompanija
+    [Table("Kompanije")]
+    public class Kompanija : Osoba
     {
-        [Key]
-        public int Id { get; set; }
         public string Naziv { get; set; }
         public int GodinaOsnivanja { get; set; }
         public string Lokacija { get; set; }

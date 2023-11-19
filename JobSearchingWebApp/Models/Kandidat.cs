@@ -1,11 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace JobSearchingWebApp.Models
 {
-    public class Kandidat:Osoba
+    [Table("Kandidati")]
+    public class Kandidat : Osoba
     {
-        [Key]
-        public int OsobaId { get; set; }
         public string Ime { get; set; }
         public string Prezime { get; set; }
         public DateTime DatumRodjenja { get; set; }
