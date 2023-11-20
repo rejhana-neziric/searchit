@@ -1,4 +1,5 @@
 ﻿using JobSearchingWebApp.Data;
+using JobSearchingWebApp.Helper;
 using JobSearchingWebApp.Models;
 using JobSearchingWebApp.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -19,9 +20,15 @@ namespace JobSearchingWebApp.Controllers
         }
 
         [HttpGet]
-        public ActionResult Get(int id)
+        public ActionResult GetById(int id)
         {
             return Ok(dbContext.Kompanije.FirstOrDefault(k =>k.Id ==id));
+        }
+
+        [HttpGet]
+        public List<Kompanija> GetAll()
+        {
+            return dbContext.Kompanije.AsQueryable().ToList();
         }
 
     
@@ -33,7 +40,7 @@ namespace JobSearchingWebApp.Controllers
             {
                 kompanija = new Kompanija(); 
                 dbContext.Add(kompanija);
-               
+                kompanija.Slika = Config.SlikeURL + "empty.png";
             }
             else
             {
@@ -43,7 +50,7 @@ namespace JobSearchingWebApp.Controllers
             }
 
             kompanija.Id = k.id;
-            kompanija.Slika = null;
+            //kompanija.Slika = null;
             kompanija.Lokacija = k.lokacija;
             kompanija.GodinaOsnivanja = k.godina_osnivanja;
             kompanija.Naziv = k.naziv;
@@ -77,6 +84,25 @@ namespace JobSearchingWebApp.Controllers
             dbContext.Kompanije.Remove(kompanija);
             dbContext.SaveChanges();
             return Ok();
+        }
+
+        [HttpPost]
+        public ActionResult AddKompanijaImage(int id, [FromForm] KompanijaImageAddVM k)
+        {
+            Kompanija? kompanija = dbContext.Kompanije.FirstOrDefault(x => x.Id == id);
+
+            if (kompanija == null)
+                return BadRequest("neispavan id");
+
+            string ekstenzija = Path.GetExtension(k.slika.FileName);
+
+            var filename = $"{Guid.NewGuid()}{ekstenzija}";
+
+            k.slika.CopyTo(new FileStream(Config.SlikeFolder + filename, FileMode.Create));
+            kompanija.Slika = Config.SlikeURL + filename;
+
+            dbContext.SaveChanges();
+            return Ok(kompanija);
         }
     }
 

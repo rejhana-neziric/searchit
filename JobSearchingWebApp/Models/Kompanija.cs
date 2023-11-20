@@ -9,6 +9,6 @@ namespace JobSearchingWebApp.Models
         public string Naziv { get; set; }
         public int GodinaOsnivanja { get; set; }
         public string Lokacija { get; set; }
-        public byte[] Slika { get; set; }
+        public string Slika { get; set; }
     }
 }

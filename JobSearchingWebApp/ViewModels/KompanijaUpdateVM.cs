@@ -6,6 +6,6 @@
         public string naziv { get; set; }
         public int godina_osnivanja { get; set; }
         public string lokacija { get; set; }
-        public byte[] slika { get; set; }
+        public string slika { get; set; }
     }
 }
