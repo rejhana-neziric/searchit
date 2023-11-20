@@ -10,7 +10,7 @@ var config = new ConfigurationBuilder()
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(config.GetConnectionString("db1")));
+    options.UseSqlServer(config.GetConnectionString("db")));
 
 // Add services to the container.
 
