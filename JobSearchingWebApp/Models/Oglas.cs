@@ -1,10 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace JobSearchingWebApp.Models
 {
     [Table("Oglasi")]
     public class Oglas
     {
+        [Key]
         public int Id { get; set; }
         [ForeignKey(nameof(Kompanija))]
         public int KompanijaId { get; set; }

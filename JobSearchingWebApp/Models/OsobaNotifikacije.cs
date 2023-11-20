@@ -1,13 +1,18 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace JobSearchingWebApp.Models
 {
     public class OsobaNotifikacije
     {
         [Key]
+        public int Id { get; set; }
+        [ForeignKey(nameof(Osoba))]
         public int OsobaId { get; set; }
-        [Key]
+        public Osoba Osoba { get; set; }
+        [ForeignKey(nameof(Notifikacija))]
         public int NotifikacijaId { get; set; }
+        public Notifikacija Notifikacija { get; set; }
         public DateTime DatumPrimanja { get; set; }
         public bool Pogledano { get; set; }
     }
