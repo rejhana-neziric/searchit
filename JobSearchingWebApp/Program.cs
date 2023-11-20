@@ -3,7 +3,14 @@ using JobSearchingWebApp.Data;
 using Microsoft.EntityFrameworkCore;
 
 
+var config = new ConfigurationBuilder()
+    .AddJsonFile("appsettings.json", false)
+    .Build();
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(config.GetConnectionString("db1")));
 
 // Add services to the container.
 

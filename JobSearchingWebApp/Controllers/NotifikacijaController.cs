@@ -16,8 +16,8 @@ namespace JobSearchingWebApp.Controllers
             this.dbContext = dbContext;
         }
 
-        [HttpGet("{Id}")]
-        public ActionResult Get(int id)
+        [HttpGet]
+        public ActionResult GetById(int id)
         {
             return Ok(dbContext.Notifikacije.FirstOrDefault(n => n.Id == id));
         }
@@ -40,11 +40,7 @@ namespace JobSearchingWebApp.Controllers
                 dbContext.Add(notifikacija);
             }
             else
-            {
                 notifikacija = dbContext.Notifikacije.FirstOrDefault(x => x.Id == n.id);
-                if (notifikacija == null)
-                    return BadRequest("Pogresan id");
-            }
 
             notifikacija.Naziv = n.naziv;
             notifikacija.Vrsta = n.vrsta;
@@ -68,12 +64,12 @@ namespace JobSearchingWebApp.Controllers
             return Ok(notifikacija);
         }
 
-        [HttpDelete("{Id}")]
+        [HttpDelete]
         public ActionResult Delete(int id)
         {
             Notifikacija? notifikacija = dbContext.Notifikacije.Find(id);
 
-            if (notifikacija == null || id == 1)
+            if (notifikacija == null || id == 0)
                 return BadRequest("Pogresan id!");
 
             dbContext.Remove(notifikacija);

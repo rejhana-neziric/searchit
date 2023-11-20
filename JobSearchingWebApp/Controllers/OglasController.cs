@@ -16,8 +16,8 @@ namespace JobSearchingWebApp.Controllers
             this.dbContext = dbContext;
         }
 
-        [HttpGet("{Id}")]
-        public ActionResult Get(int id)
+        [HttpGet]
+        public ActionResult GetById(int id)
         {
             return Ok(dbContext.Oglasi.FirstOrDefault(o=> o.Id == id));
         }
@@ -82,12 +82,12 @@ namespace JobSearchingWebApp.Controllers
             return Ok(oglas);
         }
 
-        [HttpDelete("{Id}")]
+        [HttpDelete]
         public ActionResult Delete(int id)
         {
             Oglas? oglas = dbContext.Oglasi.Find(id);
 
-            if (oglas == null || id == 1)
+            if (oglas == null || id == 0)
                 return BadRequest("Pogresan id!");
 
             dbContext.Remove(oglas);

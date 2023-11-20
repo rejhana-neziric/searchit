@@ -3,6 +3,7 @@ using JobSearchingWebApp.Models;
 using JobSearchingWebApp.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace JobSearchingWebApp.Controllers
 {
@@ -23,6 +24,7 @@ namespace JobSearchingWebApp.Controllers
             return Ok(dbContext.Kompanije.FirstOrDefault(k =>k.Id ==id));
         }
 
+    
         [HttpPost]
         public ActionResult Spremi([FromBody] KompanijaSpremiVM k)
         {
@@ -45,7 +47,7 @@ namespace JobSearchingWebApp.Controllers
             kompanija.Lokacija = k.lokacija;
             kompanija.GodinaOsnivanja = k.godina_osnivanja;
             kompanija.Naziv = k.naziv;
-            
+
             dbContext.SaveChanges();
             return Ok();
         }
@@ -77,4 +79,5 @@ namespace JobSearchingWebApp.Controllers
             return Ok();
         }
     }
+
 }

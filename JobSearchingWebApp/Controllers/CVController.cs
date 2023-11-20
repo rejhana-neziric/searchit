@@ -17,16 +17,16 @@ namespace JobSearchingWebApp.Controllers
             this.dbContext = dbContext;
         }
 
-        [HttpGet("{Id}")]
-        public ActionResult Get(int id)
+        [HttpGet]
+        public ActionResult GetById(int id)
         {
-            return Ok(dbContext.Notifikacije.FirstOrDefault(n => n.Id == id));
+            return Ok(dbContext.CV.FirstOrDefault(c => c.Id == id));
         }
 
         [HttpGet]
-        public List<Notifikacija> GetAll()
+        public List<CV> GetAll()
         {
-            var rezultat = dbContext.Notifikacije.AsQueryable();
+            var rezultat = dbContext.CV.AsQueryable();
             return rezultat.ToList();
         }
 
@@ -78,12 +78,12 @@ namespace JobSearchingWebApp.Controllers
             return Ok(cv);
         }
 
-        [HttpDelete("{Id}")]
+        [HttpDelete]
         public ActionResult Delete(int id)
         {
             CV? cv = dbContext.CV.Find(id);
 
-            if (cv == null || id == 1)
+            if (cv == null || id == 0)
                 return BadRequest("Pogresan id!");
 
             dbContext.Remove(cv);
@@ -92,7 +92,7 @@ namespace JobSearchingWebApp.Controllers
             return Ok(cv);
         }
 
-        [HttpPost("{Id}")]  
+        [HttpPost]  
         public ActionResult AddCVImage (int id, [FromForm] CVImageAddVM x)
         {
             CV? cv = dbContext.CV.FirstOrDefault(c => c.Id == id);

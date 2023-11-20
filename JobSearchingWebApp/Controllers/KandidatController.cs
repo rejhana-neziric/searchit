@@ -18,8 +18,8 @@ namespace JobSearchingWebApp.Controllers
             this.dbContext = dbContext;
         }
 
-        [HttpGet("{Id}")]
-        public ActionResult Get(int id)
+        [HttpGet]
+        public ActionResult GetById(int id)
         {
             return Ok(dbContext.Kandidati.FirstOrDefault(k => k.Id == id)); 
         }
@@ -34,20 +34,21 @@ namespace JobSearchingWebApp.Controllers
         [HttpPost]
         public ActionResult Snimi([FromBody] KandidatSpremiVM k)
         {
-            Kandidat? kandidat; 
+            var id = dbContext.Osobe.Where(x => x.Id == k.id).Select( x=> x.Id); 
 
-            if(k.id == 0)
+            if (id == null)
+                return BadRequest("Pogresan id");
+
+            Kandidat? kandidat = dbContext.Kandidati.FirstOrDefault(x => x.Id == k.id);
+
+            if (kandidat == null)
+
             {
                 kandidat = new Kandidat();
-                dbContext.Add(kandidat); 
+                dbContext.Add(kandidat);
+                kandidat.Id = k.id; 
             }
-            else
-            {
-                kandidat = dbContext.Kandidati.FirstOrDefault(x => x.Id == k.id);
-                if (kandidat == null)
-                    return BadRequest("Pogresan id"); 
-            }
-
+            
             kandidat.Ime = k.ime;
             kandidat.Prezime = k.prezime;
             kandidat.MjestoPrebivalista = k.mjesto_prebivalista;
@@ -61,6 +62,11 @@ namespace JobSearchingWebApp.Controllers
         [HttpPut]
         public ActionResult Update([FromBody] KandidatSpremiVM k)
         {
+            var id = dbContext.Osobe.Where(x => x.Id == k.id).Select(x => x.Id);
+
+            if (id == null)
+                return BadRequest("Pogresan id");
+
             var kandidat = dbContext.Kandidati.Where(x => x.Id == k.id).FirstOrDefault();
 
             if (kandidat == null) 
@@ -76,13 +82,14 @@ namespace JobSearchingWebApp.Controllers
             return Ok(kandidat);    
         }
 
-        [HttpDelete("{Id}")]
+        [HttpDelete]
         public ActionResult Delete (int id)
         {
+            var _id = dbContext.Osobe.Where(x => x.Id == id).Select(x => x.Id);
             Kandidat? kandidat = dbContext.Kandidati.Find(id);
 
-            if (kandidat == null || id == 1)
-                return BadRequest("Pogresan id!"); 
+            if (_id == null || kandidat == null)
+                return BadRequest("Pogresan id");
 
             dbContext.Remove(kandidat);
 
