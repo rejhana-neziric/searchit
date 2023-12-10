@@ -1,4 +1,6 @@
-﻿namespace JobSearchingWebApp.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace JobSearchingWebApp.Models
 {
     public class Oznaka
     {

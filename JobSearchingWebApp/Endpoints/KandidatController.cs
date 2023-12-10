@@ -21,20 +21,20 @@ namespace JobSearchingWebApp.Controllers
         [HttpGet]
         public ActionResult GetById(int id)
         {
-            return Ok(dbContext.Kandidati.FirstOrDefault(k => k.Id == id)); 
+            return Ok(dbContext.Kandidati.FirstOrDefault(k => k.Id == id));
         }
 
         [HttpGet]
-        public List<Kandidat> GetAll() 
+        public List<Kandidat> GetAll()
         {
-            var rezultat = dbContext.Kandidati.AsQueryable(); 
-            return rezultat.ToList();   
+            var rezultat = dbContext.Kandidati.AsQueryable();
+            return rezultat.ToList();
         }
 
         [HttpPost]
         public ActionResult Snimi([FromBody] KandidatSpremiVM k)
         {
-            var id = dbContext.Osobe.Where(x => x.Id == k.id).Select( x=> x.Id); 
+            var id = dbContext.Osobe.Where(x => x.Id == k.id).Select(x => x.Id);
 
             if (id == null)
                 return BadRequest("Pogresan id");
@@ -46,17 +46,17 @@ namespace JobSearchingWebApp.Controllers
             {
                 kandidat = new Kandidat();
                 dbContext.Add(kandidat);
-                kandidat.Id = k.id; 
+                kandidat.Id = k.id;
             }
-            
+
             kandidat.Ime = k.ime;
             kandidat.Prezime = k.prezime;
             kandidat.MjestoPrebivalista = k.mjesto_prebivalista;
             kandidat.DatumRodjenja = k.datum_rodjenja;
-            kandidat.BrojTelefona = k.broj_telefona; 
+            kandidat.BrojTelefona = k.broj_telefona;
 
             dbContext.SaveChanges();
-            return Ok(kandidat);    
+            return Ok(kandidat);
         }
 
         [HttpPut]
@@ -69,7 +69,7 @@ namespace JobSearchingWebApp.Controllers
 
             var kandidat = dbContext.Kandidati.Where(x => x.Id == k.id).FirstOrDefault();
 
-            if (kandidat == null) 
+            if (kandidat == null)
                 return new NotFoundResult();
 
             kandidat.Ime = k.ime;
@@ -79,11 +79,11 @@ namespace JobSearchingWebApp.Controllers
             kandidat.BrojTelefona = k.broj_telefona;
 
             dbContext.SaveChanges();
-            return Ok(kandidat);    
+            return Ok(kandidat);
         }
 
         [HttpDelete]
-        public ActionResult Delete (int id)
+        public ActionResult Delete(int id)
         {
             var _id = dbContext.Osobe.Where(x => x.Id == id).Select(x => x.Id);
             Kandidat? kandidat = dbContext.Kandidati.Find(id);
@@ -94,7 +94,7 @@ namespace JobSearchingWebApp.Controllers
             dbContext.Remove(kandidat);
 
             dbContext.SaveChanges();
-            return Ok(kandidat);    
+            return Ok(kandidat);
         }
     }
 }

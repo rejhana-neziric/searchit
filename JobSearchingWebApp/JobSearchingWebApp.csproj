@@ -24,4 +24,12 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Endpoints\Kompanija\" />
+    <Folder Include="Endpoints\CV\" />
+    <Folder Include="Endpoints\Osoba\" />
+    <Folder Include="Endpoints\Oglas\" />
+    <Folder Include="Endpoints\Notifikacija\" />
+  </ItemGroup>
+
 </Project>

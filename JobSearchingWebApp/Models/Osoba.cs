@@ -17,5 +17,20 @@ namespace JobSearchingWebApp.Models
         [ForeignKey(nameof(Jezik))]
         public int JezikId { get; set; }
         public Jezik Jezik { get; set; }
+
+        public Osoba()
+        {
+
+        }
+
+        public Osoba(Osoba osoba)
+        {
+            Id = osoba.Id;
+            Email = osoba.Email;
+            Username = osoba.Username;
+            Password = osoba.Password;
+            TemaId = osoba.TemaId;
+            JezikId = osoba.JezikId;
+        }
     }
 }

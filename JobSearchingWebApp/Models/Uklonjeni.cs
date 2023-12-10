@@ -10,9 +10,9 @@ namespace JobSearchingWebApp.Models
         [ForeignKey(nameof(Oznaka))]
         public int OznakaId { get; set; }
         public Oznaka Oznaka { get; set; }
-        [ForeignKey(nameof(Uklonjeni))]
-        public int UklonjeniId { get; set; }
-        public Uklonjeni Uklonjeni { get; set; }
+        //[ForeignKey(nameof(Uklonjeni))]
+        //public int UklonjeniId { get; set; }
+        //public Uklonjeni Uklonjeni { get; set; }
         public DateTime DatumUklanjanja { get; set; }
         public string Razlog { get; set; }
     }
