@@ -26,9 +26,6 @@
 
   <ItemGroup>
     <Folder Include="Endpoints\CV\" />
-    <Folder Include="Endpoints\Oglas\Delete\" />
-    <Folder Include="Endpoints\Oglas\Update\" />
-    <Folder Include="Endpoints\Oglas\Pretraga\" />
     <Folder Include="Endpoints\Osoba\" />
     <Folder Include="Endpoints\Notifikacija\" />
   </ItemGroup>
