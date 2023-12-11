@@ -10,5 +10,13 @@ namespace JobSearchingWebApp.Models
         public int GodinaOsnivanja { get; set; }
         public string Lokacija { get; set; }
         public string Slika { get; set; }
+
+        //ovo je tu samo privremeno zbog starih kontrolera, treba ga izbrisati
+        public Kompanija() { }
+
+        public Kompanija(Osoba osoba) : base(osoba)
+        {
+
+        }
     }
 }

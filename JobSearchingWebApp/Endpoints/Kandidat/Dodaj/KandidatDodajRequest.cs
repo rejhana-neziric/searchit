@@ -1,7 +1,4 @@
-﻿using JobSearchingWebApp.Models;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace JobSearchingWebApp.Endpoints.Kandidat.Dodaj
+﻿namespace JobSearchingWebApp.Endpoints.Kandidat.Dodaj
 {
     public class KandidatDodajRequest
     {
