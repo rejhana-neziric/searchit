@@ -27,7 +27,6 @@
   <ItemGroup>
     <Folder Include="Endpoints\CV\" />
     <Folder Include="Endpoints\Osoba\" />
-    <Folder Include="Endpoints\Notifikacija\" />
   </ItemGroup>
 
 </Project>
