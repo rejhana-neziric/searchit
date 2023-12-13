@@ -13,6 +13,7 @@ namespace JobSearchingWebApp.Data
         public DbSet<CV> CV { get; set; }
         public DbSet<KandidatiOglasi> KandidatiOglasi { get; set; }
         public DbSet<KompanijeKandidati> KompanijeKandidati { get; set; }
+        public DbSet<OsobaNotifikacije> OsobaNotifikacije { get; set; }
 
         public ApplicationDbContext(
             DbContextOptions options) : base(options)
