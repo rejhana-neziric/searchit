@@ -1,7 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace JobSearchingWebApp.Models
 {
+    [Table("RadnoIskustvo")]
     public class RadnoIskustvo
     {
         [Key]
@@ -11,6 +13,8 @@ namespace JobSearchingWebApp.Models
         public DateTime DatumZavrsetka { get; set; }
         public string NazivKompanije { get; set; }
         public string Opis { get; set; }
+        [ForeignKey(nameof(CV))]
         public int CVId { get; set; }
+        public CV CV { get; set; }
     }
 }
