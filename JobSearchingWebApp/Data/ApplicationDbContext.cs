@@ -21,7 +21,8 @@ namespace JobSearchingWebApp.Data
         public DbSet<CVTehnologije> CVTehnologije { get; set; }
         public DbSet<Vjestina> Vjestine { get; set; }
         public DbSet<CVVjestine> CVVjestine { get; set; }
-
+        public DbSet<OpisKompanije> OpisiKompanija { get; set; }
+        
         public ApplicationDbContext(
             DbContextOptions options) : base(options)
         {
