@@ -17,7 +17,8 @@ namespace JobSearchingWebApp.Data
         public DbSet<RadnoIskustvo> RadnoIskustvo { get; set; }
         public DbSet<Jezik> Jezici {  get; set; }
         public DbSet<CVJezici> CVJezici { get; set; }
-
+        public DbSet<Tehnologija> Tehnologije { get; set; }
+        
         public ApplicationDbContext(
             DbContextOptions options) : base(options)
         {
