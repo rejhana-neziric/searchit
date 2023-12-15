@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace JobSearchingWebApp.Models
 {
+    [Table("CVTehnologije")]
     public class CVTehnologije
     {
         [Key]
