@@ -23,7 +23,7 @@ namespace JobSearchingWebApp.Endpoints.Tehnologija.Delete
 
             if (tehnologija == null)
             {
-                throw new Exception("Nije pronađen tehnologija sa ID " + request.tehnologija_id);
+                throw new Exception("Nije pronađena tehnologija sa ID " + request.tehnologija_id);
             }
 
             dbContext.Remove(tehnologija);
