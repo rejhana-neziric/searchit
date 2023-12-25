@@ -10,7 +10,7 @@ var config = new ConfigurationBuilder()
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(config.GetConnectionString("db")));
+    options.UseSqlServer(config.GetConnectionString("db_fit")));
 
 // Add services to the container.
 
@@ -22,7 +22,7 @@ builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+//if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
