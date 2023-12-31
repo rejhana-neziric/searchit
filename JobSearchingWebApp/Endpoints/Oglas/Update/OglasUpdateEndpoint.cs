@@ -8,6 +8,7 @@ using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace JobSearchingWebApp.Endpoints.Oglas.Update
 {
+    [Tags("Oglas")]
     [Route("oglas-update")]
     public class OglasUpdateEndpoint : MyBaseEndpoint<OglasUpdateRequest, OglasUpdateResponse>
     {
@@ -19,7 +20,7 @@ namespace JobSearchingWebApp.Endpoints.Oglas.Update
         }
 
         [HttpPost]
-        public override async Task<OglasUpdateResponse> MyAction(OglasUpdateRequest request)
+        public override async Task<OglasUpdateResponse> MyAction(OglasUpdateRequest request, CancellationToken cancellationToken)
         {
             var oglas = dbContext.Oglasi.FirstOrDefault(x => x.Id == request.oglas_id);
 

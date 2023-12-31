@@ -7,6 +7,7 @@ using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace JobSearchingWebApp.Endpoints.Jezik.Pretraga
 {
+    [Tags("Tehnologija")]
     [Route("tehnologija-pretraga")]
     public class TehnologijaPretragaEndpoint : MyBaseEndpoint<TehnologijaPretragaRequest, TehnologijaPretragaResponse>
     {
@@ -18,7 +19,7 @@ namespace JobSearchingWebApp.Endpoints.Jezik.Pretraga
         }
 
         [HttpGet]
-        public override async Task<TehnologijaPretragaResponse> MyAction([FromQuery] TehnologijaPretragaRequest request)
+        public override async Task<TehnologijaPretragaResponse> MyAction([FromQuery] TehnologijaPretragaRequest request, CancellationToken cancellationToken)
         {
             var tehnologije = await dbContext
                                  .Tehnologije

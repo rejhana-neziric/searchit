@@ -1,5 +1,8 @@
 
 using JobSearchingWebApp.Data;
+using JobSearchingWebApp.Helper.Services;
+using JobSearchingWebApp.Models;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -10,7 +13,7 @@ var config = new ConfigurationBuilder()
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(config.GetConnectionString("db_fit")));
+    options.UseSqlServer(config.GetConnectionString("db_local")));
 
 // Add services to the container.
 
@@ -18,6 +21,8 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddTransient<MyAuthService>();
+builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 

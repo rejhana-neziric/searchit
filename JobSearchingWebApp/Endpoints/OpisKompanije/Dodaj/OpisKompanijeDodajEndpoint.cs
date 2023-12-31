@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace JobSearchingWebApp.Endpoints.OpisKompanije.Dodaj
 {
+    [Tags("OpisKomanije")]
     [Route("opis-kompanije-dodaj")]
     public class OpisKompanijeDodajEndpoint : MyBaseEndpoint<OpisKompanijeDodajRequest, OpisKompanijeDodajResponse>
     {
@@ -16,7 +17,7 @@ namespace JobSearchingWebApp.Endpoints.OpisKompanije.Dodaj
         }
 
         [HttpPost]
-        public override async Task<OpisKompanijeDodajResponse> MyAction(OpisKompanijeDodajRequest request)
+        public override async Task<OpisKompanijeDodajResponse> MyAction(OpisKompanijeDodajRequest request, CancellationToken cancellationToken)
         {
             var opis_kompanije = new Models.OpisKompanije()
             {

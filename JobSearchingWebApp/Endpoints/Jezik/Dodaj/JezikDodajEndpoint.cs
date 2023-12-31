@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace JobSearchingWebApp.Endpoints.Jezik.Dodaj
 {
+    [Tags("Jezik")]
     [Route("jezik-dodaj")]
     public class JezikDodajEndpoint : MyBaseEndpoint<JezikDodajRequest, JezikDodajResponse>
     {
@@ -16,7 +17,7 @@ namespace JobSearchingWebApp.Endpoints.Jezik.Dodaj
         }
 
         [HttpPost]
-        public override async Task<JezikDodajResponse> MyAction(JezikDodajRequest request)
+        public override async Task<JezikDodajResponse> MyAction(JezikDodajRequest request, CancellationToken cancellationToken)
         {
             var jezik = new Models.Jezik
             {

@@ -6,6 +6,7 @@ using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace JobSearchingWebApp.Endpoints.CVVjestine.Delete
 {
+    [Tags("CV-Vjestina")]
     [Route("cv-vjestina-delete")]
     public class CVVjestinaDeleteEndpoint : MyBaseEndpoint<CVVjestinaDeleteRequest, CVVjestinaDeleteResponse>
     {
@@ -17,7 +18,7 @@ namespace JobSearchingWebApp.Endpoints.CVVjestine.Delete
         }
 
         [HttpDelete]
-        public override async Task<CVVjestinaDeleteResponse> MyAction([FromQuery] CVVjestinaDeleteRequest request)
+        public override async Task<CVVjestinaDeleteResponse> MyAction([FromQuery] CVVjestinaDeleteRequest request, CancellationToken cancellationToken)
         {
             var cv_vjestina = dbContext.CVVjestine.FirstOrDefault(x => x.Id == request.cv_vjestina_id);
 

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace JobSearchingWebApp.Endpoints.Tehnologija.Dodaj
 {
+    [Tags("Tehnologija")]
     [Route("tehnologija-dodaj")]
     public class TehnologijaDodajEndpoint : MyBaseEndpoint<TehnologijaDodajRequest, TehnologijaDodajResponse>
     {
@@ -15,7 +16,7 @@ namespace JobSearchingWebApp.Endpoints.Tehnologija.Dodaj
         }
 
         [HttpPost]
-        public override async Task<TehnologijaDodajResponse> MyAction(TehnologijaDodajRequest request)
+        public override async Task<TehnologijaDodajResponse> MyAction(TehnologijaDodajRequest request, CancellationToken cancellationToken)
         {
             var tehnologija = new Models.Tehnologija
             {

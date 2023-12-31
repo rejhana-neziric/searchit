@@ -7,6 +7,7 @@ using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace JobSearchingWebApp.Endpoints.Oglas.Delete
 {
+    [Tags("Oglas")]
     [Route("oglas-delete")]
     public class OglasDeleteEndpoint : MyBaseEndpoint<OglasDeleteRequest, OglasDeleteResponse>
     {
@@ -18,7 +19,7 @@ namespace JobSearchingWebApp.Endpoints.Oglas.Delete
         }
 
         [HttpDelete]
-        public override async Task<OglasDeleteResponse> MyAction([FromQuery]OglasDeleteRequest request)
+        public override async Task<OglasDeleteResponse> MyAction([FromQuery]OglasDeleteRequest request, CancellationToken cancellationToken)
         {
             var oglas = dbContext.Oglasi.FirstOrDefault(x => x.Id == request.oglas_id);
 

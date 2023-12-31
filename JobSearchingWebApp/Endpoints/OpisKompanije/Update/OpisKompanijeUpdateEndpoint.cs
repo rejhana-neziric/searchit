@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace JobSearchingWebApp.Endpoints.OpisKompanije.Update
 {
+    [Tags("OpisKomanije")]
     [Route("opis-kompanije-update")]
     public class OpisKompanijeUpdateEndpoint : MyBaseEndpoint<OpisKompanijeUpdateRequest, OpisKompanijeUpdateResponse>
     {
@@ -15,7 +16,7 @@ namespace JobSearchingWebApp.Endpoints.OpisKompanije.Update
         }
 
         [HttpPost]
-        public override async Task<OpisKompanijeUpdateResponse> MyAction(OpisKompanijeUpdateRequest request)
+        public override async Task<OpisKompanijeUpdateResponse> MyAction(OpisKompanijeUpdateRequest request, CancellationToken cancellationToken)
         {
             var opis_kompanije = dbContext.OpisiKompanija.FirstOrDefault(x => x.Id == request.opis_kompanije_id);
 

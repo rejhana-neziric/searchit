@@ -7,6 +7,7 @@ using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace JobSearchingWebApp.Endpoints.RadnoIskustvo.Delete
 {
+    [Tags("RadnoIskustvo")]
     [Route("radno-iskustvo-delete")]
     public class RadnoIskustvoDeleteEndpoint : MyBaseEndpoint<RadnoIskustvoDeleteRequest, RadnoIskustvoDeleteResponse>
     {
@@ -18,7 +19,7 @@ namespace JobSearchingWebApp.Endpoints.RadnoIskustvo.Delete
         }
 
         [HttpDelete]
-        public override async Task<RadnoIskustvoDeleteResponse> MyAction([FromQuery]RadnoIskustvoDeleteRequest request)
+        public override async Task<RadnoIskustvoDeleteResponse> MyAction([FromQuery]RadnoIskustvoDeleteRequest request, CancellationToken cancellationToken)
         {
             var radno_iskustvo = dbContext.RadnoIskustvo.FirstOrDefault(x => x.Id == request.radno_iskustvo_id);
 

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace JobSearchingWebApp.Endpoints.Vjestina.Dodaj
 {
+    [Tags("Vjestina")]
     [Route("vjestina-dodaj")]
     public class VjestinaDodajEndpoint : MyBaseEndpoint<VjestinaDodajRequest, VjestinaDodajResponse>
     {
@@ -15,7 +16,7 @@ namespace JobSearchingWebApp.Endpoints.Vjestina.Dodaj
         }
 
         [HttpPost]
-        public override async Task<VjestinaDodajResponse> MyAction(VjestinaDodajRequest request)
+        public override async Task<VjestinaDodajResponse> MyAction(VjestinaDodajRequest request, CancellationToken cancellationToken)
         {
             var vjestina = new Models.Vjestina
             {

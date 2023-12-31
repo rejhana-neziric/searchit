@@ -5,7 +5,7 @@ namespace JobSearchingWebApp.Data
 {
     public class ApplicationDbContext : DbContext
     {
-        public DbSet<Osoba> Osobe { get; set; }
+        public DbSet<Korisnik> Korisnici { get; set; }
         public DbSet<Kompanija> Kompanije { get; set; }
         public DbSet<Kandidat> Kandidati { get; set; }
         public DbSet<Oglas> Oglasi { get; set; }
@@ -13,7 +13,7 @@ namespace JobSearchingWebApp.Data
         public DbSet<CV> CV { get; set; }
         public DbSet<KandidatiOglasi> KandidatiOglasi { get; set; }
         public DbSet<KompanijeKandidati> KompanijeKandidati { get; set; }
-        public DbSet<OsobaNotifikacije> OsobaNotifikacije { get; set; }
+        public DbSet<KorisnikNotifikacije> KorisnikNotifikacije { get; set; }
         public DbSet<RadnoIskustvo> RadnoIskustvo { get; set; }
         public DbSet<Jezik> Jezici {  get; set; }
         public DbSet<CVJezici> CVJezici { get; set; }
@@ -22,6 +22,7 @@ namespace JobSearchingWebApp.Data
         public DbSet<Vjestina> Vjestine { get; set; }
         public DbSet<CVVjestine> CVVjestine { get; set; }
         public DbSet<OpisKompanije> OpisiKompanija { get; set; }
+        public DbSet<AutentifikacijaToken> AutentifikacijaToken { get; set; }
         
         public ApplicationDbContext(
             DbContextOptions options) : base(options)

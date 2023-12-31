@@ -7,6 +7,7 @@ using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace JobSearchingWebApp.Endpoints.KompanijaKandidat.Dodaj
 {
+    [Tags("Kompanija-Kandidat")]
     [Route("kompanija-kandidat-dodaj")]
     public class KompanijaKandidatDodajEndpoint : MyBaseEndpoint<KompanijaKandidatDodajRequest, KompanijaKandidatDodajResponse>
     {
@@ -19,7 +20,7 @@ namespace JobSearchingWebApp.Endpoints.KompanijaKandidat.Dodaj
 
         [HttpPost]
 
-        public override async Task<KompanijaKandidatDodajResponse> MyAction(KompanijaKandidatDodajRequest request)
+        public override async Task<KompanijaKandidatDodajResponse> MyAction(KompanijaKandidatDodajRequest request, CancellationToken cancellationToken)
         {
             var kompanija_kandidat = new Models.KompanijeKandidati()
             {

@@ -8,6 +8,7 @@ using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace JobSearchingWebApp.Endpoints.CV.Pretraga
 {
+    [Tags("CV")]
     [Route("cv-pretraga")]
     public class CVPretragaEndpoint : MyBaseEndpoint<CVPretragaRequest, CVPretragaResponse>
     {
@@ -19,7 +20,7 @@ namespace JobSearchingWebApp.Endpoints.CV.Pretraga
         }
 
         [HttpGet]
-        public override async Task<CVPretragaResponse> MyAction([FromQuery]CVPretragaRequest request)
+        public override async Task<CVPretragaResponse> MyAction([FromQuery]CVPretragaRequest request, CancellationToken cancellationToken)
         {
             var cv = await dbContext
                       .CV

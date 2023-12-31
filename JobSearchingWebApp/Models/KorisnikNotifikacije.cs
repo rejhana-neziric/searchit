@@ -3,14 +3,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace JobSearchingWebApp.Models
 {
-    [Table("OsobaNotifikacije")]
-    public class OsobaNotifikacije
+    [Table("KorisnikNotifikacije")]
+    public class KorisnikNotifikacije
     {
         [Key]
         public int Id { get; set; }
-        [ForeignKey(nameof(Osoba))]
-        public int OsobaId { get; set; }
-        public Osoba Osoba { get; set; }
+        [ForeignKey(nameof(Korisnik))]
+        public int KorisnikId { get; set; }
+        public Korisnik Korisnik { get; set; }
         [ForeignKey(nameof(Notifikacija))]
         public int NotifikacijaId { get; set; }
         public Notifikacija Notifikacija { get; set; }

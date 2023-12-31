@@ -8,6 +8,7 @@ using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace JobSearchingWebApp.Endpoints.Notifikacija.Dodaj
 {
+    [Tags("Notifikacija")]
     [Route("notifikacija-dodaj")]
     public class NotifikacijaDodajEndpoint : MyBaseEndpoint<NotifikacijaDodajRequest, NotifikacijaDodajResponse>
     {
@@ -19,7 +20,7 @@ namespace JobSearchingWebApp.Endpoints.Notifikacija.Dodaj
         }
 
         [HttpPost]
-        public override async Task<NotifikacijaDodajResponse> MyAction(NotifikacijaDodajRequest request)
+        public override async Task<NotifikacijaDodajResponse> MyAction(NotifikacijaDodajRequest request, CancellationToken cancellationToken)
         {
             var notifikacija = new Models.Notifikacija()
             {

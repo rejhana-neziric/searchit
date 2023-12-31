@@ -1,39 +1,43 @@
 ﻿using JobSearchingWebApp.Data;
 using JobSearchingWebApp.Helper;
+using JobSearchingWebApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace JobSearchingWebApp.Endpoints.Kandidat.Dodaj
 {
+    [Tags("Kandidat")]
     [Route("kandidat-dodaj")]
     public class KandidatDodajEndpoint : MyBaseEndpoint<KandidatDodajRequest, KandidatDodajResponse>
     {
-        private readonly ApplicationDbContext dbContext; 
+        private readonly ApplicationDbContext dbContext;
 
         public KandidatDodajEndpoint(ApplicationDbContext dbContext)
         {
-            this.dbContext = dbContext;   
+            this.dbContext = dbContext;
         }
 
         [HttpPost]
-        public override async Task<KandidatDodajResponse> MyAction(KandidatDodajRequest request)
+        public override async Task<KandidatDodajResponse> MyAction(KandidatDodajRequest request, CancellationToken cancellationToken)
         {
-            var osoba = new Models.Osoba()
+            var korisnik = new Models.Korisnik()
             {
                 Email = request.email,
                 Username = request.username,
                 Password = request.password,
                 TemaId = request.tema_id,
-                JezikId = request.jezik_id
+                JezikId = request.jezik_id,
+                isKandidat = true,
+                isKompanija = false
             };
 
-            var kandidat = new Models.Kandidat(osoba)
-            { 
-                Ime = request.ime, 
-                Prezime = request.prezime,  
+            var kandidat = new Models.Kandidat(korisnik)
+            {
+                Ime = request.ime,
+                Prezime = request.prezime,
                 DatumRodjenja = request.datum_rodjenja,
-                MjestoPrebivalista = request.mjesto_prebivalista,   
-                Zvanje = request.zvanje,    
+                MjestoPrebivalista = request.mjesto_prebivalista,
+                Zvanje = request.zvanje,
                 BrojTelefona = request.broj_telefona,
             };
 

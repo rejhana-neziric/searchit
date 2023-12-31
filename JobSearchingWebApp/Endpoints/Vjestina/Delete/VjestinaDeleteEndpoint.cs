@@ -6,6 +6,7 @@ using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace JobSearchingWebApp.Endpoints.Vjestina.Delete
 {
+    [Tags("Vjestina")]
     [Route("vjestina-delete")]
     public class VjestinaDeleteEndpoint : MyBaseEndpoint<VjestinaDeleteRequest, VjestinaDeleteResponse>
     {
@@ -17,7 +18,7 @@ namespace JobSearchingWebApp.Endpoints.Vjestina.Delete
         }
 
         [HttpDelete]
-        public override async Task<VjestinaDeleteResponse> MyAction([FromQuery] VjestinaDeleteRequest request)
+        public override async Task<VjestinaDeleteResponse> MyAction([FromQuery] VjestinaDeleteRequest request, CancellationToken cancellationToken)
         {
             var vjestina = dbContext.Vjestine.FirstOrDefault(x => x.Id == request.vjestina_id);
 

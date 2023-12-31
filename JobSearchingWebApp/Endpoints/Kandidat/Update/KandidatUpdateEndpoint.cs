@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace JobSearchingWebApp.Endpoints.Kandidat.Update
 {
+    [Tags("Kandidat")]
     [Route("kandidat-update")]
     public class KandidatUpdateEndpoint : MyBaseEndpoint<KandidatUpdateRequest, KandidatUpdateResponse>
     {
@@ -16,7 +17,7 @@ namespace JobSearchingWebApp.Endpoints.Kandidat.Update
         }
 
         [HttpPost]
-        public override async Task<KandidatUpdateResponse> MyAction(KandidatUpdateRequest request)
+        public override async Task<KandidatUpdateResponse> MyAction(KandidatUpdateRequest request, CancellationToken cancellationToken)
         {
             var kandidat = dbContext.Kandidati.FirstOrDefault(x => x.Id == request.kandidat_id); 
 

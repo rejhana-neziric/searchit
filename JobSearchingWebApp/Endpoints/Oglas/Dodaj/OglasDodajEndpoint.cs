@@ -6,6 +6,7 @@ using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace JobSearchingWebApp.Endpoints.Oglas.Dodaj
 {
+    [Tags("Oglas")]
     [Route("oglas-dodaj")]
     public class OglasDodajEndpoint : MyBaseEndpoint<OglasDodajRequest, OglasDodajResponse>
     {
@@ -17,7 +18,7 @@ namespace JobSearchingWebApp.Endpoints.Oglas.Dodaj
         }
 
         [HttpPost]
-        public override async Task<OglasDodajResponse> MyAction(OglasDodajRequest request)
+        public override async Task<OglasDodajResponse> MyAction(OglasDodajRequest request, CancellationToken cancellationToken)
         {
             var oglas = new Models.Oglas()
             {

@@ -8,6 +8,6 @@ namespace JobSearchingWebApp.Helper
     [Route("[controller]")]
     public abstract class MyBaseEndpoint<TRequest, TResponse> : ControllerBase
     {
-        public abstract Task<TResponse> MyAction (TRequest request);    
+        public abstract Task<TResponse> MyAction (TRequest request, CancellationToken cancellationToken);    
     }
 }

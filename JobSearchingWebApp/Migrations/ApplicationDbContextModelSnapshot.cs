@@ -17,10 +17,10 @@ namespace JobSearchingWebApp.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.25")
+                .HasAnnotation("ProductVersion", "8.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("JobSearchingWebApp.Models.CV", b =>
                 {
@@ -28,7 +28,7 @@ namespace JobSearchingWebApp.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("BrojTelefona")
                         .IsRequired()
@@ -65,7 +65,7 @@ namespace JobSearchingWebApp.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CVId")
                         .HasColumnType("int");
@@ -88,7 +88,7 @@ namespace JobSearchingWebApp.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CVId")
                         .HasColumnType("int");
@@ -111,7 +111,7 @@ namespace JobSearchingWebApp.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CVId")
                         .HasColumnType("int");
@@ -134,7 +134,7 @@ namespace JobSearchingWebApp.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Naziv")
                         .IsRequired()
@@ -151,7 +151,7 @@ namespace JobSearchingWebApp.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("DatumPrijave")
                         .HasColumnType("datetime2");
@@ -181,7 +181,7 @@ namespace JobSearchingWebApp.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("DatumRazgovora")
                         .HasColumnType("datetime2");
@@ -201,13 +201,85 @@ namespace JobSearchingWebApp.Migrations
                     b.ToTable("KompanijeKandidati");
                 });
 
+            modelBuilder.Entity("JobSearchingWebApp.Models.Korisnik", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("JezikId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TemaId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("isKandidat")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("isKompanija")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("JezikId");
+
+                    b.HasIndex("TemaId");
+
+                    b.ToTable("Korisnici");
+
+                    b.UseTptMappingStrategy();
+                });
+
+            modelBuilder.Entity("JobSearchingWebApp.Models.KorisnikNotifikacije", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("DatumPrimanja")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("KorisnikId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NotifikacijaId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Pogledano")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("KorisnikId");
+
+                    b.HasIndex("NotifikacijaId");
+
+                    b.ToTable("KorisnikNotifikacije");
+                });
+
             modelBuilder.Entity("JobSearchingWebApp.Models.Notifikacija", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Naziv")
                         .IsRequired()
@@ -228,7 +300,7 @@ namespace JobSearchingWebApp.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime?>("DatumModificiranja")
                         .HasColumnType("datetime2");
@@ -278,7 +350,7 @@ namespace JobSearchingWebApp.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("BrojOtvorenihPozicija")
                         .HasColumnType("int");
@@ -295,77 +367,13 @@ namespace JobSearchingWebApp.Migrations
                     b.ToTable("OpisiKompanija");
                 });
 
-            modelBuilder.Entity("JobSearchingWebApp.Models.Osoba", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("JezikId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("TemaId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("JezikId");
-
-                    b.HasIndex("TemaId");
-
-                    b.ToTable("Osobe");
-                });
-
-            modelBuilder.Entity("JobSearchingWebApp.Models.OsobaNotifikacije", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("DatumPrimanja")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("NotifikacijaId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("OsobaId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("Pogledano")
-                        .HasColumnType("bit");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NotifikacijaId");
-
-                    b.HasIndex("OsobaId");
-
-                    b.ToTable("OsobaNotifikacije");
-                });
-
             modelBuilder.Entity("JobSearchingWebApp.Models.RadnoIskustvo", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CVId")
                         .HasColumnType("int");
@@ -401,7 +409,7 @@ namespace JobSearchingWebApp.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Naziv")
                         .IsRequired()
@@ -418,7 +426,7 @@ namespace JobSearchingWebApp.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Vrsta")
                         .IsRequired()
@@ -435,7 +443,7 @@ namespace JobSearchingWebApp.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Naziv")
                         .IsRequired()
@@ -448,7 +456,7 @@ namespace JobSearchingWebApp.Migrations
 
             modelBuilder.Entity("JobSearchingWebApp.Models.Kandidat", b =>
                 {
-                    b.HasBaseType("JobSearchingWebApp.Models.Osoba");
+                    b.HasBaseType("JobSearchingWebApp.Models.Korisnik");
 
                     b.Property<string>("BrojTelefona")
                         .IsRequired()
@@ -478,7 +486,7 @@ namespace JobSearchingWebApp.Migrations
 
             modelBuilder.Entity("JobSearchingWebApp.Models.Kompanija", b =>
                 {
-                    b.HasBaseType("JobSearchingWebApp.Models.Osoba");
+                    b.HasBaseType("JobSearchingWebApp.Models.Korisnik");
 
                     b.Property<int>("GodinaOsnivanja")
                         .HasColumnType("int");
@@ -593,18 +601,7 @@ namespace JobSearchingWebApp.Migrations
                     b.Navigation("Kompanija");
                 });
 
-            modelBuilder.Entity("JobSearchingWebApp.Models.Oglas", b =>
-                {
-                    b.HasOne("JobSearchingWebApp.Models.Kompanija", "Kompanija")
-                        .WithMany()
-                        .HasForeignKey("KompanijaId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Kompanija");
-                });
-
-            modelBuilder.Entity("JobSearchingWebApp.Models.Osoba", b =>
+            modelBuilder.Entity("JobSearchingWebApp.Models.Korisnik", b =>
                 {
                     b.HasOne("JobSearchingWebApp.Models.Jezik", "Jezik")
                         .WithMany()
@@ -623,23 +620,34 @@ namespace JobSearchingWebApp.Migrations
                     b.Navigation("Tema");
                 });
 
-            modelBuilder.Entity("JobSearchingWebApp.Models.OsobaNotifikacije", b =>
+            modelBuilder.Entity("JobSearchingWebApp.Models.KorisnikNotifikacije", b =>
                 {
+                    b.HasOne("JobSearchingWebApp.Models.Korisnik", "Korisnik")
+                        .WithMany()
+                        .HasForeignKey("KorisnikId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
                     b.HasOne("JobSearchingWebApp.Models.Notifikacija", "Notifikacija")
                         .WithMany()
                         .HasForeignKey("NotifikacijaId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("JobSearchingWebApp.Models.Osoba", "Osoba")
+                    b.Navigation("Korisnik");
+
+                    b.Navigation("Notifikacija");
+                });
+
+            modelBuilder.Entity("JobSearchingWebApp.Models.Oglas", b =>
+                {
+                    b.HasOne("JobSearchingWebApp.Models.Kompanija", "Kompanija")
                         .WithMany()
-                        .HasForeignKey("OsobaId")
+                        .HasForeignKey("KompanijaId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.Navigation("Notifikacija");
-
-                    b.Navigation("Osoba");
+                    b.Navigation("Kompanija");
                 });
 
             modelBuilder.Entity("JobSearchingWebApp.Models.RadnoIskustvo", b =>
@@ -655,19 +663,19 @@ namespace JobSearchingWebApp.Migrations
 
             modelBuilder.Entity("JobSearchingWebApp.Models.Kandidat", b =>
                 {
-                    b.HasOne("JobSearchingWebApp.Models.Osoba", null)
+                    b.HasOne("JobSearchingWebApp.Models.Korisnik", null)
                         .WithOne()
                         .HasForeignKey("JobSearchingWebApp.Models.Kandidat", "Id")
-                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
             modelBuilder.Entity("JobSearchingWebApp.Models.Kompanija", b =>
                 {
-                    b.HasOne("JobSearchingWebApp.Models.Osoba", null)
+                    b.HasOne("JobSearchingWebApp.Models.Korisnik", null)
                         .WithOne()
                         .HasForeignKey("JobSearchingWebApp.Models.Kompanija", "Id")
-                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

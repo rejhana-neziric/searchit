@@ -8,6 +8,7 @@ using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace JobSearchingWebApp.Endpoints.CV.Update
 {
+    [Tags("CV")]
     [Route("cv-update")]
     public class CVUpdateEndpoint : MyBaseEndpoint<CVUpdateRequest, CVUpdateResponse>
     {
@@ -19,7 +20,7 @@ namespace JobSearchingWebApp.Endpoints.CV.Update
         }
 
         [HttpPost]
-        public override async Task<CVUpdateResponse> MyAction(CVUpdateRequest request)
+        public override async Task<CVUpdateResponse> MyAction(CVUpdateRequest request, CancellationToken cancellationToken)
         {
             var cv = dbContext.CV.FirstOrDefault(x => x.Id == request.cv_id);
 

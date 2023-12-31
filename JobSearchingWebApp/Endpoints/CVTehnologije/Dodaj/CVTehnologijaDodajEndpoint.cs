@@ -5,6 +5,7 @@ using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace JobSearchingWebApp.Endpoints.CVTehnologije.Dodaj
 {
+    [Tags("CV-Tehnologija")]
     [Route("cv-tehnologija-dodaj")]
     public class CVTehnologijaDodajEndpoint : MyBaseEndpoint<CVTehnologijaDodajRequest, CVTehnologijaDodajResponse>
     {
@@ -16,7 +17,7 @@ namespace JobSearchingWebApp.Endpoints.CVTehnologije.Dodaj
         }
 
         [HttpPost]
-        public override async Task<CVTehnologijaDodajResponse> MyAction(CVTehnologijaDodajRequest request)
+        public override async Task<CVTehnologijaDodajResponse> MyAction(CVTehnologijaDodajRequest request, CancellationToken cancellationToken)
         {
             var cv_tehnologija = new Models.CVTehnologije()
             {

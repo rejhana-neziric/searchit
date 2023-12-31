@@ -6,6 +6,7 @@ using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace JobSearchingWebApp.Endpoints.Jezik.Delete
 {
+    [Tags("Jezik")]
     [Route("jezik-delete")]
     public class JezikDeleteEndpoint : MyBaseEndpoint<JezikDeleteRequest, JezikDeleteResponse>
     {
@@ -17,7 +18,7 @@ namespace JobSearchingWebApp.Endpoints.Jezik.Delete
         }
 
         [HttpDelete]
-        public override async Task<JezikDeleteResponse> MyAction([FromQuery] JezikDeleteRequest request)
+        public override async Task<JezikDeleteResponse> MyAction([FromQuery] JezikDeleteRequest request, CancellationToken cancellationToken)
         {
             var jezik = dbContext.Jezici.FirstOrDefault(x => x.Id == request.jezik_id);
 

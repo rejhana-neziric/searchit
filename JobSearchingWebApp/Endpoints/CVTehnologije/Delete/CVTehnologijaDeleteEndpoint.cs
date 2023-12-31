@@ -7,6 +7,7 @@ using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace JobSearchingWebApp.Endpoints.CVJezik.Delete
 {
+    [Tags("CV-Tehnologija")]
     [Route("cv-tehnologija-delete")]
     public class CVTehnologijaDeleteEndpoint : MyBaseEndpoint<CVJezikDeleteRequest, CVJezikDeleteResponse>
     {
@@ -18,7 +19,7 @@ namespace JobSearchingWebApp.Endpoints.CVJezik.Delete
         }
 
         [HttpDelete]
-        public override async Task<CVJezikDeleteResponse> MyAction([FromQuery] CVJezikDeleteRequest request)
+        public override async Task<CVJezikDeleteResponse> MyAction([FromQuery] CVJezikDeleteRequest request, CancellationToken cancellationToken)
         {
             var cv_tehnologija = dbContext.CVTehnologije.FirstOrDefault(x => x.Id == request.cv_jezik_id);
 

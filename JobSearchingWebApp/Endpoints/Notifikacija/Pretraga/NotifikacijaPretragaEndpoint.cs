@@ -8,6 +8,7 @@ using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace JobSearchingWebApp.Endpoints.Notifikacija.Pretraga
 {
+    [Tags("Notifikacija")]
     [Route("notifikacija-pretraga")]
     public class NotifikacijaPretragaEndpoint : MyBaseEndpoint<NotifikacijaPretragaRequest, NotifikacijaPretragaResponse>
     {
@@ -19,7 +20,7 @@ namespace JobSearchingWebApp.Endpoints.Notifikacija.Pretraga
         }
 
         [HttpGet]
-        public override async Task<NotifikacijaPretragaResponse> MyAction([FromQuery]NotifikacijaPretragaRequest request)
+        public override async Task<NotifikacijaPretragaResponse> MyAction([FromQuery]NotifikacijaPretragaRequest request, CancellationToken cancellationToken)
         {
             var notifikacije = await dbContext
                     .Notifikacije

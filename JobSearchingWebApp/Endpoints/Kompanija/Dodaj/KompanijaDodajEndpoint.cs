@@ -8,6 +8,7 @@ using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace JobSearchingWebApp.Endpoints.Kompanija.Dodaj
 {
+    [Tags("Kompanija")]
     [Route("kompanija-dodaj")]
     public class KompanijaDodajEndpoint : MyBaseEndpoint<KompanijaDodajRequest, KompanijaDodajResponse>
     {
@@ -19,21 +20,23 @@ namespace JobSearchingWebApp.Endpoints.Kompanija.Dodaj
         }
 
         [HttpPost]
-        public override async Task<KompanijaDodajResponse> MyAction(KompanijaDodajRequest request)
+        public override async Task<KompanijaDodajResponse> MyAction(KompanijaDodajRequest request, CancellationToken cancellationToken)
         {
-            var osoba = new Osoba()
+            var korisnik = new Korisnik()
             {
                 Email = request.email,
                 Username = request.username,
                 Password = request.password,
                 TemaId = request.tema_id,
-                JezikId = request.jezik_id
+                JezikId = request.jezik_id,
+                isKandidat = false,
+                isKompanija = true
             };
 
-            var kompanija = new Models.Kompanija(osoba)
+            var kompanija = new Models.Kompanija(korisnik)
             {
                 Naziv = request.naziv,
-                GodinaOsnivanja = request.godina_osnivanja, 
+                GodinaOsnivanja = request.godina_osnivanja,
                 Lokacija = request.lokacija,
                 Slika = request.slika,
             };

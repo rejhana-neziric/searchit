@@ -8,6 +8,7 @@ using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace JobSearchingWebApp.Endpoints.RadnoIskustvo.Update
 {
+    [Tags("RadnoIskustvo")]
     [Route("radno-iskustvo-update")]
     public class RadnoIskustvoUpdateEndpoint : MyBaseEndpoint<RadnoIskustvoUpdateRequest, RadnoIskustvoUpdateResponse>
     {
@@ -19,7 +20,7 @@ namespace JobSearchingWebApp.Endpoints.RadnoIskustvo.Update
         }
 
         [HttpPost]
-        public override async Task<RadnoIskustvoUpdateResponse> MyAction(RadnoIskustvoUpdateRequest request)
+        public override async Task<RadnoIskustvoUpdateResponse> MyAction(RadnoIskustvoUpdateRequest request, CancellationToken cancellationToken)
         {
             var radno_iskustvo = dbContext.RadnoIskustvo.FirstOrDefault(x => x.Id == request.radno_iskustvo_id);
 

@@ -9,6 +9,7 @@ using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace JobSearchingWebApp.Endpoints.CV.Dodaj
 {
+    [Tags("CV")]
     [Route("cv-dodaj")]
     public class CVDodajEndpoint : MyBaseEndpoint<CVDodajRequest, CVDodajResponse>
     {
@@ -20,7 +21,7 @@ namespace JobSearchingWebApp.Endpoints.CV.Dodaj
         }
 
         [HttpPost]
-        public override async Task<CVDodajResponse> MyAction(CVDodajRequest request)
+        public override async Task<CVDodajResponse> MyAction(CVDodajRequest request, CancellationToken cancellationToken)
         {
             var cv = new Models.CV()
             {

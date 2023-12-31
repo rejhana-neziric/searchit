@@ -1,11 +1,11 @@
 ﻿using JobSearchingWebApp.Models;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace JobSearchingWebApp.Endpoints.OsobaNotifikacija.Pretraga
+namespace JobSearchingWebApp.Endpoints.KorisnikNotifikacija.Pretraga
 {
-    public class OsobaNotifikacijaPretragaRequest
+    public class KorisnikNotifikacijaPretragaRequest
     {
-        public int? osoba_id { get; set; }
+        public int? korisnik_id { get; set; }
         public int? notifikacija_id { get; set; }
         public DateTime? datum_primanja { get; set; }
         public bool? pogledano { get; set; }
