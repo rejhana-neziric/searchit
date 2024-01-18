@@ -1,0 +1,166 @@
+@import "bourbon";
+
+*{
+  font-family: "Noto Sans", Helvetica;
+}
+
+.nav-bar {
+  background-color: #ffffff;
+}
+
+.accordion-item, .accordion-button{
+  background-color: #84B59F;
+}
+
+.accordion-item {
+  border-top: red;
+}
+
+.naslov-underline{
+  margin-top: -20px;
+  margin-left: 18px;
+  width: 43px;
+  height: 3px;
+  background-color: #1d7b4f;
+}
+
+.btnAsc{
+  /*padding: 17px 40px;*/
+  margin-left: -50px;
+  border-radius: 50px;
+  cursor: pointer;
+  border: 0.1px solid #88ab89;
+  background-color: #84B59F;
+  box-shadow: rgb(0 0 0 / 20%) 0 0 8px;
+  letter-spacing: 1.5px;
+
+  font-size: 15px;
+  transition: all 0.5s ease;
+}
+
+.btnAsc:hover
+{
+  letter-spacing: 2px;
+}
+
+.kompanija {
+  /*background-color: #ffffff;
+  margin: 5px;
+  width: 500px;
+  height: 150px;
+  round-clip: 3px;*/
+  border-radius: 30px;
+  background: #FFF;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  width: 567px;
+  height: 166px;
+  flex-shrink: 0;
+  margin:5px;
+  position: relative;
+}
+
+.logo {
+  width: 100px;
+  height: 100px;
+}
+
+.nav-item .nav-link{
+  text-decoration: none;
+  color: black;
+}
+
+.nav-item .nav-link:hover{
+  color: #84B59F;
+}
+
+.container {
+  padding-top: 40px;
+  padding-bottom: 40px;
+
+}
+
+.search-box {
+  display: inline-block;
+  width: 567px;
+  border-radius: 3px;
+  padding: 4px 55px 4px 15px;
+  position: relative;
+  background: #fff;
+  border: 1px solid #ddd;
+
+  &.hovered,
+  &:hover,
+  &:active {
+    border: 1px solid #aaa;
+  }
+
+  input[type=text] {
+    border: none;
+    box-shadow: none;
+    display: inline-block;
+    padding: 0;
+    background: transparent;
+
+    &:hover,
+    &:focus,
+    &:active {
+      box-shadow: none;
+    }
+  }
+
+  .search-btn {
+    position: absolute;
+    right: 2px;
+    top: 2px;
+    color: #aaa;
+    border-radius: 3px;
+    font-size: 21px;
+    padding: 5px 10px 1px;
+    height: 95%;
+
+    &:hover {
+      color: #fff;
+      background-color: #84B59F;
+    }
+  }
+}
+
+.deadline{
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 15px;
+}
+
+.job-type-location{
+  background-color: #84B59F;
+  border-radius: 5px;
+}
+
+.job-type{
+  margin-left: 25px ;
+}
+
+.location{
+  margin-left: 10px;
+}
+
+.pregled-content {
+  background: #FFF;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  width: 567px;
+  height: 950px;
+  border-radius: 25px;
+  margin-top: 120px;
+  margin-right: 20px;
+}
+
+.pregled-naslovi {
+  color: #84B59F;
+}
+
+.pregled-btn {
+  background-color: #DDD8C4;
+  border-radius: 10px;
+  margin: 10px;
+}
