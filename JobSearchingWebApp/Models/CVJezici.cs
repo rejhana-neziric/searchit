@@ -13,6 +13,6 @@ namespace JobSearchingWebApp.Models
         public CV CV { get; set; }
         [ForeignKey(nameof(Jezik))]
         public int JezikId { get; set; }
-        public Jezik JezikS { get; set; }
+        public Jezik Jezik { get; set; }
     }
 }

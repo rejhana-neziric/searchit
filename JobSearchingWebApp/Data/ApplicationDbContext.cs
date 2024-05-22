@@ -23,7 +23,8 @@ namespace JobSearchingWebApp.Data
         public DbSet<CVVjestine> CVVjestine { get; set; }
         public DbSet<OpisKompanije> OpisiKompanija { get; set; }
         public DbSet<AutentifikacijaToken> AutentifikacijaToken { get; set; }
-        
+        public DbSet<Tema> Teme { get; set; }
+
         public ApplicationDbContext(
             DbContextOptions options) : base(options)
         {
