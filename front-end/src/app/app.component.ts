@@ -8,11 +8,12 @@ import {
 } from "./components/pocetna-neregistrovani-korisnik/pocetna-neregistrovani-korisnik.component";
 import {LoginComponent} from "./components/login/login.component";
 import {HttpClient} from "@angular/common/http";
+import {JeziciComponent} from "./jezici/jezici.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, FormsModule, RouterLink, PocentaKandidatComponent, PocetnaNeregistrovaniKorisnikComponent, LoginComponent],
+  imports: [CommonModule, RouterOutlet, FormsModule, RouterLink, PocentaKandidatComponent, PocetnaNeregistrovaniKorisnikComponent, LoginComponent, JeziciComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
