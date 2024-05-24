@@ -4,12 +4,11 @@ using JobSearchingWebApp.Helper;
 using JobSearchingWebApp.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
-using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace JobSearchingWebApp.Endpoints.RadnoIskustvo.Dodaj
 {
     [Tags("RadnoIskustvo")]
-    [Route("radno-iskustvo-dodaj")]
+    [Microsoft.AspNetCore.Mvc.Route("radno-iskustvo-dodaj")]
     public class RadnoIskustvoDodajEndpoint : MyBaseEndpoint<RadnoIskustvoDodajRequest, RadnoIskustvoDodajResponse>
     {
         private readonly ApplicationDbContext dbContext;

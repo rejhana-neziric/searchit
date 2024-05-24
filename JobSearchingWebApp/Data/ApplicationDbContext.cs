@@ -24,6 +24,7 @@ namespace JobSearchingWebApp.Data
         public DbSet<OpisKompanije> OpisiKompanija { get; set; }
         public DbSet<AutentifikacijaToken> AutentifikacijaToken { get; set; }
         public DbSet<Tema> Teme { get; set; }
+        public DbSet<Recenzija> Recenzije { get; set; }
 
         public ApplicationDbContext(
             DbContextOptions options) : base(options)

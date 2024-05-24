@@ -1,4 +1,4 @@
-﻿using JobSearchingWebApp.Data;
+﻿    using JobSearchingWebApp.Data;
 using JobSearchingWebApp.Endpoints.Kandidat.Pretraga;
 using JobSearchingWebApp.Helper;
 using Microsoft.AspNetCore.Components;
