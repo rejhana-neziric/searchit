@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using JobSearchingWebApp.Models;
 
 namespace JobSearchingWebApp.Endpoints.Oglas.GetAll
 {
@@ -13,10 +14,30 @@ namespace JobSearchingWebApp.Endpoints.Oglas.GetAll
         public int Id { get; set; }
         public string KompanijaNaziv { get; set; }
         public string NazivPozicije { get; set; }
-        public string Lokacija { get; set; }
+        public List<OglasGetAllResponseOglasLokacija> Lokacija { get; set; }
         public DateTime DatumObjave { get; set; }
         public string TipPosla { get; set; }
         public DateTime RokPrijave { get; set; }
-        public string Iskustvo { get; set; }
+        public List<OglasGetAllResponseOglasIskustvo> Iskustvo { get; set; }
+        public OglasGetAllResponseOpisOglas OpisOglasa { get; set; }    
+    }
+
+    public class OglasGetAllResponseOglasLokacija
+    {
+        public int Id { get; set; }
+        public string Naziv { get; set; }
+    }
+
+    public class OglasGetAllResponseOglasIskustvo
+    {
+        public int Id { get; set; }
+        public string Naziv { get; set; }
+    }
+
+    public class OglasGetAllResponseOpisOglas
+    {
+        public int Id { get; set; }
+        public int MinimumGodinaIskustva { get; set; }
+        public int PrefiraneGodineIskstva { get; set; }
     }
 }

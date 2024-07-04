@@ -30,12 +30,9 @@ namespace JobSearchingWebApp.Endpoints.Oglas.Update
             }
 
             oglas.NazivPozicije = request.naziv_pozicije;
-            oglas.Lokacija = request.lokacija; 
             oglas.Plata = request.plata;    
             oglas.TipPosla = request.tip_posla;
             oglas.RokPrijave = request.rok_prijave;
-            oglas.Iskustvo = request.iskustvo; 
-            oglas.OpisPosla = request.opis_posla;
             oglas.DatumModificiranja = DateTime.Now; 
 
             await dbContext.SaveChangesAsync();

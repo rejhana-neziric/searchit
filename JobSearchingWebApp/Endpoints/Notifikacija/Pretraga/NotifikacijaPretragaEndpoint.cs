@@ -1,5 +1,4 @@
 ﻿using JobSearchingWebApp.Data;
-using JobSearchingWebApp.Endpoints.Oglas.Pretraga;
 using JobSearchingWebApp.Helper;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;

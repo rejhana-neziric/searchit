@@ -23,14 +23,11 @@ namespace JobSearchingWebApp.Endpoints.Oglas.Dodaj
             var oglas = new Models.Oglas()
             {
                 KompanijaId = request.kompanija_id, 
-                NazivPozicije = request.naziv_pozicije, 
-                Lokacija = request.lokacija,    
+                NazivPozicije = request.naziv_pozicije,
                 DatumObjave = request.datum_objave, 
                 Plata = request.plata,
                 TipPosla = request.tip_posla, 
                 RokPrijave = request.rok_prijave,
-                Iskustvo = request.iskustvo, 
-                OpisPosla = request.opis_posla, 
                 DatumModificiranja = request.datum_modificiranja
             }; 
 

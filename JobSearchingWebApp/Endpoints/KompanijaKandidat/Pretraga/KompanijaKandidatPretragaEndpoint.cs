@@ -30,7 +30,7 @@ namespace JobSearchingWebApp.Endpoints.KompanijaKandidat.Pretraga
                                 .Select(x => new KompanijeKandidatiPretragaResponse()
                                 {
                                     KandidatId = x.KandidatId,
-                                    KompanijaId = x.KompanijaId,
+                                    KompanijaId = x.Kompanija.Id,
                                     DatumRazgovora = x.DatumRazgovora,  
                                 }).ToListAsync();
 

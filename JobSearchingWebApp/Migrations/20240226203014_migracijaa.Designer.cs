@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JobSearchingWebApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240121153846_testna")]
-    partial class testna
+    [Migration("20240226203014_migracijaa")]
+    partial class migracijaa
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -159,6 +159,23 @@ namespace JobSearchingWebApp.Migrations
                     b.ToTable("CVVjestine");
                 });
 
+            modelBuilder.Entity("JobSearchingWebApp.Models.Iskustvo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Naziv")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Iskustvo");
+                });
+
             modelBuilder.Entity("JobSearchingWebApp.Models.Jezik", b =>
                 {
                     b.Property<int>("Id")
@@ -302,6 +319,23 @@ namespace JobSearchingWebApp.Migrations
                     b.HasIndex("NotifikacijaId");
 
                     b.ToTable("KorisnikNotifikacije");
+                });
+
+            modelBuilder.Entity("JobSearchingWebApp.Models.Lokacija", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Naziv")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Lokacija");
                 });
 
             modelBuilder.Entity("JobSearchingWebApp.Models.Notifikacija", b =>

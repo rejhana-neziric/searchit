@@ -12,13 +12,14 @@ namespace JobSearchingWebApp.Models
         public int KompanijaId { get; set; }
         public Kompanija Kompanija { get; set; }
         public string NazivPozicije { get; set; }
-        public string Lokacija { get; set; }
         public DateTime DatumObjave { get; set; }
         public double Plata { get; set; }
         public string TipPosla { get; set; }
         public DateTime RokPrijave { get; set; }
-        public string Iskustvo { get; set; }
-        public string OpisPosla { get; set; }
         public DateTime? DatumModificiranja { get; set; }
+        public virtual OpisOglas OpisOglas { get; set; }    
+        public virtual ICollection<OglasLokacija> OglasLokacija { get; set; } = new List<OglasLokacija>();
+        public virtual ICollection<OglasIskustvo> OglasIskustvo { get; set; } = new List<OglasIskustvo>();
+
     }
 }

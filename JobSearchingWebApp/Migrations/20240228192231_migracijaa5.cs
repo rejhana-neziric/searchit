@@ -5,7 +5,7 @@
 namespace JobSearchingWebApp.Migrations
 {
     /// <inheritdoc />
-    public partial class dbfit : Migration
+    public partial class migracijaa5 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

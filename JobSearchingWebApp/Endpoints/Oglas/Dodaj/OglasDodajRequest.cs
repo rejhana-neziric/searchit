@@ -13,7 +13,6 @@ namespace JobSearchingWebApp.Endpoints.Oglas.Dodaj
         public string tip_posla { get; set; }
         public DateTime rok_prijave { get; set; }
         public string iskustvo { get; set; }
-        public string opis_posla { get; set; }
         public DateTime? datum_modificiranja { get; set; }
     }
 }

@@ -1,6 +1,10 @@
 ﻿//using JobSearchingWebApp.Data;
+//using JobSearchingWebApp.Endpoints;
+//using JobSearchingWebApp.Endpoints.Kandidat.Dodaj;
+//using JobSearchingWebApp.Endpoints.Kandidat.Update;
 //using JobSearchingWebApp.Models;
 //using JobSearchingWebApp.ViewModels;
+//using MapsterMapper;
 //using Microsoft.AspNetCore.Mvc;
 //using Microsoft.EntityFrameworkCore;
 //using Microsoft.EntityFrameworkCore.Metadata.Conventions;
@@ -8,31 +12,60 @@
 //namespace JobSearchingWebApp.Controllers
 //{
 //    [ApiController]
-//    [Route("[controller]/[action]")]
+//    [Route("[controller]")]
 //    public class KandidatController : ControllerBase
 //    {
 //        private readonly ApplicationDbContext dbContext;
+//        public IMapper Mapper; 
 
-//        public KandidatController(ApplicationDbContext dbContext)
+//        public KandidatController(ApplicationDbContext dbContext, IMapper mapper)
 //        {
 //            this.dbContext = dbContext;
+//            Mapper = mapper;
 //        }
 
-//        [HttpGet]
-//        public ActionResult GetById(int id)
+//        [HttpGet("{id}")]
+//        public Korisnik GetById(int id)
 //        {
-//            return Ok(dbContext.Kandidati.FirstOrDefault(k => k.Id == id));
+//            var entity = dbContext.Korisnici.Find(id);
+
+//            if (entity != null)
+//            {
+//                return entity;
+//            }
+
+//            else
+//            {
+//                return null; 
+//            }
+
+//            //return Ok(dbContext.Kandidati.FirstOrDefault(k => k.Id == id));
 //        }
 
+//        //ovdje dodati search object 
 //        [HttpGet]
 //        public List<Kandidat> GetAll()
 //        {
-//            var rezultat = dbContext.Kandidati.AsQueryable();
-//            return rezultat.ToList();
+//            List<Kandidat> list = new List<Kandidat> ();    
+
+//            var query = dbContext.Kandidati.AsQueryable();
+
+//            //dodati sad za filtriranje 
+
+//            list = query.ToList();
+
+//            PagedResult<Kandidat> pagedResult = new PagedResult<Kandidat>(); 
+
+//            pagedResult.Count = list.Count;
+//            pagedResult.ResultList = list;
+
+
+
+//            return pagedResult; 
 //        }
 
 //        [HttpPost]
-//        public ActionResult Snimi([FromBody] KandidatSpremiVM k)
+//        public ActionResult Insert(KandidatDodajRequest request)
 //        {
 //            var id = dbContext.Osobe.Where(x => x.Id == k.id).Select(x => x.Id);
 
@@ -59,8 +92,8 @@
 //            return Ok(kandidat);
 //        }
 
-//        [HttpPut]
-//        public ActionResult Update([FromBody] KandidatSpremiVM k)
+//        [HttpPut("{id}")]
+//        public ActionResult Update(int id, KandidatUpdateRequest request)
 //        {
 //            var id = dbContext.Osobe.Where(x => x.Id == k.id).Select(x => x.Id);
 

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace JobSearchingWebApp.Migrations
 {
     /// <inheritdoc />
-    public partial class testna : Migration
+    public partial class migracijaa : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -32,6 +32,32 @@ namespace JobSearchingWebApp.Migrations
                         principalColumn: "Id");
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Iskustvo",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Naziv = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Iskustvo", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Lokacija",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Naziv = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Lokacija", x => x.Id);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AutentifikacijaToken_KorisnikId",
                 table: "AutentifikacijaToken",
@@ -43,6 +69,12 @@ namespace JobSearchingWebApp.Migrations
         {
             migrationBuilder.DropTable(
                 name: "AutentifikacijaToken");
+
+            migrationBuilder.DropTable(
+                name: "Iskustvo");
+
+            migrationBuilder.DropTable(
+                name: "Lokacija");
         }
     }
 }

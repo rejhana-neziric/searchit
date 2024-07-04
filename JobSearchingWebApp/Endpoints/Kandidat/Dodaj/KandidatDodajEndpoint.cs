@@ -2,6 +2,7 @@
 using JobSearchingWebApp.Helper;
 using JobSearchingWebApp.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace JobSearchingWebApp.Endpoints.Kandidat.Dodaj

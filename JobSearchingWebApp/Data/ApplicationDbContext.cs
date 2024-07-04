@@ -23,6 +23,11 @@ namespace JobSearchingWebApp.Data
         public DbSet<CVVjestine> CVVjestine { get; set; }
         public DbSet<OpisKompanije> OpisiKompanija { get; set; }
         public DbSet<AutentifikacijaToken> AutentifikacijaToken { get; set; }
+        public DbSet<Lokacija> Lokacija { get; set; }
+        public DbSet<Iskustvo> Iskustvo { get; set; }
+        public DbSet<OglasIskustvo> OglasIskustvo { get; set; }
+        public DbSet<OglasLokacija> OglasLokacija { get; set; }
+        public DbSet<OpisOglas> OpisOglas { get; set; }
         public DbSet<Tema> Teme { get; set; }
         public DbSet<Recenzija> Recenzije { get; set; }
 

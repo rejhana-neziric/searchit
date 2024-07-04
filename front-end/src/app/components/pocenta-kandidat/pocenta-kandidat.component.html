@@ -36,7 +36,7 @@
 
 <!-- Filter & Sort -->
 <div class="main d-flex flex-row">
-  <div style="background-color: #84B59F; width: 200px; height: 1200px" class="filter-search-section me-auto">
+  <div style="background-color: #84B59F; min-width: 220px; width: 15%; height: 1200px" class="filter-search-section ">
     <!-- Filter-->
     <div class="filer-section">
       <div class="d-flex flex-row ps-3 pt-5">
@@ -54,25 +54,25 @@
           <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingOne">
             <div class="accordion-body">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault-Mostar">
+                <input class="form-check-input" type="checkbox" value="" (change)="LocationFilter('Mostar')" id="flexCheckDefault-Mostar">
                 <label class="form-check-label" for="flexCheckDefault-Mostar">
                   Mostar
                 </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked-Sarajevo">
+                <input class="form-check-input" type="checkbox" value="" (change)="LocationFilter('Sarajevo')" id="flexCheckChecked-Sarajevo">
                 <label class="form-check-label" for="flexCheckChecked-Sarajevo">
                   Sarajevo
                 </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked-Jablanica" >
+                <input class="form-check-input" type="checkbox" value="" (change)="LocationFilter('Jablanica')" id="flexCheckChecked-Jablanica" >
                 <label class="form-check-label" for="flexCheckChecked-Jablanica">
                   Jablanica
                 </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked-Remote" >
+                <input class="form-check-input" type="checkbox" value="" (change)="LocationFilter('Remote')" id="flexCheckChecked-Remote" >
                 <label class="form-check-label" for="flexCheckChecked-Remote">
                   Remote
                 </label>
@@ -91,19 +91,19 @@
           <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
             <div class="accordion-body">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked-full-time" >
+                <input class="form-check-input" type="checkbox" value="" (change)="JobTypeFilter('Full Time')" id="flexCheckChecked-full-time" >
                 <label class="form-check-label" for="flexCheckChecked-full-time">
                   Full Time
                 </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked-part-time" >
+                <input class="form-check-input" type="checkbox" value="" (change)="JobTypeFilter('Part Time')" id="flexCheckChecked-part-time" >
                 <label class="form-check-label" for="flexCheckChecked-part-time">
                   Part Time
                 </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked-internship" >
+                <input class="form-check-input" type="checkbox" value="" (change)="JobTypeFilter('Internship')" id="flexCheckChecked-internship" >
                 <label class="form-check-label" for="flexCheckChecked-internship">
                   Internship
                 </label>
@@ -121,19 +121,19 @@
           <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
             <div class="accordion-body">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault-Junior">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault-Junior" (change)="ExperienceFilter('Junior')">
                 <label class="form-check-label" for="flexCheckDefault-Junior">
                   Junior
                 </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked-Medior">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked-Medior" (change)="ExperienceFilter('Medior')">
                 <label class="form-check-label" for="flexCheckChecked-Medior">
                   Medior
                 </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked-Senior" >
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked-Senior"  (change)="ExperienceFilter('Senior')">
                 <label class="form-check-label" for="flexCheckChecked-Senior">
                   Senior
                 </label>
@@ -143,79 +143,71 @@
         </div>
         <!-- Years of Experience -->
         <div class="ps-3 pt-3">
-          <p class="text-dark">Year of Experience</p>
-          <div class="ps-4">
+          <div class="d-flex flex-column">
+            <p class="text-dark ps-1 fs-6">Years of Experience</p>
+            <div class="ps-2">
+              <input min="0" max="20" value="0" type="number"
+                     class="form-control form-icon-trailing ps-1 pe-0 years-input" [(ngModel)]="godineIskustva" (ngModelChange)="onYearsOfExperienceChange($event)"/>
+                    </div>
+          </div>
+          <div class="ps-2 pt-3">
             <div class="form-check">
-              <!--<input class="form-check-input" type="radio" name="flexRadio-experience" id="flexRadioAscending-experience" checked>
+              <input class="form-check-input" type="radio" name="flexRadio-experience"
+                     id="flexRadioAscending-experience" checked (change)="promijeniSortiranjeZaGodine()">
               <label class="form-check-label" for="flexRadioAscending-experience">
                 Ascending
-              </label>-->
-              <div class="btn-group">
-                <button class="btn btn-secondary btn-m dropdown-toggle btnAsc" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Ascending
-                </button>
-                <ul class="dropdown-menu">
-                  <li><a href="#" class="dropdown-item active" aria-current="true">Ascending</a></li>
-                  <li><a href="#" class="dropdown-item">Descending</a></li>
-                </ul>
-              </div>
+              </label>
             </div>
-            <!--<div class="form-check">
-              <input class="form-check-input" type="radio" name="flexRadio-experience" id="flexRadioDescending-experience">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="flexRadio-experience"
+                     id="flexRadioDescending-experience" (change)="promijeniSortiranjeZaGodine()">
               <label class="form-check-label" for="flexRadioDescending-experience">
                 Descending
               </label>
-            </div>-->
+            </div>
           </div>
         </div>
       </div>
     </div>
     <!-- Sort-->
-    <div class="sort-section">
+    <div class="sort-section flex-1">
       <div class="d-flex flex-row ps-3 pt-5">
-        <img class="mt-2" style="width: 30px; height: 20px;" src="./assets/img/sort.png" alt="">
+        <img style="width: 30px; height: 20px;" src="./assets/img/sort.png" alt="">
         <p class="fs-3 fw-bold ps-2">Sort</p>
       </div>
       <div class="ps-3">
         <div class="pt-2">
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked-days-left" >
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked-days-left" (change)="sortirajPoDanima()">
             <label class="form-check-label" for="flexCheckChecked-days-left">
               Days Left
             </label>
           </div>
-          <div class="ps-4">
+          <div *ngIf="isDaysChecked" class="ps-2">
             <div class="form-check">
-              <!--<input class="form-check-input" type="radio" name="flexRadio-days" id="flexRadioAscending-days" checked>
+              <input class="form-check-input" type="radio" name="flexRadio-days" id="flexRadioAscending-days" checked (change)="promijeniSortiranjeZaDane()">
               <label class="form-check-label" for="flexRadioAscending-days">
                 Ascending
-               </label>-->
-              <div class="btn-group">
-                <button class="btn btn-secondary btn-m dropdown-toggle btnAsc" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Ascending
-                </button>
-                <ul class="dropdown-menu">
-                  <li><a href="#" class="dropdown-item active" aria-current="true">Ascending</a></li>
-                  <li><a href="#" class="dropdown-item">Descending</a></li>
-                </ul>
-              </div>
+              </label>
             </div>
-            <!--<div class="form-check">
-              <input class="form-check-input" type="radio" name="flexRadio-days" id="flexRadioDescending-days">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="flexRadio-days" id="flexRadioDescending-days" (change)="promijeniSortiranjeZaDane()">
               <label class="form-check-label" for="flexRadioDescending-days">
                 Descending
               </label>
-            </div>-->
+            </div>
           </div>
         </div>
-        <div class="form-check pt-3">
-          <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked-job-title" >
+        <div class="form-check pt-2">
+          <input class="form-check-input" type="checkbox" value="" (change)="SortirajPoPoziciji()"
+                 id="flexCheckChecked-job-title">
           <label class="form-check-label" for="flexCheckChecked-job-title">
             Job Title
           </label>
         </div>
         <div class="form-check pt-2">
-          <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked-company-name" >
+          <input class="form-check-input" type="checkbox" value="" (change)="SortirajPoKompaniji()"
+                 id="flexCheckChecked-company-name">
           <label class="form-check-label" for="flexCheckChecked-company-name">
             Company Name
           </label>
@@ -223,141 +215,160 @@
       </div>
     </div>
   </div>
+  <!-- Filter & Sort -->
 
 
-  <div class = "kompanije d-flex flex-column">
-    <div class="container">
-      <div class="row">
-        <div class="col-4">
-          <div class="search-box">
-            <form class="search-form">
-              <input class="form-control" type="text" placeholder="ex: Ruby, Rails, Java, CSS, Javascript, Node, C#, SQL, etc.">
-              <i class="fa-solid fa-magnifying-glass"></i>
-              <button class="btn btn-link search-btn">
+  <!-- Oglasi-prikaz -->
+  <div class="prikaz-section d-flex flex-column" style=" margin-right:auto; margin-left: auto">
 
-              </button>
-            </form>
-          </div>
-        </div>
+    <!-- Jobs-companies-toogle -->
+    <mat-button-toggle-group class="mt-5 ms-0 pb-4" value="Jobs">
+      <mat-button-toggle value="Jobs" >Jobs</mat-button-toggle>
+      <mat-button-toggle value="Companies" class="ms-4" >Companies</mat-button-toggle>
+    </mat-button-toggle-group>
+    <!-- Jobs-companies-toogle -->
+
+    <!-- Search box -->
+    <div class="container ">
+      <div class="search-box">
+        <form class="search-form">
+          <input class="form-control" type="text" [(ngModel)]="pretragaNaziv" [ngModelOptions]="{standalone: true}" (ngModelChange)="onSearchChange($event)"
+                 placeholder="Search by position name or company name.">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </form>
       </div>
     </div>
+    <!-- Search box -->
 
-    <a type="button" link="" class="kompanija nav-link text-dark shadow mb-4 bg-body-tertiary" *ngFor="let oglas of oglasi | paginate: { itemsPerPage: 5, currentPage: p, totalItems: total }">
-      <div class = "kompanija-content d-flex flex-row">
-        <img class="img logo" src="./assets/img/logo.png" alt="image">
-        <div>
-          <span class="fw-bold fs-3 p-4" style="color: #84B59F">{{oglas.nazivPozicije}}</span>
-          <span class="fw-bold deadline pd-4 fs-6"><img src="./assets/img/datum.png" alt="">{{oglas.rokPrijave | date: 'dd MMM yyyy'}}</span>
+    <div class="d-flex flex-row  oglas-detalji-prikaz">
+  <!-- Oglasi -->
+  <div class=" oglasi">
+    <div  #Oglas class="oglas-section nav-link text-dark shadow mb-4 bg-body-tertiary"
+         *ngFor="let oglas of filtriraniOglasi() | paginate: { itemsPerPage: 5, currentPage: p, totalItems: total }"
+          (click)="prikazDetalja(oglas.id)">
+      <div class="kompanija-content d-flex flex-row">
+        <img class="img logo" src="/assets/img/logo.png" alt="image">
+        <div class="my-1">
+          <span class="fw-bold fs-3" style="color: #84B59F">{{oglas.nazivPozicije}}</span>
+          <span class="fw-bold deadline pd-4 fs-6"><img src="./assets/img/datum.png" style="height: 35px"
+                                                        alt="">{{oglas.rokPrijave | date:'d.M.yyyy'}}</span>
           <br>
-          <span class="fw-normal fs-5 px-4">{{oglas.kompanijaNaziv}}</span>
+          <span class="fw-normal fs-5">{{oglas.kompanijaNaziv}}</span>
           <br>
-          <span class="fw-normal fs-5 px-4 py-1">{{oglas.iskustvo}}</span>
+          <span class="fw-normal fs-5" *ngFor="let iskustvo of oglas.iskustvo">  {{iskustvo.naziv}}</span>
           <br>
-          <span class="fw-normal fs-6 p-1 job-type job-type-location">{{oglas.tipPosla}}</span>
-          <span class="fw-normal fs-6 p-1 job-type-location location">{{oglas.lokacija}}</span>
+          <span class="fw-normal fs-6 job-type-location location"
+                *ngFor="let lokacija of oglas.lokacija">{{lokacija.naziv}}</span>
         </div>
+        <a href="" style="margin-left:auto; margin-top: 100px;"><img class="img-heart" style=" height: 35px;"  src="./assets/img/heart.png" alt=""></a>
       </div>
-    </a>
+    </div>
+    <!-- Oglasi -->
 
-    <!--
-        <a type="button" link="" class="kompanija nav-link text-dark shadow mb-4 bg-body-tertiary" *ngFor="let oglas of oglasi | paginate: { itemsPerPage: 5, currentPage: p, totalItems: total }">
-          <div class = "kompanija-content d-flex flex-row">
-            <img class="img logo" src="./assets/img/logo.png" alt="image">
-            <div>
-              <span class="fw-bold fs-3 p-4" style="color: #84B59F">{{oglas.nazivPozicije}}</span>
-              <span class="fw-bold deadline pd-4 fs-6"><img src="./assets/img/datum.png" alt="">{{oglas.rokPrijave}}</span>
-              <br>
-              <span class="fw-normal fs-5 p-4">{{oglas.kompanijaNaziv}}</span>
-              <br>
-              <span class="p-4">
-               <span class="fw-normal fs-5" *ngFor="let isk of oglas.iskustvo">{{isk}}</span>
-              </span>
-              <br>
-              <br>
-              <span class="fw-normal fs-6 p-1 job-type job-type-location">{{oglas.tipPosla}}</span>
-              <span class="fw-normal fs-6 p-1 job-type-location location" *ngFor="let lok of oglas.lokacija">{{lok}}</span>
-            </div>
-          </div>
-        </a>
+    <!-- Paginacija -->
+    <div *ngIf="imaRezultataPretrage" class="d-flex justify-content-center pe-5">
+      <pagination-controls class="pagination ps-0" (pageChange)="pageChangeEvent($event)"></pagination-controls>
+    </div>
+    <!-- Paginacija -->
 
-    -->
-        <pagination-controls  class="pagination" (pageChange)="pageChangeEvent($event)"></pagination-controls>
-      </div>
+  </div>
 
-      <div class="pregled d-flex ms-auto ">
-        <div class="pregled-content shadow p-3 mb-4 bg-body-tertiary">
+      <!-- Pregled oglasa  -->
+      <div *ngIf="imaRezultataPretrage" class="pregled ms-4 mt-0">
+        <div class="pregled-content shadow p-3 mb-4 mt-0">
           <div class="d-flex flex-column">
             <div class="d-flex flex-row">
-              <img class="img logo"  src="./assets/img/logo.png" alt="image">
+              <img class="img logo" src="" alt="image">
               <div class="d-flex flex-column py-4">
-                <span class="fw-bold fs-3 " style="color: #84B59F">Software engineer</span>
-                <span class="fw-normal fs-5 py-2">Company 1</span>
-                <span class="fw-bold pd-4 fs-6" style="margin-left: 290px"><img style="width: 30px" src="./assets/img/sat.png" alt="">  3.4.2024.</span>
+                <span class="fw-bold fs-3 " style="color: #84B59F">{{odabraniOglas?.nazivPozicije}}</span>
+                <span class="fw-normal fs-5 py-2">Naziv kompanije</span>
               </div>
-            </div >
-            <div class="d-flex flex-row">
-              <div>
-                <div class="fw-normal fs-6" >Job Type</div>
-                <div class="fw-normal fs-6 p-1 mt-1" style="background-color: #84B59F; border-radius: 5px; width: 80px">Full Time</div>
+              <div style="width: 170px; margin-left: auto;">
+                <div
+                  style="background-color: #84B59F; border-radius: 5px; width: 150px; padding: 5px; margin-bottom: 20px">
+                  Minimum years of experience {{odabraniOglas?.opisOglasa!.minimumGodinaIskustva}}</div>
+                <div class="fw-bold fs-6" style="width: 150px; "><img style="width: 30px" src="./assets/img/sat.png"> {{ this.razlikaDatuma(this.odabraniOglas!)}} days left
+                </div>
               </div>
+            </div>
+            <div class="d-flex flex-row mt-4">
               <div>
-                <div class="fw-normal fs-6 ms-4" >Location</div>
-                <div class="fw-normal fs-6 ms-4 p-1  mt-1" style="background-color: #84B59F; border-radius: 5px; width: 70px">Remote</div>
+                <div class="fw-normal fs-6 mb-2">Job Type</div>
+                <span class="fw-normal fs-6 p-1"
+                     style="background-color: #84B59F; border-radius: 5px; width: 80px">{{odabraniOglas?.tipPosla}}</span>
+              </div>
+              <div class="ms-4">
+                <div class="fw-normal fs-6 mb-2">Location</div>
+                <span class="fw-normal fs-6 p-1 me-2" style="background-color: #84B59F; border-radius: 5px; width: 80px"
+                      *ngFor="let lokacija of odabraniOglas?.lokacija">{{lokacija.naziv}}</span>
               </div>
               <div class="ms-5">
                 <div class="d-flex flex-row p-1">
-                  <img class="p-1" src="./assets/img/datum.png" alt="image">
-                  <div class="fw-bold fs-6 p-1" >Published</div>
+                  <img class="p-1" src="./assets/img/datum.png" style="height: 35px"  alt="image">
+                  <div class="fw-bold fs-6 p-1">Published</div>
                   <img class="p-1" style="height: 30px" src="./assets/img/linija.png" alt="image">
-                  <div class="fw-bold fs-6 p-1" >14.11.2023.</div>
+                  <div class="fw-bold fs-6 p-1">{{odabraniOglas?.datumObjave | date:'d.M.yyyy'}}</div>
                 </div>
                 <div class="d-flex flex-row p-1">
                   <img class="p-1" src="./assets/img/datum.png" style="height: 35px" alt="image">
                   <div class="fw-bold fs-6 p-1" style="width: 100px">Application deadline</div>
                   <img class="p-1" style="height: 30px" src="./assets/img/linija.png" alt="image">
-                  <div class="fw-bold fs-6 p-1" >18.1.2023.</div>
+                  <div class="fw-bold fs-6 p-1">{{odabraniOglas?.rokPrijave | date:'d.M.yyyy'}} </div>
                 </div>
               </div>
             </div>
 
             <div>
-              <p class="pregled-naslovi fw-bold fs-6">Experience:</p>
-              Medior, Senior
-              Minimum years of experience is 3 years.
-              <br>  <br>
-              <p class="pregled-naslovi fw-bold fs-6">Job Description:</p>
-              We are seeking a talented Software Developer to join our dynamic team. The ideal candidate will be responsible for designing, coding, testing, and implementing software solutions. They will collaborate with cross-functional teams to deliver high-quality software products.
-              <br>  <br>
-              <p class="pregled-naslovi fw-bold fs-6">Qualifications:</p>
-              Bachelor's degree in Computer Science or related field.
-              3+ years of experience in software development.
-              Strong proficiency in Java and Python.
-              Experience with web application development using modern frameworks (e.g., Spring, Django).
-              Familiarity with database design and management (SQL, MongoDB).
-              Excellent problem-solving and debugging skills.
-              <br>  <br>
+              <!--<div class="pregled-naslovi fw-bold fs-6">Experience:</div>
+             <span></span> -->
+             <br>
+             <p class="pregled-naslovi fw-bold fs-6">Job Description:</p>
+             <span>{{odabraniOglas?.opisOglasa!.opisPozicije}}</span>
+             <br> <br>
+              <!-- <p class="pregled-naslovi fw-bold fs-6">Qualifications:</p>
+              <span>{{odabraniOglas?.opisOglasa!.kvalifikacija}}</span>
+              <br> <br>-->
               <p class="pregled-naslovi fw-bold fs-6">Skills:</p>
-              Java
-              Python
-              Spring framework
-              Django framework
-              SQL
-              MongoDB
-              Web development
-              Problem-solving
+              <span>{{odabraniOglas?.opisOglasa!.vjestine}}</span>
             </div>
-
             <div class="d-flex flex-row me-auto ms-auto mt-3">
               <a class="nav-link text-dark pregled-btn " href="" type="button">Apply</a>
               <a class="nav-link text-dark pregled-btn" href="" type="button">Details</a>
             </div>
+            <a href=""><img src="./assets/img/datum.png" alt=""></a>
           </div>
         </div>
       </div>
+      <!-- Pregled oglasa  -->
 
     </div>
 
+    <!-- Nema rezultata pretrage  -->
+    <div *ngIf="!imaRezultataPretrage && pretragaNaziv != ''" class="p-4 border border-2 shadow bg-body-tertiary"
+         style="border-color: #84B59F; border-width: 10px; background-color: #fff; border-radius: 15px; width: 80%; margin-left: 0px; margin-top: 10px">
+      <span class="fs-4 mb-4">No results for {{this.pretragaNaziv}}</span> <br>
+      <div class="mt-3 fs-6">
+        <span>Search Help</span>
+        <ul>
+          <li>Check your search for typos and spelling errors.</li>
+          <li>Try more general keywords.</li>
+          <li>Try different keywords.</li>
+        </ul>
+      </div>
+    </div>
 
+
+   <div *ngIf="!imaRezultataPretrage && pretragaNaziv == ''" class="p-4 border border-2 shadow bg-body-tertiary"
+        style="border-color: #84B59F; border-width: 10px; background-color: #fff; border-radius: 15px; width: 80%; margin-left: 0px; margin-top: 10px">
+     <span class="fs-5 mb-4">We're sorry. We were not able to find a match.</span> <br>
+   </div>
+
+   <!-- Nema rezultata pretrage  -->
+
+  </div>
+  <!-- Oglasi-prikaz -->
+
+</div>
 
 
 

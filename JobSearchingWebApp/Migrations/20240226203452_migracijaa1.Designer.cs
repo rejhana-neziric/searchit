@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JobSearchingWebApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240121154737_db-fit")]
-    partial class dbfit
+    [Migration("20240226203452_migracijaa1")]
+    partial class migracijaa1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -157,6 +157,23 @@ namespace JobSearchingWebApp.Migrations
                     b.HasIndex("VjestinaId");
 
                     b.ToTable("CVVjestine");
+                });
+
+            modelBuilder.Entity("JobSearchingWebApp.Models.Iskustvo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Naziv")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Iskustvo");
                 });
 
             modelBuilder.Entity("JobSearchingWebApp.Models.Jezik", b =>
@@ -304,6 +321,23 @@ namespace JobSearchingWebApp.Migrations
                     b.ToTable("KorisnikNotifikacije");
                 });
 
+            modelBuilder.Entity("JobSearchingWebApp.Models.Lokacija", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Naziv")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Lokacija");
+                });
+
             modelBuilder.Entity("JobSearchingWebApp.Models.Notifikacija", b =>
                 {
                     b.Property<int>("Id")
@@ -339,16 +373,8 @@ namespace JobSearchingWebApp.Migrations
                     b.Property<DateTime>("DatumObjave")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Iskustvo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("KompanijaId")
                         .HasColumnType("int");
-
-                    b.Property<string>("Lokacija")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NazivPozicije")
                         .IsRequired()
