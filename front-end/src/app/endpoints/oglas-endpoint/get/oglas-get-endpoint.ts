@@ -4,7 +4,7 @@ import {Observable} from "rxjs";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {MojConfig} from "../../../moj-config";
 import {Injectable} from "@angular/core";
-import {OglasGetRequest} from "./oglas-get-request";
+import {OglasGetRequest, SortParametar} from "./oglas-get-request";
 @Injectable({providedIn: 'root'})
 export class OglasGetEndpoint implements MyBaseEndpoint<OglasGetRequest, OglasGetResponse> {
   constructor(public httpClient: HttpClient) { }
@@ -47,6 +47,21 @@ export class OglasGetEndpoint implements MyBaseEndpoint<OglasGetRequest, OglasGe
         params = params.append(`iskustvo[${index}]`, i);
       });
     }
+
+    /*
+    var sort : SortParametar[] = [];
+
+    var p1 = new SortParametar("NazivPozicije", "desc")
+    sort.push(p1);*/
+
+
+    if(request.sortParametri) {
+      request.sortParametri.forEach((param, index) => {
+        params = params.append(`sortParametri[${index}].naziv`, param.naziv);
+        params = params.append(`sortParametri[${index}].redoslijed`, param.redoslijed);
+      });
+    }
+
 
     return this.httpClient.get<OglasGetResponse>(url, {params});
   }

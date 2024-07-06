@@ -8,7 +8,7 @@ import {MatButtonToggle, MatButtonToggleGroup} from "@angular/material/button-to
 import {OglasGetByIdEndpoint} from "../../endpoints/oglas-endpoint/get-by-id/oglas-get-by-id-endpoint";
 import {OglasGetByIdResponse} from "../../endpoints/oglas-endpoint/get-by-id/oglas-get-by-id-response";
 import {FormsModule} from "@angular/forms";
-import {OglasGetRequest} from "../../endpoints/oglas-endpoint/get/oglas-get-request";
+import {OglasGetRequest, SortParametar} from "../../endpoints/oglas-endpoint/get/oglas-get-request";
 
 @Component({
   selector: 'app-pocenta-kandidat',
@@ -36,7 +36,6 @@ export class PocentaKandidatComponent implements OnInit{
   selektovaniGradovi: string[] = [];
   selektovaniJobType: string[] = [];
   selektovaniExperience: string[] = [];
-  jobTitleSort: boolean = false;
   CompanyNameSort: boolean = false;
   daysLeftSort: boolean = false;
   isDaysAscending: boolean = true;
@@ -45,6 +44,7 @@ export class PocentaKandidatComponent implements OnInit{
   rezultati: any = this.oglasi;
   pretragaNaziv: string = "";
   searchObject: OglasGetRequest | null = null
+  sortParametri: SortParametar[] | undefined = undefined
 
   constructor(private oglasGetAllEndpoint: OglasGetEndpoint,
               private oglasGetByIdEndpoint: OglasGetByIdEndpoint) {}
@@ -63,6 +63,7 @@ export class PocentaKandidatComponent implements OnInit{
 
   ngOnInit(): void {
     this.setTotal();
+    this.sortParametri = []
     this.getAll();
   }
 
@@ -72,7 +73,8 @@ export class PocentaKandidatComponent implements OnInit{
       lokacija: this.selektovaniGradovi,
       minimumGodinaIskustva: this.godineIskustva,
       naziv: this.pretragaNaziv,
-      tipPosla: this.selektovaniJobType
+      tipPosla: this.selektovaniJobType,
+      sortParametri: this.sortParametri
     };
 
     this.oglasGetAllEndpoint.obradi(this.searchObject).subscribe({
@@ -84,92 +86,74 @@ export class PocentaKandidatComponent implements OnInit{
     console.log("pozvana getAll");
   }
 
-  //sortirajPoDanima() {
-  //  this.isDaysChecked ? this.isDaysChecked = false : this.isDaysChecked = true;
-  //}
-
-  sortiraj(){
-    if(this.isGodineAscending)
-      this.rezultati = this.rezultati.sort((a: any, b: any) => a.minimumGodinaIskustva - b.minimumGodinaIskustva);
-    else
-      this.rezultati = this.rezultati.sort((a: any, b: any) => b.minimumGodinaIskustva - b.minimumGodinaIskustva);
-
-    if(this.jobTitleSort) {
-      this.rezultati = this.rezultati.sort((a: any, b: any) => {
-        return a.nazivPozicije.localeCompare(b.nazivPozicije)
-      });
-    }
-
-    if(this.CompanyNameSort) {
-      this.rezultati = this.rezultati.sort((a: any, b: any) => {
-        return a.naziv.localeCompare(b.naziv);
-      });
-    }
-
-    if(this.daysLeftSort) {
-      if(this.isDaysAscending)
-        this.rezultati = this.rezultati.sort((a: any, b: any) => this.razlikaDatuma(a.id) - this.razlikaDatuma(b.id));
-
-      else
-        this.rezultati = this.rezultati.sort((a: any, b: any) => this.razlikaDatuma(b.id) - this.razlikaDatuma(a.id));
-    }
+ dodajFilter<T>(lista: T[], item: T): T[] {
+    if (lista.includes(item)) {
+      return lista.filter(x => x != item);
+    } else
+      return [...lista, item];
   }
 
-  LocationFilter(grad: string) {
-    if (this.selektovaniGradovi.includes(grad)) {
-      this.selektovaniGradovi = this.selektovaniGradovi.filter(x => x != grad);
+  locationFilter(grad: string) {
+    this.selektovaniGradovi =  this.dodajFilter(this.selektovaniGradovi, grad);
+    this.getAll();
+  }
+
+  jobTypeFilter(job_type: string) {
+    this.selektovaniJobType =  this.dodajFilter(this.selektovaniJobType, job_type);
+    this.getAll();
+  }
+
+  experienceFilter(experience: string) {
+    this.selektovaniExperience =  this.dodajFilter(this.selektovaniExperience, experience);
+    this.getAll();
+  }
+
+  dodajSortiranje(naziv: string, redoslijed: string) {
+    var postoji = this.sortParametri?.some(parametar => parametar.naziv == naziv);
+
+    if(postoji) {
+      this.sortParametri = this.sortParametri?.filter(parametar => parametar.naziv != naziv);
     } else
-      this.selektovaniGradovi.push(grad);
+      this.sortParametri?.push(new SortParametar(naziv, redoslijed));
 
     this.getAll();
   }
 
-  JobTypeFilter(job_type: string) {
-    if (this.selektovaniJobType.includes(job_type)) {
-      this.selektovaniJobType = this.selektovaniJobType.filter(x => x != job_type);
-    } else
-      this.selektovaniJobType.push(job_type);
-
-    this.getAll();
+  sortirajPoPoziciji() {
+    this.dodajSortiranje("NazivPozicije", "asc");
   }
 
-  ExperienceFilter(experience: string) {
-    if (this.selektovaniExperience.includes(experience)) {
-      this.selektovaniExperience = this.selektovaniExperience.filter(x => x != experience);
-    } else
-      this.selektovaniExperience.push(experience);
-
-    this.getAll();
-  }
-
-  SortirajPoPoziciji() {
-    this.jobTitleSort ? this.jobTitleSort = false : this.jobTitleSort = true;
-    this.filtriraniOglasi();
-  }
-
-  SortirajPoKompaniji() {
-    this.CompanyNameSort ? this.CompanyNameSort = false : this.CompanyNameSort = true;
-    this.filtriraniOglasi();
+  sortirajPoKompaniji() {
+    this.dodajSortiranje("KompanijaNaziv", "asc");
   }
 
   sortirajPoDanima() {
-    this.isDaysChecked ? this.isDaysChecked = false : this.isDaysChecked = true;
-    this.daysLeftSort ? this.daysLeftSort = false : this.daysLeftSort = true;
-    this.filtriraniOglasi();
+    if(this.isDaysChecked) {
+      this.isDaysChecked = false;
+      this.isDaysAscending = false;
+    } else {
+      this.isDaysChecked = true;
+      this.isDaysAscending = true;
+    }
+
+    this.dodajSortiranjeDana();
+  }
+
+  dodajSortiranjeDana() {
+    var vrstaRedoslijeda = "";
+    this.isDaysAscending? vrstaRedoslijeda = "asc" : vrstaRedoslijeda = "desc";
+    this.dodajSortiranje("RazlikaDana", vrstaRedoslijeda);
   }
 
   promijeniSortiranjeZaDane() {
     this.isDaysAscending? this.isDaysAscending = false : this.isDaysAscending = true;
-  }
-
-  promijeniSortiranjeZaGodine() {
-    this.isGodineAscending? this.isGodineAscending = false : this.isGodineAscending = true;
+    this.sortParametri = this.sortParametri?.filter(parametar => parametar.naziv != "RazlikaDana");
+    this.dodajSortiranjeDana();
   }
 
   razlikaDatuma(odabraniOglas: OglasGetByIdResponse) {
     let danasnjiDatum = new Date();
     let datum = new Date(odabraniOglas.rokPrijave);
-
     let dani = Math.floor((datum.getTime() - danasnjiDatum.getTime()) / 1000 / 60 / 60 / 24);
     return dani;
   }
@@ -183,9 +167,6 @@ export class PocentaKandidatComponent implements OnInit{
   }
 
   filtriraniOglasi(){
-
-    //this.sortiraj();
-
     this.rezultati = this.oglasi;
 
     if (this.rezultati.length != 0) {
@@ -214,6 +195,23 @@ export class PocentaKandidatComponent implements OnInit{
 
   onYearsOfExperienceChange(godine: any) {
     this.godineIskustva = godine;
+    this.sortirajPoGodinama();
+  }
+
+  promijeniSortiranjeZaGodine() {
+    this.isGodineAscending? this.isGodineAscending = false : this.isGodineAscending = true;
+    this.sortirajPoGodinama();
+  }
+
+  sortirajPoGodinama () {
+    this.sortParametri = this.sortParametri?.filter(parametar => parametar.naziv != "OpisOglasa.MinimumGodinaIskustva");
+
+    if(this.godineIskustva > 0) {
+      this.dodajSortiranje("OpisOglasa.MinimumGodinaIskustva", this.isGodineAscending? "asc": "desc")
+    } else {
+      this.sortParametri = this.sortParametri?.filter(parametar => parametar.naziv != "OpisOglasa.MinimumGodinaIskustva");
+    }
+
     this.getAll();
   }
 }

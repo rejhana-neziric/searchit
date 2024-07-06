@@ -9,5 +9,6 @@ namespace JobSearchingWebApp.Endpoints.Oglas.GetAll
         public List<string>? TipPosla { get; set; }
         public List<string>? Iskustvo { get; set; }
         public int? MinimumGodinaIskustva { get; set; }
+        public List<SortParametar>? SortParametri { get; set; }
     }
 }

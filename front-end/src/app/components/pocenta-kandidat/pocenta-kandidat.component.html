@@ -54,25 +54,25 @@
           <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingOne">
             <div class="accordion-body">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" (change)="LocationFilter('Mostar')" id="flexCheckDefault-Mostar">
+                <input class="form-check-input" type="checkbox" value="" (change)="locationFilter('Mostar')" id="flexCheckDefault-Mostar">
                 <label class="form-check-label" for="flexCheckDefault-Mostar">
                   Mostar
                 </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" (change)="LocationFilter('Sarajevo')" id="flexCheckChecked-Sarajevo">
+                <input class="form-check-input" type="checkbox" value="" (change)="locationFilter('Sarajevo')" id="flexCheckChecked-Sarajevo">
                 <label class="form-check-label" for="flexCheckChecked-Sarajevo">
                   Sarajevo
                 </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" (change)="LocationFilter('Jablanica')" id="flexCheckChecked-Jablanica" >
+                <input class="form-check-input" type="checkbox" value="" (change)="locationFilter('Jablanica')" id="flexCheckChecked-Jablanica" >
                 <label class="form-check-label" for="flexCheckChecked-Jablanica">
                   Jablanica
                 </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" (change)="LocationFilter('Remote')" id="flexCheckChecked-Remote" >
+                <input class="form-check-input" type="checkbox" value="" (change)="locationFilter('Remote')" id="flexCheckChecked-Remote" >
                 <label class="form-check-label" for="flexCheckChecked-Remote">
                   Remote
                 </label>
@@ -91,19 +91,19 @@
           <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
             <div class="accordion-body">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" (change)="JobTypeFilter('Full Time')" id="flexCheckChecked-full-time" >
+                <input class="form-check-input" type="checkbox" value="" (change)="jobTypeFilter('Full Time')" id="flexCheckChecked-full-time" >
                 <label class="form-check-label" for="flexCheckChecked-full-time">
                   Full Time
                 </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" (change)="JobTypeFilter('Part Time')" id="flexCheckChecked-part-time" >
+                <input class="form-check-input" type="checkbox" value="" (change)="jobTypeFilter('Part Time')" id="flexCheckChecked-part-time" >
                 <label class="form-check-label" for="flexCheckChecked-part-time">
                   Part Time
                 </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" (change)="JobTypeFilter('Internship')" id="flexCheckChecked-internship" >
+                <input class="form-check-input" type="checkbox" value="" (change)="jobTypeFilter('Internship')" id="flexCheckChecked-internship" >
                 <label class="form-check-label" for="flexCheckChecked-internship">
                   Internship
                 </label>
@@ -121,19 +121,19 @@
           <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
             <div class="accordion-body">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault-Junior" (change)="ExperienceFilter('Junior')">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault-Junior" (change)="experienceFilter('Junior')">
                 <label class="form-check-label" for="flexCheckDefault-Junior">
                   Junior
                 </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked-Medior" (change)="ExperienceFilter('Medior')">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked-Medior" (change)="experienceFilter('Medior')">
                 <label class="form-check-label" for="flexCheckChecked-Medior">
                   Medior
                 </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked-Senior"  (change)="ExperienceFilter('Senior')">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked-Senior"  (change)="experienceFilter('Senior')">
                 <label class="form-check-label" for="flexCheckChecked-Senior">
                   Senior
                 </label>
@@ -199,14 +199,14 @@
           </div>
         </div>
         <div class="form-check pt-2">
-          <input class="form-check-input" type="checkbox" value="" (change)="SortirajPoPoziciji()"
+          <input class="form-check-input" type="checkbox" value="" (change)="sortirajPoPoziciji()"
                  id="flexCheckChecked-job-title">
           <label class="form-check-label" for="flexCheckChecked-job-title">
             Job Title
           </label>
         </div>
         <div class="form-check pt-2">
-          <input class="form-check-input" type="checkbox" value="" (change)="SortirajPoKompaniji()"
+          <input class="form-check-input" type="checkbox" value="" (change)="sortirajPoKompaniji()"
                  id="flexCheckChecked-company-name">
           <label class="form-check-label" for="flexCheckChecked-company-name">
             Company Name

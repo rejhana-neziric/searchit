@@ -12,6 +12,7 @@ export interface OglasGetResponseOglasi {
   rokPrijave: Date
   iskustvo: OglasGetResponseOglasIskustvo[]
   opisOglasa: OglasGetResponseOpisOglas
+  razlikaDana: number
 }
 
 export interface OglasGetResponseOglasIskustvo {
