@@ -1,0 +1,40 @@
+.pregled {
+  width: 70%;
+  margin-top: 80px;
+  padding-bottom: 80px;
+}
+
+.pregled-oglas {
+  margin-top: 80px;
+}
+
+.pregled-breadcrumbs {
+  padding: 0;
+}
+
+.img-logo {
+  width: 100px;
+  height: 100px;
+  padding-right: 10px;
+}
+
+.tekst {
+  color: #84B59F;
+  font-size: xx-large;
+}
+
+body {
+  font-size: 2vw;
+}
+
+.pregled-btn {
+  background-color: #DDD8C4;
+  border-radius: 10px;
+  margin: 10px;
+}
+
+.pregled-btn:hover {
+  background-color: rgba(221, 216, 196, 0.74);
+  border-radius: 10px;
+  margin: 10px;
+}

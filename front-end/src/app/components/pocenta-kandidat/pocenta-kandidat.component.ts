@@ -1,5 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {DatePipe, NgForOf, NgIf} from "@angular/common";
+import {ChangeDetectorRef, Component, OnInit, ElementRef, Renderer2 } from '@angular/core';
+import {DatePipe, NgClass, NgForOf, NgIf} from "@angular/common";
 import {NgxPaginationModule} from "ngx-pagination";
 import {OglasGetResponse, OglasGetResponseOglasi} from "../../endpoints/oglas-endpoint/get/oglas-get-response";
 import {OglasGetEndpoint} from "../../endpoints/oglas-endpoint/get/oglas-get-endpoint";
@@ -9,6 +9,10 @@ import {OglasGetByIdEndpoint} from "../../endpoints/oglas-endpoint/get-by-id/ogl
 import {OglasGetByIdResponse} from "../../endpoints/oglas-endpoint/get-by-id/oglas-get-by-id-response";
 import {FormsModule} from "@angular/forms";
 import {OglasGetRequest, SortParametar} from "../../endpoints/oglas-endpoint/get/oglas-get-request";
+import { firstValueFrom } from 'rxjs';
+import {convertOutputFile} from "@angular-devkit/build-angular/src/tools/esbuild/utils";
+import {NavbarComponent} from "../navbar/navbar.component";
+import {RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-pocenta-kandidat',
@@ -20,7 +24,10 @@ import {OglasGetRequest, SortParametar} from "../../endpoints/oglas-endpoint/get
     NgIf,
     MatButtonToggleGroup,
     MatButtonToggle,
-    FormsModule
+    FormsModule,
+    NgClass,
+    NavbarComponent,
+    RouterLink,
   ],
   templateUrl: './pocenta-kandidat.component.html',
   styleUrl: './pocenta-kandidat.component.css'
@@ -31,43 +38,69 @@ export class PocentaKandidatComponent implements OnInit{
   isDaysChecked: boolean = false;
   rezultatiPretrage: any = this.oglasi;
   imaRezultataPretrage: boolean = true;
-  odabaraniOglasId: number = 5;
+  odabaraniOglasId: number = 0;
+  oglasZaPrikaz: OglasGetResponseOglasi | null = null;
   odabraniOglas: OglasGetByIdResponse | null = null;
   selektovaniGradovi: string[] = [];
   selektovaniJobType: string[] = [];
   selektovaniExperience: string[] = [];
-  CompanyNameSort: boolean = false;
-  daysLeftSort: boolean = false;
   isDaysAscending: boolean = true;
   godineIskustva: number = 0;
   isGodineAscending: boolean = true;
-  rezultati: any = this.oglasi;
   pretragaNaziv: string = "";
   searchObject: OglasGetRequest | null = null
   sortParametri: SortParametar[] | undefined = undefined
+  itemsPerPage: number = 5;
+  currentPage: number = 1;
+  total: number = 10;
+  noNextElement: boolean = false;
+  noPreviousElement: boolean = true;
 
   constructor(private oglasGetAllEndpoint: OglasGetEndpoint,
-              private oglasGetByIdEndpoint: OglasGetByIdEndpoint) {}
+              private oglasGetByIdEndpoint: OglasGetByIdEndpoint
+  ) {}
 
-  p: string | number = 1;
-  total: string | number = 0;
+  async ngOnInit(){
+    this.sortParametri = [];
+    await this.getAll();
+    this.setTotal();
+  }
 
   private setTotal() {
     this.total = this.rezultatiPretrage.length;
   }
 
-  pageChangeEvent($event: number) {
-    this.p = $event;
+  pageChangeEvent($event: number, isNewPage: boolean) {
+    this.currentPage = $event;
     this.setTotal();
+    if(isNewPage) {
+      this.selektujPrviOglas();
+    }
   }
 
-  ngOnInit(): void {
-    this.setTotal();
-    this.sortParametri = []
-    this.getAll();
+  getCurrentPageItems(): any[] {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    return this.oglasi.slice(startIndex, endIndex);
   }
 
-  getAll(): void {
+  getNumberOfElementsOnCurrentPage(): number {
+    return this.getCurrentPageItems().length;
+  }
+
+  selektujPrviOglas() {
+    const currentPosts = this.getCurrentPageItems();
+
+    if (currentPosts != undefined &&  currentPosts.length > 0) {
+      this.oglasZaPrikaz = currentPosts[0];
+      this.odabaraniOglasId = currentPosts[0].id;
+      this.currentElementIndex = this.oglasi.findIndex(item => item.id == this.odabaraniOglasId);
+    }
+
+    this.prikazDetalja(this.oglasZaPrikaz);
+  }
+
+  async getAll(){
     this.searchObject = {
       iskustvo: this.selektovaniExperience,
       lokacija: this.selektovaniGradovi,
@@ -77,16 +110,19 @@ export class PocentaKandidatComponent implements OnInit{
       sortParametri: this.sortParametri
     };
 
-    this.oglasGetAllEndpoint.obradi(this.searchObject).subscribe({
-      next: x => {
-        this.oglasi = x.oglasi;
-      }
-    })
 
-    console.log("pozvana getAll");
+    try {
+      const response = await firstValueFrom(this.oglasGetAllEndpoint.obradi(this.searchObject));
+      this.oglasi = response.oglasi;
+    } catch (error) {
+      console.log(error);
+      this.oglasi = [];
+    }
+
+    this.selektujPrviOglas();
   }
 
- dodajFilter<T>(lista: T[], item: T): T[] {
+  dodajFilter<T>(lista: T[], item: T): T[] {
     if (lista.includes(item)) {
       return lista.filter(x => x != item);
     } else
@@ -113,8 +149,9 @@ export class PocentaKandidatComponent implements OnInit{
 
     if(postoji) {
       this.sortParametri = this.sortParametri?.filter(parametar => parametar.naziv != naziv);
-    } else
+    } else {
       this.sortParametri?.push(new SortParametar(naziv, redoslijed));
+    }
 
     this.getAll();
   }
@@ -153,39 +190,97 @@ export class PocentaKandidatComponent implements OnInit{
 
   razlikaDatuma(odabraniOglas: OglasGetByIdResponse) {
     let danasnjiDatum = new Date();
-    let datum = new Date(odabraniOglas.rokPrijave);
+    let datum = new Date(odabraniOglas?.rokPrijave);
     let dani = Math.floor((datum.getTime() - danasnjiDatum.getTime()) / 1000 / 60 / 60 / 24);
     return dani;
   }
+
 
   getOdabraniOglas() {
     this.oglasGetByIdEndpoint.obradi(this.odabaraniOglasId).subscribe({
       next: x => {
         this.odabraniOglas = x;
+        this.odabaraniOglasId = x?.id;
       }
     })
   }
 
   filtriraniOglasi(){
-    this.rezultati = this.oglasi;
-
-    if (this.rezultati.length != 0) {
-      this.imaRezultataPretrage = true;
-      //this.prikazDetalja(this.odabaraniOglasId);
-    }
-    else {
-      this.imaRezultataPretrage = false;
-    }
-
-    console.log("pozvana filtrirajOglasi");
-
+    this.imaRezultataPretrage = this.oglasi?.length != 0;
     this.setTotal();
-    return this.rezultati;
+
+    return this.oglasi;
   }
 
-  prikazDetalja(id: number) {
-    this.odabaraniOglasId = id;
-    this.getOdabraniOglas();
+  prikazDetalja(oglas: OglasGetResponseOglasi | null) {
+    if (oglas != null) {
+      this.odabaraniOglasId = oglas.id;
+      this.oglasZaPrikaz = oglas;
+      this.currentElementIndex = this.oglasi.findIndex(item => item.id == this.odabaraniOglasId) - 1;
+      this.currentElementIndex == -1 ?  this.noPreviousElement = true : this.noPreviousElement = false;
+      this.getOdabraniOglas();
+    }
+  }
+
+  currentElementIndex = 0;
+  nextElement = this.getNextElement(this.currentElementIndex);
+  previousElement = this.getPreviousElement(this.currentElementIndex);
+
+  getNextElement(currentIndex: number) {
+    if (currentIndex >= 0 && currentIndex < this.oglasi.length - 1) {
+      return this.oglasi[currentIndex + 1];
+    } else {
+      return null;
+    }
+  }
+
+  getPreviousElement(currentIndex: number) {
+    if(currentIndex + 2 >= 0 && currentIndex < this.oglasi.length - 1) {
+      return this.oglasi[currentIndex];
+    }  else {
+      return null;
+    }
+  }
+
+  ucitajSljedeciOglas() {
+    const nextIndex = this.currentElementIndex + 1;
+
+    if (nextIndex < this.oglasi.length - 1) {
+      this.currentElementIndex = nextIndex;
+      this.nextElement = this.getNextElement(this.currentElementIndex);
+
+      if(this.mod(this.currentElementIndex, this.getNumberOfElementsOnCurrentPage())  + 2 - (this.itemsPerPage - this.getNumberOfElementsOnCurrentPage()) > this.getNumberOfElementsOnCurrentPage())
+        this.pageChangeEvent(this.currentPage + 1, true);
+
+      nextIndex  + 1 == this.oglasi.length - 1 ?  this.noNextElement = true : this.noNextElement = false;
+      this.prikazDetalja(this.nextElement);
+      this.noPreviousElement = false;
+    } else {
+      this.noNextElement = true;
+      this.noPreviousElement = false;
+    }
+  }
+
+  ucitajPrethodniOglas() {
+    const previousIndex = this.currentElementIndex;
+
+    if(previousIndex >= 0) {
+      this.previousElement = this.getPreviousElement(this.currentElementIndex);
+      this.prikazDetalja(this.previousElement);
+
+      if(this.mod(previousIndex + 1 - (this.itemsPerPage - this.getNumberOfElementsOnCurrentPage()), this.getNumberOfElementsOnCurrentPage()) == 0 && previousIndex != 0)
+        this.pageChangeEvent(this.currentPage - 1, false);
+
+      previousIndex == 0 ?  this.noPreviousElement = true : this.noPreviousElement = false;
+      this.noNextElement = false;
+    } else {
+      this.noPreviousElement = true;
+      this.noNextElement = false;
+    }
+  }
+
+  mod(a: number, b: number): number {
+    return a % b;
   }
 
   onSearchChange(pretraga: string) {

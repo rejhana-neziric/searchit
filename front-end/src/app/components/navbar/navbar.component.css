@@ -1,0 +1,20 @@
+.nav-bar {
+  background-color: #ffffff;
+}
+
+.nav-item .nav-link{
+  text-decoration: none;
+  color: black;
+}
+
+.nav-item .nav-link:hover{
+  color: #84B59F;
+}
+
+.naslov-underline{
+  margin-top: -20px;
+  margin-left: 18px;
+  width: 43px;
+  height: 3px;
+  background-color: #1d7b4f;
+}

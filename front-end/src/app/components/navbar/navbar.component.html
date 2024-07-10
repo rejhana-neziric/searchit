@@ -1,0 +1,34 @@
+<!-- Navbar -->
+<div class="nav-bar px-5 py-1 d-flex">
+  <div class="naslov fs-1 fw-bold me-auto p-1 bd-highlight">
+    <a class="nav-link active text-dark fs-1 fw-bold " *ngIf="isKandidat" [routerLink]="['/home-kandidat/']">searchit</a>
+    <hr class="naslov-underline">
+  </div>
+  <div class="p-2">
+    <ul class="navbar-nav flex-row py-1">
+      <li class="nav-item">
+        <a class="nav-link active px-3  fw-bold fs-5 text-underline mt-2" href="" style="color:#84B59F;" >Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active px-3  fw-bold fs-5 text-underline mt-2" href="">Create CV</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active px-3 fw-bold fs-5 text-underline mt-2" href="">Applications</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active px-3 fw-bold fs-5 text-underline mt-2" href="">Favorites</a>
+      </li>
+      <li class="nav-item">
+        <a class="btn p-0" href="">
+          <img style="width:60px " src="./assets/img/profilna-ikona.png" alt="image">
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="btn pt-3" href="">
+          <img style="width:25px" src="./assets/img/chat.png" alt="image">
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+<!-- Navbar -->

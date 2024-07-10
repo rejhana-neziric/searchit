@@ -2,10 +2,12 @@
 using JobSearchingWebApp.Helper;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace JobSearchingWebApp.Endpoints.Oglas.GetById
 {
+    [Tags("Oglas")]
     [Route("oglas/get-by-id")]
     public class OglasGetByIdEndpoint : MyBaseEndpoint<int, OglasGetByIdResponse>
     {
@@ -19,7 +21,7 @@ namespace JobSearchingWebApp.Endpoints.Oglas.GetById
         [HttpGet("{id}")]
         public override async Task<OglasGetByIdResponse> MyAction(int id, CancellationToken cancellationToken)
         {
-            var oglas = dbContext.Oglasi.Where(x => x.Id == id).FirstOrDefault();  
+            var oglas = dbContext.Oglasi.Where(x => x.Id == id).Include(kompanija => kompanija.Kompanija).FirstOrDefault();  
             var opis = dbContext.OpisOglas.Where(x => x.OglasId == id).FirstOrDefault();  
 
             if (oglas == null) 
@@ -28,7 +30,7 @@ namespace JobSearchingWebApp.Endpoints.Oglas.GetById
             var oglasOpis = new OglasGetByIdResponse
             {
                 Id = oglas.Id,
-                //KompanijaNaziv = oglas.Kompanija.Naziv,
+                KompanijaNaziv = oglas.Kompanija.Naziv,
                 //KompanijaID = oglas.Kompanija.Id, SKONTAT
                 NazivPozicije = oglas.NazivPozicije,
                 DatumObjave = oglas.DatumObjave,

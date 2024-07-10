@@ -1,6 +1,7 @@
 export interface OglasGetByIdResponse {
   id: number
   nazivPozicije: string
+  kompanijaNaziv: string
   datumObjave: Date
   plata: number
   tipPosla: string
