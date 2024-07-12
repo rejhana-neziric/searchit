@@ -4,6 +4,7 @@ using JobSearchingWebApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JobSearchingWebApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240710214942_migracija2")]
+    partial class migracija2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -188,32 +191,6 @@ namespace JobSearchingWebApp.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Jezici");
-                });
-
-            modelBuilder.Entity("JobSearchingWebApp.Models.KandidatSpaseniOglasi", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("KandidatId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("OglasId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("Spasen")
-                        .HasColumnType("bit");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("KandidatId");
-
-                    b.HasIndex("OglasId");
-
-                    b.ToTable("KandidatSpaseniOglasi");
                 });
 
             modelBuilder.Entity("JobSearchingWebApp.Models.KandidatiOglasi", b =>
@@ -408,6 +385,9 @@ namespace JobSearchingWebApp.Migrations
 
                     b.Property<DateTime>("RokPrijave")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("Spasen")
+                        .HasColumnType("bit");
 
                     b.Property<string>("TipPosla")
                         .IsRequired()
@@ -769,25 +749,6 @@ namespace JobSearchingWebApp.Migrations
                     b.Navigation("Vjestina");
                 });
 
-            modelBuilder.Entity("JobSearchingWebApp.Models.KandidatSpaseniOglasi", b =>
-                {
-                    b.HasOne("JobSearchingWebApp.Models.Kandidat", "Kandidat")
-                        .WithMany()
-                        .HasForeignKey("KandidatId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("JobSearchingWebApp.Models.Oglas", "Oglas")
-                        .WithMany("KandidatSpaseniOglasi")
-                        .HasForeignKey("OglasId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Kandidat");
-
-                    b.Navigation("Oglas");
-                });
-
             modelBuilder.Entity("JobSearchingWebApp.Models.KandidatiOglasi", b =>
                 {
                     b.HasOne("JobSearchingWebApp.Models.Kandidat", "Kandidat")
@@ -976,8 +937,6 @@ namespace JobSearchingWebApp.Migrations
 
             modelBuilder.Entity("JobSearchingWebApp.Models.Oglas", b =>
                 {
-                    b.Navigation("KandidatSpaseniOglasi");
-
                     b.Navigation("OglasIskustvo");
 
                     b.Navigation("OglasLokacija");

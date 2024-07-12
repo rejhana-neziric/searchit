@@ -4,6 +4,7 @@ using JobSearchingWebApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JobSearchingWebApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240711133402_migracija3")]
+    partial class migracija3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -203,9 +206,6 @@ namespace JobSearchingWebApp.Migrations
 
                     b.Property<int>("OglasId")
                         .HasColumnType("int");
-
-                    b.Property<bool>("Spasen")
-                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -778,7 +778,7 @@ namespace JobSearchingWebApp.Migrations
                         .IsRequired();
 
                     b.HasOne("JobSearchingWebApp.Models.Oglas", "Oglas")
-                        .WithMany("KandidatSpaseniOglasi")
+                        .WithMany()
                         .HasForeignKey("OglasId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
@@ -976,8 +976,6 @@ namespace JobSearchingWebApp.Migrations
 
             modelBuilder.Entity("JobSearchingWebApp.Models.Oglas", b =>
                 {
-                    b.Navigation("KandidatSpaseniOglasi");
-
                     b.Navigation("OglasIskustvo");
 
                     b.Navigation("OglasLokacija");

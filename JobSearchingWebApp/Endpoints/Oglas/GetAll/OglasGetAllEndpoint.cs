@@ -9,6 +9,7 @@ using System.Linq;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Reflection;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace JobSearchingWebApp.Endpoints.Oglas.GetAll
 {
@@ -29,6 +30,7 @@ namespace JobSearchingWebApp.Endpoints.Oglas.GetAll
             var oglasi = dbContext.Oglasi.AsQueryable();
             var lokacije = dbContext.OglasLokacija.Include(lokacija => lokacija.Lokacija).AsQueryable();
             var iskustva = dbContext.OglasIskustvo.Include(iskustvo => iskustvo.Iskustvo).AsQueryable();
+            var spaseni = dbContext.KandidatSpaseniOglasi.Include(spaseni => spaseni.Oglas).AsQueryable();
 
             if (!string.IsNullOrEmpty(request.Naziv))
             {
@@ -64,6 +66,11 @@ namespace JobSearchingWebApp.Endpoints.Oglas.GetAll
                 oglasi = oglasi.Where(oglas => oglas.OpisOglas.MinimumGodinaIskustva <= request.MinimumGodinaIskustva);
             }
 
+
+            if (request?.Spasen != null)
+            {
+                oglasi = oglasi.Where(p => p.KandidatSpaseniOglasi.Any(spaseni => spaseni.KandidatId == request.KandidatId && spaseni.Spasen == true));
+            }
 
             var lista = oglasi.Select(oglas => new OglasGetAllResponseOglas
             {

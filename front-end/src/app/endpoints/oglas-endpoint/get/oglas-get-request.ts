@@ -5,6 +5,8 @@ export class OglasGetRequest {
     public tipPosla?: string[],
     public iskustvo?: string[],
     public minimumGodinaIskustva?: number,
+    public spasen?: boolean,
+    public kandidatId?: number,
     public filters?: { [key: string]: any },
     public sortParametri?: SortParametar[]
   ){}

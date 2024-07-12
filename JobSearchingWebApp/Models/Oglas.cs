@@ -20,6 +20,6 @@ namespace JobSearchingWebApp.Models
         public virtual OpisOglas OpisOglas { get; set; }    
         public virtual ICollection<OglasLokacija> OglasLokacija { get; set; } = new List<OglasLokacija>();
         public virtual ICollection<OglasIskustvo> OglasIskustvo { get; set; } = new List<OglasIskustvo>();
-
+        public virtual ICollection<KandidatSpaseniOglasi> KandidatSpaseniOglasi { get; set; } = new List<KandidatSpaseniOglasi>(); 
     }
 }

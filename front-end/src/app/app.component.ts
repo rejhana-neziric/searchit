@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {Router, RouterLink, RouterOutlet} from '@angular/router';
 import {FormsModule} from "@angular/forms";
-import {PocentaKandidatComponent} from "./components/pocenta-kandidat/pocenta-kandidat.component";
+import {PocentaKandidatComponent} from "./components/kandidat/pocenta-kandidat/pocenta-kandidat.component";
 import {
   PocetnaNeregistrovaniKorisnikComponent
 } from "./components/pocetna-neregistrovani-korisnik/pocetna-neregistrovani-korisnik.component";

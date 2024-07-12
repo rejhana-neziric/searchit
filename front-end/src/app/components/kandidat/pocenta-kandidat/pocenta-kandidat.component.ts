@@ -1,18 +1,25 @@
-import {ChangeDetectorRef, Component, OnInit, ElementRef, Renderer2 } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {DatePipe, NgClass, NgForOf, NgIf} from "@angular/common";
 import {NgxPaginationModule} from "ngx-pagination";
-import {OglasGetResponse, OglasGetResponseOglasi} from "../../endpoints/oglas-endpoint/get/oglas-get-response";
-import {OglasGetEndpoint} from "../../endpoints/oglas-endpoint/get/oglas-get-endpoint";
-import {MojConfig} from "../../moj-config";
+import {OglasGetResponseOglasi} from "../../../endpoints/oglas-endpoint/get/oglas-get-response";
+import {OglasGetEndpoint} from "../../../endpoints/oglas-endpoint/get/oglas-get-endpoint";
 import {MatButtonToggle, MatButtonToggleGroup} from "@angular/material/button-toggle";
-import {OglasGetByIdEndpoint} from "../../endpoints/oglas-endpoint/get-by-id/oglas-get-by-id-endpoint";
-import {OglasGetByIdResponse} from "../../endpoints/oglas-endpoint/get-by-id/oglas-get-by-id-response";
+import {OglasGetByIdEndpoint} from "../../../endpoints/oglas-endpoint/get-by-id/oglas-get-by-id-endpoint";
+import {OglasGetByIdResponse} from "../../../endpoints/oglas-endpoint/get-by-id/oglas-get-by-id-response";
 import {FormsModule} from "@angular/forms";
-import {OglasGetRequest, SortParametar} from "../../endpoints/oglas-endpoint/get/oglas-get-request";
-import { firstValueFrom } from 'rxjs';
-import {convertOutputFile} from "@angular-devkit/build-angular/src/tools/esbuild/utils";
-import {NavbarComponent} from "../navbar/navbar.component";
+import {OglasGetRequest, SortParametar} from "../../../endpoints/oglas-endpoint/get/oglas-get-request";
+import {firstValueFrom} from 'rxjs';
+import {NavbarComponent} from "../../navbar/navbar.component";
 import {RouterLink} from "@angular/router";
+import {
+  KandidatSpaseniOglasiDodajEndpoint
+} from "../../../endpoints/kandidat-spaseni-oglasi-endpoint/dodaj/kandidat-spaseni-oglasi-dodaj-endpoint";
+import {
+  KanidatSpaseniOglasiDodajRequest
+} from "../../../endpoints/kandidat-spaseni-oglasi-endpoint/dodaj/kanidat-spaseni-oglasi-dodaj-request";
+import {NotificationService} from "../../notification/notification-service";
+import {NotificationComponent} from "../../notification/notification.component";
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-pocenta-kandidat',
@@ -28,11 +35,12 @@ import {RouterLink} from "@angular/router";
     NgClass,
     NavbarComponent,
     RouterLink,
+    NotificationComponent,
   ],
   templateUrl: './pocenta-kandidat.component.html',
   styleUrl: './pocenta-kandidat.component.css'
 })
-export class PocentaKandidatComponent implements OnInit{
+export class PocentaKandidatComponent implements OnInit {
 
   oglasi: OglasGetResponseOglasi [] = [];
   isDaysChecked: boolean = false;
@@ -57,10 +65,13 @@ export class PocentaKandidatComponent implements OnInit{
   noPreviousElement: boolean = true;
 
   constructor(private oglasGetAllEndpoint: OglasGetEndpoint,
-              private oglasGetByIdEndpoint: OglasGetByIdEndpoint
-  ) {}
+              private oglasGetByIdEndpoint: OglasGetByIdEndpoint,
+              private kandidatSpaseniOglasiDodajEndpoint: KandidatSpaseniOglasiDodajEndpoint,
+              private notificationService: NotificationService
+  ) {
+  }
 
-  async ngOnInit(){
+  async ngOnInit() {
     this.sortParametri = [];
     await this.getAll();
     this.setTotal();
@@ -73,15 +84,23 @@ export class PocentaKandidatComponent implements OnInit{
   pageChangeEvent($event: number, isNewPage: boolean) {
     this.currentPage = $event;
     this.setTotal();
-    if(isNewPage) {
+    if (isNewPage) {
       this.selektujPrviOglas();
     }
+    this.scrollToTop();
   }
 
   getCurrentPageItems(): any[] {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
     return this.oglasi.slice(startIndex, endIndex);
+  }
+
+  scrollToTop() {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
   }
 
   getNumberOfElementsOnCurrentPage(): number {
@@ -91,7 +110,7 @@ export class PocentaKandidatComponent implements OnInit{
   selektujPrviOglas() {
     const currentPosts = this.getCurrentPageItems();
 
-    if (currentPosts != undefined &&  currentPosts.length > 0) {
+    if (currentPosts != undefined && currentPosts.length > 0) {
       this.oglasZaPrikaz = currentPosts[0];
       this.odabaraniOglasId = currentPosts[0].id;
       this.currentElementIndex = this.oglasi.findIndex(item => item.id == this.odabaraniOglasId);
@@ -100,7 +119,7 @@ export class PocentaKandidatComponent implements OnInit{
     this.prikazDetalja(this.oglasZaPrikaz);
   }
 
-  async getAll(){
+  async getAll() {
     this.searchObject = {
       iskustvo: this.selektovaniExperience,
       lokacija: this.selektovaniGradovi,
@@ -130,24 +149,24 @@ export class PocentaKandidatComponent implements OnInit{
   }
 
   locationFilter(grad: string) {
-    this.selektovaniGradovi =  this.dodajFilter(this.selektovaniGradovi, grad);
+    this.selektovaniGradovi = this.dodajFilter(this.selektovaniGradovi, grad);
     this.getAll();
   }
 
   jobTypeFilter(job_type: string) {
-    this.selektovaniJobType =  this.dodajFilter(this.selektovaniJobType, job_type);
+    this.selektovaniJobType = this.dodajFilter(this.selektovaniJobType, job_type);
     this.getAll();
   }
 
   experienceFilter(experience: string) {
-    this.selektovaniExperience =  this.dodajFilter(this.selektovaniExperience, experience);
+    this.selektovaniExperience = this.dodajFilter(this.selektovaniExperience, experience);
     this.getAll();
   }
 
   dodajSortiranje(naziv: string, redoslijed: string) {
     var postoji = this.sortParametri?.some(parametar => parametar.naziv == naziv);
 
-    if(postoji) {
+    if (postoji) {
       this.sortParametri = this.sortParametri?.filter(parametar => parametar.naziv != naziv);
     } else {
       this.sortParametri?.push(new SortParametar(naziv, redoslijed));
@@ -165,7 +184,7 @@ export class PocentaKandidatComponent implements OnInit{
   }
 
   sortirajPoDanima() {
-    if(this.isDaysChecked) {
+    if (this.isDaysChecked) {
       this.isDaysChecked = false;
       this.isDaysAscending = false;
     } else {
@@ -178,12 +197,12 @@ export class PocentaKandidatComponent implements OnInit{
 
   dodajSortiranjeDana() {
     var vrstaRedoslijeda = "";
-    this.isDaysAscending? vrstaRedoslijeda = "asc" : vrstaRedoslijeda = "desc";
+    this.isDaysAscending ? vrstaRedoslijeda = "asc" : vrstaRedoslijeda = "desc";
     this.dodajSortiranje("RazlikaDana", vrstaRedoslijeda);
   }
 
   promijeniSortiranjeZaDane() {
-    this.isDaysAscending? this.isDaysAscending = false : this.isDaysAscending = true;
+    this.isDaysAscending ? this.isDaysAscending = false : this.isDaysAscending = true;
     this.sortParametri = this.sortParametri?.filter(parametar => parametar.naziv != "RazlikaDana");
     this.dodajSortiranjeDana();
   }
@@ -205,7 +224,7 @@ export class PocentaKandidatComponent implements OnInit{
     })
   }
 
-  filtriraniOglasi(){
+  filtriraniOglasi() {
     this.imaRezultataPretrage = this.oglasi?.length != 0;
     this.setTotal();
 
@@ -217,7 +236,7 @@ export class PocentaKandidatComponent implements OnInit{
       this.odabaraniOglasId = oglas.id;
       this.oglasZaPrikaz = oglas;
       this.currentElementIndex = this.oglasi.findIndex(item => item.id == this.odabaraniOglasId) - 1;
-      this.currentElementIndex == -1 ?  this.noPreviousElement = true : this.noPreviousElement = false;
+      this.currentElementIndex == -1 ? this.noPreviousElement = true : this.noPreviousElement = false;
       this.getOdabraniOglas();
     }
   }
@@ -235,9 +254,9 @@ export class PocentaKandidatComponent implements OnInit{
   }
 
   getPreviousElement(currentIndex: number) {
-    if(currentIndex + 2 >= 0 && currentIndex < this.oglasi.length - 1) {
+    if (currentIndex + 2 >= 0 && currentIndex < this.oglasi.length - 1) {
       return this.oglasi[currentIndex];
-    }  else {
+    } else {
       return null;
     }
   }
@@ -249,10 +268,10 @@ export class PocentaKandidatComponent implements OnInit{
       this.currentElementIndex = nextIndex;
       this.nextElement = this.getNextElement(this.currentElementIndex);
 
-      if(this.mod(this.currentElementIndex, this.getNumberOfElementsOnCurrentPage())  + 2 - (this.itemsPerPage - this.getNumberOfElementsOnCurrentPage()) > this.getNumberOfElementsOnCurrentPage())
+      if (this.mod(this.currentElementIndex, this.getNumberOfElementsOnCurrentPage()) + 2 - (this.itemsPerPage - this.getNumberOfElementsOnCurrentPage()) > this.getNumberOfElementsOnCurrentPage())
         this.pageChangeEvent(this.currentPage + 1, true);
 
-      nextIndex  + 1 == this.oglasi.length - 1 ?  this.noNextElement = true : this.noNextElement = false;
+      nextIndex + 1 == this.oglasi.length - 1 ? this.noNextElement = true : this.noNextElement = false;
       this.prikazDetalja(this.nextElement);
       this.noPreviousElement = false;
     } else {
@@ -264,14 +283,14 @@ export class PocentaKandidatComponent implements OnInit{
   ucitajPrethodniOglas() {
     const previousIndex = this.currentElementIndex;
 
-    if(previousIndex >= 0) {
+    if (previousIndex >= 0) {
       this.previousElement = this.getPreviousElement(this.currentElementIndex);
       this.prikazDetalja(this.previousElement);
 
-      if(this.mod(previousIndex + 1 - (this.itemsPerPage - this.getNumberOfElementsOnCurrentPage()), this.getNumberOfElementsOnCurrentPage()) == 0 && previousIndex != 0)
+      if (this.mod(previousIndex + 1 - (this.itemsPerPage - this.getNumberOfElementsOnCurrentPage()), this.getNumberOfElementsOnCurrentPage()) == 0 && previousIndex != 0)
         this.pageChangeEvent(this.currentPage - 1, false);
 
-      previousIndex == 0 ?  this.noPreviousElement = true : this.noPreviousElement = false;
+      previousIndex == 0 ? this.noPreviousElement = true : this.noPreviousElement = false;
       this.noNextElement = false;
     } else {
       this.noPreviousElement = true;
@@ -294,19 +313,39 @@ export class PocentaKandidatComponent implements OnInit{
   }
 
   promijeniSortiranjeZaGodine() {
-    this.isGodineAscending? this.isGodineAscending = false : this.isGodineAscending = true;
+    this.isGodineAscending ? this.isGodineAscending = false : this.isGodineAscending = true;
     this.sortirajPoGodinama();
   }
 
-  sortirajPoGodinama () {
+  sortirajPoGodinama() {
     this.sortParametri = this.sortParametri?.filter(parametar => parametar.naziv != "OpisOglasa.MinimumGodinaIskustva");
 
-    if(this.godineIskustva > 0) {
-      this.dodajSortiranje("OpisOglasa.MinimumGodinaIskustva", this.isGodineAscending? "asc": "desc")
+    if (this.godineIskustva > 0) {
+      this.dodajSortiranje("OpisOglasa.MinimumGodinaIskustva", this.isGodineAscending ? "asc" : "desc")
     } else {
       this.sortParametri = this.sortParametri?.filter(parametar => parametar.naziv != "OpisOglasa.MinimumGodinaIskustva");
     }
 
     this.getAll();
+  }
+
+  saveOglas(oglas: OglasGetResponseOglasi) {
+    var request: KanidatSpaseniOglasiDodajRequest = {
+      oglas_id: oglas.id,
+      kandidat_id: 25 //promijeniti kasnije u trenutno logiranog korisnika
+    }
+
+    this.kandidatSpaseniOglasiDodajEndpoint.obradi(request).subscribe(
+      data => {
+        this.notificationService.addNotification({message: 'Post saved.', type: 'success'});
+      },
+      (error: HttpErrorResponse) => {
+        if (error.status === 500) {
+          this.notificationService.addNotification({message: 'You have already saved this post.', type: 'error'});
+        } else {
+          this.notificationService.addNotification({message: `Error: ${error.message}`, type: 'error'});
+        }
+      }
+    );
   }
 }

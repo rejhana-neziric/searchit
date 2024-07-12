@@ -28,6 +28,14 @@ export class OglasGetEndpoint implements MyBaseEndpoint<OglasGetRequest, OglasGe
       params = params.set('minimumGodinaIskustva', request.minimumGodinaIskustva);
     }
 
+    if (request.spasen) {
+      params = params.set('spasen', request.spasen);
+    }
+
+    if (request.kandidatId) {
+      params = params.set('kandidatId', request.kandidatId);
+    }
+
     if (request.filters) {
       for (const key in request.filters) {
         if (request.filters.hasOwnProperty(key)) {
@@ -48,13 +56,6 @@ export class OglasGetEndpoint implements MyBaseEndpoint<OglasGetRequest, OglasGe
       });
     }
 
-    /*
-    var sort : SortParametar[] = [];
-
-    var p1 = new SortParametar("NazivPozicije", "desc")
-    sort.push(p1);*/
-
-
     if(request.sortParametri) {
       request.sortParametri.forEach((param, index) => {
         params = params.append(`sortParametri[${index}].naziv`, param.naziv);
@@ -62,8 +63,6 @@ export class OglasGetEndpoint implements MyBaseEndpoint<OglasGetRequest, OglasGe
       });
     }
 
-
     return this.httpClient.get<OglasGetResponse>(url, {params});
   }
-
 }

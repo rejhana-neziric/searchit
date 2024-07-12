@@ -29,11 +29,9 @@ namespace JobSearchingWebApp.Endpoints.Oglas.Update
                 throw new Exception("Nije pronađen oglas sa ID " + request.oglas_id);
             }
 
-            oglas.NazivPozicije = request.naziv_pozicije;
-            oglas.Plata = request.plata;    
-            oglas.TipPosla = request.tip_posla;
-            oglas.RokPrijave = request.rok_prijave;
-            oglas.DatumModificiranja = DateTime.Now; 
+            oglas.NazivPozicije = request?.naziv_pozicije;
+            oglas.RokPrijave = request.rok_prijave ?? oglas.RokPrijave;
+            oglas.DatumModificiranja = DateTime.Now;
 
             await dbContext.SaveChangesAsync();
 

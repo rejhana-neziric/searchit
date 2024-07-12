@@ -2,13 +2,15 @@
 
 <app-navbar isKandidat = true ></app-navbar>
 
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <!-- Filter & Sort -->
 <div class="main d-flex flex-row">
-  <div style="background-color: #84B59F; min-width: 220px; width: 15%; height: 1200px" class="filter-search-section ">
+  <div style="background-color:#DDD8C4; min-width: 220px; width: 15%; height: 1500px; " class="filter-search-section">
     <!-- Filter-->
     <div class="filer-section">
       <div class="d-flex flex-row ps-3 pt-5">
-        <img class="mt-2" style="width: 25px; height: 30px;" src="./assets/img/filter.png" alt="">
+        <img class="mt-2" style="width: 25px; height: 30px;" src="../../../../assets/img/filter.png" alt="">
         <p class="fs-3 fw-bold ps-2">Filter</p>
       </div>
       <div class="accordion" id="accordionPanelsStayOpenExample">
@@ -140,7 +142,7 @@
     <!-- Sort-->
     <div class="sort-section flex-1">
       <div class="d-flex flex-row ps-3 pt-5">
-        <img style="width: 30px; height: 20px;" src="./assets/img/sort.png" alt="">
+        <img style="width: 30px; height: 20px;" src="../../../../assets/img/sort.png" alt="">
         <p class="fs-3 fw-bold ps-2">Sort</p>
       </div>
       <div class="ps-3">
@@ -215,10 +217,10 @@
          *ngFor="let oglas of filtriraniOglasi() | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: total }"
           (click)="prikazDetalja(oglas)">
       <div class="oglas-content d-flex flex-row" [class.selected]="oglas === oglasZaPrikaz">
-        <img class="img-logo" src="./assets/img/kompanija-logo.png" alt="image" loading="lazy">
+        <img class="img-logo" src="../../../../assets/img/kompanija-logo.png" alt="image" loading="lazy">
         <div class="my-1">
           <span class="fw-bold fs-3" style="color: #84B59F">{{oglas.nazivPozicije}}</span>
-          <span class="fw-bold deadline pd-4 fs-6"><img src="./assets/img/datum.png" style="height: 35px"
+          <span class="fw-bold deadline pd-4 fs-6"><img src="../../../../assets/img/datum.png" style="height: 35px"
                                                         alt="">{{oglas.rokPrijave | date:'d.M.yyyy'}}</span>
           <br>
           <span class="fw-normal fs-5">{{oglas.kompanijaNaziv}}</span>
@@ -228,10 +230,13 @@
           <span class="fw-normal fs-6 job-type-location location"
                 *ngFor="let lokacija of oglas.lokacija">{{lokacija.naziv}}</span>
         </div>
-        <a href="" style="margin-left:auto; margin-top: 100px;"><img class="img-heart" style=" height: 35px;"  src="./assets/img/heart.png" alt=""></a>
+        <a style="margin-left:auto; margin-top: 100px;" (click)="saveOglas(oglas)">
+          <img class="img-heart" style=" height: 35px;"  src="../../../../assets/img/heart.png">
+        </a>
+        <app-notification></app-notification>
+        </div>
       </div>
-    </div>
-    <!-- Oglasi -->
+      <!-- Oglasi -->
 
     <!-- Paginacija -->
     <div *ngIf="imaRezultataPretrage" class="d-flex justify-content-center pe-5">
@@ -246,7 +251,7 @@
         <div class="pregled-content shadow p-3 mb-4 mt-0">
           <div class="d-flex flex-column">
             <div class="d-flex flex-row">
-              <img class="img-logo" src="./assets/img/kompanija-logo.png" alt="image" loading="lazy">
+              <img class="img-logo" src="../../../../assets/img/kompanija-logo.png" alt="image" loading="lazy">
               <div class="d-flex flex-column py-4">
                 <span class="fw-bold fs-3 " style="color: #84B59F">{{odabraniOglas?.nazivPozicije}}</span>
                 <span class="fw-normal fs-5 py-2">{{ odabraniOglas?.kompanijaNaziv }}</span>
@@ -255,7 +260,7 @@
                 <div
                   style="background-color: #84B59F; border-radius: 5px; width: 150px; padding: 5px; margin-bottom: 20px">
                   Minimum years of experience {{odabraniOglas?.opisOglasa!.minimumGodinaIskustva}}</div>
-                <div class="fw-bold fs-6" style="width: 150px; "><img style="width: 30px" src="./assets/img/sat.png"> {{ this.razlikaDatuma(this.odabraniOglas!)}} days left
+                <div class="fw-bold fs-6" style="width: 150px; "><img style="width: 30px" src="../../../../assets/img/sat.png"> {{ this.razlikaDatuma(this.odabraniOglas!)}} days left
                 </div>
               </div>
             </div>
@@ -272,15 +277,15 @@
               </div>
               <div class="ms-5">
                 <div class="d-flex flex-row p-1">
-                  <img class="p-1" src="./assets/img/datum.png" style="height: 35px"  alt="image">
+                  <img class="p-1" src="../../../../assets/img/datum.png" style="height: 35px" alt="image">
                   <div class="fw-bold fs-6 p-1">Published</div>
-                  <img class="p-1" style="height: 30px" src="./assets/img/linija.png" alt="image">
+                  <img class="p-1" style="height: 30px" src="../../../../assets/img/linija.png" alt="image">
                   <div class="fw-bold fs-6 p-1">{{odabraniOglas?.datumObjave | date:'d.M.yyyy'}}</div>
                 </div>
                 <div class="d-flex flex-row p-1">
-                  <img class="p-1" src="./assets/img/datum.png" style="height: 35px" alt="image">
+                  <img class="p-1" src="../../../../assets/img/datum.png" style="height: 35px" alt="image">
                   <div class="fw-bold fs-6 p-1" style="width: 100px">Application deadline</div>
-                  <img class="p-1" style="height: 30px" src="./assets/img/linija.png" alt="image">
+                  <img class="p-1" style="height: 30px" src="../../../../assets/img/linija.png" alt="image">
                   <div class="fw-bold fs-6 p-1">{{odabraniOglas?.rokPrijave | date:'d.M.yyyy'}} </div>
                  </div>
                </div>
@@ -294,16 +299,16 @@
               <p class="pregled-naslovi fw-bold fs-6">Skills:</p>
               <span>{{odabraniOglas?.opisOglasa!.vjestine}}</span>
             </div>
-            <div class="d-flex flex-row me-auto ms-auto mt-3">
-              <a class="nav-link text-dark pregled-btn " href="" type="button">Apply</a>
-              <a class="nav-link text-dark pregled-btn" href="" type="button" [routerLink]="['/oglasi/', odabraniOglas?.id]">Details</a>
+            <div class="d-flex flex-row me-auto ms-auto mt-3 button-section">
+              <a class="nav-link text-dark d-flex justify-content-center pregled-btn " type="button">Apply</a>
+              <a class="nav-link text-dark d-flex justify-content-center pregled-btn" type="button" [routerLink]="['/oglasi/', odabraniOglas?.id]">Details</a>
             </div>
             <div class="d-flex justify-content-between me-auto ms-auto mt-4 mb-4">
               <div *ngIf="!noPreviousElement" class="img-left-arrow mx-5">
-                <img src="./assets/img/left-arrow.png"  alt="" (click)="ucitajPrethodniOglas()">
+                <img src="../../../../assets/img/left-arrow.png" alt="" (click)="ucitajPrethodniOglas()">
               </div>
               <div *ngIf="!noNextElement" class="img-right-arrow mx-5">
-                <img src="./assets/img/right-arrow.png"  alt="" (click)="ucitajSljedeciOglas()">
+                <img src="../../../../assets/img/right-arrow.png" alt="" (click)="ucitajSljedeciOglas()">
               </div>
 
             </div>

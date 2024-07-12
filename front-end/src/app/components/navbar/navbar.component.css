@@ -4,7 +4,7 @@
 
 .nav-item .nav-link{
   text-decoration: none;
-  color: black;
+  color: #262525;
 }
 
 .nav-item .nav-link:hover{
@@ -17,4 +17,13 @@
   width: 43px;
   height: 3px;
   background-color: #1d7b4f;
+}
+
+.active-link {
+  color: #84B59F;
+}
+
+.nav ul li.active-link a {
+  color: #84B59F; /* Change this to the color you want for active links */
+  font-weight: bold;
 }
