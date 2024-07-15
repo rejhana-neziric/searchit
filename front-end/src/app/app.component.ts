@@ -9,6 +9,7 @@ import {
 import {LoginComponent} from "./components/login/login.component";
 import {HttpClient} from "@angular/common/http";
 import {JeziciComponent} from "./jezici/jezici.component";
+import { NgModule } from '@angular/core';
 
 @Component({
   selector: 'app-root',

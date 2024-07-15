@@ -1,4 +1,4 @@
-﻿namespace JobSearchingWebApp.Endpoints.Oglas.GetAll
+﻿namespace JobSearchingWebApp.Helper
 {
     public class SortParametar
     {

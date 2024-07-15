@@ -1,5 +1,8 @@
-﻿using JobSearchingWebApp.Data;
+﻿using Azure.Core;
+using JobSearchingWebApp.Data;
+using JobSearchingWebApp.Helper;
 using JobSearchingWebApp.Migrations;
+using JobSearchingWebApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -21,13 +24,14 @@ namespace JobSearchingWebApp.Endpoints.GeneratorPodataka
         [HttpPost]
         public ActionResult Generisi()
         {
+            /* zadnje
             var oglasi = new List<Models.Oglas>();
             var iskustvo = new List<Models.Iskustvo>(); 
             var lokacija = new List<Models.Lokacija>();
             var oglasIskustvo = new List<Models.OglasIskustvo>();
             var oglasLokacija = new List<Models.OglasLokacija>();
             var opisOglas = new List<Models.OpisOglas>();
-
+            */
             //xxxxxxxxxxxxxxxx
             //oglasi.Add(new Models.Oglas { NazivPozicije = "Software Engineer", DatumObjave = DateTime.Now, Plata = 2000, TipPosla = "Full Time", RokPrijave = DateTime.MaxValue, KompanijaId = 66 });
             //oglasi.Add(new Models.Oglas { NazivPozicije = "DevOps Engineer", DatumObjave = DateTime.Now, Plata = 3400, TipPosla = "Full Time", RokPrijave = DateTime.MaxValue, KompanijaId = 67 });
@@ -99,7 +103,7 @@ namespace JobSearchingWebApp.Endpoints.GeneratorPodataka
             //});
 
 
-
+            /* zadnje
             opisOglas.Add(
                 new Models.OpisOglas
                 {
@@ -188,6 +192,7 @@ namespace JobSearchingWebApp.Endpoints.GeneratorPodataka
                 Benefiti = "Competitive salary and performance-based bonuses.\r\nComprehensive health, dental, and vision insurance plans.\r\nFlexible work hours and remote work options.\r\nGenerous paid time off and holidays.\r\nOpportunities for professional development and training.\r\nSupportive and inclusive work environment that values creativity and innovation.\r\nAccess to cutting-edge design tools and resources.",
                 OglasId = 13
             });
+            */
 
             /*
             var jezici = new List<Models.Jezik>
@@ -251,6 +256,72 @@ namespace JobSearchingWebApp.Endpoints.GeneratorPodataka
                 new Models.Kompanija { Naziv = "Insightify", GodinaOsnivanja = 2021, Lokacija = "Tuzla", Slika = "slika...", Email = "Insightify@gmail.com", Username = "insightify", Password = "insightify", TemaId = tema2.Id, JezikId = bosanskiJezik.Id }
             };*/
 
+            //var ByteMatrix = dbContext.Kompanije.Where(x => x.Naziv == "ByteMatrix Solutions").FirstOrDefault();
+
+            //ByteMatrix.Website = "www.bytematrixsolutions.com";
+            //ByteMatrix.BrojZaposlenih = BrojZaposlenih._11_50.ToDisplayString();
+            //ByteMatrix.LinkedIn = " https://linkedin.com/company/byteMatrix-solutions";
+            //ByteMatrix.Twitter = "https://twitter.com/byteMatrixSol";
+            //ByteMatrix.KratkiOpis = "We specializes in innovative data solutions and custom software development to drive business growth and efficiency.";
+            //ByteMatrix.Opis = "ByteMatrix Solutions is a forward-thinking technology company that specializes in providing cutting-edge data solutions and software development services. Founded in 2015, the company has quickly risen to become a key player in the tech industry, offering a range of services from custom software development to big data analytics.\r\n\r\nOur mission is to help businesses harness the power of technology to drive growth and innovation. With a dedicated team of over 200 professionals, we pride ourselves on delivering exceptional results that exceed our clients' expectations.\r\n\r\nOur Services\r\nCustom Software Development:\r\n\r\nTailored software solutions that meet the unique needs of our clients.\r\nExpertise in various programming languages and frameworks.\r\nAgile development methodology ensuring flexibility and rapid delivery.\r\nBig Data Analytics:\r\n\r\nAdvanced data analytics services to help businesses make informed decisions.\r\nData mining, data warehousing, and predictive analytics.\r\nImplementation of data-driven strategies to enhance business performance.\r\nCloud Solutions:\r\n\r\nScalable and secure cloud computing services.\r\nMigration to cloud platforms such as AWS, Azure, and Google Cloud.\r\nCloud infrastructure management and optimization.\r\nMobile App Development:\r\n\r\nDevelopment of innovative mobile applications for iOS and Android platforms.\r\nUser-friendly interfaces and seamless performance.\r\nEnd-to-end mobile app lifecycle management.\r\nConsulting Services:\r\n\r\nStrategic IT consulting to help businesses navigate digital transformation.\r\nIT infrastructure assessment and optimization.\r\nImplementation of best practices and industry standards.\r\nOur Culture\r\nAt ByteMatrix Solutions, we believe in fostering a culture of innovation and collaboration. Our team is composed of highly skilled professionals who are passionate about technology and committed to excellence. We encourage continuous learning and professional development to stay ahead of industry trends.\r\n\r\nOur Clients\r\nWe have had the privilege of working with a diverse range of clients across various industries, including finance, healthcare, retail, and manufacturing. Our client-centric approach ensures that we understand their specific challenges and deliver solutions that drive tangible results.\r\n\r\nAchievements and Recognition\r\nRecognized as one of the fastest-growing tech companies in San Francisco.\r\nAwarded for excellence in software development and data analytics.\r\nFeatured in leading industry publications for our innovative solutions.\r\nCommunity Involvement\r\nByteMatrix Solutions is dedicated to giving back to the community. We actively participate in tech education initiatives, support local charities, and promote sustainability through green practices in our operations.";
+
+            //var TechVista = dbContext.Kompanije.Where(x => x.Naziv == "TechVista Dynamics").FirstOrDefault();
+
+            //TechVista.Website = "www.techvistadynamics.com";
+            //TechVista.BrojZaposlenih = BrojZaposlenih._501_1000.ToDisplayString();
+            //TechVista.LinkedIn = "https://linkedin.com/company/techvista-dynamics";
+            //TechVista.Twitter = "https://twitter.com/techvista_dyn";
+            //TechVista.KratkiOpis = "TechVista Dynamics delivers cutting-edge cloud computing and IT consulting services.";
+            //TechVista.Opis = "At TechVista Dynamics, we are a leading technology company dedicated to providing innovative cloud computing and IT consulting services. Since our inception in 2010, we have established ourselves as a trusted partner for businesses looking to modernize their IT infrastructure and leverage the benefits of cloud technology. Headquartered in San Francisco, CA, we employ a diverse team of over 300 skilled professionals who are committed to delivering excellence and customer satisfaction.\r\n\r\nWe specialize in a broad spectrum of services, including cloud migration, application development, IT strategy consulting, and managed services. Our pride lies in our ability to tailor solutions to meet the unique needs of each client, ensuring that businesses can optimize their operations, enhance productivity, and drive innovation. By staying at the forefront of technological advancements, we help organizations navigate the complexities of the digital landscape and achieve their strategic goals.\r\n\r\nOur commitment to continuous improvement and staying ahead of industry trends is unwavering. We invest heavily in research and development, enabling us to offer cutting-edge solutions that provide a competitive edge to our clients. Our culture is built on a foundation of integrity, collaboration, and a passion for technology, fostering an environment where our employees are encouraged to innovate and excel.\r\n\r\nWe serve a diverse range of industries, including finance, healthcare, retail, and manufacturing. Our comprehensive approach, combined with deep industry expertise, allows us to deliver high-impact solutions that drive measurable results. As a testament to our success, we have forged long-term relationships with numerous clients, helping them achieve digital transformation and secure their position in an ever-evolving market.\r\n\r\nWhether it's migrating to the cloud, developing custom applications, or devising an IT strategy, we at TechVista Dynamics are dedicated to empowering businesses with the tools and expertise they need to thrive in the digital age.";
+
+            //var CloudMesh = dbContext.Kompanije.Where(x => x.Naziv == "CloudMesh").FirstOrDefault();
+
+            //CloudMesh.Website = "www.cloudmesh.com";
+            //CloudMesh.BrojZaposlenih = BrojZaposlenih._1_10.ToDisplayString();
+            //CloudMesh.LinkedIn = "https://linkedin.com/company/cloudmesh";
+            //CloudMesh.Twitter = "https://twitter.com/cloudmesh";
+            //CloudMesh.KratkiOpis = "We specialize in providing robust cloud management solutions to streamline your IT operations.";
+            //CloudMesh.Opis = "At CloudMesh, we are dedicated to revolutionizing the way businesses manage their IT infrastructure through innovative cloud management solutions. Since our establishment in 2015, we have been committed to helping organizations of all sizes streamline their IT operations, reduce costs, and enhance their overall efficiency. Based in the vibrant tech hub of Seattle, WA, we employ a talented team of over 150 professionals who are passionate about cloud technology and its transformative potential.\r\n\r\nOur core expertise lies in delivering comprehensive cloud management services, including cloud migration, optimization, security, and monitoring. We pride ourselves on our ability to offer tailored solutions that meet the specific needs of each client, ensuring they can fully leverage the power of the cloud to achieve their business objectives. Our solutions are designed to simplify the complexity of cloud management, providing businesses with the tools they need to stay agile and competitive in today’s fast-paced market.\r\n\r\nInnovation is at the heart of what we do at CloudMesh. We invest heavily in research and development to stay ahead of industry trends and continuously enhance our offerings. Our customer-centric approach ensures that we build lasting relationships with our clients, understanding their unique challenges and working closely with them to deliver solutions that drive real value. We serve a diverse range of industries, including finance, healthcare, retail, and technology, helping them navigate the complexities of cloud adoption and management.\r\n\r\nAt CloudMesh, our mission is to empower businesses to harness the full potential of the cloud. We believe that with the right tools and expertise, any organization can achieve greater agility, scalability, and efficiency. Our team is dedicated to providing exceptional service and support, ensuring that our clients can confidently move forward on their cloud journey.";
+
+            //var Insightify = dbContext.Kompanije.Where(x => x.Naziv == "Insightify").FirstOrDefault();
+
+            //Insightify.Website = "www.insightify.com";
+            //Insightify.BrojZaposlenih = BrojZaposlenih._101_500.ToDisplayString();
+            //Insightify.LinkedIn = "https://linkedin.com/company/insightify";
+            //Insightify.Twitter = "https://twitter.com/insightify";
+            //Insightify.KratkiOpis = "We specialize in delivering advanced data analytics and business intelligence solutions to drive your success.";
+            //Insightify.Opis = "At Insightify, we are passionate about unlocking the potential of data to drive business success. Since our inception in 2010, we have been at the forefront of delivering advanced data analytics and business intelligence solutions that empower organizations to make informed, data-driven decisions. Located in the thriving tech ecosystem of Austin, TX, we are a dedicated team of over 300 professionals who are committed to helping our clients harness the power of their data.\r\n\r\nOur expertise spans a wide range of data analytics services, including data integration, predictive analytics, machine learning, and custom dashboard development. We work closely with our clients to understand their unique needs and challenges, providing tailored solutions that deliver actionable insights and drive measurable results. Our goal is to make complex data accessible and valuable, enabling businesses to uncover hidden opportunities and optimize their operations.\r\n\r\nInnovation and excellence are at the core of Insightify. We continuously invest in cutting-edge technologies and methodologies to stay ahead of industry trends and deliver the best possible solutions to our clients. Our customer-centric approach ensures that we build strong, lasting relationships, providing exceptional service and support at every step of the way. We serve a diverse array of industries, including finance, healthcare, manufacturing, and retail, helping them leverage their data to gain a competitive edge.\r\n\r\nAt Insightify, our mission is to transform the way businesses use data. We believe that with the right tools and expertise, any organization can achieve greater efficiency, profitability, and growth. Our team is dedicated to delivering high-quality solutions and unparalleled support, ensuring that our clients can confidently navigate the data-driven landscape and achieve their strategic objectives.";
+
+
+            var korisnik = new Korisnik()
+            {
+                Username = "quantumbytes",
+                Password = "quantumbytes",
+                Email = "quantumbytes@gmail.com",
+                TemaId = 1,
+                JezikId = 1,
+                isKandidat = false,
+                isKompanija = true
+            };
+
+            var QuantumBytes = new Models.Kompanija(korisnik)
+            {
+                Naziv = "QuantumBytes Solutions",
+                GodinaOsnivanja = 2018,
+                Lokacija = "Jablanica",
+                BrojZaposlenih = BrojZaposlenih._11_50.ToDisplayString(),
+                KratkiOpis = "We specialize in innovative software solutions and cutting-edge technology services to drive business growth.",
+                Opis = "At QuantumBytes Solutions, we are dedicated to pioneering innovative software solutions and cutting-edge technology services that drive business growth and efficiency. Established in 2018 in the tech hub of San Francisco, CA, our team of passionate and skilled professionals is committed to delivering exceptional value to our clients.\r\n\r\nWe offer a comprehensive range of services including custom software development, cloud computing, artificial intelligence, and cybersecurity solutions. Our expertise lies in understanding the unique challenges faced by businesses and providing tailored solutions that meet their specific needs. We work closely with our clients to ensure that our technology solutions align with their strategic goals and drive measurable results.\r\n\r\nInnovation is at the heart of everything we do at QuantumBytes Solutions. We continuously explore new technologies and methodologies to stay ahead of industry trends and provide our clients with the best possible solutions. Our customer-centric approach ensures that we build strong, long-lasting relationships, delivering exceptional service and support throughout the entire project lifecycle. Our clients span various industries including finance, healthcare, retail, and more, all benefiting from our expertise in leveraging technology to achieve their business objectives.\r\n\r\nOur mission at QuantumBytes Solutions is to empower businesses with the technology they need to thrive in a rapidly evolving digital landscape. We believe that with the right tools and guidance, any organization can achieve significant improvements in efficiency, profitability, and growth. Our team is dedicated to providing high-quality solutions and unparalleled support, helping our clients navigate the complexities of the digital age with confidence.",
+                Website = "https://quantumbytes.com",
+                LinkedIn = "https://linkedin.com/company/quantumbytes",
+                Twitter = "https://twitter.com/quantumbytes"
+            };
+
+            dbContext.Kompanije.Add(QuantumBytes);
+            dbContext.SaveChangesAsync();
+
+
+
             //oglasIskustvo.Add(new Models.OglasIskustvo { OglasId = 5, IskustvoId = 4 });
             //oglasIskustvo.Add(new Models.OglasIskustvo { OglasId = 5, IskustvoId = 5 });
             //oglasIskustvo.Add(new Models.OglasIskustvo { OglasId = 6, IskustvoId = 6 });
@@ -286,9 +357,9 @@ namespace JobSearchingWebApp.Endpoints.GeneratorPodataka
             //dbContext.AddRange(lokacija);
             //dbContext.AddRange(oglasIskustvo);
             //dbContext.AddRange(oglasLokacija);
-            dbContext.AddRange(opisOglas); 
-            
-            dbContext.SaveChanges();    
+            //dbContext.AddRange(opisOglas); 
+
+           // dbContext.SaveChanges();    
             //var oglasi = new List<Models.Oglas>
             //{
             //    new Models.Oglas { NazivPozicije = "Software Engineer", Lokacija = "Remote", DatumObjave = DateTime.Now, Plata = 2000, TipPosla = "Full Time", RokPrijave = DateTime.MaxValue, Iskustvo = "Junior", OpisPosla = "opis.....", KompanijaId = kompanije[0].Id },

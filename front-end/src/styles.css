@@ -5,3 +5,11 @@ body {
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+:root {
+  --primary-color: #DDD8C4;
+  --secondary-color: #84B59F;
+  --hover-button-color: rgba(221, 216, 196, 0.74);
+  --background-color: #F8F9FA;
+}
+

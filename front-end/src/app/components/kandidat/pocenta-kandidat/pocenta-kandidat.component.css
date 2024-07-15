@@ -9,12 +9,22 @@
 }
 
 .accordion-item, .accordion-button{
-  background-color: #DDD8C4;
+  background-color: var(--primary-color);
 }
 
 .accordion-item {
   border-top: red;
 }
+
+.message-section{
+  padding-top: 50px;
+  padding-bottom: 50px;
+  padding-left: 10px;
+  font-size: x-large;
+  color: #262525;;
+  font-family: Cambria;
+}
+
 
 .naslov-underline{
   margin-top: -20px;
@@ -29,7 +39,7 @@
   border-radius: 50px;
   cursor: pointer;
   border: 0.1px solid #88ab89;
-  background-color: #84B59F;
+  background-color: var(--secondary-color);
   box-shadow: rgb(0 0 0 / 20%) 0 0 8px;
   letter-spacing: 1.5px;
   font-size: 15px;
@@ -78,7 +88,7 @@
 }
 
 .nav-item .nav-link:hover{
-  color: #84B59F;
+  color: var(--secondary-color);
 }
 
 .container {
@@ -131,7 +141,7 @@
 
     &:hover {
       color: #fff;
-      background-color: #84B59F;
+      background-color: var(--secondary-color);
     }
   }
 }
@@ -144,7 +154,7 @@
 }
 
 .job-type-location {
-  background-color: #84B59F;
+  background-color: var(--secondary-color);
   border-radius: 5px;
   padding: 5px;
 }
@@ -169,11 +179,11 @@
 }
 
 .pregled-naslovi {
-  color: #84B59F;
+  color: var(--secondary-color);
 }
 
 .pregled-btn {
-  background-color: #DDD8C4;
+  background-color: var(--primary-color);
   border-radius: 7px;
   margin: 10px;
   padding: 10px;
@@ -183,7 +193,7 @@
 }
 
 .pregled-btn:hover {
-  background-color: rgba(221, 216, 196, 0.74);
+  background-color: var(--hover-button-color);
   border-radius: 7px;
   margin: 10px;
 }
@@ -199,7 +209,7 @@
   margin: 15px;
   &:hover {
     height: 45px;
-    color: #84B59F;
+    color: var(--primary-color);
   }
 }
 
@@ -215,7 +225,7 @@
 }
 
 .mat-button-toggle-checked {
-  background-color: #DDD8C4 !important;
+  background-color: var(--primary-color) !important;
 }
 
 .mat-button-toggle:hover {
@@ -233,7 +243,7 @@
 }
 
 .oglas-content.selected {
-  border-color: #84B59F;
+  border-color: var(--secondary-color);
   border-style: solid;
 }
 

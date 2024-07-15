@@ -1,3 +1,5 @@
+import {SortParametar} from "../../SortParametar";
+
 export class OglasGetRequest {
   constructor(
     public naziv?: string,
@@ -10,11 +12,4 @@ export class OglasGetRequest {
     public filters?: { [key: string]: any },
     public sortParametri?: SortParametar[]
   ){}
-}
-
-export class SortParametar {
-  constructor(
-    public naziv: string,
-    public redoslijed: string
-  ) {}
 }

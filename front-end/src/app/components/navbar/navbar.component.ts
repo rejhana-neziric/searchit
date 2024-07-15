@@ -14,7 +14,7 @@ import {NgClass, NgIf} from "@angular/common";
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent {
-  @Input({transform: booleanAttribute}) isKandidat!: boolean;
+  @Input() user!: string;
 
   constructor(private router: Router) { }
 

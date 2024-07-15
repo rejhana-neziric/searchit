@@ -1,4 +1,5 @@
 ﻿using System.Reflection.Metadata.Ecma335;
+using JobSearchingWebApp.Helper;
 
 namespace JobSearchingWebApp.Endpoints.Oglas.GetAll
 {

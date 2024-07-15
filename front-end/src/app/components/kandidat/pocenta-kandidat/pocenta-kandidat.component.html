@@ -1,6 +1,4 @@
-
-
-<app-navbar isKandidat = true ></app-navbar>
+<app-navbar user='kandidat'></app-navbar>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -17,32 +15,39 @@
         <!-- Location -->
         <div class="accordion-item">
           <h2 class="accordion-header" id="panelsStayOpen-headingOne">
-            <a class="accordion-button nav-link text-dark collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="false" aria-controls="panelsStayOpen-collapseOne">
+            <a class="accordion-button nav-link text-dark collapsed" type="button" data-bs-toggle="collapse"
+               data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="false"
+               aria-controls="panelsStayOpen-collapseOne">
               Location
             </a>
           </h2>
-          <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingOne">
+          <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse"
+               aria-labelledby="panelsStayOpen-headingOne">
             <div class="accordion-body">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" (change)="locationFilter('Mostar')" id="flexCheckDefault-Mostar">
+                <input class="form-check-input" type="checkbox" value="" (change)="locationFilter('Mostar')"
+                       id="flexCheckDefault-Mostar">
                 <label class="form-check-label" for="flexCheckDefault-Mostar">
                   Mostar
                 </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" (change)="locationFilter('Sarajevo')" id="flexCheckChecked-Sarajevo">
+                <input class="form-check-input" type="checkbox" value="" (change)="locationFilter('Sarajevo')"
+                       id="flexCheckChecked-Sarajevo">
                 <label class="form-check-label" for="flexCheckChecked-Sarajevo">
                   Sarajevo
                 </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" (change)="locationFilter('Jablanica')" id="flexCheckChecked-Jablanica" >
+                <input class="form-check-input" type="checkbox" value="" (change)="locationFilter('Jablanica')"
+                       id="flexCheckChecked-Jablanica">
                 <label class="form-check-label" for="flexCheckChecked-Jablanica">
                   Jablanica
                 </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" (change)="locationFilter('Remote')" id="flexCheckChecked-Remote" >
+                <input class="form-check-input" type="checkbox" value="" (change)="locationFilter('Remote')"
+                       id="flexCheckChecked-Remote">
                 <label class="form-check-label" for="flexCheckChecked-Remote">
                   Remote
                 </label>
@@ -54,26 +59,32 @@
         <!-- Job Type -->
         <div class="accordion-item">
           <h2 class="accordion-header" id="panelsStayOpen-headingThree">
-            <a class="accordion-button nav-link text-dark collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+            <a class="accordion-button nav-link text-dark collapsed" type="button" data-bs-toggle="collapse"
+               data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false"
+               aria-controls="panelsStayOpen-collapseThree">
               Job Type
             </a>
           </h2>
-          <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
+          <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse"
+               aria-labelledby="panelsStayOpen-headingThree">
             <div class="accordion-body">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" (change)="jobTypeFilter('Full Time')" id="flexCheckChecked-full-time" >
+                <input class="form-check-input" type="checkbox" value="" (change)="jobTypeFilter('Full Time')"
+                       id="flexCheckChecked-full-time">
                 <label class="form-check-label" for="flexCheckChecked-full-time">
                   Full Time
                 </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" (change)="jobTypeFilter('Part Time')" id="flexCheckChecked-part-time" >
+                <input class="form-check-input" type="checkbox" value="" (change)="jobTypeFilter('Part Time')"
+                       id="flexCheckChecked-part-time">
                 <label class="form-check-label" for="flexCheckChecked-part-time">
                   Part Time
                 </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" (change)="jobTypeFilter('Internship')" id="flexCheckChecked-internship" >
+                <input class="form-check-input" type="checkbox" value="" (change)="jobTypeFilter('Internship')"
+                       id="flexCheckChecked-internship">
                 <label class="form-check-label" for="flexCheckChecked-internship">
                   Internship
                 </label>
@@ -84,26 +95,32 @@
         <!-- Experience -->
         <div class="accordion-item">
           <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
-            <a class="accordion-button nav-link text-dark collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+            <a class="accordion-button nav-link text-dark collapsed" type="button" data-bs-toggle="collapse"
+               data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false"
+               aria-controls="panelsStayOpen-collapseTwo">
               Experience
             </a>
           </h2>
-          <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
+          <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse"
+               aria-labelledby="panelsStayOpen-headingTwo">
             <div class="accordion-body">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault-Junior" (change)="experienceFilter('Junior')">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault-Junior"
+                       (change)="experienceFilter('Junior')">
                 <label class="form-check-label" for="flexCheckDefault-Junior">
                   Junior
                 </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked-Medior" (change)="experienceFilter('Medior')">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked-Medior"
+                       (change)="experienceFilter('Medior')">
                 <label class="form-check-label" for="flexCheckChecked-Medior">
                   Medior
                 </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked-Senior"  (change)="experienceFilter('Senior')">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked-Senior"
+                       (change)="experienceFilter('Senior')">
                 <label class="form-check-label" for="flexCheckChecked-Senior">
                   Senior
                 </label>
@@ -117,8 +134,9 @@
             <p class="text-dark ps-1 fs-6">Years of Experience</p>
             <div class="ps-2">
               <input min="0" max="20" value="0" type="number"
-                     class="form-control form-icon-trailing ps-1 pe-0 years-input" [(ngModel)]="godineIskustva" (ngModelChange)="onYearsOfExperienceChange($event)"/>
-                    </div>
+                     class="form-control form-icon-trailing ps-1 pe-0 years-input" [(ngModel)]="godineIskustva"
+                     (ngModelChange)="onYearsOfExperienceChange($event)"/>
+            </div>
           </div>
           <div class="ps-2 pt-3">
             <div class="form-check">
@@ -142,26 +160,29 @@
     <!-- Sort-->
     <div class="sort-section flex-1">
       <div class="d-flex flex-row ps-3 pt-5">
-        <img style="width: 30px; height: 20px;" src="../../../../assets/img/sort.png" alt="">
+        <img style="width: 30px;height: 30px; padding-top: 3px;" src="../../../../assets/img/sort.png" alt="">
         <p class="fs-3 fw-bold ps-2">Sort</p>
       </div>
       <div class="ps-3">
         <div class="pt-2">
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked-days-left" (change)="sortirajPoDanima()">
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked-days-left"
+                   (change)="sortirajPoDanima()">
             <label class="form-check-label" for="flexCheckChecked-days-left">
               Days Left
             </label>
           </div>
           <div *ngIf="isDaysChecked" class="ps-2">
             <div class="form-check">
-              <input class="form-check-input" type="radio" name="flexRadio-days" id="flexRadioAscending-days" checked (change)="promijeniSortiranjeZaDane()">
+              <input class="form-check-input" type="radio" name="flexRadio-days" id="flexRadioAscending-days" checked
+                     (change)="promijeniSortiranjeZaDane()">
               <label class="form-check-label" for="flexRadioAscending-days">
                 Ascending
               </label>
             </div>
             <div class="form-check">
-              <input class="form-check-input" type="radio" name="flexRadio-days" id="flexRadioDescending-days" (change)="promijeniSortiranjeZaDane()">
+              <input class="form-check-input" type="radio" name="flexRadio-days" id="flexRadioDescending-days"
+                     (change)="promijeniSortiranjeZaDane()">
               <label class="form-check-label" for="flexRadioDescending-days">
                 Descending
               </label>
@@ -191,18 +212,18 @@
   <!-- Oglasi-prikaz -->
   <div class="prikaz-section d-flex flex-column" style=" margin-right:auto; margin-left: auto">
 
-    <!-- Jobs-companies-toogle -->
-    <mat-button-toggle-group class="mt-5 ms-0 pb-4" value="Jobs">
-      <mat-button-toggle value="Jobs" >Jobs</mat-button-toggle>
-      <mat-button-toggle value="Companies" class="ms-4" >Companies</mat-button-toggle>
-    </mat-button-toggle-group>
-    <!-- Jobs-companies-toogle -->
+    <!-- Message Section -->
+    <div class="message-section">
+      Explore the latest opportunities in the IT industry and find your perfect job match today!
+    </div>
+    <!-- Message Section -->
 
     <!-- Search box -->
     <div class="container ">
       <div class="search-box">
         <form class="search-form">
-          <input class="form-control" type="text" [(ngModel)]="pretragaNaziv" [ngModelOptions]="{standalone: true}" (ngModelChange)="onSearchChange($event)"
+          <input class="form-control" type="text" [(ngModel)]="pretragaNaziv" [ngModelOptions]="{standalone: true}"
+                 (ngModelChange)="onSearchChange($event)"
                  placeholder="Search by position name or company name.">
           <i class="fa-solid fa-magnifying-glass"></i>
         </form>
@@ -211,40 +232,41 @@
     <!-- Search box -->
 
     <div class="d-flex flex-row  oglas-detalji-prikaz">
-  <!-- Oglasi -->
-  <div class=" oglasi">
-    <div  class="oglas"
-         *ngFor="let oglas of filtriraniOglasi() | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: total }"
-          (click)="prikazDetalja(oglas)">
-      <div class="oglas-content d-flex flex-row" [class.selected]="oglas === oglasZaPrikaz">
-        <img class="img-logo" src="../../../../assets/img/kompanija-logo.png" alt="image" loading="lazy">
-        <div class="my-1">
-          <span class="fw-bold fs-3" style="color: #84B59F">{{oglas.nazivPozicije}}</span>
-          <span class="fw-bold deadline pd-4 fs-6"><img src="../../../../assets/img/datum.png" style="height: 35px"
-                                                        alt="">{{oglas.rokPrijave | date:'d.M.yyyy'}}</span>
-          <br>
-          <span class="fw-normal fs-5">{{oglas.kompanijaNaziv}}</span>
-          <br>
-          <span class="fw-normal fs-5" *ngFor="let iskustvo of oglas.iskustvo">  {{iskustvo.naziv}}</span>
-          <br>
-          <span class="fw-normal fs-6 job-type-location location"
-                *ngFor="let lokacija of oglas.lokacija">{{lokacija.naziv}}</span>
-        </div>
-        <a style="margin-left:auto; margin-top: 100px;" (click)="saveOglas(oglas)">
-          <img class="img-heart" style=" height: 35px;"  src="../../../../assets/img/heart.png">
-        </a>
-        <app-notification></app-notification>
-        </div>
-      </div>
       <!-- Oglasi -->
+      <div class=" oglasi">
+        <div class="oglas"
+             *ngFor="let oglas of filtriraniOglasi() | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: total }"
+             (click)="prikazDetalja(oglas)">
+          <div class="oglas-content d-flex flex-row" [class.selected]="oglas === oglasZaPrikaz">
+            <img class="img-logo" src="../../../../assets/img/kompanija-logo.png" alt="image" loading="lazy">
+            <div class="my-1">
+              <span class="fw-bold fs-3" style="color: #84B59F">{{ oglas.nazivPozicije }}</span>
+              <span class="fw-bold deadline pd-4 fs-6"><img src="../../../../assets/img/datum.png" style="height: 35px"
+                                                            alt="">{{ oglas.rokPrijave | date:'d.M.yyyy' }}</span>
+              <br>
+              <span class="fw-normal fs-5">{{ oglas.kompanijaNaziv }}</span>
+              <br>
+              <span class="fw-normal fs-5" *ngFor="let iskustvo of oglas.iskustvo">  {{ iskustvo.naziv }}</span>
+              <br>
+              <span class="fw-normal fs-6 job-type-location location"
+                    *ngFor="let lokacija of oglas.lokacija">{{ lokacija.naziv }}</span>
+            </div>
+            <a style="margin-left:auto; margin-top: 100px;" (click)="saveOglas(oglas)">
+              <img class="img-heart" style=" height: 35px;" src="../../../../assets/img/heart.png">
+            </a>
+            <app-notification></app-notification>
+          </div>
+        </div>
+        <!-- Oglasi -->
 
-    <!-- Paginacija -->
-    <div *ngIf="imaRezultataPretrage" class="d-flex justify-content-center pe-5">
-      <pagination-controls class="pagination ps-0" (pageChange)="pageChangeEvent($event, true)"></pagination-controls>
-    </div>
-    <!-- Paginacija -->
+        <!-- Paginacija -->
+        <div *ngIf="imaRezultataPretrage" class="d-flex justify-content-center pe-5">
+          <pagination-controls class="pagination ps-0"
+                               (pageChange)="pageChangeEvent($event, true)"></pagination-controls>
+        </div>
+        <!-- Paginacija -->
 
-  </div>
+      </div>
 
       <!-- Pregled oglasa  -->
       <div *ngIf="imaRezultataPretrage" class="pregled ms-4 mt-0">
@@ -253,14 +275,17 @@
             <div class="d-flex flex-row">
               <img class="img-logo" src="../../../../assets/img/kompanija-logo.png" alt="image" loading="lazy">
               <div class="d-flex flex-column py-4">
-                <span class="fw-bold fs-3 " style="color: #84B59F">{{odabraniOglas?.nazivPozicije}}</span>
+                <span class="fw-bold fs-3 " style="color: #84B59F">{{ odabraniOglas?.nazivPozicije }}</span>
                 <span class="fw-normal fs-5 py-2">{{ odabraniOglas?.kompanijaNaziv }}</span>
               </div>
               <div style="width: 170px; margin-left: auto;">
                 <div
                   style="background-color: #84B59F; border-radius: 5px; width: 150px; padding: 5px; margin-bottom: 20px">
-                  Minimum years of experience {{odabraniOglas?.opisOglasa!.minimumGodinaIskustva}}</div>
-                <div class="fw-bold fs-6" style="width: 150px; "><img style="width: 30px" src="../../../../assets/img/sat.png"> {{ this.razlikaDatuma(this.odabraniOglas!)}} days left
+                  Minimum years of experience {{ odabraniOglas?.opisOglasa!.minimumGodinaIskustva }}
+                </div>
+                <div class="fw-bold fs-6" style="width: 150px; "><img style="width: 30px"
+                                                                      src="../../../../assets/img/sat.png"> {{ this.razlikaDatuma(this.odabraniOglas!) }}
+                  days left
                 </div>
               </div>
             </div>
@@ -268,40 +293,41 @@
               <div>
                 <div class="fw-normal fs-6 mb-2">Job Type</div>
                 <span class="fw-normal fs-6 p-1"
-                     style="background-color: #84B59F; border-radius: 5px; width: 80px">{{odabraniOglas?.tipPosla}}</span>
+                      style="background-color: #84B59F; border-radius: 5px; width: 80px">{{ odabraniOglas?.tipPosla }}</span>
               </div>
               <div class="ms-4">
                 <div class="fw-normal fs-6 mb-2">Location</div>
                 <span class="fw-normal fs-6 p-1 me-2" style="background-color: #84B59F; border-radius: 5px; width: 80px"
-                      *ngFor="let lokacija of odabraniOglas?.lokacija">{{lokacija.naziv}}</span>
+                      *ngFor="let lokacija of odabraniOglas?.lokacija">{{ lokacija.naziv }}</span>
               </div>
               <div class="ms-5">
                 <div class="d-flex flex-row p-1">
                   <img class="p-1" src="../../../../assets/img/datum.png" style="height: 35px" alt="image">
                   <div class="fw-bold fs-6 p-1">Published</div>
                   <img class="p-1" style="height: 30px" src="../../../../assets/img/linija.png" alt="image">
-                  <div class="fw-bold fs-6 p-1">{{odabraniOglas?.datumObjave | date:'d.M.yyyy'}}</div>
+                  <div class="fw-bold fs-6 p-1">{{ odabraniOglas?.datumObjave | date:'d.M.yyyy' }}</div>
                 </div>
                 <div class="d-flex flex-row p-1">
                   <img class="p-1" src="../../../../assets/img/datum.png" style="height: 35px" alt="image">
                   <div class="fw-bold fs-6 p-1" style="width: 100px">Application deadline</div>
                   <img class="p-1" style="height: 30px" src="../../../../assets/img/linija.png" alt="image">
-                  <div class="fw-bold fs-6 p-1">{{odabraniOglas?.rokPrijave | date:'d.M.yyyy'}} </div>
-                 </div>
-               </div>
-             </div>
+                  <div class="fw-bold fs-6 p-1">{{ odabraniOglas?.rokPrijave | date:'d.M.yyyy' }}</div>
+                </div>
+              </div>
+            </div>
 
-             <div>
-             <br>
-             <p class="pregled-naslovi fw-bold fs-6">Job Description:</p>
-             <span>{{odabraniOglas?.opisOglasa!.opisPozicije}}</span>
-             <br> <br>
+            <div>
+              <br>
+              <p class="pregled-naslovi fw-bold fs-6">Job Description:</p>
+              <span>{{ odabraniOglas?.opisOglasa!.opisPozicije }}</span>
+              <br> <br>
               <p class="pregled-naslovi fw-bold fs-6">Skills:</p>
-              <span>{{odabraniOglas?.opisOglasa!.vjestine}}</span>
+              <span>{{ odabraniOglas?.opisOglasa!.vjestine }}</span>
             </div>
             <div class="d-flex flex-row me-auto ms-auto mt-3 button-section">
               <a class="nav-link text-dark d-flex justify-content-center pregled-btn " type="button">Apply</a>
-              <a class="nav-link text-dark d-flex justify-content-center pregled-btn" type="button" [routerLink]="['/oglasi/', odabraniOglas?.id]">Details</a>
+              <a class="nav-link text-dark d-flex justify-content-center pregled-btn" type="button"
+                 [routerLink]="['/oglasi/', odabraniOglas?.id]">Details</a>
             </div>
             <div class="d-flex justify-content-between me-auto ms-auto mt-4 mb-4">
               <div *ngIf="!noPreviousElement" class="img-left-arrow mx-5">
@@ -323,7 +349,7 @@
     <!-- Nema rezultata pretrage  -->
     <div *ngIf="!imaRezultataPretrage && pretragaNaziv != ''" class="p-4 border border-2 shadow bg-body-tertiary"
          style="border-color: #84B59F; border-width: 10px; background-color: #fff; border-radius: 15px; width: 80%; margin-left: 0px; margin-top: 10px">
-      <span class="fs-4 mb-4">No results for {{this.pretragaNaziv}}</span> <br>
+      <span class="fs-4 mb-4">No results for {{ this.pretragaNaziv }}</span> <br>
       <div class="mt-3 fs-6">
         <span>Search Help</span>
         <ul>
@@ -335,12 +361,12 @@
     </div>
 
 
-   <div *ngIf="!imaRezultataPretrage && pretragaNaziv == ''" class="p-4 border border-2 shadow bg-body-tertiary"
-        style="border-color: #84B59F; border-width: 10px; background-color: #fff; border-radius: 15px; width: 80%; margin-left: 0px; margin-top: 10px">
-     <span class="fs-5 mb-4">We're sorry. We were not able to find a match.</span> <br>
-   </div>
+    <div *ngIf="!imaRezultataPretrage && pretragaNaziv == ''" class="p-4 border border-2 shadow bg-body-tertiary"
+         style="border-color: #84B59F; border-width: 10px; background-color: #fff; border-radius: 15px; width: 80%; margin-left: 0px; margin-top: 10px">
+      <span class="fs-5 mb-4">We're sorry. We were not able to find a match.</span> <br>
+    </div>
 
-   <!-- Nema rezultata pretrage  -->
+    <!-- Nema rezultata pretrage  -->
 
   </div>
   <!-- Oglasi-prikaz -->

@@ -36,7 +36,7 @@ namespace JobSearchingWebApp.Endpoints.Kompanija.Update
             kompanija.Naziv = request.naziv;
             kompanija.GodinaOsnivanja = request.godina_osnivanja; 
             kompanija.Lokacija = request.lokacija;  
-            kompanija.Slika = request.slika;
+            kompanija.Logo = request.slika;
 
             await dbContext.SaveChangesAsync();
 

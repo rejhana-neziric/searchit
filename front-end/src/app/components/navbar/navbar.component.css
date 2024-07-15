@@ -8,22 +8,23 @@
 }
 
 .nav-item .nav-link:hover{
-  color: #84B59F;
+  color: var(--secondary-color);
 }
 
 .naslov-underline{
-  margin-top: -20px;
-  margin-left: 18px;
+  margin-top: -13px;
+  margin-left: 0px;
   width: 43px;
-  height: 3px;
-  background-color: #1d7b4f;
+  height: 5px;
+  background-color: var(--secondary-color);
 }
 
 .active-link {
-  color: #84B59F;
+  color: var(--secondary-color);
 }
 
 .nav ul li.active-link a {
-  color: #84B59F; /* Change this to the color you want for active links */
+  color: var(--secondary-color); /* Change this to the color you want for active links */
   font-weight: bold;
 }
+

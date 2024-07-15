@@ -82,7 +82,7 @@
 }
 
 .btn-confirm {
-  background-color: #DDD8C4;
+  background-color: var(--primary-color);
   border-radius: 7px;
   text-decoration: none;
   color: #3d3b3b;

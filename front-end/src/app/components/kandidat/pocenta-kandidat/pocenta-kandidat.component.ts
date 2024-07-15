@@ -7,7 +7,7 @@ import {MatButtonToggle, MatButtonToggleGroup} from "@angular/material/button-to
 import {OglasGetByIdEndpoint} from "../../../endpoints/oglas-endpoint/get-by-id/oglas-get-by-id-endpoint";
 import {OglasGetByIdResponse} from "../../../endpoints/oglas-endpoint/get-by-id/oglas-get-by-id-response";
 import {FormsModule} from "@angular/forms";
-import {OglasGetRequest, SortParametar} from "../../../endpoints/oglas-endpoint/get/oglas-get-request";
+import {OglasGetRequest} from "../../../endpoints/oglas-endpoint/get/oglas-get-request";
 import {firstValueFrom} from 'rxjs';
 import {NavbarComponent} from "../../navbar/navbar.component";
 import {RouterLink} from "@angular/router";
@@ -20,6 +20,7 @@ import {
 import {NotificationService} from "../../notification/notification-service";
 import {NotificationComponent} from "../../notification/notification.component";
 import {HttpErrorResponse} from '@angular/common/http';
+import {SortParametar} from "../../../endpoints/SortParametar";
 
 @Component({
   selector: 'app-pocenta-kandidat',

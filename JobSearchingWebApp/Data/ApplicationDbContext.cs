@@ -31,6 +31,7 @@ namespace JobSearchingWebApp.Data
         public DbSet<Tema> Teme { get; set; }
         public DbSet<Recenzija> Recenzije { get; set; }
         public DbSet<KandidatSpaseniOglasi> KandidatSpaseniOglasi { get; set; }
+        public DbSet<KompanijaLokacija> KompanijaLokacija { get; set; }
 
         public ApplicationDbContext(
             DbContextOptions options) : base(options)

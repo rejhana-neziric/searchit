@@ -7,6 +7,8 @@ import {PocentaKandidatComponent} from "./components/kandidat/pocenta-kandidat/p
 import {OglasDetaljiComponent} from "./components/oglas-detalji/oglas-detalji.component";
 import {FavoritesComponent} from "./components/kandidat/favorites/favorites.component";
 import {NgModule} from "@angular/core";
+import {OglasiPregledComponent} from "./components/oglasi-pregled/oglasi-pregled.component";
+import {KompanijePregledComponent} from "./components/kompanije-pregled/kompanije-pregled.component";
 
 export const routes: Routes = [
   {path: 'home', component: PocetnaNeregistrovaniKorisnikComponent},
@@ -14,6 +16,7 @@ export const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'favorites', component: FavoritesComponent},
   {path: 'oglasi/:id', component: OglasDetaljiComponent},
+  {path: 'kompanije', component: KompanijePregledComponent},
 ];
 
 @NgModule({

@@ -1,4 +1,6 @@
-﻿namespace JobSearchingWebApp.Endpoints.Kompanija.Dodaj
+﻿using JobSearchingWebApp.Models;
+
+namespace JobSearchingWebApp.Endpoints.Kompanija.Dodaj
 {
     public class KompanijaDodajRequest
     {
@@ -10,6 +12,12 @@
         public string naziv { get; set; }
         public int godina_osnivanja { get; set; }
         public string lokacija { get; set; }
-        public string slika { get; set; }
+        public string? logo { get; set; }
+        public string broj_zaposlenih { get; set; }
+        public string kratki_opis { get; set; }
+        public string opis { get; set; }
+        public string? Website { get; set; }
+        public string? LinkedIn { get; set; }
+        public string? Twitter { get; set; }
     }
 }

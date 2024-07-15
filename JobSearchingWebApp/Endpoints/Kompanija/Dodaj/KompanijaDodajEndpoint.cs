@@ -38,7 +38,13 @@ namespace JobSearchingWebApp.Endpoints.Kompanija.Dodaj
                 Naziv = request.naziv,
                 GodinaOsnivanja = request.godina_osnivanja,
                 Lokacija = request.lokacija,
-                Slika = request.slika,
+                Logo = request.logo ?? null,
+                BrojZaposlenih = request.broj_zaposlenih, 
+                KratkiOpis = request.kratki_opis,   
+                Opis = request.opis, 
+                Website = request.Website ?? null, 
+                LinkedIn = request.LinkedIn ?? null,
+                Twitter = request.Twitter ?? null
             };
 
             dbContext.Kompanije.Add(kompanija);

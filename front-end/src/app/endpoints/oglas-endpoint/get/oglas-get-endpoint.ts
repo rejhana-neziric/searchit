@@ -4,7 +4,9 @@ import {Observable} from "rxjs";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {MojConfig} from "../../../moj-config";
 import {Injectable} from "@angular/core";
-import {OglasGetRequest, SortParametar} from "./oglas-get-request";
+import {OglasGetRequest} from "./oglas-get-request";
+import {SortParametar} from "../../SortParametar";
+
 @Injectable({providedIn: 'root'})
 export class OglasGetEndpoint implements MyBaseEndpoint<OglasGetRequest, OglasGetResponse> {
   constructor(public httpClient: HttpClient) { }
