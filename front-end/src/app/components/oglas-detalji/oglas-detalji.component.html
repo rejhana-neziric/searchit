@@ -1,4 +1,4 @@
-<app-navbar isKandidat = true ></app-navbar>
+<app-navbar user='kandidat'></app-navbar>
 
 <!-- Ovdje treba dodati klikom na ime kompanije da se ide na page za informacije o toj kompaniji i
 da klikom na apply ide na prijavu za oglas  -->
@@ -8,7 +8,7 @@ da klikom na apply ide na prijavu za oglas  -->
 <div class="d-flex flex-column pregled me-auto ms-auto">
   <div class="d-flex flex-row nav-link pregled-breadcrumbs text-dark">
     <a type="button nav-link" style="color: #84B59F;; font-size: large;  text-decoration: none;" [routerLink]="['/home-kandidat/']">Home     > </a>
-    <p style="color: #84B59F; font-size: large;">   >    Post details</p>
+    <p style="color: #84B59F; font-size: large;">   >    Job details</p>
   </div>
   <div class="pregled-oglas">
     <div class="d-flex flex-column">
@@ -69,7 +69,7 @@ da klikom na apply ide na prijavu za oglas  -->
         <p class="pregled-naslovi fw-bold fs-6">Benefits:</p>
         <span>{{oglas?.opisOglasa!.benefiti}}</span>
       </div>
-      <div class="d-flex flex-row ms-auto  mt-5">
+      <div class="d-flex flex-row ms-auto mt-5">
         <a class="nav-link text-dark pregled-btn " href="" type="button">Apply now!</a>
       </div>
     </div>

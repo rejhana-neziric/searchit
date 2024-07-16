@@ -66,10 +66,24 @@ namespace JobSearchingWebApp.Endpoints.Oglas.GetAll
                 oglasi = oglasi.Where(oglas => oglas.OpisOglas.MinimumGodinaIskustva <= request.MinimumGodinaIskustva);
             }
 
+            if (request?.KompanijaId != null)
+            {
+
+                oglasi = oglasi.Where(oglas => oglas.KompanijaId == request.KompanijaId);
+            }
+
+            if (request?.Otvoren != null)
+            {
+                if(request?.Otvoren == true)
+                    oglasi = oglasi.Where(oglas => oglas.RokPrijave > DateTime.Now);
+
+                else
+                    oglasi = oglasi.Where(oglas => oglas.RokPrijave < DateTime.Now);
+            }
 
             if (request?.Spasen != null)
             {
-                oglasi = oglasi.Where(p => p.KandidatSpaseniOglasi.Any(spaseni => spaseni.KandidatId == request.KandidatId && spaseni.Spasen == true));
+                oglasi = oglasi.Where(oglas => oglas.KandidatSpaseniOglasi.Any(spaseni => spaseni.KandidatId == request.KandidatId && spaseni.Spasen == true));
             }
 
             var lista = oglasi.Select(oglas => new OglasGetAllResponseOglas

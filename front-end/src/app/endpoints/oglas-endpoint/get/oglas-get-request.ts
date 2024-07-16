@@ -9,6 +9,8 @@ export class OglasGetRequest {
     public minimumGodinaIskustva?: number,
     public spasen?: boolean,
     public kandidatId?: number,
+    public otvoren?: boolean,
+    public kompanijaId?: number,
     public filters?: { [key: string]: any },
     public sortParametri?: SortParametar[]
   ){}

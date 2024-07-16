@@ -127,7 +127,9 @@ export class PocentaKandidatComponent implements OnInit {
       minimumGodinaIskustva: this.godineIskustva,
       naziv: this.pretragaNaziv,
       tipPosla: this.selektovaniJobType,
-      sortParametri: this.sortParametri
+      sortParametri: this.sortParametri,
+      kandidatId: undefined,
+      otvoren: undefined
     };
 
 

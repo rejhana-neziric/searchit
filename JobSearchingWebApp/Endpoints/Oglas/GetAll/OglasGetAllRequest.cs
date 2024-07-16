@@ -12,6 +12,8 @@ namespace JobSearchingWebApp.Endpoints.Oglas.GetAll
         public int? MinimumGodinaIskustva { get; set; }
         public bool? Spasen { get; set; }
         public int? KandidatId { get; set; }
+        public int? KompanijaId { get; set; }
+        public bool? Otvoren { get; set; }
         public List<SortParametar>? SortParametri { get; set; }
     }
 }

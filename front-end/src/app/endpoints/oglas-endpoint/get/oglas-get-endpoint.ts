@@ -30,8 +30,16 @@ export class OglasGetEndpoint implements MyBaseEndpoint<OglasGetRequest, OglasGe
       params = params.set('minimumGodinaIskustva', request.minimumGodinaIskustva);
     }
 
+    if (request.kompanijaId) {
+      params = params.set('kompanijaId', request.kompanijaId);
+    }
+
     if (request.spasen) {
       params = params.set('spasen', request.spasen);
+    }
+
+    if (request.otvoren) {
+      params = params.set('otvoren', request.otvoren);
     }
 
     if (request.kandidatId) {
