@@ -45,6 +45,13 @@ export class KompanijeGetEndpoint implements MyBaseEndpoint<KompanijeGetRequest,
       params = params.set('imaOtvorenePozicije', request.imaOtvorenePozicije);
     }
 
+    if(request.sortParametri) {
+      request.sortParametri.forEach((param, index) => {
+        params = params.append(`sortParametri[${index}].naziv`, param.naziv);
+        params = params.append(`sortParametri[${index}].redoslijed`, param.redoslijed);
+      });
+    }
+
     return this.httpClient.get<KompanijeGetResponse>(url, {params});
   }
 }

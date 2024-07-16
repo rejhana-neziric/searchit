@@ -71,8 +71,22 @@ namespace JobSearchingWebApp.Endpoints.Kompanija.GetAll
                 LinkedIn = kompanija.LinkedIn ?? null,
                 Twitter = kompanija.Twitter ?? null, 
                 BrojOtvorenihPozicija = kompanija.Oglasi.Count(x => x.KompanijaId == kompanija.Id && x.RokPrijave > DateTime.Now),
-            })
-                .ToList();
+            }).ToList();
+
+            if (request?.SortParametri != null && request?.SortParametri.Count() > 0)
+            {
+                foreach (var parametar in request.SortParametri)
+                {
+                    if (!string.IsNullOrEmpty(parametar.Naziv))
+                    {
+                        if (parametar.Redoslijed == "asc")
+                            lista = HelperMethods.SortByProperty(lista, parametar.Naziv, true).ToList();
+
+                        else if (parametar.Redoslijed == "desc")
+                            lista = HelperMethods.SortByProperty(lista, parametar.Naziv, false).ToList();
+                    }
+                }
+            }
 
             return new KompanijaGetAllResponse { Kompanije =  lista };  
         }

@@ -122,42 +122,37 @@
           <div class="ps-3">
             <div class="pt-2">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked-days-left"
+                <input class="form-check-input" type="checkbox" value="" (change)="sortirajPoKompaniji()"
+                       id="flexCheckChecked-company-name">
+                <label class="form-check-label" for="flexCheckChecked-company-name">
+                  Company Name
+                </label>
+              </div>
+              <div class="form-check pt-2">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked-open-positions"
                        (change)="sortirajPoOtvorenimPozicijama()">
-                <label class="form-check-label" for="flexCheckChecked-days-left">
+                <label class="form-check-label" for="flexCheckChecked-open-positions">
                   Number of Open Positions
                 </label>
               </div>
               <div *ngIf="isNumberOfOpenPositions" class="ps-2">
                 <div class="form-check">
-                  <input class="form-check-input" type="radio" name="flexRadio-days" id="flexRadioAscending-days"
+                  <input class="form-check-input" type="radio" name="flexRadio-days"
+                         id="flexRadioAscending-open-positions"
                          checked (change)="promijeniSortiranjeZaOtvorenePozicije()">
-                  <label class="form-check-label" for="flexRadioAscending-days">
+                  <label class="form-check-label" for="flexRadioAscending-open-positions">
                     Ascending
                   </label>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="radio" name="flexRadio-days" id="flexRadioDescending-days"
+                  <input class="form-check-input" type="radio" name="flexRadio-days"
+                         id="flexRadioDescending-open-positions"
                          (change)="promijeniSortiranjeZaOtvorenePozicije()">
-                  <label class="form-check-label" for="flexRadioDescending-days">
+                  <label class="form-check-label" for="flexRadioDescending-open-positions">
                     Descending
                   </label>
                 </div>
               </div>
-            </div>
-            <div class="form-check pt-2">
-              <input class="form-check-input" type="checkbox" value="" (change)="sortirajPoBrojuZaposlenih()"
-                     id="flexCheckChecked-job-title">
-              <label class="form-check-label" for="flexCheckChecked-job-title">
-                Number of Employees
-              </label>
-            </div>
-            <div class="form-check pt-2">
-              <input class="form-check-input" type="checkbox" value="" (change)="sortirajPoKompaniji()"
-                     id="flexCheckChecked-company-name">
-              <label class="form-check-label" for="flexCheckChecked-company-name">
-                Company Name
-              </label>
             </div>
           </div>
         </div>

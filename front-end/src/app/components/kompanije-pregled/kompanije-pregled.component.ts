@@ -13,6 +13,7 @@ import {KompanijeGetRequest} from "../../endpoints/kompanija-endpoint/get/kompan
 import {KompanijeGetResponseKomapanija} from "../../endpoints/kompanija-endpoint/get/kompanije-get-response";
 import {OglasGetResponseOglasi} from "../../endpoints/oglas-endpoint/get/oglas-get-response";
 import {OglasGetByIdResponse} from "../../endpoints/oglas-endpoint/get-by-id/oglas-get-by-id-response";
+import {SortParametar} from "../../endpoints/SortParametar";
 
 @Component({
   selector: 'app-kompanije-pregled',
@@ -35,7 +36,8 @@ export class KompanijePregledComponent implements OnInit{
   kompanije: KompanijeGetResponseKomapanija [] = []
   brojZaposlenihRange: string[] = [];
   selektovaniGradovi: string[] = [];
-  isNumberOfOpenPositions: any;
+  isNumberOfOpenPositions: boolean = false;
+  isNumberOfOpenPositionsAscending: boolean = true;
   pretragaNaziv: string = "";
   imaRezultataPretrage: boolean = true;
   itemsPerPage: number = 3;
@@ -49,6 +51,7 @@ export class KompanijePregledComponent implements OnInit{
   selektovaniBrojZaposlenika: string[] = [];
   imaOtvorenePozicijeLista: string[] = [];
   imaOtvorenePozicije: string | undefined = undefined;
+  sortParametri: SortParametar[] | undefined = undefined
 
   constructor(private getBrojZaposlenihEndpoint : GetBrojZaposlenihEndpoint,
               private kompanijeGetEndpoint: KompanijeGetEndpoint) {
@@ -56,6 +59,7 @@ export class KompanijePregledComponent implements OnInit{
 
   async ngOnInit(): Promise<void> {
     this.getNumberOfEmployees();
+    this.sortParametri = [];
     await this.getAll();
     this.setTotal();
   }
@@ -98,7 +102,7 @@ export class KompanijePregledComponent implements OnInit{
       imaOtvorenePozicije: this.imaOtvorenePozicije,
       spasen: undefined,
       kandidatId: undefined,
-      sortParametri: undefined
+      sortParametri: this.sortParametri
     };
 
     try {
@@ -182,22 +186,50 @@ export class KompanijePregledComponent implements OnInit{
   }
 
   sortirajPoKompaniji() {
-
-  }
-
-  sortirajPoBrojuZaposlenih() {
-
+    this.dodajSortiranje("Naziv", "asc");
   }
 
   promijeniSortiranjeZaOtvorenePozicije() {
-
+    this.isNumberOfOpenPositionsAscending ? this.isNumberOfOpenPositionsAscending = false : this.isNumberOfOpenPositionsAscending = true;
+    this.sortParametri = this.sortParametri?.filter(parametar => parametar.naziv != "BrojOtvorenihPozicija");
+    this.dodajSortiranjePoOtvorenimPozicijama();
   }
 
   sortirajPoOtvorenimPozicijama() {
+    if (this.isNumberOfOpenPositions) {
+      this.isNumberOfOpenPositions = false;
+      this.isNumberOfOpenPositionsAscending = false;
+    } else {
+      this.isNumberOfOpenPositions = true;
+      this.isNumberOfOpenPositionsAscending = true;
+    }
 
+    this.dodajSortiranjePoOtvorenimPozicijama();
   }
+
+  private dodajSortiranjePoOtvorenimPozicijama() {
+    var vrstaRedoslijeda = "";
+    this.isNumberOfOpenPositionsAscending ? vrstaRedoslijeda = "asc" : vrstaRedoslijeda = "desc";
+    this.dodajSortiranje("BrojOtvorenihPozicija", vrstaRedoslijeda);
+  }
+
+  dodajSortiranje(naziv: string, redoslijed: string) {
+    var postoji = this.sortParametri?.some(parametar => parametar.naziv == naziv);
+
+    if (postoji) {
+      this.sortParametri = this.sortParametri?.filter(parametar => parametar.naziv != naziv);
+    } else {
+      this.sortParametri?.push(new SortParametar(naziv, redoslijed));
+    }
+
+    this.getAll();
+  }
+
 
   saveKompanija(kompanija: KompanijeGetResponseKomapanija) {
 
   }
+
+
+
 }
