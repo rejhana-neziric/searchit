@@ -240,7 +240,57 @@
 
       <!-- Komapnije pregled -->
       <div *ngIf="imaRezultataPretrage" class="kompanija-pregled">
-        Kompanije pregled
+        <div class="pregled-content shadow p-3 mb-4 mt-0">
+          <div class="d-flex flex-column">
+            <div class="d-flex flex-row">
+              <img class="img-logo" src="../../../../assets/img/kompanija-logo.png" alt="image" loading="lazy">
+              <div class="d-flex flex-column py-3">
+                <span class="fw-bold fs-3 " style="color: #84B59F">{{ odabranaKompanija?.naziv }}</span>
+                <span class="fw-normal fs-5 py-2">{{ odabranaKompanija?.brojZaposlenih }} Employees</span>
+                <span class="fw-normal fs-5 py-2">
+                    <img style=" height: 15px; width: 15px;" alt="" src="../../../../assets/img/location.png">
+                  {{ odabranaKompanija?.lokacija }}</span>
+              </div>
+              <div style="width: 170px; margin-left: auto;">
+                 <span *ngIf="odabranaKompanija?.brojOtvorenihPozicija! > 0"
+                       class="fs-6 d-flex flex-row justify-content-end ">
+                <div class="open-positions">
+                                 Open positions {{ odabranaKompanija?.brojOtvorenihPozicija }}
+                </div>
+              </span>
+                <span *ngIf="odabranaKompanija?.brojOtvorenihPozicija! == 0"
+                      class="fs-6 d-flex flex-row justify-content-end ">
+                 <div class="open-positions" style="background-color: lightgray">
+                                No open positions
+                </div>
+              </span>
+              </div>
+            </div>
+            <div>
+              <br>
+              <p class="pregled-naslovi fs-5">{{ odabranaKompanija?.kratkiOpis }}</p>
+              <br>
+              <p class="pregled-naslovi fw-bold fs-6">Description:</p>
+              <span>{{ odabranaKompanija?.opis }}</span>
+              <br> <br>
+            </div>
+          </div>
+          <div class="d-flex flex-row me-auto ms-auto mt-3 justify-content-center">
+            <a class="nav-link text-dark d-flex justify-content-center pregled-btn " type="button">Contact</a>
+            <a class="nav-link text-dark d-flex justify-content-center pregled-btn" type="button"
+               [routerLink]="['/kompanije/', odabranaKompanija?.id]">Details</a>
+          </div>
+          <div class="d-flex flex-row mt-4 mb-4">
+            <div *ngIf="!noPreviousElement" class="img-left-arrow d-flex justify-content-center" style="">
+              <img src="../../../../assets/img/left-arrow.png" alt="" (click)="ucitajPrethodnuKompaniju()">
+            </div>
+            <div *ngIf="!noNextElement" class="img-right-arrow d-flex justify-content-center" style="">
+              <img src="../../../../assets/img/right-arrow.png" alt="" (click)="ucitajSljedecuKompaniju()">
+            </div>
+
+          </div>
+        </div>
+
       </div>
       <!-- Komapnije pregled -->
 

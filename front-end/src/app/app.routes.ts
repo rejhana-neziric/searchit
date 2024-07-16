@@ -9,6 +9,7 @@ import {FavoritesComponent} from "./components/kandidat/favorites/favorites.comp
 import {NgModule} from "@angular/core";
 import {OglasiPregledComponent} from "./components/oglasi-pregled/oglasi-pregled.component";
 import {KompanijePregledComponent} from "./components/kompanije-pregled/kompanije-pregled.component";
+import {KompanijaDetaljiComponent} from "./components/kompanija-detalji/kompanija-detalji.component";
 
 export const routes: Routes = [
   {path: 'home', component: PocetnaNeregistrovaniKorisnikComponent},
@@ -17,6 +18,8 @@ export const routes: Routes = [
   {path: 'favorites', component: FavoritesComponent},
   {path: 'oglasi/:id', component: OglasDetaljiComponent},
   {path: 'kompanije', component: KompanijePregledComponent},
+  {path: 'kompanije/:id', component: KompanijaDetaljiComponent},
+
 ];
 
 @NgModule({

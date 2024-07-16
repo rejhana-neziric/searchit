@@ -14,6 +14,9 @@ import {KompanijeGetResponseKomapanija} from "../../endpoints/kompanija-endpoint
 import {OglasGetResponseOglasi} from "../../endpoints/oglas-endpoint/get/oglas-get-response";
 import {OglasGetByIdResponse} from "../../endpoints/oglas-endpoint/get-by-id/oglas-get-by-id-response";
 import {SortParametar} from "../../endpoints/SortParametar";
+import {KompanijaGetByIdResponse} from "../../endpoints/kompanija-endpoint/get-by-id/kompanija-get-by-id-response";
+import {KompanijaGetByIdEndpoint} from "../../endpoints/kompanija-endpoint/get-by-id/kompanija-get-by-id-endpoint";
+import {RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-kompanije-pregled',
@@ -26,7 +29,8 @@ import {SortParametar} from "../../endpoints/SortParametar";
     FormsModule,
     DatePipe,
     NgxPaginationModule,
-    NotificationComponent
+    NotificationComponent,
+    RouterLink
   ],
   templateUrl: './kompanije-pregled.component.html',
   styleUrl: './kompanije-pregled.component.css'
@@ -45,16 +49,20 @@ export class KompanijePregledComponent implements OnInit{
   total: number = 10;
   kompanijaZaPrikaz: KompanijeGetResponseKomapanija |  null = null;
   searchObject: KompanijeGetRequest | null = null
-  odabaranaKompanijaId: number = 0;
-  odabranaKompanija: any;
+  odabranaKompanijaId: number = 0;
+  odabranaKompanija: KompanijaGetByIdResponse | null = null;
   selektovaneLokacije: string[] = [];
   selektovaniBrojZaposlenika: string[] = [];
   imaOtvorenePozicijeLista: string[] = [];
   imaOtvorenePozicije: string | undefined = undefined;
   sortParametri: SortParametar[] | undefined = undefined
+  noNextElement: boolean = false;
+  noPreviousElement: boolean = true;
+
 
   constructor(private getBrojZaposlenihEndpoint : GetBrojZaposlenihEndpoint,
-              private kompanijeGetEndpoint: KompanijeGetEndpoint) {
+              private kompanijeGetEndpoint: KompanijeGetEndpoint,
+              private kompanijaGetByIdEndpoint: KompanijaGetByIdEndpoint) {
   }
 
   async ngOnInit(): Promise<void> {
@@ -71,9 +79,9 @@ export class KompanijePregledComponent implements OnInit{
   pageChangeEvent($event: number, isNewPage: boolean) {
     this.currentPage = $event;
     this.setTotal();
-    //if (isNewPage) {
-      //this.selektujPrviOglas();
-    //}
+    if (isNewPage) {
+      this.selektujPrvuKompaniju();
+    }
     this.scrollToTop();
   }
 
@@ -113,7 +121,7 @@ export class KompanijePregledComponent implements OnInit{
       this.kompanije = [];
     }
 
-    //this.selektujPrviOglas();
+    this.selektujPrvuKompaniju();
   }
 
   filtriraneKompanije() {
@@ -122,18 +130,97 @@ export class KompanijePregledComponent implements OnInit{
     return this.kompanije;
   }
 
+
   prikazDetalja(kompanija: KompanijeGetResponseKomapanija | null) {
     if (kompanija != null) {
-      this.odabaranaKompanijaId = kompanija.id;
+      this.odabranaKompanijaId = kompanija.id;
       this.kompanijaZaPrikaz = kompanija;
-      //this.currentElementIndex = this.oglasi.findIndex(item => item.id == this.odabaraniOglasId) - 1;
-      //this.currentElementIndex == -1 ? this.noPreviousElement = true : this.noPreviousElement = false;
+      this.currentElementIndex = this.kompanije.findIndex(item => item.id == this.odabranaKompanijaId) - 1;
+      this.currentElementIndex == -1 ? this.noPreviousElement = true : this.noPreviousElement = false;
       this.getOdabranaKompanija();
     }
   }
 
   getOdabranaKompanija() {
+    this.kompanijaGetByIdEndpoint.obradi(this.odabranaKompanijaId).subscribe({
+      next: x => {
+        this.odabranaKompanija = x;
+        this.odabranaKompanijaId = x?.id;
+      }
+    })
+  }
 
+  selektujPrvuKompaniju() {
+    const currentPosts = this.getCurrentPageItems();
+
+    if (currentPosts != undefined && currentPosts.length > 0) {
+      this.kompanijaZaPrikaz = currentPosts[0];
+      this.odabranaKompanijaId = currentPosts[0].id;
+      this.currentElementIndex = this.kompanije.findIndex(item => item.id == this.odabranaKompanijaId);
+    }
+
+    this.prikazDetalja(this.kompanijaZaPrikaz);
+  }
+
+  currentElementIndex = 0;
+  nextElement = this.getNextElement(this.currentElementIndex);
+  previousElement = this.getPreviousElement(this.currentElementIndex);
+
+  getNextElement(currentIndex: number) {
+    if (currentIndex >= 0 && currentIndex < this.kompanije.length - 1) {
+      return this.kompanije[currentIndex + 1];
+    } else {
+      return null;
+    }
+  }
+
+  getPreviousElement(currentIndex: number) {
+    if (currentIndex + 2 >= 0 && currentIndex < this.kompanije.length - 1) {
+      return this.kompanije[currentIndex];
+    } else {
+      return null;
+    }
+  }
+
+  ucitajSljedecuKompaniju() {
+    const nextIndex = this.currentElementIndex + 1;
+
+    if (nextIndex < this.kompanije.length - 1) {
+      this.currentElementIndex = nextIndex;
+      this.nextElement = this.getNextElement(this.currentElementIndex);
+
+      if (this.mod(this.currentElementIndex, this.getNumberOfElementsOnCurrentPage()) + 2 - (this.itemsPerPage - this.getNumberOfElementsOnCurrentPage()) > this.getNumberOfElementsOnCurrentPage())
+        this.pageChangeEvent(this.currentPage + 1, true);
+
+      nextIndex + 1 == this.kompanije.length - 1 ? this.noNextElement = true : this.noNextElement = false;
+      this.prikazDetalja(this.nextElement);
+      this.noPreviousElement = false;
+    } else {
+      this.noNextElement = true;
+      this.noPreviousElement = false;
+    }
+  }
+
+  ucitajPrethodnuKompaniju() {
+    const previousIndex = this.currentElementIndex;
+
+    if (previousIndex >= 0) {
+      this.previousElement = this.getPreviousElement(this.currentElementIndex);
+      this.prikazDetalja(this.previousElement);
+
+      if (this.mod(previousIndex + 1 - (this.itemsPerPage - this.getNumberOfElementsOnCurrentPage()), this.getNumberOfElementsOnCurrentPage()) == 0 && previousIndex != 0)
+        this.pageChangeEvent(this.currentPage - 1, false);
+
+      previousIndex == 0 ? this.noPreviousElement = true : this.noPreviousElement = false;
+      this.noNextElement = false;
+    } else {
+      this.noPreviousElement = true;
+      this.noNextElement = false;
+    }
+  }
+
+  mod(a: number, b: number): number {
+    return a % b;
   }
 
   onSearchChange(pretraga: string) {
@@ -229,7 +316,4 @@ export class KompanijePregledComponent implements OnInit{
   saveKompanija(kompanija: KompanijeGetResponseKomapanija) {
 
   }
-
-
-
 }
