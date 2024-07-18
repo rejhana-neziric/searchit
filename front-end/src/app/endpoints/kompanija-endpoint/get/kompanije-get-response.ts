@@ -14,5 +14,6 @@ export interface KompanijeGetResponseKomapanija {
   website: string | null
   linkedIn: string | null
   twitter: string | null
-  brojOtvorenihPozicija: number | null
+  brojOtvorenihPozicija: number | null,
+  spasen: boolean
 }

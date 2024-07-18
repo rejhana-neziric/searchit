@@ -21,5 +21,7 @@ namespace JobSearchingWebApp.Endpoints.Kompanija.GetAll
         public string? LinkedIn { get; set; }
         public string? Twitter { get; set; }
         public int? BrojOtvorenihPozicija { get; set; }
+        public bool Spasen { get; set; }
+
     }
 }

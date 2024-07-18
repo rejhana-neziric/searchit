@@ -41,6 +41,14 @@ export class KompanijeGetEndpoint implements MyBaseEndpoint<KompanijeGetRequest,
       });
     }
 
+    if (request.spasen) {
+      params = params.set('spasen', request.spasen);
+    }
+
+    if (request.kandidatId) {
+      params = params.set('kandidatId', request.kandidatId);
+    }
+
     if (request.imaOtvorenePozicije) {
       params = params.set('imaOtvorenePozicije', request.imaOtvorenePozicije);
     }

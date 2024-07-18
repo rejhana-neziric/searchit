@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectorRef} from '@angular/core';
 import {NavbarComponent} from "../navbar/navbar.component";
-import {DatePipe, NgForOf, NgIf} from "@angular/common";
+import {DatePipe, NgClass, NgForOf, NgIf} from "@angular/common";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {
   GetBrojZaposlenihEndpoint
@@ -17,6 +17,27 @@ import {SortParametar} from "../../endpoints/SortParametar";
 import {KompanijaGetByIdResponse} from "../../endpoints/kompanija-endpoint/get-by-id/kompanija-get-by-id-response";
 import {KompanijaGetByIdEndpoint} from "../../endpoints/kompanija-endpoint/get-by-id/kompanija-get-by-id-endpoint";
 import {RouterLink} from "@angular/router";
+import {
+  KanidatSpaseniOglasiDodajRequest
+} from "../../endpoints/kandidat-spaseni-oglasi-endpoint/dodaj/kanidat-spaseni-oglasi-dodaj-request";
+import {HttpErrorResponse} from "@angular/common/http";
+import {
+  KandidatSpaseneKompanijeDodajRequest
+} from "../../endpoints/kandidat-spasene-kompanije-endpoint/dodaj/kandidat-spasene-kompanije-dodaj-request";
+import {
+  KandidatSpaseneKompanijeDodajEndpoint
+} from "../../endpoints/kandidat-spasene-kompanije-endpoint/dodaj/kandidat-spasene-kompanije-dodaj-endpoint";
+import {NotificationService} from "../notification/notification-service";
+import {
+  KandidatSpaseneKompanijeUpdateRequest
+} from "../../endpoints/kandidat-spasene-kompanije-endpoint/update/kandidat-spasene-kompanije-update-request";
+import {
+  KandidatSpaseneKompanijeUpdateEndpoint
+} from "../../endpoints/kandidat-spasene-kompanije-endpoint/update/kandidat-spasene-kompanije-update-endpoint";
+
+
+declare var bootstrap: any;
+
 
 @Component({
   selector: 'app-kompanije-pregled',
@@ -30,7 +51,8 @@ import {RouterLink} from "@angular/router";
     DatePipe,
     NgxPaginationModule,
     NotificationComponent,
-    RouterLink
+    RouterLink,
+    NgClass
   ],
   templateUrl: './kompanije-pregled.component.html',
   styleUrl: './kompanije-pregled.component.css'
@@ -58,11 +80,16 @@ export class KompanijePregledComponent implements OnInit{
   sortParametri: SortParametar[] | undefined = undefined
   noNextElement: boolean = false;
   noPreviousElement: boolean = true;
+  selectedCompany: any;
 
 
   constructor(private getBrojZaposlenihEndpoint : GetBrojZaposlenihEndpoint,
               private kompanijeGetEndpoint: KompanijeGetEndpoint,
-              private kompanijaGetByIdEndpoint: KompanijaGetByIdEndpoint) {
+              private kompanijaGetByIdEndpoint: KompanijaGetByIdEndpoint,
+              private kandidatSpaseneKompanijeDodajEndpoint: KandidatSpaseneKompanijeDodajEndpoint,
+              private kandidatSpaseneKompanijeUpdateEndpoint: KandidatSpaseneKompanijeUpdateEndpoint,
+              private notificationService: NotificationService,
+              private cdr: ChangeDetectorRef) {
   }
 
   async ngOnInit(): Promise<void> {
@@ -109,7 +136,7 @@ export class KompanijePregledComponent implements OnInit{
       naziv: this.pretragaNaziv,
       imaOtvorenePozicije: this.imaOtvorenePozicije,
       spasen: undefined,
-      kandidatId: undefined,
+      kandidatId: 25,
       sortParametri: this.sortParametri
     };
 
@@ -314,6 +341,70 @@ export class KompanijePregledComponent implements OnInit{
 
 
   saveKompanija(kompanija: KompanijeGetResponseKomapanija) {
+    var request: KandidatSpaseneKompanijeDodajRequest = {
+      kompanija_id: kompanija.id,
+      kandidat_id: 25 //promijeniti kasnije u trenutno logiranog korisnika
+    }
 
+    this.kandidatSpaseneKompanijeDodajEndpoint.obradi(request).subscribe(
+      data => {
+        this.notificationService.addNotification({message: 'Company saved.', type: 'success'});
+        kompanija.spasen = true;
+        this.cdr.detectChanges();
+      },
+      (error: HttpErrorResponse) => {
+        if (error.status === 500) {
+          this.unsaveKompanija(kompanija);
+        } else {
+          this.notificationService.addNotification({message: `Error: ${error.message}`, type: 'error'});
+        }
+      }
+    );
+  }
+
+  async unsaveKompanija(kompanija: KompanijeGetResponseKomapanija) {
+    var request: KandidatSpaseneKompanijeUpdateRequest = {
+      kompanija_id: kompanija.id,
+      kandidat_id: 25 //promijeniti kasnije u trenutno logiranog korisnika
+    };
+
+    try {
+      const data = await firstValueFrom(this.kandidatSpaseneKompanijeUpdateEndpoint.obradi(request));
+      this.notificationService.addNotification({message: 'Company removed.', type: 'success'});
+    } catch (error) {
+      if (error instanceof HttpErrorResponse) {
+        this.notificationService.addNotification({message: `Error: ${error.message}`, type: 'error'});
+      } else {
+        this.notificationService.addNotification({message: 'An unexpected error occurred.', type: 'error'});
+      }
+    }
+
+    await this.getAll();
+
+    this.filtriraneKompanije();
+  }
+
+  confirmUnsave() {
+    this.unsaveKompanija(this.selectedCompany);
+    this.closeModal();
+  }
+
+  openUnsaveModal(company: any) {
+    this.selectedCompany = company;
+    const modalElement = document.getElementById('confirmUnsaveModal');
+    if (modalElement) {
+      const modal = new bootstrap.Modal(modalElement);
+      modal.show();
+    }
+  }
+
+  closeModal() {
+    const modalElement = document.getElementById('confirmUnsaveModal');
+    if (modalElement) {
+      const modal = bootstrap.Modal.getInstance(modalElement);
+      if (modal) {
+        modal.hide();
+      }
+    }
   }
 }

@@ -18,6 +18,7 @@ namespace JobSearchingWebApp.Models
         public string? Twitter { get; set; }
         public virtual ICollection<KompanijaLokacija> KompanijaLokacija { get; set; } = new List<KompanijaLokacija>();
         public virtual ICollection<Oglas> Oglasi { get; set; } = new List<Oglas>();
+        public virtual ICollection<KandidatSpaseneKompanije> KandidatSpaseneKompanije { get; set; } = new List<KandidatSpaseneKompanije>();
 
         //ovo je tu samo privremeno zbog starih kontrolera, treba ga izbrisati
         public Kompanija() { }

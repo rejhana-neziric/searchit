@@ -10,7 +10,7 @@
   padding: 15px;
   border-radius: 15px;
   color: #211f1f;
-  font-size: 20px;
+  font-size: 15px;
   opacity: 1;
   transition: opacity 1s ease-in-out;
   position: relative;
@@ -19,7 +19,8 @@
 }
 
 .success {
-  background-color: #d0f3d5;
+  background-color: #FFFFFF;
+  border: 1px solid #88ab89;
 }
 
 .warning {
@@ -45,3 +46,14 @@
   right: 10px;
   cursor: pointer;
 }
+
+.img-tick {
+  height: 25px;
+  width: 25px;
+}
+
+.img-close {
+  height: 20px;
+  width: 20px;
+}
+

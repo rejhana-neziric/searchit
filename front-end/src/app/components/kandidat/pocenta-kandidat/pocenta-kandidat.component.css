@@ -204,15 +204,6 @@
   font-size: small;
 }
 
-.img-heart {
-
-  margin: 15px;
-  &:hover {
-    height: 45px;
-    color: var(--primary-color);
-  }
-}
-
 .mat-button-toggle {
   width: 120px;
   font-size: larger;

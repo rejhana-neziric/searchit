@@ -21,6 +21,14 @@ import {NotificationService} from "../../notification/notification-service";
 import {NotificationComponent} from "../../notification/notification.component";
 import {HttpErrorResponse} from '@angular/common/http';
 import {SortParametar} from "../../../endpoints/SortParametar";
+import {
+  KanidatSpaseniOglasiUpdateRequest
+} from "../../../endpoints/kandidat-spaseni-oglasi-endpoint/update/kanidat-spaseni-oglasi-update-request";
+import {
+  KandidatSpaseniOglasiUpdateEndpoint
+} from "../../../endpoints/kandidat-spaseni-oglasi-endpoint/update/kandidat-spaseni-oglasi-update-endpoint";
+
+declare var bootstrap: any;
 
 @Component({
   selector: 'app-pocenta-kandidat',
@@ -64,10 +72,12 @@ export class PocentaKandidatComponent implements OnInit {
   total: number = 10;
   noNextElement: boolean = false;
   noPreviousElement: boolean = true;
+  selectedPost: any;
 
   constructor(private oglasGetAllEndpoint: OglasGetEndpoint,
               private oglasGetByIdEndpoint: OglasGetByIdEndpoint,
               private kandidatSpaseniOglasiDodajEndpoint: KandidatSpaseniOglasiDodajEndpoint,
+              private kandidatSpaseniOglasiUpdateEndpoint: KandidatSpaseniOglasiUpdateEndpoint,
               private notificationService: NotificationService
   ) {
   }
@@ -128,7 +138,7 @@ export class PocentaKandidatComponent implements OnInit {
       naziv: this.pretragaNaziv,
       tipPosla: this.selektovaniJobType,
       sortParametri: this.sortParametri,
-      kandidatId: undefined,
+      kandidatId: 25,
       otvoren: undefined
     };
 
@@ -341,14 +351,61 @@ export class PocentaKandidatComponent implements OnInit {
     this.kandidatSpaseniOglasiDodajEndpoint.obradi(request).subscribe(
       data => {
         this.notificationService.addNotification({message: 'Post saved.', type: 'success'});
+        oglas.spasen = true;
       },
       (error: HttpErrorResponse) => {
         if (error.status === 500) {
-          this.notificationService.addNotification({message: 'You have already saved this post.', type: 'error'});
+         this.unsaveOglas(oglas);
         } else {
           this.notificationService.addNotification({message: `Error: ${error.message}`, type: 'error'});
         }
       }
     );
+  }
+
+  async unsaveOglas(oglas: OglasGetResponseOglasi) {
+    var request: KanidatSpaseniOglasiUpdateRequest = {
+      oglas_id: oglas.id,
+      kandidat_id: 25 //promijeniti kasnije u trenutno logiranog korisnika
+    };
+
+    try {
+      const data = await firstValueFrom(this.kandidatSpaseniOglasiUpdateEndpoint.obradi(request));
+      this.notificationService.addNotification({message: 'Post removed.', type: 'success'});
+    } catch (error) {
+      if (error instanceof HttpErrorResponse) {
+        this.notificationService.addNotification({message: `Error: ${error.message}`, type: 'error'});
+      } else {
+        this.notificationService.addNotification({message: 'An unexpected error occurred.', type: 'error'});
+      }
+    }
+
+    await this.getAll();
+
+    this.filtriraniOglasi();
+  }
+
+  confirmUnsave() {
+    this.unsaveOglas(this.selectedPost);
+    this.closeModal();
+  }
+
+  openUnsaveModal(post: any) {
+    this.selectedPost = post;
+    const modalElement = document.getElementById('confirmUnsaveModal');
+    if (modalElement) {
+      const modal = new bootstrap.Modal(modalElement);
+      modal.show();
+    }
+  }
+
+  closeModal() {
+    const modalElement = document.getElementById('confirmUnsaveModal');
+    if (modalElement) {
+      const modal = bootstrap.Modal.getInstance(modalElement);
+      if (modal) {
+        modal.hide();
+      }
+    }
   }
 }

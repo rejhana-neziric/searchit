@@ -5,6 +5,7 @@ using JobSearchingWebApp.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Runtime.CompilerServices;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace JobSearchingWebApp.Endpoints.Kompanija.GetAll
@@ -25,6 +26,7 @@ namespace JobSearchingWebApp.Endpoints.Kompanija.GetAll
         {
             var kompanije = dbContext.Kompanije.AsQueryable();
             var oglasi = dbContext.Oglasi.Include(kompanija => kompanija.Kompanija).AsQueryable();
+            var spaseni = dbContext.KandidatSpaseneKompanije.Include(spaseni => spaseni.Kompanija).AsQueryable();
 
             if (!string.IsNullOrEmpty(request.Naziv))
             {
@@ -41,6 +43,11 @@ namespace JobSearchingWebApp.Endpoints.Kompanija.GetAll
                 kompanije = kompanije.Where(kompanija => request.BrojZaposlenih.Contains(kompanija.BrojZaposlenih));
             }
 
+            if (request?.Spasen != null)
+            {
+                kompanije = kompanije.Where(kompanija => kompanija.KandidatSpaseneKompanije.Any(spaseni => spaseni.KandidatId == request.KandidatId && spaseni.Spasen == true));
+            }
+
             if (request?.ImaOtvorenePozicije != null)
             {
                 if(request.ImaOtvorenePozicije == "Positions available")
@@ -54,7 +61,6 @@ namespace JobSearchingWebApp.Endpoints.Kompanija.GetAll
                     kompanije = kompanije.Where(kompanija => !(oglasi
                                    .Any(oglas => oglas.KompanijaId == kompanija.Id && oglas.RokPrijave > DateTime.Now)));
                 }
-               
             }
 
             var lista = kompanije.Select(kompanija => new KompanijaGetAllResponseKompanija
@@ -70,6 +76,7 @@ namespace JobSearchingWebApp.Endpoints.Kompanija.GetAll
                 Website = kompanija.Website ?? null,
                 LinkedIn = kompanija.LinkedIn ?? null,
                 Twitter = kompanija.Twitter ?? null, 
+                Spasen = kompanija.KandidatSpaseneKompanije.Any(x => x.KandidatId == request.KandidatId && x.KompanijaId == kompanija.Id && x.Spasen),
                 BrojOtvorenihPozicija = kompanija.Oglasi.Count(x => x.KompanijaId == kompanija.Id && x.RokPrijave > DateTime.Now),
             }).ToList();
 

@@ -218,9 +218,15 @@
 
                 </div>
               </span>
+
               <a (click)="saveKompanija(kompanija)" class="d-flex flex-row justify-content-end">
-                <img class="img-heart" style=" height: 35px;" src="../../../../assets/img/heart.png">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="25px" height="25px">
+                  <path [attr.fill]="kompanija.spasen ? '#FF0000' : '#999999'" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                </svg>
               </a>
+
+
+
             </div>
 
             <app-notification></app-notification>
@@ -323,3 +329,24 @@
   <div>
   </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="confirmUnsaveModal" tabindex="-1" aria-labelledby="confirmUnsaveModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="confirmUnsaveModalLabel">Confirm Unsave</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to unsave this company?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="nav-link btn-cancel" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="nav-link btn-confirm d-flex justify-content-center align-middle" (click)="confirmUnsave()">Unsave</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal -->

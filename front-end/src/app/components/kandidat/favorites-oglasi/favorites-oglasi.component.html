@@ -1,0 +1,94 @@
+<div class="content d-flex flex-column">
+
+  <!-- Search -->
+  <div *ngIf="imaRezultataPretrage || pretragaNaziv != ''" class="search-box">
+    <input class="form-control" type="text" [(ngModel)]="pretragaNaziv" [ngModelOptions]="{standalone: true}"
+           (ngModelChange)="onSearchChange($event)"
+           placeholder="Search by position name or company name.">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </div>
+  <!-- Search -->
+
+  <!-- Oglasi -->
+  <div class="oglasi" *ngIf="imaRezultataPretrage">
+    <div class="oglas"
+         *ngFor="let oglas of renderOglasi() | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: total }">
+      <div class="oglas-content d-flex flex-row">
+        <img class="img-logo" src="../../../../assets/img/kompanija-logo.png" alt="image" loading="lazy">
+        <div class="my-1">
+          <span class="fw-bold fs-3" style="color: #84B59F">{{ oglas.nazivPozicije }}</span>
+          <span class="fw-bold deadline pd-5 fs-6"><img src="../../../../assets/img/datum.png"
+                                                        style="height: 35px; padding-right:10px "
+                                                        alt="">{{ oglas.rokPrijave | date:'d.M.yyyy' }}</span>
+          <br>
+          <span class="fw-normal fs-5">{{ oglas.kompanijaNaziv }}</span>
+          <br>
+          <span class="fw-normal fs-5" *ngFor="let iskustvo of oglas.iskustvo">  {{ iskustvo.naziv }}</span>
+          <br>
+          <span class="fw-normal fs-6 job-type-location location"
+                *ngFor="let lokacija of oglas.lokacija">{{ lokacija.naziv }}</span>
+        </div>
+        <a class="d-flex flex-row nav-link button-section">
+          <a class="nav-link text-dark btn-confirm d-flex justify-content-center align-middle" style="background-color: #e1adad"
+             (click)="openUnsaveModal(oglas)" type="button">
+            Remove</a>
+          <a class="nav-link text-dark btn-confirm d-flex justify-content-center align-middle" type="button"
+             style="margin-left: 10px" [routerLink]="['/oglasi/', oglas?.id]">Details</a>
+        </a>
+        <app-notification></app-notification>
+      </div>
+
+    </div>
+    <!-- Paginacija -->
+    <div *ngIf="imaRezultataPretrage" class="d-flex justify-content-center pe-5">
+      <pagination-controls class="pagination ps-0" (pageChange)="pageChangeEvent($event)"></pagination-controls>
+    </div>
+    <!-- Paginacija -->
+  </div>
+  <!-- Oglasi -->
+</div>
+
+<!-- Nema rezultata pretrage  -->
+<div *ngIf="!imaRezultataPretrage && pretragaNaziv != ''" class="p-4 border border-2 shadow bg-body-tertiary"
+     style="border-color: #84B59F; border-width: 10px; background-color: #fff; border-radius: 15px; width: 100%; margin: 50px auto 300px;">
+  <span class="fs-4 mb-4">No results for {{ this.pretragaNaziv }}</span> <br>
+  <div class="mt-3 fs-6">
+    <span>Search Help</span>
+    <ul>
+      <li>Check your search for typos and spelling errors.</li>
+      <li>Try more general keywords.</li>
+      <li>Try different keywords.</li>
+    </ul>
+  </div>
+</div>
+
+<div *ngIf="!imaRezultataPretrage && pretragaNaziv == ''" class="p-4 border border-2 shadow bg-body-tertiary"
+     style="border-color: #84B59F; border-width: 10px; background-color: #fff; border-radius: 15px; width: 100%; margin: 50px auto 300px;">
+  <span class="fs-5 mb-4">You haven't saved any job post yet.</span> <br>
+  <br>
+  <a class="nav-link text-dark btn-confirm d-flex justify-content-center align-middle" type="button" style="width: 140px" [routerLink]="['/home-kandidat/']">Explore Posts</a>
+</div>
+
+<!-- Nema rezultata pretrage  -->
+
+<!-- Modal -->
+<div class="modal fade" id="confirmUnsaveModal" tabindex="-1" aria-labelledby="confirmUnsaveModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="confirmUnsaveModalLabel">Confirm Unsave</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to unsave this post?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="nav-link btn-cancel" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="nav-link btn-confirm d-flex justify-content-center align-middle" (click)="confirmUnsave()">Unsave</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal -->
+

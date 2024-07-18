@@ -1,7 +1,10 @@
 <div id="notificationsContainer">
   <div *ngFor="let notification of notifications" [ngClass]="notification.type" class="notification">
+    <img class="img-tick" src="./assets/img/tick.png" alt="">
     {{ notification.message }}
-    <button class="close-button" (click)="removeNotification(notification.id)">X</button>
+    <button class="close-button" (click)="removeNotification(notification.id)">
+      <img class="img-close" src="./assets/img/close.png" alt="">
+    </button>
   </div>
 </div>
 

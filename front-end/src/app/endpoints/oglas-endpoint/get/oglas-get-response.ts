@@ -13,6 +13,7 @@ export interface OglasGetResponseOglasi {
   iskustvo: OglasGetResponseOglasIskustvo[]
   opisOglasa: OglasGetResponseOpisOglas
   razlikaDana: number
+  spasen: boolean
 }
 
 export interface OglasGetResponseOglasIskustvo {

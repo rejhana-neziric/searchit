@@ -10,6 +10,7 @@ import {NgModule} from "@angular/core";
 import {OglasiPregledComponent} from "./components/oglasi-pregled/oglasi-pregled.component";
 import {KompanijePregledComponent} from "./components/kompanije-pregled/kompanije-pregled.component";
 import {KompanijaDetaljiComponent} from "./components/kompanija-detalji/kompanija-detalji.component";
+import {FavoritesOglasiComponent} from "./components/kandidat/favorites-oglasi/favorites-oglasi.component";
 
 export const routes: Routes = [
   {path: 'home', component: PocetnaNeregistrovaniKorisnikComponent},
