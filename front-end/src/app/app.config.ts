@@ -9,12 +9,14 @@ import { NgxPaginationModule } from "ngx-pagination";
 import { provideAnimations } from '@angular/platform-browser/animations';
 import {AppComponent} from "./app.component";
 import bootstrap from '../main.server';
+import {JwtHelperService} from "@auth0/angular-jwt";
 
 export const appConfig: ApplicationConfig = {
   providers: [provideRouter(routes),
               //provideClientHydration(),
               provideHttpClient(withFetch()),
               provideAnimations(),
+              JwtHelperService
   ]
 };
 

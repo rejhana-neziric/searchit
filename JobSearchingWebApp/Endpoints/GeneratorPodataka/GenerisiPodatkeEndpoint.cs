@@ -293,15 +293,13 @@ namespace JobSearchingWebApp.Endpoints.GeneratorPodataka
             //Insightify.Opis = "At Insightify, we are passionate about unlocking the potential of data to drive business success. Since our inception in 2010, we have been at the forefront of delivering advanced data analytics and business intelligence solutions that empower organizations to make informed, data-driven decisions. Located in the thriving tech ecosystem of Austin, TX, we are a dedicated team of over 300 professionals who are committed to helping our clients harness the power of their data.\r\n\r\nOur expertise spans a wide range of data analytics services, including data integration, predictive analytics, machine learning, and custom dashboard development. We work closely with our clients to understand their unique needs and challenges, providing tailored solutions that deliver actionable insights and drive measurable results. Our goal is to make complex data accessible and valuable, enabling businesses to uncover hidden opportunities and optimize their operations.\r\n\r\nInnovation and excellence are at the core of Insightify. We continuously invest in cutting-edge technologies and methodologies to stay ahead of industry trends and deliver the best possible solutions to our clients. Our customer-centric approach ensures that we build strong, lasting relationships, providing exceptional service and support at every step of the way. We serve a diverse array of industries, including finance, healthcare, manufacturing, and retail, helping them leverage their data to gain a competitive edge.\r\n\r\nAt Insightify, our mission is to transform the way businesses use data. We believe that with the right tools and expertise, any organization can achieve greater efficiency, profitability, and growth. Our team is dedicated to delivering high-quality solutions and unparalleled support, ensuring that our clients can confidently navigate the data-driven landscape and achieve their strategic objectives.";
 
 
-            var korisnik = new Korisnik()
+            var korisnik = new Models.Korisnik()
             {
                 Username = "quantumbytes",
-                Password = "quantumbytes",
+               // Password = "quantumbytes",
                 Email = "quantumbytes@gmail.com",
-                TemaId = 1,
-                JezikId = 1,
-                isKandidat = false,
-                isKompanija = true
+                //TemaId = 1,
+               // JezikId = 1,
             };
 
             var QuantumBytes = new Models.Kompanija(korisnik)

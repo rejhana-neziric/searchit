@@ -35,7 +35,7 @@ namespace JobSearchingWebApp.Endpoints.Kandidat.Pretraga
                                      Prezime = x.Prezime,    
                                      DatumRodjenja = x.DatumRodjenja, 
                                      MjestoPrebivalista = x.MjestoPrebivalista,
-                                     Zvanje = x.Zvanje,   
+                                    // Zvanje = x.Zvanje,   
                                      BrojTelefona = x.BrojTelefona,   
                                  }).ToListAsync();    
 

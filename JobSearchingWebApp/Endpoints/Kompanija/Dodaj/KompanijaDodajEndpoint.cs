@@ -22,15 +22,13 @@ namespace JobSearchingWebApp.Endpoints.Kompanija.Dodaj
         [HttpPost]
         public override async Task<KompanijaDodajResponse> MyAction(KompanijaDodajRequest request, CancellationToken cancellationToken)
         {
-            var korisnik = new Korisnik()
+            var korisnik = new Models.Korisnik()
             {
                 Email = request.email,
                 Username = request.username,
-                Password = request.password,
-                TemaId = request.tema_id,
-                JezikId = request.jezik_id,
-                isKandidat = false,
-                isKompanija = true
+                //Password = request.password,
+              //  TemaId = request.tema_id,
+               // JezikId = request.jezik_id,
             };
 
             var kompanija = new Models.Kompanija(korisnik)

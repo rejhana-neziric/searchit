@@ -333,31 +333,24 @@ namespace JobSearchingWebApp.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("JezikId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Password")
+                    b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TemaId")
+                    b.Property<string>("PasswordSalt")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UlogaId")
                         .HasColumnType("int");
 
                     b.Property<string>("Username")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("isKandidat")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("isKompanija")
-                        .HasColumnType("bit");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("JezikId");
-
-                    b.HasIndex("TemaId");
+                    b.HasIndex("UlogaId");
 
                     b.ToTable("Korisnici");
 
@@ -681,6 +674,23 @@ namespace JobSearchingWebApp.Migrations
                     b.ToTable("Teme");
                 });
 
+            modelBuilder.Entity("JobSearchingWebApp.Models.Uloga", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Naziv")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Uloge");
+                });
+
             modelBuilder.Entity("JobSearchingWebApp.Models.Vjestina", b =>
                 {
                     b.Property<int>("Id")
@@ -847,7 +857,7 @@ namespace JobSearchingWebApp.Migrations
                         .IsRequired();
 
                     b.HasOne("JobSearchingWebApp.Models.Kompanija", "Kompanija")
-                        .WithMany()
+                        .WithMany("KandidatSpaseneKompanije")
                         .HasForeignKey("KompanijaId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
@@ -935,21 +945,13 @@ namespace JobSearchingWebApp.Migrations
 
             modelBuilder.Entity("JobSearchingWebApp.Models.Korisnik", b =>
                 {
-                    b.HasOne("JobSearchingWebApp.Models.Jezik", "Jezik")
+                    b.HasOne("JobSearchingWebApp.Models.Uloga", "Uloga")
                         .WithMany()
-                        .HasForeignKey("JezikId")
+                        .HasForeignKey("UlogaId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("JobSearchingWebApp.Models.Tema", "Tema")
-                        .WithMany()
-                        .HasForeignKey("TemaId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Jezik");
-
-                    b.Navigation("Tema");
+                    b.Navigation("Uloga");
                 });
 
             modelBuilder.Entity("JobSearchingWebApp.Models.KorisnikNotifikacije", b =>
@@ -1097,6 +1099,8 @@ namespace JobSearchingWebApp.Migrations
 
             modelBuilder.Entity("JobSearchingWebApp.Models.Kompanija", b =>
                 {
+                    b.Navigation("KandidatSpaseneKompanije");
+
                     b.Navigation("KompanijaLokacija");
 
                     b.Navigation("Oglasi");

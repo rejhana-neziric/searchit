@@ -25,11 +25,9 @@ namespace JobSearchingWebApp.Endpoints.Kandidat.Dodaj
             {
                 Email = request.email,
                 Username = request.username,
-                Password = request.password,
-                TemaId = request.tema_id,
-                JezikId = request.jezik_id,
-                isKandidat = true,
-                isKompanija = false
+                //Password = request.password,
+                //TemaId = request.tema_id,
+               // JezikId = request.jezik_id
             };
 
             var kandidat = new Models.Kandidat(korisnik)
@@ -38,7 +36,7 @@ namespace JobSearchingWebApp.Endpoints.Kandidat.Dodaj
                 Prezime = request.prezime,
                 DatumRodjenja = request.datum_rodjenja,
                 MjestoPrebivalista = request.mjesto_prebivalista,
-                Zvanje = request.zvanje,
+                //Zvanje = request.zvanje,
                 BrojTelefona = request.broj_telefona,
             };
 

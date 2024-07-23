@@ -1,35 +1,76 @@
-<div id="forma" class="w-50 align-items-center justify-content-center">
-  <!-- Email input -->
-  <p class="fs-1 fw-boldtext text-info">searchit</p>
-  <div class="form-outline">
-    <label class="form-label" for="form2Example1">Username</label>
-    <input type="text" id="form2Example1" class="form-control" />
-  </div>
+<div class="login">
+  <div class="login-container">
 
-  <!-- Password input -->
-  <div class="form-outline">
-    <label class="form-label" for="form2Example2">Password</label>
-    <input type="password" id="form2Example2" class="form-control" />
-  </div>
-
-  <!-- 2 column grid layout for inline styling -->
-  <div class="row">
-    <div class="col d-flex justify-content-center">
-      <!-- Checkbox -->
-      <div class="form-check">
-        <input class="form-check-input" type="checkbox" value="" id="form2Example31" checked />
-        <label class="form-check-label" for="form2Example31"> Remember me </label>
-      </div>
+    <div class="naslov fs-1 fw-bold p-1 bd-highlight">
+      <a class="nav-link active text-dark fs-1 fw-bold "
+         [routerLink]="'/home'">searchit</a>
+      <hr class="naslov-underline">
     </div>
 
-    <div class="col">
-      <!-- Simple link -->
-      <a href="#">Forgot password?</a>
-    </div>
+    @if (!isLoggedIn) {
+      <form
+        name="form"
+        (ngSubmit)="f.form.valid && onSubmit()"
+        #f="ngForm"
+        novalidate
+      >
+
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input
+            type="text"
+            class="form-control"
+            name="username"
+            [(ngModel)]="form.username"
+            required
+            #username="ngModel"
+            [ngClass]="{ 'is-invalid': f.submitted && username.errors }"
+          />
+          @if (username.errors && f.submitted) {
+            <div class="invalid-feedback">Username is required!</div>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            class="form-control"
+            name="password"
+            [(ngModel)]="form.password"
+            required
+            minlength="6"
+            #password="ngModel"
+            [ngClass]="{ 'is-invalid': f.submitted && password.errors }"
+          />
+          @if (password.errors && f.submitted) {
+            <div class="invalid-feedback">
+              @if (password.errors['required']) {
+                <div>Password is required!</div>
+              }
+              @if (password.errors['minlength']) {
+                <div>Password must be at least 6 characters</div>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="form-group d-flex justify-content-end">
+          <button class="btn-confirm">Login</button>
+        </div>
+
+        <div class="form-group">
+          @if (f.submitted && isLoginFailed) {
+            <div class="alert alert-danger" role="alert">
+              Login failed: {{ errorMessage }}
+            </div>
+          }
+        </div>
+
+      </form>
+    } @else {
+      <div class="alert alert-success">Successfully logged in.</div>
+    }
+
   </div>
-
-  <!-- Submit button -->
-  <button (click)="nesto()" class="btn btn-primary btn-block mb-4">Sign in</button>
-
 </div>
-

@@ -1,32 +1,45 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {Router, RouterLink, RouterOutlet, NavigationEnd } from '@angular/router';
-import {FormsModule} from "@angular/forms";
-import {PocentaKandidatComponent} from "./components/kandidat/pocenta-kandidat/pocenta-kandidat.component";
+import {NavigationEnd, Router, RouterLink, RouterOutlet} from '@angular/router';
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { PocentaKandidatComponent } from "./components/kandidat/pocenta-kandidat/pocenta-kandidat.component";
 import {
   PocetnaNeregistrovaniKorisnikComponent
 } from "./components/pocetna-neregistrovani-korisnik/pocetna-neregistrovani-korisnik.component";
-import {LoginComponent} from "./components/login/login.component";
-import {HttpClient} from "@angular/common/http";
-import {JeziciComponent} from "./jezici/jezici.component";
-import { NgModule } from '@angular/core';
+import { HttpClient, HttpClientModule} from "@angular/common/http";
+import { JeziciComponent } from "./jezici/jezici.component";
+import { httpInterceptorProviders } from './Helpers/HttpRequestInterceptor';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, FormsModule, RouterLink, PocentaKandidatComponent, PocetnaNeregistrovaniKorisnikComponent, LoginComponent, JeziciComponent],
+  imports: [
+    CommonModule,
+    RouterOutlet,
+    ReactiveFormsModule,
+    FormsModule,
+    RouterLink,
+    HttpClientModule,
+    PocentaKandidatComponent,
+    PocetnaNeregistrovaniKorisnikComponent,
+    JeziciComponent],
+  providers: [httpInterceptorProviders],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit{
-  constructor(private router: Router, private httpKlijent: HttpClient) {
-  }
+  constructor(private router: Router,
+              @Inject(PLATFORM_ID) private platformId: Object)
+  {}
 
   ngOnInit(): void {
-    this.router.events.subscribe((event) => {
-      if (event instanceof NavigationEnd) {
-        window.scrollTo(0, 0);
-      }
-    });
+    if (isPlatformBrowser(this.platformId)) {
+      this.router.events.subscribe((event) => {
+        if (event instanceof NavigationEnd) {
+          window.scrollTo(0, 0);
+        }
+      });
+    }
   }
 }

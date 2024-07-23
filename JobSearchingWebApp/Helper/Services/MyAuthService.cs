@@ -7,6 +7,7 @@ namespace JobSearchingWebApp.Helper.Services
 {
     public class MyAuthService
     {
+        //old implementation, can be deleted
         private readonly ApplicationDbContext applicationDbContext;
         private readonly IHttpContextAccessor httpContextAccessor;
 

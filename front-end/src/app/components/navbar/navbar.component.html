@@ -2,24 +2,31 @@
 <!-- Navbar neregistrovani korisnik -->
 <div *ngIf="user == 'neregistrovani'">
 
-  <div class="container-fluid nav-bar px-5 py-1 d-flex">
+  <div class="nav-bar px-5 py-1 d-flex">
     <div class="naslov fs-1 fw-bold me-auto p-1 bd-highlight">
-      <a class="nav-link active text-dark fs-1 fw-bold pt-4" href="">searchit</a>
-      <hr id="naslov-underline">
+      <a class="nav-link active text-dark fs-1 fw-bold " *ngIf="user == 'neregistrovani'"
+         [routerLink]="'/home'">searchit</a>
+      <hr class="naslov-underline">
     </div>
-    <div class="p-2">
-      <ul class="navbar-nav flex-row px-1 py-2 ">
-        <li class="nav-item">
-          <a id ="home" class="nav-link active px-3 fw-bold fs-5 text-underline" href="#" >Home</a>
+    <div class="nav p-2">
+      <ul class="navbar-nav flex-row py-1">
+        <li class="nav-item" [ngClass]="{'active-link': isActiveRoute('/home')}">
+          <a class="nav-link active px-3  fw-bold fs-5 text-underline mt-2" [routerLink]="'/home'">Home</a>
+        </li>
+        <li class="nav-item" [ngClass]="{'active-link': isActiveRoute('/home-kandidat')}">
+          <a class="nav-link active px-3  fw-bold fs-5 text-underline mt-2" [routerLink]="'/home-kandidat'">Jobs</a>
+        </li>
+        <li class="nav-item" [ngClass]="{'active-link': isActiveRoute('/kompanije')}">
+          <a class="nav-link active px-3  fw-bold fs-5 text-underline mt-2" [routerLink]="'/kompanije'">Companies</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active px-3 fw-bold fs-5" href="#aboutUs">About Us</a>
+          <a class="nav-link active px-3 fw-bold fs-5 text-underline mt-2" href="#aboutUs" (click)="scrollToSection($event, '#aboutUs')">About Us</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link active pe-5 ps-3  fw-bold fs-5" href="">Sign in</a>
+        <li class="nav-item ">
+          <a class="nav-link active fw-bold fs-5 text-underline log-in" [routerLink]="'/login'" href="">Log in</a>
         </li>
-        <li class="nav-item">
-          <a class="btn fw-bold fs-5" href="">Sign up</a>
+        <li class="nav-item ">
+          <a class="nav-link active fw-bold fs-5 text-underline sign-up"  style="color: white">Sign up</a>
         </li>
       </ul>
     </div>

@@ -28,14 +28,14 @@ namespace JobSearchingWebApp.Endpoints.Kandidat.Update
 
             kandidat.Email = request.email; 
             kandidat.Username = request.username;   
-            kandidat.Password = request.password;   
-            kandidat.TemaId = request.tema_id;  
-            kandidat.JezikId = request.jezik_id;    
+           // kandidat.Password = request.password;   
+            //kandidat.TemaId = request.tema_id;  
+           // kandidat.JezikId = request.jezik_id;    
             kandidat.Ime = request.ime; 
             kandidat.Prezime = request.prezime;
             kandidat.DatumRodjenja = request.datum_rodjenja;
             kandidat.MjestoPrebivalista = request.mjesto_prebivalista; 
-            kandidat.Zvanje = request.zvanje;
+            //kandidat.Zvanje = request.zvanje;
             kandidat.BrojTelefona = request.broj_telefona; 
 
             await dbContext.SaveChangesAsync();

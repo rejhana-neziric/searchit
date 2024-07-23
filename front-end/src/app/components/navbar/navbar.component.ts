@@ -21,4 +21,13 @@ export class NavbarComponent {
   isActiveRoute(route: string): boolean {
     return this.router.url === route;
   }
+
+
+  scrollToSection(event: Event, sectionId: string): void {
+    event.preventDefault();
+    const targetElement = document.querySelector(sectionId);
+    if (targetElement) {
+      targetElement.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
 }

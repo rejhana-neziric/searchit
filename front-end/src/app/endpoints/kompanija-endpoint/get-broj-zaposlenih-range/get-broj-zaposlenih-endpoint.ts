@@ -17,6 +17,4 @@ export class GetBrojZaposlenihEndpoint implements MyBaseEndpoint<void, GetBrojZa
 
     return this.httpClient.get<GetBrojZaposlenihResponse>(url);
   }
-
-
 }

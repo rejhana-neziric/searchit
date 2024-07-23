@@ -1,0 +1,187 @@
+<form *ngIf="!isRegisterDetails" class="register-form form-grid" #f="ngForm" (ngSubmit)="f.form.valid && showRegisterDetails()">
+  <div  class="register-container">
+
+    <!-- First column -->
+    <div class="firstpart">
+
+      <div class="naslov fs-1 fw-bold p-1 bd-highlight">
+        <a class="nav-link active text-dark fs-1 fw-bold "
+           [routerLink]="'/home'">searchit</a>
+        <hr class="naslov-underline">
+      </div>
+
+      <div class="form-group ">
+        <label for="naziv" class="required">Company Name</label>
+        <input
+          type="text"
+          class="form-control"
+          name="naziv"
+          [(ngModel)]="form.naziv"
+          required
+          minlength="3"
+          maxlength="30"
+          placeholder="Enter company name"
+          #naziv="ngModel"
+          [ngClass]="{ 'is-invalid': f.submitted && naziv.errors }"
+        />
+        @if (naziv.errors && f.submitted) {
+          <div class="invalid-feedback">
+            @if (naziv.errors['required']) {
+              <div>Company Name is required!</div>
+            }
+            @if (naziv.errors['minlength']) {
+              <div>Company Name must be at least 3 characters!</div>
+            }
+            @if (naziv.errors['maxlength']) {
+              <div>Company Name must be less than 30 characters!</div>
+            }
+          </div>
+        }
+      </div>
+
+      <div class="form-group ">
+        <label for="godinaOsnivanja" class="required">Year Founded</label>
+        <select
+          type="number"
+          class="form-control"
+          name="godinaOsnivanja"
+          [(ngModel)]="form.godinaOsnivanja"
+          required
+          #godinaOsnivanja="ngModel"
+          [ngClass]="{ 'is-invalid': f.submitted && godinaOsnivanja.errors }"
+        >
+          <option disabled selected>Select a year</option>
+          <option *ngFor="let year of godine" [value]="year">{{ year }}</option>
+        </select>
+        @if (godinaOsnivanja.errors && f.submitted) {
+          <div class="invalid-feedback">
+            @if (godinaOsnivanja.errors['required']) {
+              <div>Year Founded is required!</div>
+            }
+          </div>
+        }
+      </div>
+
+      <div class="form-group ">
+        <label for="lokacija" class="required">Location</label>
+        <input
+          type="txt"
+          class="form-control"
+          name="lokacija"
+          [(ngModel)]="form.lokacija"
+          required
+          #lokacija="ngModel"
+          [ngClass]="{ 'is-invalid': f.submitted && lokacija.errors }"
+        />
+        @if (lokacija.errors && f.submitted) {
+          <div class="invalid-feedback">
+            @if (lokacija.errors['required']) {
+              <div>Location is required!</div>
+            }
+          </div>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="brojZaposlenih" class="required">Number of Employees</label>
+        <select
+          type="number"
+          class="form-control"
+          name="brojZaposlenih"
+          [(ngModel)]="form.brojZaposlenih"
+          required
+          #brojZaposlenih="ngModel"
+          [ngClass]="{ 'is-invalid': f.submitted && brojZaposlenih.errors }"
+        >
+          <option disabled selected>Select a number of employees</option>
+          <option *ngFor="let number of brojZaposlenihRange" [value]="number">{{ number }}</option>
+        </select>
+        @if (brojZaposlenih.errors && f.submitted) {
+          <div class="invalid-feedback">
+            @if (brojZaposlenih.errors['required']) {
+              <div>Number of Employees is required!</div>
+            }
+          </div>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="logo" class="required">Upload Company Logo</label>
+        <input
+          type="file"
+          class="form-control-file"
+          id="logo"
+          (change)="onFileChange($event)"
+          style="display: block"
+        />
+        <div *ngIf="selectedImage">
+          <img [src]="selectedImage" alt="Selected Logo" class="img-preview"/>
+          <button type="button" (click)="removeImage()" class="btn btn-danger mt-2">Remove Image</button>
+        </div>
+      </div>
+
+    </div>
+    <!-- First column -->
+
+    <!-- Second column -->
+    <div class="secondpart">
+
+      <div class="form-group">
+        <label for="website">Website</label>
+        <input
+          type="url"
+          class="form-control"
+          name="website"
+          [(ngModel)]="form.website"
+          placeholder="e.g., https://www.yourcompany.com"
+          #website="ngModel"
+          [ngClass]="{ 'is-invalid': f.submitted && website.errors }"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="linkedin">LinkedIn</label>
+        <input
+          type="url"
+          class="form-control"
+          name="linkedin"
+          [(ngModel)]="form.linkedin"
+          placeholder="e.g., https://www.linkedin.com/in/your-profile"
+          #linkedin="ngModel"
+          [ngClass]="{ 'is-invalid': f.submitted && linkedin.errors }"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="twitter">Twitter</label>
+        <input
+          type="url"
+          class="form-control"
+          name="twitter"
+          [(ngModel)]="form.twitter"
+          placeholder="e.g., https://twitter.com/yourhandle"
+          #twitter="ngModel"
+          [ngClass]="{ 'is-invalid': f.submitted && twitter.errors }"
+        />
+      </div>
+
+      <div class="form-group d-flex justify-content-between">
+        <button class="btn-confirm" (click)="triggerEvent()">Back</button>
+        <button class="btn-confirm">Next</button>
+      </div>
+
+    </div>
+    <!-- Second column -->
+
+  </div>
+
+</form>
+
+<div *ngIf="isRegisterDetails" class="register-form">
+  <div class="register-container-details">
+    <app-signup-kompanija-opis (customEvent)="showRegisterDetails()"></app-signup-kompanija-opis>
+  </div>
+</div>
+
+
+

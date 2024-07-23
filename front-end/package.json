@@ -23,6 +23,7 @@
     "@angular/platform-server": "^17.0.0",
     "@angular/router": "^17.0.0",
     "@angular/ssr": "^17.3.8",
+    "@auth0/angular-jwt": "^5.2.0",
     "@auth0/auth0-angular": "^2.2.3",
     "@nguniversal/express-engine": "^7.0.2",
     "bootstrap": "^5.3.3",

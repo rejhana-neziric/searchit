@@ -1,0 +1,196 @@
+<div class="register-form">
+  <div class="register-container">
+
+    <div class="naslov fs-1 fw-bold p-1 bd-highlight">
+      <a class="nav-link active text-dark fs-1 fw-bold "
+         [routerLink]="'/home'">searchit</a>
+      <hr class="naslov-underline">
+    </div>
+
+    @if (!isSignUp) {
+      <form
+        name="form"
+
+        (ngSubmit)="f.form.valid && onSubmit()"
+        #f="ngForm"
+        novalidate
+      >
+
+        <div class="form-group">
+          <label for="ime" class="required">First Name</label>
+          <input
+            type="text"
+            class="form-control"
+            name="ime"
+            [(ngModel)]="form.ime"
+            required
+            minlength="3"
+            maxlength="30"
+            placeholder="Enter your first name"
+            #ime="ngModel"
+            [ngClass]="{ 'is-invalid': f.submitted && ime.errors }"
+          />
+          @if (ime.errors && f.submitted) {
+            <div class="invalid-feedback">
+              @if (ime.errors['required']) {
+                <div>First Name is required!</div>
+              }
+              @if (ime.errors['minlength']) {
+                <div>First Name must be at least 3 characters!</div>
+              }
+              @if (ime.errors['maxlength']) {
+                <div>First Name must be less than 30 characters!</div>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="prezime" class="required">Last Name</label>
+          <input
+            type="text"
+            class="form-control"
+            name="prezime"
+            [(ngModel)]="form.prezime"
+            required
+            minlength="3"
+            maxlength="30"
+            placeholder="Enter your last name"
+            #prezime="ngModel"
+            [ngClass]="{ 'is-invalid': f.submitted && prezime.errors }"
+          />
+          @if (prezime.errors && f.submitted) {
+            <div class="invalid-feedback">
+              @if (prezime.errors['required']) {
+                <div>Last Name is required!</div>
+              }
+              @if (prezime.errors['minlength']) {
+                <div>Last Name must be at least 3 characters!</div>
+              }
+              @if (prezime.errors['maxlength']) {
+                <div>Last Name must be less than 30 characters!</div>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="zvanje" class="required">Title</label>
+          <input
+            type="text"
+            class="form-control"
+            name="zvanje"
+            [(ngModel)]="form.zvanje"
+            required
+            minlength="3"
+            maxlength="50"
+            placeholder="Enter your professional title e.g., Software Engineer"
+            #zvanje="ngModel"
+            [ngClass]="{ 'is-invalid': f.submitted && zvanje.errors }"
+          />
+          @if (zvanje.errors && f.submitted) {
+            <div class="invalid-feedback">
+              @if (zvanje.errors['required']) {
+                <div>Title is required!</div>
+              }
+              @if (zvanje.errors['minlength']) {
+                <div>Title must be at least 3 characters!</div>
+              }
+              @if (zvanje.errors['maxlength']) {
+                <div>Title must be less than 50 characters!</div>
+              }
+            </div>
+          }
+        </div>
+
+
+        <div class="form-group">
+          <label for="datumRodjenja" class="required">Date of Birth</label>
+          <input
+            type="date"
+            class="form-control"
+            name="datumRodjenja"
+            [(ngModel)]="form.datumRodjenja"
+            required
+            #datumRodjenja="ngModel"
+            [ngClass]="{ 'is-invalid': f.submitted && datumRodjenja.errors }"
+          />
+          @if (datumRodjenja.errors && f.submitted) {
+            <div class="invalid-feedback">
+              @if (datumRodjenja.errors['required']) {
+                <div>Date of Birth is required!</div>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="mjestoPrebivalista" class="required">Residence</label>
+          <input
+            type="text"
+            class="form-control"
+            name="mjestoPrebivalista"
+            [(ngModel)]="form.mjestoPrebivalista"
+            required
+            placeholder="e.g. Sarajevo"
+            #mjestoPrebivalista="ngModel"
+            [ngClass]="{ 'is-invalid': f.submitted && mjestoPrebivalista.errors }"
+          />
+          @if (mjestoPrebivalista.errors && f.submitted) {
+            <div class="invalid-feedback">
+              @if (mjestoPrebivalista.errors['required']) {
+                <div>Residence is required!</div>
+              }
+
+            </div>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="brojTelefona" class="required">Phone Number</label>
+          <input
+            type="tel"
+            class="form-control"
+            name="brojTelefona"
+            [(ngModel)]="form.brojTelefona"
+            required
+            pattern="^\+[0-9]{3}-[0-9]{3}-[0-9]{3}-[0-9]{3,4}$"
+            placeholder="e.g. +387-12-345-678"
+            #brojTelefona="ngModel"
+            [ngClass]="{ 'is-invalid': f.submitted && brojTelefona.errors }"
+          />
+          @if (brojTelefona.errors && f.submitted) {
+            <div class="invalid-feedback">
+              @if (brojTelefona.errors['required']) {
+                <div>Phone number is required!</div>
+              }
+              @if (brojTelefona.errors['pattern']) {
+                <div> Invalid phone number format!</div>
+              }
+
+            </div>
+          }
+        </div>
+
+        <div class="form-group d-flex justify-content-between">
+          <button class="btn-confirm" (click)="triggerEvent()">Back</button>
+          <button class="btn-confirm">Sign up</button>
+        </div>
+
+
+        <div class="form-group">
+          @if (f.submitted && isSignUpFailed) {
+            <div class="alert alert-danger" role="alert">
+              Login failed: {{ errorMessage }}
+            </div>
+          }
+        </div>
+      </form>
+    } @else {
+      <div class="alert alert-success">Successfully logged in.</div>
+    }
+
+  </div>
+</div>
+
+

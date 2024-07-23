@@ -1,0 +1,85 @@
+<div class="naslov fs-1 fw-bold p-1 bd-highlight">
+  <a class="nav-link active text-dark fs-1 fw-bold "
+     [routerLink]="'/home'">searchit</a>
+  <hr class="naslov-underline">
+</div>
+
+@if (!isSignUp) {
+  <form
+    name="form"
+
+    (ngSubmit)="f.form.valid && onSubmit()"
+    #f="ngForm"
+    novalidate
+  >
+
+    <div class="form-group">
+      <label for="kratkiOpis" class="required">Short Description</label>
+      <textarea
+        type="text"
+        class="form-control"
+        name="kratkiOpis"
+        [(ngModel)]="form.kratkiOpis"
+        required
+        minlength="10"
+        maxlength="150"
+        placeholder="Enter a brief summary of your company e.g., 'Innovative tech company specializing in AI solutions.'"
+        #kratkiOpis="ngModel"
+        [ngClass]="{ 'is-invalid': f.submitted && kratkiOpis.errors }"
+        rows="3"
+      ></textarea>
+      @if (kratkiOpis.errors && f.submitted) {
+        <div class="invalid-feedback">
+          @if (kratkiOpis.errors['required']) {
+            <div>Short Description is required!</div>
+          }
+          @if (kratkiOpis.errors['minlength']) {
+            <div>Short Description must be at least 10 characters!</div>
+          }
+          @if (kratkiOpis.errors['maxlength']) {
+            <div>Short Description must be less than 150 characters</div>
+          }
+        </div>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="opis" class="required">Description</label>
+      <textarea
+        type="text"
+        class="form-control"
+        name="opis"
+        [(ngModel)]="form.opis"
+        required
+        minlength="10"
+        placeholder="Enter a detailed description of your company e.g., 'Founded in 2020, we are a leading provider of AI solutions...'"
+        #opis="ngModel"
+        [ngClass]="{ 'is-invalid': f.submitted && opis.errors }"
+        rows="6"
+      ></textarea>
+      @if (opis.errors && f.submitted) {
+        <div class="invalid-feedback">
+          @if (opis.errors['required']) {
+            <div>Description is required!</div>
+          }
+          @if (opis.errors['minlength']) {
+            <div>Description must be at least 10 characters!</div>
+          }
+        </div>
+      }
+    </div>
+
+    <div class="form-group d-flex justify-content-between">
+      <button class="btn-confirm" (click)="triggerEvent()">Back</button>
+      <button class="btn-confirm">Sign up</button>
+    </div>
+
+  </form>
+}
+
+
+
+
+
+
+
