@@ -59,7 +59,6 @@ namespace JobSearchingWebApp.Helper.Services
             return new AuthenticateResponse(korisnik, token);
         }
 
-
         public async Task<IEnumerable<Korisnik>> GetAll()
         {
             return await dbContext.Korisnici.ToListAsync();

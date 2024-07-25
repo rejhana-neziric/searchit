@@ -21,8 +21,6 @@ export const routes: Routes = [
   {path: 'home-kandidat', component: PocentaKandidatComponent},
   {path: 'login', component: LoginComponent},
   {path: 'signup', component: SignupComponent},
-  {path: 'signup-kandidat', component: SignupKandidatComponent},
-  {path: 'signup-kompanija', component: SignupKompanijaComponent},
   {path: 'favorites', component: FavoritesComponent},
   {path: 'oglasi/:id', component: OglasDetaljiComponent},
   {path: 'kompanije', component: KompanijePregledComponent},

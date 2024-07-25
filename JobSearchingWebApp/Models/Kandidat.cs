@@ -15,11 +15,11 @@ namespace JobSearchingWebApp.Models
         public string BrojTelefona { get; set; }
 
         //ovo je tu samo privremeno zbog starih kontrolera, treba ga izbrisati
-        public Kandidat() { }
+        //public Kandidat() { }
 
-        public Kandidat(Korisnik korisnik) : base(korisnik)
-        {
+        //public Kandidat(Korisnik korisnik) : base(korisnik)
+        //{
 
-        }
+        //}
     }
 }

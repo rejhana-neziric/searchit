@@ -302,21 +302,21 @@ namespace JobSearchingWebApp.Endpoints.GeneratorPodataka
                // JezikId = 1,
             };
 
-            var QuantumBytes = new Models.Kompanija(korisnik)
-            {
-                Naziv = "QuantumBytes Solutions",
-                GodinaOsnivanja = 2018,
-                Lokacija = "Jablanica",
-                BrojZaposlenih = BrojZaposlenih._11_50.ToDisplayString(),
-                KratkiOpis = "We specialize in innovative software solutions and cutting-edge technology services to drive business growth.",
-                Opis = "At QuantumBytes Solutions, we are dedicated to pioneering innovative software solutions and cutting-edge technology services that drive business growth and efficiency. Established in 2018 in the tech hub of San Francisco, CA, our team of passionate and skilled professionals is committed to delivering exceptional value to our clients.\r\n\r\nWe offer a comprehensive range of services including custom software development, cloud computing, artificial intelligence, and cybersecurity solutions. Our expertise lies in understanding the unique challenges faced by businesses and providing tailored solutions that meet their specific needs. We work closely with our clients to ensure that our technology solutions align with their strategic goals and drive measurable results.\r\n\r\nInnovation is at the heart of everything we do at QuantumBytes Solutions. We continuously explore new technologies and methodologies to stay ahead of industry trends and provide our clients with the best possible solutions. Our customer-centric approach ensures that we build strong, long-lasting relationships, delivering exceptional service and support throughout the entire project lifecycle. Our clients span various industries including finance, healthcare, retail, and more, all benefiting from our expertise in leveraging technology to achieve their business objectives.\r\n\r\nOur mission at QuantumBytes Solutions is to empower businesses with the technology they need to thrive in a rapidly evolving digital landscape. We believe that with the right tools and guidance, any organization can achieve significant improvements in efficiency, profitability, and growth. Our team is dedicated to providing high-quality solutions and unparalleled support, helping our clients navigate the complexities of the digital age with confidence.",
-                Website = "https://quantumbytes.com",
-                LinkedIn = "https://linkedin.com/company/quantumbytes",
-                Twitter = "https://twitter.com/quantumbytes"
-            };
+            //var QuantumBytes = new Models.Kompanija(korisnik)
+            //{
+            //    Naziv = "QuantumBytes Solutions",
+            //    GodinaOsnivanja = 2018,
+            //    Lokacija = "Jablanica",
+            //    BrojZaposlenih = BrojZaposlenih._11_50.ToDisplayString(),
+            //    KratkiOpis = "We specialize in innovative software solutions and cutting-edge technology services to drive business growth.",
+            //    Opis = "At QuantumBytes Solutions, we are dedicated to pioneering innovative software solutions and cutting-edge technology services that drive business growth and efficiency. Established in 2018 in the tech hub of San Francisco, CA, our team of passionate and skilled professionals is committed to delivering exceptional value to our clients.\r\n\r\nWe offer a comprehensive range of services including custom software development, cloud computing, artificial intelligence, and cybersecurity solutions. Our expertise lies in understanding the unique challenges faced by businesses and providing tailored solutions that meet their specific needs. We work closely with our clients to ensure that our technology solutions align with their strategic goals and drive measurable results.\r\n\r\nInnovation is at the heart of everything we do at QuantumBytes Solutions. We continuously explore new technologies and methodologies to stay ahead of industry trends and provide our clients with the best possible solutions. Our customer-centric approach ensures that we build strong, long-lasting relationships, delivering exceptional service and support throughout the entire project lifecycle. Our clients span various industries including finance, healthcare, retail, and more, all benefiting from our expertise in leveraging technology to achieve their business objectives.\r\n\r\nOur mission at QuantumBytes Solutions is to empower businesses with the technology they need to thrive in a rapidly evolving digital landscape. We believe that with the right tools and guidance, any organization can achieve significant improvements in efficiency, profitability, and growth. Our team is dedicated to providing high-quality solutions and unparalleled support, helping our clients navigate the complexities of the digital age with confidence.",
+            //    Website = "https://quantumbytes.com",
+            //    LinkedIn = "https://linkedin.com/company/quantumbytes",
+            //    Twitter = "https://twitter.com/quantumbytes"
+            //};
 
-            dbContext.Kompanije.Add(QuantumBytes);
-            dbContext.SaveChangesAsync();
+            //dbContext.Kompanije.Add(QuantumBytes);
+            //dbContext.SaveChangesAsync();
 
 
 

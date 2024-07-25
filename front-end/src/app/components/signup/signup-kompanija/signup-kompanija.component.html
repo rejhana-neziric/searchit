@@ -42,7 +42,7 @@
       <div class="form-group ">
         <label for="godinaOsnivanja" class="required">Year Founded</label>
         <select
-          type="number"
+
           class="form-control"
           name="godinaOsnivanja"
           [(ngModel)]="form.godinaOsnivanja"
@@ -65,7 +65,7 @@
       <div class="form-group ">
         <label for="lokacija" class="required">Location</label>
         <input
-          type="txt"
+          type="text"
           class="form-control"
           name="lokacija"
           [(ngModel)]="form.lokacija"
@@ -85,7 +85,6 @@
       <div class="form-group">
         <label for="brojZaposlenih" class="required">Number of Employees</label>
         <select
-          type="number"
           class="form-control"
           name="brojZaposlenih"
           [(ngModel)]="form.brojZaposlenih"
@@ -93,7 +92,7 @@
           #brojZaposlenih="ngModel"
           [ngClass]="{ 'is-invalid': f.submitted && brojZaposlenih.errors }"
         >
-          <option disabled selected>Select a number of employees</option>
+          <option value="" disabled selected>Select a number of employees</option>
           <option *ngFor="let number of brojZaposlenihRange" [value]="number">{{ number }}</option>
         </select>
         @if (brojZaposlenih.errors && f.submitted) {
@@ -179,7 +178,7 @@
 
 <div *ngIf="isRegisterDetails" class="register-form">
   <div class="register-container-details">
-    <app-signup-kompanija-opis (customEvent)="showRegisterDetails()"></app-signup-kompanija-opis>
+    <app-signup-kompanija-opis [kompanija]="kompanija" (customEvent)="showRegisterDetails()"></app-signup-kompanija-opis>
   </div>
 </div>
 

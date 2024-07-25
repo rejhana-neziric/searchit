@@ -1,7 +1,8 @@
-import {Component, Output, EventEmitter} from '@angular/core';
+import {Component, Output, EventEmitter, Input, OnInit} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NgClass, NgForOf, NgIf} from "@angular/common";
 import {RouterLink} from "@angular/router";
+import {KompanijaDodajEndpoint} from "../../../endpoints/kompanija-endpoint/dodaj/kompanija-dodaj-endpoint";
 
 @Component({
   selector: 'app-signup-kompanija-opis',
@@ -17,16 +18,14 @@ import {RouterLink} from "@angular/router";
   templateUrl: './signup-kompanija-opis.component.html',
   styleUrl: './signup-kompanija-opis.component.css'
 })
-export class SignupKompanijaOpisComponent {
+export class SignupKompanijaOpisComponent{
 
   @Output() customEvent = new EventEmitter<string>();
+  @Input() kompanija: any;
 
   form: any = {
     kratkiOpis: null,
     opis: null,
-    website: null,
-    linkedin: null,
-    twitter: null
   };
 
   isSignUp = false;
@@ -36,8 +35,14 @@ export class SignupKompanijaOpisComponent {
   username: string = '';
   role: string = "";
 
+  constructor(private kompanijaDodajEndpoint: KompanijaDodajEndpoint) { }
+
   onSubmit() {
-    return false;
+    const request = Object.assign({}, this.form, this.kompanija);
+
+    this.kompanijaDodajEndpoint.obradi(request).subscribe(response => {
+      console.log('Company registered successfully', response);
+    });
   }
 
   triggerEvent() {

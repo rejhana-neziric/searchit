@@ -47,6 +47,7 @@ export class SignupComponent {
   username: string = '';
   role: string = "Candidate";
   next: boolean = false;
+  korisnik: any = this.form;
 
   ismatching(){
     return this.form.password === this.form.confirmPassword;
@@ -59,26 +60,6 @@ export class SignupComponent {
       this.isSignUp = true;
       this.roles = this.storageService.getUser().roles;
     }
-  }
-
-  onSubmit(): void {
-   // const { username, password } = this.form;
-
-   // this.authService.login(username, password).subscribe({
-    //  next: data => {
-     //   this.storageService.saveUser(data);
-
-     //   this.isSignUpFailed = false;
-    //    this.isSignUp = true;
-      //  this.roles = this.storageService.getUser().roles;
-     //   this.username = this.storageService.getUser().username;
-      //  this.reloadPage();
-    //  },
-    //  error: err => {
-      //  this.errorMessage = err.error.message;
-     //   this.isSignUpFailed = true;
-  //    }
-  //  });
   }
 
   reloadPage(): void {

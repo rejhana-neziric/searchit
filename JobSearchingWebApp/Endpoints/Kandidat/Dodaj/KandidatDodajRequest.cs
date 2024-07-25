@@ -2,16 +2,14 @@
 {
     public class KandidatDodajRequest
     {
-        public string email { get; set; }
-        public string username { get; set; }
-        public string password { get; set; }
-        public int tema_id { get; set; }
-        public int jezik_id { get; set; }
-        public string ime { get; set; }
-        public string prezime { get; set; }
-        public DateTime datum_rodjenja { get; set; }
-        public string mjesto_prebivalista { get; set; }
-        public string zvanje { get; set; }
-        public string broj_telefona { get; set; }
+        public string Email { get; set; }
+        public string Username { get; set; }
+        public string Password { get; set; }
+        public string Ime { get; set; }
+        public string Prezime { get; set; }
+        public DateTime DatumRodjenja { get; set; }
+        public string MjestoPrebivalista { get; set; }
+        public string Zvanje { get; set; }
+        public string BrojTelefona { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {RouterLink} from "@angular/router";
 import {NgClass, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
@@ -25,7 +25,7 @@ import {SignupKompanijaOpisComponent} from "../signup-kompanija-opis/signup-komp
 })
 export class SignupKompanijaComponent implements OnInit{
   @Output() customEvent = new EventEmitter<string>();
-
+  @Input() korisnik: any;
 
   form: any = {
     naziv: null,
@@ -33,8 +33,6 @@ export class SignupKompanijaComponent implements OnInit{
     lokacija: null,
     logo: null,
     brojZaposlenih: null,
-    kratkiOpis: null,
-    opis: null,
     website: null,
     linkedin: null,
     twitter: null
@@ -50,6 +48,7 @@ export class SignupKompanijaComponent implements OnInit{
   selectedImage: string | ArrayBuffer | null = null;
   brojZaposlenihRange: string[] = [];
   isRegisterDetails: boolean = false;
+  kompanija : any
 
   constructor(private getBrojZaposlenihEndpoint : GetBrojZaposlenihEndpoint) {
   }
@@ -59,12 +58,20 @@ export class SignupKompanijaComponent implements OnInit{
   }
 
   ngOnInit(){
+    this.getGodine();
+    this.getNumberOfEmployees();
+    this.kompanija =  Object.assign({}, this.form, this.korisnik);
+
+  }
+
+  getGodine() {
     const trenutnaGodina = new Date().getFullYear();
     for (let godina = 1900; godina <= trenutnaGodina; godina++) {
       this.godine.push(godina);
     }
     this.godine = this.godine.reverse();
-    this.getNumberOfEmployees();
+
+    return this.godine;
   }
 
   reloadPage(): void {
@@ -79,6 +86,7 @@ export class SignupKompanijaComponent implements OnInit{
         this.selectedImage = e.target.result;
       };
       reader.readAsDataURL(file);
+      this.form.logo = this.selectedImage;
     }
   }
 
@@ -94,10 +102,13 @@ export class SignupKompanijaComponent implements OnInit{
         this.brojZaposlenihRange = x.lista;
       }
     })
+
+    return this.brojZaposlenihRange;
   }
 
   showRegisterDetails() {
     this.isRegisterDetails?   this.isRegisterDetails = false : this.isRegisterDetails = true;
+    this.kompanija =  Object.assign({}, this.form, this.korisnik);
   }
 
   triggerEvent() {

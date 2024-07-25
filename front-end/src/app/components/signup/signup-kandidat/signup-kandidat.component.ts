@@ -1,7 +1,8 @@
-import {Component, EventEmitter, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {RouterLink} from "@angular/router";
 import {NgClass} from "@angular/common";
+import {KandidatDodajEndpoint} from "../../../endpoints/kandidat/dodaj/kandidat-dodaj-endpoint";
 
 @Component({
   selector: 'app-signup-kandidat',
@@ -17,6 +18,7 @@ import {NgClass} from "@angular/common";
 })
 export class SignupKandidatComponent {
   @Output() customEvent = new EventEmitter<string>();
+  @Input() korisnik: any;
 
   form: any = {
     ime: null,
@@ -34,8 +36,15 @@ export class SignupKandidatComponent {
   username: string = '';
   role: string = "";
 
+  constructor(private kandidatDodajEndpoint: KandidatDodajEndpoint) {
+  }
+
   onSubmit() {
-    return false;
+    const kandidat = Object.assign({}, this.form, this.korisnik);
+
+    this.kandidatDodajEndpoint.obradi(kandidat).subscribe(response => {
+      console.log('Candidate registered successfully', response);
+    });
   }
 
   reloadPage(): void {

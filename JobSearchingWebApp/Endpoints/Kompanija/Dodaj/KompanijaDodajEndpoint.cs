@@ -1,54 +1,51 @@
 ﻿using JobSearchingWebApp.Data;
+using JobSearchingWebApp.Endpoints.Kandidat.Dodaj;
 using JobSearchingWebApp.Helper;
 using JobSearchingWebApp.Models;
+using JobSearchingWebApp.ViewModels;
+using MapsterMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using System.Runtime.CompilerServices;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
+
 
 namespace JobSearchingWebApp.Endpoints.Kompanija.Dodaj
 {
     [Tags("Kompanija")]
     [Route("kompanija-dodaj")]
-    public class KompanijaDodajEndpoint : MyBaseEndpoint<KompanijaDodajRequest, KompanijaDodajResponse>
+    public class KompanijaDodajEndpoint : MyBaseEndpoint<KompanijaDodajRequest, AuthenticateResponse>
     {
-        private readonly ApplicationDbContext dbContext; 
+        private readonly ApplicationDbContext dbContext;
+        private readonly IMapper mapper;
+        private readonly ITokenGenerator tokenGenerator;
 
-        public KompanijaDodajEndpoint(ApplicationDbContext dbContext)
+        public KompanijaDodajEndpoint(ApplicationDbContext dbContext, IMapper mapper, ITokenGenerator tokenGenerator)
         {
             this.dbContext = dbContext;
+            this.mapper = mapper;
+            this.tokenGenerator = tokenGenerator;
         }
 
         [HttpPost]
-        public override async Task<KompanijaDodajResponse> MyAction(KompanijaDodajRequest request, CancellationToken cancellationToken)
+        public override async Task<AuthenticateResponse> MyAction(KompanijaDodajRequest request, CancellationToken cancellationToken)
         {
-            var korisnik = new Models.Korisnik()
-            {
-                Email = request.email,
-                Username = request.username,
-                //Password = request.password,
-              //  TemaId = request.tema_id,
-               // JezikId = request.jezik_id,
-            };
+            var kompanija = mapper.Map<Models.Kompanija>(request);
 
-            var kompanija = new Models.Kompanija(korisnik)
-            {
-                Naziv = request.naziv,
-                GodinaOsnivanja = request.godina_osnivanja,
-                Lokacija = request.lokacija,
-                Logo = request.logo ?? null,
-                BrojZaposlenih = request.broj_zaposlenih, 
-                KratkiOpis = request.kratki_opis,   
-                Opis = request.opis, 
-                Website = request.Website ?? null, 
-                LinkedIn = request.LinkedIn ?? null,
-                Twitter = request.Twitter ?? null
-            };
+            kompanija.PasswordSalt = HelperMethods.GenerateSalt();
+            kompanija.PasswordHash = HelperMethods.GenerateHash(kompanija.PasswordSalt, request.Password);
+            kompanija.UlogaId = 3;
 
-            dbContext.Kompanije.Add(kompanija);
+            await dbContext.Kompanije.AddAsync(kompanija);
             await dbContext.SaveChangesAsync();
 
-            return new KompanijaDodajResponse { Id = kompanija.Id };
+            var korisnik = mapper.Map<Models.Korisnik>(kompanija);
+
+            var token = await tokenGenerator.GenerateJwtToken(korisnik);
+
+            return new AuthenticateResponse(korisnik, token);
         }
     }
 }

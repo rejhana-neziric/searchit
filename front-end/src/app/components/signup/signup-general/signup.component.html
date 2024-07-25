@@ -7,7 +7,6 @@
       <hr class="naslov-underline">
     </div>
 
-
       <form
         name="form"
 
@@ -126,29 +125,15 @@
           <button class="btn-confirm" >Next</button>
         </div>
 
-        <!--
-        <div class="form-group">
-          @if (f.submitted && isSignUpFailed) {
-            <div class="alert alert-danger" role="alert">
-              Login failed: {{ errorMessage }}
-            </div>
-          }
-        </div>
-         -->
-
       </form>
-
-
-
-
   </div>
 </div>
 
 <div *ngIf="next && role == 'Company'" class="register-container-details">
-  <app-signup-kompanija (customEvent)="openNext()"></app-signup-kompanija>
+  <app-signup-kompanija [korisnik]="korisnik" (customEvent)="openNext()"></app-signup-kompanija>
 </div>
 
 <div *ngIf="next && role == 'Candidate'" class="register-container-details">
-  <app-signup-kandidat (customEvent)="openNext()"></app-signup-kandidat>
+  <app-signup-kandidat [korisnik]="korisnik" (customEvent)="openNext()"></app-signup-kandidat>
 </div>
 
