@@ -4,7 +4,7 @@ namespace JobSearchingWebApp.ViewModels
 {
     public class AuthenticateResponse
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         public string Email { get; set; }
         public string Username { get; set; }
         public int UlogaId { get; set; }
@@ -15,7 +15,7 @@ namespace JobSearchingWebApp.ViewModels
         {
             Id = korisnik.Id;
             Email = korisnik.Email;
-            Username = korisnik.Username;
+            Username = korisnik.UserName;
             UlogaId = korisnik.UlogaId;
             Token = token;
         }

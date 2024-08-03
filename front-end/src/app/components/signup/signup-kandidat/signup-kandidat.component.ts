@@ -1,8 +1,8 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {RouterLink} from "@angular/router";
 import {NgClass} from "@angular/common";
-import {KandidatDodajEndpoint} from "../../../endpoints/kandidat/dodaj/kandidat-dodaj-endpoint";
+import {AuthService} from "../../../services/auth-service";
 
 @Component({
   selector: 'app-signup-kandidat',
@@ -16,7 +16,7 @@ import {KandidatDodajEndpoint} from "../../../endpoints/kandidat/dodaj/kandidat-
   templateUrl: './signup-kandidat.component.html',
   styleUrl: './signup-kandidat.component.css'
 })
-export class SignupKandidatComponent {
+export class SignupKandidatComponent implements OnInit{
   @Output() customEvent = new EventEmitter<string>();
   @Input() korisnik: any;
 
@@ -29,21 +29,39 @@ export class SignupKandidatComponent {
     zvanje: null
   };
 
-  isSignUp = false;
+  isSigned = false;
   isSignUpFailed = false;
   errorMessage = '';
   roles: string[] = [];
   username: string = '';
-  role: string = "";
 
-  constructor(private kandidatDodajEndpoint: KandidatDodajEndpoint) {
+  constructor(private authService: AuthService) {
+  }
+
+  ngOnInit(): void {
+
   }
 
   onSubmit() {
     const kandidat = Object.assign({}, this.form, this.korisnik);
 
-    this.kandidatDodajEndpoint.obradi(kandidat).subscribe(response => {
-      console.log('Candidate registered successfully', response);
+    console.log("pozvan onsubit", kandidat);
+
+    this.authService.registerCandidate(kandidat.username, kandidat.password, kandidat.email, kandidat.ime, kandidat.prezime,
+      kandidat.datumRodjenja, kandidat.mjestoPrebivalista, kandidat.zvanje, kandidat.brojTelefona).subscribe({
+      next: data => {
+        this.isSignUpFailed = false;
+        this.isSigned = true;
+        this.reloadPage();
+        console.log("pozvan endpoint")
+      },
+      error: err => {
+
+        if (err.status === 401) {
+          this.errorMessage = err.error || 'Invalid username or password';
+        }
+        this.isSignUpFailed = true;
+      }
     });
   }
 
@@ -55,3 +73,5 @@ export class SignupKandidatComponent {
     this.customEvent.emit();
   }
 }
+
+

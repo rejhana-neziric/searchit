@@ -2,7 +2,7 @@
 {
     public class KandidatSpaseneKompanijeUpdateRequest
     {
-        public int kandidat_id { get; set; }
-        public int kompanija_id { get; set; }
+        public string kandidat_id { get; set; }
+        public string kompanija_id { get; set; }
     }
 }

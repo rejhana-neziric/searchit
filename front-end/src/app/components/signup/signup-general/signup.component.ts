@@ -6,7 +6,7 @@ import {
   FormGroup,
   FormsModule,
   ReactiveFormsModule, ValidatorFn,
-  Validators
+  Validators,
 } from "@angular/forms";
 import {NgClass, NgIf} from "@angular/common";
 import {AuthService} from "../../../services/auth-service";
@@ -15,10 +15,13 @@ import {RouterLink} from "@angular/router";
 import {SignupKompanijaComponent} from "../signup-kompanija/signup-kompanija.component";
 import {SignupKandidatComponent} from "../signup-kandidat/signup-kandidat.component";
 import {SignupKompanijaOpisComponent} from "../signup-kompanija-opis/signup-kompanija-opis.component";
+import {PasswordPatternDirective} from "../../../directives/password-pattern.directive";
+
 
 @Component({
   selector: 'app-signup-general',
   standalone: true,
+
   imports: [
     ReactiveFormsModule,
     NgClass,
@@ -27,7 +30,8 @@ import {SignupKompanijaOpisComponent} from "../signup-kompanija-opis/signup-komp
     SignupKompanijaComponent,
     SignupKandidatComponent,
     NgIf,
-    SignupKompanijaOpisComponent
+    SignupKompanijaOpisComponent,
+    PasswordPatternDirective
   ],
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.css'
@@ -49,10 +53,6 @@ export class SignupComponent {
   next: boolean = false;
   korisnik: any = this.form;
 
-  ismatching(){
-    return this.form.password === this.form.confirmPassword;
-  }
-
   constructor(private authService: AuthService, private storageService: StorageService, private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
@@ -66,28 +66,6 @@ export class SignupComponent {
     window.location.reload();
   }
 
-  match(controlName: string, checkControlName: string): ValidatorFn {
-    return (formGroup: AbstractControl): { [key: string]: any } | null => {
-      const control = formGroup.get(controlName);
-      const matchingControl = formGroup.get(checkControlName);
-
-      if (!control || !matchingControl) {
-        return null;
-      }
-
-      if (matchingControl.errors && !matchingControl.errors['mustMatch']) {
-        return null;
-      }
-
-      if (control.value !== matchingControl.value) {
-        matchingControl.setErrors({ mustMatch: true });
-      } else {
-        matchingControl.setErrors(null);
-      }
-
-      return null;
-    };
-  }
 
   chooseRole(role: string) {
     this.role = role;

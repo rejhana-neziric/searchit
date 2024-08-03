@@ -9,7 +9,7 @@ namespace JobSearchingWebApp.Endpoints.Kompanija.GetById
 {
     [Tags("Kompanija")]
     [Route("kompanija/get-by-id")]
-    public class KompanijaGetByIdEndpoint : MyBaseEndpoint<int, KompanijaGetByIdResponse>
+    public class KompanijaGetByIdEndpoint : MyBaseEndpoint<string, KompanijaGetByIdResponse>
     {
         private readonly ApplicationDbContext dbContext;
 
@@ -19,7 +19,7 @@ namespace JobSearchingWebApp.Endpoints.Kompanija.GetById
         }
 
         [HttpGet("{id}")]
-        public override async Task<KompanijaGetByIdResponse> MyAction(int id, CancellationToken cancellationToken)
+        public override async Task<KompanijaGetByIdResponse> MyAction(string id, CancellationToken cancellationToken)
         {
             var kompanija = dbContext.Kompanije.Include(oglas => oglas.Oglasi).Where(x => x.Id == id).FirstOrDefault();
 

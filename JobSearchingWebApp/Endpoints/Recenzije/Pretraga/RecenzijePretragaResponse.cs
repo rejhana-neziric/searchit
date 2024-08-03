@@ -10,7 +10,7 @@
         public string Tekst { get; set; }
         public DateTime DatumVrijemeRecenzije { get; set; }
         public int BrojZvijezdica { get; set; }
-        public int KorisnikId { get; set; }
+        public string KorisnikId { get; set; }
         public string Pozicija { get; set; }
     }
 }

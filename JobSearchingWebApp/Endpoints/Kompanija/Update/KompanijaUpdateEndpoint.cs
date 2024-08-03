@@ -29,7 +29,7 @@ namespace JobSearchingWebApp.Endpoints.Kompanija.Update
             }
 
             kompanija.Email = request.email;
-            kompanija.Username = request.username;
+            kompanija.UserName = request.username;
             //kompanija.Password = request.password;
            // kompanija.TemaId = request.tema_id;
            // kompanija.JezikId = request.jezik_id;

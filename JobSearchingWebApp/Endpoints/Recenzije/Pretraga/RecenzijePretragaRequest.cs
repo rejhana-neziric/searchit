@@ -4,7 +4,7 @@
     {
         public string? tekst { get; set; }
         public int? brojZvijezdica { get; set; }
-        public int? korisnik_id { get; set; }
+        public string? korisnik_id { get; set; }
         public string? pozicija { get; set; }
     }
 }

@@ -8,7 +8,7 @@ namespace JobSearchingWebApp.Endpoints.KandidatOglas.Pretraga
     }
     public class KandidatiOglasiPretragaResponse
     {
-        public int KandidatId { get; set; }
+        public string KandidatId { get; set; }
         public int OglasId { get; set; }
         public DateTime DatumPrijave { get; set; }
         public string Status { get; set; }

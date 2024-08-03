@@ -4,6 +4,6 @@ namespace JobSearchingWebApp.Endpoints.Kompanija.Update
 {
     public class KompanijaUpdateResponse
     {
-        public int Id { get; set; } 
+        public string Id { get; set; } 
     }
 }

@@ -2,6 +2,7 @@
 using JobSearchingWebApp.Endpoints.CV.Dodaj;
 using JobSearchingWebApp.Endpoints.Kompanija.Dodaj;
 using JobSearchingWebApp.Helper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;

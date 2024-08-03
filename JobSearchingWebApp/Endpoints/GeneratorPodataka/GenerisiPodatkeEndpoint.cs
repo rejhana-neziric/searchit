@@ -1,7 +1,7 @@
 ﻿using Azure.Core;
 using JobSearchingWebApp.Data;
 using JobSearchingWebApp.Helper;
-using JobSearchingWebApp.Migrations;
+
 using JobSearchingWebApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -295,7 +295,7 @@ namespace JobSearchingWebApp.Endpoints.GeneratorPodataka
 
             var korisnik = new Models.Korisnik()
             {
-                Username = "quantumbytes",
+                //Username = "quantumbytes",
                // Password = "quantumbytes",
                 Email = "quantumbytes@gmail.com",
                 //TemaId = 1,

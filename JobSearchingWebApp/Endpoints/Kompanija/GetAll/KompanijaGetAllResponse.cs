@@ -9,7 +9,7 @@ namespace JobSearchingWebApp.Endpoints.Kompanija.GetAll
 
     public class KompanijaGetAllResponseKompanija
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         public string Naziv { get; set; }
         public int GodinaOsnivanja { get; set; }
         public string Lokacija { get; set; }

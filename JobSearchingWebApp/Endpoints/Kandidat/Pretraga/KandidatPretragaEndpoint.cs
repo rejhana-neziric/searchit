@@ -25,12 +25,12 @@ namespace JobSearchingWebApp.Endpoints.Kandidat.Pretraga
                                  .Kandidati
                                  .Where(x => (request.ime == null || x.Ime.ToLower().StartsWith(request.ime.ToLower())) 
                                           && (request.prezime == null || x.Prezime.ToLower().StartsWith(request.prezime.ToLower()))
-                                          && (request.username == null || x.Username.ToLower().StartsWith(request.username.ToLower())))
+                                          && (request.username == null || x.UserName.ToLower().StartsWith(request.username.ToLower())))
                                  .Select(x => new KandidatiPretragaResponse()
                                  {
                                      Id = x.Id,   
                                      Email = x.Email,
-                                     Username = x.Username,   
+                                     Username = x.UserName,   
                                      Ime = x.Ime,
                                      Prezime = x.Prezime,    
                                      DatumRodjenja = x.DatumRodjenja, 

@@ -5,7 +5,7 @@ namespace JobSearchingWebApp.Endpoints.Oglas.Dodaj
 {
     public class OglasDodajRequest
     {
-        public int kompanija_id { get; set; }
+        public string kompanija_id { get; set; }
         public string naziv_pozicije { get; set; }
         public string lokacija { get; set; }
         public DateTime datum_objave { get; set; }

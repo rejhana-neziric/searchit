@@ -10,7 +10,7 @@ namespace JobSearchingWebApp.Endpoints.KorisnikNotifikacija.Pretraga
 
     public class KorisniciNotifikacijePretragaResponse
     {
-        public int KorisnikId { get; set; }
+        public string KorisnikId { get; set; }
         public int NotifikacijaId { get; set; }
         public DateTime DatumPrimanja { get; set; }
         public bool Pogledano { get; set; }

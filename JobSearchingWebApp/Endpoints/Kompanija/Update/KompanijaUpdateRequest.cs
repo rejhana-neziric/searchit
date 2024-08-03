@@ -2,7 +2,7 @@
 {
     public class KompanijaUpdateRequest
     {
-        public int kompanija_id {  get; set; }  
+        public string kompanija_id {  get; set; }  
         public string email { get; set; }
         public string username { get; set; }
         public string password { get; set; }

@@ -1,0 +1,298 @@
+<app-navbar user='kandidat'></app-navbar>
+
+
+<div class="main d-flex flex-row">
+
+  <div class="sections">
+    <div class="d-flex flex-row ps-4 pt-5">
+      <img class="mt-1" style="width: 25px; height: 30px;" src="../../../../assets/img/sections.png" alt="">
+      <p class="fs-3 fw-bold ps-2">Sections</p>
+    </div>
+    <div class="ps-4 pt-1">
+      Select a section you want to add to your CV.
+    </div>
+    <div class="sidebar">
+      <div *ngFor="let section of sections"
+           [class.active]="section.id === selectedSectionId"
+           [class.completed]="section.isCompleted"
+           (click)="selectSection(section.id)"
+           class="section-item">
+        {{ section.name }}
+        <span *ngIf="section.isCompleted" class="tick">
+        <img src="assets/img/tick.png" alt="" style="width: 30px"></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sections-content">
+    <div *ngIf="selectedSectionId === 'section1'" class="section1 section d-flex flex-column">
+      <!-- Content for Section 1 -->
+
+      <p class="fs-3 fw-bold m-0">Personal Details</p>
+      <hr class="m-0">
+
+      <div class="row mt-5">
+
+        <div class="col-12 col-md-6">
+          <div class="form-group">
+            <label for="firstName" class="required">First Name</label>
+            <input
+              type="text"
+              class="form-control"
+              name="firstName"
+              [(ngModel)]="form.firstName"
+              required
+              minlength="3"
+              maxlength="30"
+              #firstName="ngModel"
+              [ngClass]="{ 'is-invalid': firstName.errors && submitted}"
+            />
+            @if (firstName.errors && submitted) {
+              <div class="invalid-feedback">
+                @if (firstName.errors['required']) {
+                  <div>First Name is required!</div>
+                }
+                @if (firstName.errors['minlength']) {
+                  <div>First Name must be at least 3 characters!</div>
+                }
+                @if (firstName.errors['maxlength']) {
+                  <div>First Name must be less than 30 characters!</div>
+                }
+              </div>
+            }
+          </div>
+        </div>
+
+        <div class="col-12 col-md-6">
+          <div class="form-group">
+            <label for="lastName" class="required">Last Name</label>
+            <input
+              type="text"
+              class="form-control"
+              name="lastName"
+              [(ngModel)]="form.lastName"
+              required
+              minlength="3"
+              maxlength="30"
+              #lastName="ngModel"
+              [ngClass]="{ 'is-invalid': lastName.errors && submitted}"
+            />
+            @if (lastName.errors && submitted) {
+              <div class="invalid-feedback">
+                @if (lastName.errors['required']) {
+                  <div>Last Name is required!</div>
+                }
+                @if (lastName.errors['minlength']) {
+                  <div>Last Name must be at least 3 characters!</div>
+                }
+                @if (lastName.errors['maxlength']) {
+                  <div>Last Name must be less than 30 characters!</div>
+                }
+              </div>
+            }
+          </div>
+        </div>
+
+        <div class="col-12 col-md-6">
+          <div class="form-group">
+            <label for="email" class="required">Email</label>
+            <input
+              type="text"
+              class="form-control"
+              name="email"
+              [(ngModel)]="form.email"
+              required
+              email
+              #email="ngModel"
+              [ngClass]="{ 'is-invalid': email.errors && submitted}"
+            />
+            @if (email.errors && submitted) {
+              <div class="invalid-feedback">
+                @if (email.errors['required']) {
+                  <div>Email is required!</div>
+                }
+                @if (email.errors['email']) {
+                  <div>Email is invalid!</div>
+                }
+              </div>
+            }
+          </div>
+        </div>
+
+        <div class="col-12 col-md-6">
+          <div class="form-group">
+            <label for="phoneNumber" class="required">Phone Number</label>
+            <input
+              type="tel"
+              class="form-control"
+              name="phoneNumber"
+              [(ngModel)]="form.phoneNumber"
+              required
+              pattern="^\+[0-9]{3}-[0-9]{3}-[0-9]{3}-[0-9]{3,4}$"
+              #phoneNumber="ngModel"
+              [ngClass]="{ 'is-invalid': phoneNumber.errors && submitted}"
+            />
+            @if (phoneNumber.errors && submitted) {
+              <div class="invalid-feedback">
+                @if (phoneNumber.errors['required']) {
+                  <div>Phone number is required!</div>
+                }
+                @if (phoneNumber.errors['pattern']) {
+                  <div> Invalid phone number format!</div>
+                }
+              </div>
+            }
+          </div>
+        </div>
+
+        <div class="col-12 col-md-6">
+          <div class="form-group">
+            <label for="country">Country</label>
+            <input
+              type="text"
+              class="form-control"
+              name="country"
+              [(ngModel)]="form.country"
+              #country="ngModel"
+              [ngClass]="{ 'is-invalid': country.errors && submitted}"
+            />
+          </div>
+        </div>
+
+        <div class="col-12 col-md-6">
+          <div class="form-group">
+            <label for="city">City</label>
+            <input
+              type="text"
+              class="form-control"
+              name="city"
+              [(ngModel)]="form.city"
+              #city="ngModel"
+              [ngClass]="{ 'is-invalid': city.errors && submitted}"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="button-section">
+        <button type="button" class="btn-confirm d-flex justify-content-center align-middle"
+                (click)="completeSection('section1')">Next section
+        </button>
+        <br>
+        <button type="button" class="btn-confirm d-flex justify-content-center align-middle"
+                (click)="completeSection('section1')">CV Preview
+        </button>
+
+      </div>
+    </div>
+    <div *ngIf="selectedSectionId === 'section2'" class="section2 section">
+      <!-- Content for Section 2 -->
+      <p class="fs-3 fw-bold m-0">Professional Summary</p>
+      <hr class="m-0">
+
+      <label class="mt-2">Write 2-4 short & energetic sentences to interest the reader! Mention your role, experience &
+        most
+        importantly - your biggest achievements, best qualities and skills.</label>
+
+      <textarea
+        type="text"
+        name="professionalSummary"
+        [(ngModel)]="form.professionalSummary"
+        #professionalSummary="ngModel"
+        rows="8"
+        style="width: 100%; margin-top: 20px"
+      ></textarea>
+
+      <div class="button-section">
+
+        <div class="d-flex flex-row mt-2">
+          <button type="button" class="btn-confirm d-flex justify-content-center align-middle"
+                  (click)="completeSection('section1')">Previous section
+          </button>
+          <button type="button" class="btn-confirm d-flex justify-content-center align-middle ms-2"
+                  (click)="completeSection('section1')">Next section
+          </button>
+        </div>
+
+        <br>
+        <button type="button" class="btn-confirm d-flex justify-content-center align-middle"
+                (click)="completeSection('section1')">CV Preview
+        </button>
+
+      </div>
+
+
+    </div>
+    <div *ngIf="selectedSectionId === 'section3'" class="section3 section">
+      <!-- Content for Section 3 -->
+      <p class="fs-3 fw-bold m-0">Employment History</p>
+      <hr class="m-0">
+      <div class="accordion" id="employmentAccordion">
+        <div *ngFor="let employment of employments; let i = index" class="accordion-item">
+          <h2 class="accordion-header" id="heading{{i}}">
+            <button class="accordion-button nav-link text-dark" (click)="toggleEmployment(i)"
+                    [attr.aria-expanded]="employment.isExpanded" [attr.aria-controls]="'collapse' + i">
+              {{ employment.companyName || 'New Employment' }}
+              <span class="icon ms-auto" [ngClass]="{'expanded': employment.isExpanded}">⯆</span>
+            </button>
+          </h2>
+          <div [id]="'collapse' + i" class="accordion-collapse collapse" [ngClass]="{'show': employment.isExpanded}"
+               [attr.aria-labelledby]="'heading' + i" data-bs-parent="#employmentAccordion">
+            <div class="accordion-body">
+              <form>
+
+                <div class="row mt-5">
+                  <div class="col-12 col-md-6">
+                    <div class="mb-3">
+                      <label for="companyName{{i}}" class="form-label">Company Name:</label>
+                      <input type="text" class="form-control" id="companyName{{i}}" [(ngModel)]="employment.companyName"
+                             name="companyName{{i}}">
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <div class="mb-3">
+                      <label for="position{{i}}" class="form-label">Position:</label>
+                      <input type="text" class="form-control" id="position{{i}}" [(ngModel)]="employment.position"
+                             name="position{{i}}">
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <div class="mb-3">
+                      <label for="startDate{{i}}" class="form-label">Start Date:</label>
+                      <input type="date" class="form-control" id="startDate{{i}}" [(ngModel)]="employment.startDate"
+                             name="startDate{{i}}">
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <div class="mb-3">
+                      <label for="endDate{{i}}" class="form-label">End Date:</label>
+                      <input type="date" class="form-control" id="endDate{{i}}" [(ngModel)]="employment.endDate"
+                             name="endDate{{i}}">
+                    </div>
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="description{{i}}" class="form-label">Description:</label>
+                    <textarea class="form-control" id="description{{i}}" [(ngModel)]="employment.description"
+                              name="description{{i}}"></textarea>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="btn mt-3" (click)="addEmployment()">Add New Employment</button>
+
+      <button (click)="completeSection('section3')">Complete Section 3</button>
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
+
+

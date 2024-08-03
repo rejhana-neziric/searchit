@@ -2,7 +2,7 @@ import {Component, Output, EventEmitter, Input, OnInit} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NgClass, NgForOf, NgIf} from "@angular/common";
 import {RouterLink} from "@angular/router";
-import {KompanijaDodajEndpoint} from "../../../endpoints/kompanija-endpoint/dodaj/kompanija-dodaj-endpoint";
+import {AuthService} from "../../../services/auth-service";
 
 @Component({
   selector: 'app-signup-kompanija-opis',
@@ -28,24 +28,41 @@ export class SignupKompanijaOpisComponent{
     opis: null,
   };
 
-  isSignUp = false;
+  isSigned = false;
   isSignUpFailed = false;
   errorMessage = '';
   roles: string[] = [];
   username: string = '';
   role: string = "";
 
-  constructor(private kompanijaDodajEndpoint: KompanijaDodajEndpoint) { }
+  constructor(private authService: AuthService) { }
 
   onSubmit() {
-    const request = Object.assign({}, this.form, this.kompanija);
+    const kompanija = Object.assign({}, this.form, this.kompanija);
 
-    this.kompanijaDodajEndpoint.obradi(request).subscribe(response => {
-      console.log('Company registered successfully', response);
+    this.authService.registerCompany(kompanija.username, kompanija.password, kompanija.email, kompanija.naziv, kompanija.godinaOsnivanja,
+      kompanija.lokacija, kompanija.logo, kompanija.brojZaposlenih, kompanija.kratkiOpis, kompanija.opis, kompanija.website,
+      kompanija.linkedin, kompanija.twitter).subscribe({
+      next: data => {
+        this.isSignUpFailed = false;
+        this.isSigned = true;
+        this.reloadPage();
+      },
+      error: err => {
+
+        if (err.status === 401) {
+          this.errorMessage = err.error || 'Invalid username or password';
+        }
+        this.isSignUpFailed = true;
+      }
     });
   }
 
   triggerEvent() {
     this.customEvent.emit();
+  }
+
+  reloadPage(): void {
+    window.location.reload();
   }
 }

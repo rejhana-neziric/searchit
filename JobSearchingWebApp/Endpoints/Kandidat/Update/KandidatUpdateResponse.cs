@@ -2,6 +2,6 @@
 {
     public class KandidatUpdateResponse
     {
-        public int id {  get; set; }    
+        public string id {  get; set; }    
     }
 }

@@ -2,7 +2,7 @@
 {
     public class KandidatSpaseniOglasiUpdateRequest
     {
-        public int kandidat_id { get; set; }
+        public string kandidat_id { get; set; }
         public int oglas_id { get; set; }
     }
 }

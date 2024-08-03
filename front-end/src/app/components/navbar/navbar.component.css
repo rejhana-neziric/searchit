@@ -11,12 +11,13 @@
   color: var(--secondary-color);
 }
 
-.naslov-underline{
+hr {
+  border: none;
+  color: var(--secondary-color);
   margin-top: -13px;
   margin-left: 0px;
   width: 43px;
   height: 5px;
-  background-color: var(--secondary-color);
 }
 
 .active-link {

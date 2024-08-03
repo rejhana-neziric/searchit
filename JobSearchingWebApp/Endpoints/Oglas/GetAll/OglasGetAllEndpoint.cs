@@ -10,13 +10,13 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Reflection;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace JobSearchingWebApp.Endpoints.Oglas.GetAll
 {
     [Tags("Oglas")]
     [Route("oglas-get")]
-    [Authorize]
     public class OglasGetAllEndpoint : MyBaseEndpoint<OglasGetAllRequest, OglasGetAllResponse>
     {
         private readonly ApplicationDbContext dbContext;

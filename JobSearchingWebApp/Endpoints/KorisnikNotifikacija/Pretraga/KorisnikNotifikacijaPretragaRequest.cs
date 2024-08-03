@@ -5,7 +5,7 @@ namespace JobSearchingWebApp.Endpoints.KorisnikNotifikacija.Pretraga
 {
     public class KorisnikNotifikacijaPretragaRequest
     {
-        public int? korisnik_id { get; set; }
+        public string? korisnik_id { get; set; }
         public int? notifikacija_id { get; set; }
         public DateTime? datum_primanja { get; set; }
         public bool? pogledano { get; set; }

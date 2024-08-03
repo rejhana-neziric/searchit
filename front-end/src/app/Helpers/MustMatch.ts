@@ -1,26 +1,22 @@
-import { Directive, Input } from '@angular/core';
-import { NG_VALIDATORS, Validator, AbstractControl, ValidationErrors } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 
-@Directive({
-  selector: '[appMustMatch]',
-  standalone: true,
-  providers: [{provide: NG_VALIDATORS, useExisting: MustMatchDirective, multi: true}]
-})
-export class MustMatchDirective implements Validator {
-  @Input('appMustMatch') mustMatch: string[] = [];
+export default class Validation {
+  static match(controlName: string, checkControlName: string) {
+    return (formGroup: FormGroup) => {
+      const control = formGroup.controls[controlName];
+      const checkControl = formGroup.controls[checkControlName];
 
-  validate(control: AbstractControl): ValidationErrors | null {
-    if (!control.parent) {
-      return null;
-    }
+      if (checkControl?.errors && !checkControl.errors['matching']) {
+        return null;
+      }
 
-    const password = control.parent.get(this.mustMatch[0]);
-    const confirmPassword = control.parent.get(this.mustMatch[1]);
-
-    if (password && confirmPassword && password.value !== confirmPassword.value) {
-      return { mustMatch: true };
-    }
-
-    return null;
+      if (control?.value !== checkControl?.value) {
+        checkControl?.setErrors({ matching: true });
+        return { matching: true };
+      } else {
+        checkControl?.setErrors(null);
+        return null;
+      }
+    };
   }
 }

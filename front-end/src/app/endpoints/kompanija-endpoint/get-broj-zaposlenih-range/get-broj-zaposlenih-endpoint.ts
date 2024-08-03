@@ -4,8 +4,7 @@ import {Injectable} from "@angular/core";
 import {HttpClient, HttpErrorResponse, HttpParams} from "@angular/common/http";
 import {Observable, throwError} from "rxjs";
 import {MojConfig} from "../../../moj-config";
-import { catchError } from 'rxjs/operators';
-import {OglasGetResponse} from "../../oglas-endpoint/get/oglas-get-response";
+
 
 @Injectable({providedIn: 'root'})
 export class GetBrojZaposlenihEndpoint implements MyBaseEndpoint<void, GetBrojZaposlenihResponse> {

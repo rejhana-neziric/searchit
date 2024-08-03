@@ -10,7 +10,7 @@ namespace JobSearchingWebApp.Endpoints.Kompanija.GetAll
         public List<string>? BrojZaposlenih { get; set; }
         public string? ImaOtvorenePozicije { get; set; }
         public bool? Spasen { get; set; }
-        public int? KandidatId { get; set; }
+        public string? KandidatId { get; set; }
         public List<SortParametar>? SortParametri { get; set; }
     }
 }

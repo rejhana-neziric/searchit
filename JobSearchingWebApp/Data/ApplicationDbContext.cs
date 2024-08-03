@@ -1,9 +1,11 @@
 ﻿using JobSearchingWebApp.Models;
+using JobSearchingWebApp.ViewModels;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace JobSearchingWebApp.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<Korisnik>
     {
         public DbSet<Korisnik> Korisnici { get; set; }
         public DbSet<Kompanija> Kompanije { get; set; }
@@ -37,7 +39,7 @@ namespace JobSearchingWebApp.Data
 
 
         public ApplicationDbContext(
-            DbContextOptions options) : base(options)
+            DbContextOptions<ApplicationDbContext> options) : base(options)
         {
         }
 

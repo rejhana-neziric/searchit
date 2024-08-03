@@ -2,10 +2,7 @@ import {Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {NavigationEnd, Router, RouterLink, RouterOutlet} from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { PocentaKandidatComponent } from "./components/kandidat/pocenta-kandidat/pocenta-kandidat.component";
-import {
-  PocetnaNeregistrovaniKorisnikComponent
-} from "./components/pocetna-neregistrovani-korisnik/pocetna-neregistrovani-korisnik.component";
+import { OglasiComponent } from "./components/oglasi/oglasi.component";
 import { HttpClient, HttpClientModule} from "@angular/common/http";
 import { JeziciComponent } from "./jezici/jezici.component";
 import { httpInterceptorProviders } from './Helpers/HttpRequestInterceptor';
@@ -21,8 +18,7 @@ import { isPlatformBrowser } from '@angular/common';
     FormsModule,
     RouterLink,
     HttpClientModule,
-    PocentaKandidatComponent,
-    PocetnaNeregistrovaniKorisnikComponent,
+    OglasiComponent,
     JeziciComponent],
   providers: [httpInterceptorProviders],
   templateUrl: './app.component.html',

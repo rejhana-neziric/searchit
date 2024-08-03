@@ -1,0 +1,120 @@
+.sections {
+  background-color: var(--primary-color);
+  height: 90vh;
+  order: 1;
+  flex: 1;
+}
+
+.sections-content {
+  order: 2;
+  flex: 5;
+  display: flex;
+  justify-content: center;
+  margin-top: 100px;
+}
+
+.section {
+  width: 75%;
+}
+
+.sidebar {
+  margin-top: 15px;
+}
+
+.section-item {
+  cursor: pointer;
+  font-size: small;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);
+  margin-top: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+hr{
+
+  width: 43px;
+  height: 5px;
+  color: var(--secondary-color);
+}
+
+.tick {
+  margin-left: 10px;
+  color: #88ab89;
+}
+
+.section-item.active {
+  background-color: #e0e0e0;
+}
+
+.section-item.completed {
+  padding: 5px;
+}
+
+.form-group {
+  text-decoration: none;
+  margin-bottom: 20px;
+}
+
+.btn-confirm {
+  background-color: var(--primary-color);
+  border-radius: 7px;
+  text-decoration: none;
+  color: #3d3b3b;
+  font-size: 16px;
+  width: 130px;
+  border: none;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+}
+
+.btn-confirm:hover {
+  background-color: rgba(221, 216, 196, 0.74);
+}
+
+.button-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.icon {
+  transition: transform 0.3s ease;
+}
+
+.icon.expanded {
+  transform: rotate(180deg);
+}
+
+.accordion-item {
+  border: none;
+  text-decoration: none;
+  margin-top: 10px;
+  background-color: #fff;
+}
+
+.accordion-button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: none;
+  text-decoration: none;
+  background-color: #fff;
+}
+
+.accordion-button .icon {
+  display: none;
+}
+
+.month-year-picker .mat-calendar-period-button {
+  pointer-events: none;
+}
+
+.month-year-picker .mat-calendar-period-button, .month-year-picker .mat-calendar-next-button, .month-year-picker .mat-calendar-previous-button {
+  display: none;
+}
+
+

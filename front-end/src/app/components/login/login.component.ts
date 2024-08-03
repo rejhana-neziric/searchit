@@ -52,7 +52,10 @@ export class LoginComponent implements OnInit{
         this.reloadPage();
       },
       error: err => {
-        this.errorMessage = err.error.message;
+
+        if (err.status === 401) {
+          this.errorMessage = err.error.Message || 'Invalid username or password';
+        }
         this.isLoginFailed = true;
       }
     });

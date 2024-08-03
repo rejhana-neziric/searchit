@@ -9,7 +9,7 @@ namespace JobSearchingWebApp.Endpoints.Kompanija.Pretraga
 
     public class KompanijePretragaResponse
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         public string Email { get; set; }
         public string Naziv { get; set; }
         public int GodinaOsnivanja { get; set; }

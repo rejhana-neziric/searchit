@@ -14,42 +14,40 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Identity;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace JobSearchingWebApp.Endpoints.Kandidat.Dodaj
 {
     [Tags("Kandidat")]
     [Route("kandidat-dodaj")]
-    public class KandidatDodajEndpoint : MyBaseEndpoint<KandidatDodajRequest, AuthenticateResponse>
+    public class KandidatDodajEndpoint : MyBaseEndpoint<KandidatDodajRequest, IActionResult>
     {
         private readonly ApplicationDbContext dbContext;
         private readonly IMapper mapper;
-        private readonly ITokenGenerator tokenGenerator;
+        private readonly UserManager<Models.Korisnik> userManager;
 
-        public KandidatDodajEndpoint(ApplicationDbContext dbContext, IMapper mapper, ITokenGenerator tokenGenerator)
+        public KandidatDodajEndpoint(ApplicationDbContext dbContext, IMapper mapper, UserManager<Models.Korisnik> userManager)
         {
             this.dbContext = dbContext;
             this.mapper = mapper;
-            this.tokenGenerator = tokenGenerator;
+            this.userManager = userManager; 
         }
 
         [HttpPost]
-        public override async Task<AuthenticateResponse> MyAction(KandidatDodajRequest request, CancellationToken cancellationToken)
+        public override async Task<IActionResult> MyAction([FromBody] KandidatDodajRequest request, CancellationToken cancellationToken)
         {
             var kandidat = mapper.Map<Models.Kandidat>(request);
-
             kandidat.PasswordSalt = HelperMethods.GenerateSalt();
-            kandidat.PasswordHash = HelperMethods.GenerateHash(kandidat.PasswordSalt, request.Password);
             kandidat.UlogaId = 2;
 
+            var result = await userManager.CreateAsync(kandidat, request.Password);
+            if (!result.Succeeded)
+                return BadRequest(result.Errors);
 
-            await dbContext.Kandidati.AddAsync(kandidat);
-            await dbContext.SaveChangesAsync();
+            await userManager.AddToRoleAsync(kandidat, "Kandidat");
 
-            var korisnik = mapper.Map<Models.Korisnik>(kandidat);
-
-            var token = await tokenGenerator.GenerateJwtToken(korisnik);
-
-            return new AuthenticateResponse(korisnik, token);
+            return Ok(new { Result = "User created successfully" });
         }
     }
 }

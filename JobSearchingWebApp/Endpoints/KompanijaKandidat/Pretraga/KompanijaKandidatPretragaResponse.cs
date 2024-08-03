@@ -9,8 +9,8 @@ namespace JobSearchingWebApp.Endpoints.KompanijaKandidat.Pretraga
 
     public class KompanijeKandidatiPretragaResponse
     {
-        public int KompanijaId { get; set; }
-        public int KandidatId { get; set; }
+        public string KompanijaId { get; set; }
+        public string KandidatId { get; set; }
         public DateTime DatumRazgovora { get; set; }
     }
 }

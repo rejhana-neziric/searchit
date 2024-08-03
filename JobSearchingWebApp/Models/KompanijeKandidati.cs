@@ -9,10 +9,10 @@ namespace JobSearchingWebApp.Models
         [Key]
         public int Id { get; set; }
         [ForeignKey(nameof(Kompanija))]
-        public int KompanijaId { get; set; }
+        public string KompanijaId { get; set; }
         public Kompanija Kompanija { get; set; }
         [ForeignKey(nameof(Kandidat))]
-        public int KandidatId { get; set; }
+        public string KandidatId { get; set; }
         public Kandidat Kandidat { get; set; }
         public DateTime DatumRazgovora { get; set; }
     }

@@ -1,10 +1,11 @@
-﻿using JobSearchingWebApp.Models;
+﻿using JobSearchingWebApp.Endpoints.Auth;
+using JobSearchingWebApp.Models;
 
 namespace JobSearchingWebApp.Endpoints.Kompanija.Dodaj
 {
-    public class KompanijaDodajRequest
+    public class KompanijaDodajRequest : IUserRegistrationRequest
     {
-        public string Username { get; set; }
+        public string UserName { get; set; }
         public string Password { get; set; }
         public string Email { get; set; }
         public string Naziv { get; set; }

@@ -27,7 +27,7 @@ namespace JobSearchingWebApp.Endpoints.Kandidat.Update
             }
 
             kandidat.Email = request.email; 
-            kandidat.Username = request.username;   
+            kandidat.UserName = request.username;   
            // kandidat.Password = request.password;   
             //kandidat.TemaId = request.tema_id;  
            // kandidat.JezikId = request.jezik_id;    
