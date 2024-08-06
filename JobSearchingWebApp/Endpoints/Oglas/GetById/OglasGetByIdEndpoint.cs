@@ -54,8 +54,8 @@ namespace JobSearchingWebApp.Endpoints.Oglas.GetById
                     Kvalifikacija = opis is null ? " " : opis.Kvalifikacija,
                     Vjestine = opis is null ? " " : opis.Vjestine,
                     Benefiti = opis is null ? " " : opis.Benefiti,
-                    MinimumGodinaIskustva = opis is null ? 1 :  opis.MinimumGodinaIskustva,
-                    PrefiraneGodineIskstva = opis is null ? 1 : opis.PrefiraneGodineIskstva
+                    MinimumGodinaIskustva = (int)(opis is null ? 1 :  opis.MinimumGodinaIskustva),
+                    PrefiraneGodineIskstva = (int)(opis is null ? 1 : opis.PrefiraneGodineIskstva)
                 }
             };
 

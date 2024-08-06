@@ -7,6 +7,8 @@ import { HttpClient, HttpClientModule} from "@angular/common/http";
 import { JeziciComponent } from "./jezici/jezici.component";
 import { httpInterceptorProviders } from './Helpers/HttpRequestInterceptor';
 import { isPlatformBrowser } from '@angular/common';
+import {HomeComponent} from "./components/home/home.component";
+import {OglasDodajComponent} from "./components/oglas-dodaj/oglas-dodaj.component";
 
 @Component({
   selector: 'app-root',
@@ -19,7 +21,10 @@ import { isPlatformBrowser } from '@angular/common';
     RouterLink,
     HttpClientModule,
     OglasiComponent,
-    JeziciComponent],
+    JeziciComponent,
+    HomeComponent,
+    OglasDodajComponent
+  ],
   providers: [httpInterceptorProviders],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
