@@ -10,6 +10,8 @@ import { isPlatformBrowser } from '@angular/common';
 import {AuthService} from "./services/auth-service";
 import {JwtInterceptor} from "./interceptors/jwt.interceptor";
 import {NotificationModalComponent} from "./components/notifications/notification-modal/notification-modal.component";
+import {HomeComponent} from "./components/home/home.component";
+import {OglasDodajComponent} from "./components/oglas-dodaj/oglas-dodaj.component";
 
 @Component({
   selector: 'app-root',

@@ -8,7 +8,7 @@ namespace JobSearchingWebApp.Endpoints.Oglas.GetById
         public string KompanijaNaziv { get; set; }
         public string NazivPozicije { get; set; }
         public DateTime DatumObjave { get; set; }
-        public double Plata { get; set; }
+        public string Plata { get; set; }
         public string TipPosla { get; set; }
         public DateTime RokPrijave { get; set; }
         public DateTime? DatumModificiranja { get; set; }

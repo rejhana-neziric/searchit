@@ -119,8 +119,8 @@ namespace JobSearchingWebApp.Endpoints.Oglas.GetAll
                                       .Select(opis => new OglasGetAllResponseOpisOglas
                                       {
                                           Id = opis.Id,
-                                          MinimumGodinaIskustva = opis.MinimumGodinaIskustva,
-                                          PrefiraneGodineIskstva = opis.PrefiraneGodineIskstva
+                                          MinimumGodinaIskustva = (int)opis.MinimumGodinaIskustva,
+                                          PrefiraneGodineIskstva = (int)opis.PrefiraneGodineIskstva
                                       })
                                       .SingleOrDefault()!,
             }).ToList();
