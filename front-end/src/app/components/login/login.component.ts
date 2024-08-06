@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from "../../services/auth-service";
-import {StorageService} from "../../services/storage-service";
 import {FormsModule} from "@angular/forms";
-import {NgClass} from "@angular/common";
-import {RouterLink} from "@angular/router";
+import {NgClass, NgIf} from "@angular/common";
+import {ActivatedRoute, Router, RouterLink} from "@angular/router";
+import {take} from "rxjs";
 
 @Component({
   selector: 'app-login',
@@ -11,12 +11,13 @@ import {RouterLink} from "@angular/router";
   imports: [
     FormsModule,
     NgClass,
-    RouterLink
+    RouterLink,
+    NgIf
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
-export class LoginComponent implements OnInit{
+export class LoginComponent implements OnInit {
   form: any = {
     username: null,
     password: null
@@ -24,38 +25,53 @@ export class LoginComponent implements OnInit{
 
   isLoggedIn = false;
   isLoginFailed = false;
-  errorMessage = '';
-  roles: string[] = [];
+  errorMessage: string = '';
   username: string = '';
+  returnUrl: string | null = null;
+  errorMessages: string[] = [];
 
   constructor(private authService: AuthService,
-              private storageService: StorageService) { }
+              private router: Router,
+              private activatedRoute: ActivatedRoute) {
+
+    this.authService.user$.pipe(take(1)).subscribe({
+      next: user => {
+        if (user) {
+          this.router.navigateByUrl('/');
+
+        } else {
+          this.activatedRoute.queryParams.subscribe({
+            next: (params: any) => {
+              if (params) {
+                this.returnUrl = params['returnUrl'];
+              }
+            }
+          })
+        }
+      }
+    })
+  }
 
   ngOnInit(): void {
-    if (this.storageService.isLoggedIn()) {
-      this.isLoggedIn = true;
-      this.roles = this.storageService.getUser().roles;
-    }
   }
 
   onSubmit(): void {
-    const { username, password } = this.form;
+    const {username, password} = this.form;
+    this.errorMessage = '';
 
     this.authService.login(username, password).subscribe({
       next: data => {
-        this.storageService.saveUser(data);
-
         this.isLoginFailed = false;
         this.isLoggedIn = true;
-        this.roles = this.storageService.getUser().roles;
-        this.username = this.storageService.getUser().username;
-        this.reloadPage();
-      },
-      error: err => {
 
-        if (err.status === 401) {
-          this.errorMessage = err.error.Message || 'Invalid username or password';
+        if (this.returnUrl) {
+          this.router.navigateByUrl(this.returnUrl);
+        } else {
+          this.router.navigateByUrl('/');
         }
+      },
+      error: error => {
+        this.errorMessage = error.error.message;
         this.isLoginFailed = true;
       }
     });
@@ -63,5 +79,9 @@ export class LoginComponent implements OnInit{
 
   reloadPage(): void {
     window.location.reload();
+  }
+
+  resendEmailConfirmationLink() {
+    this.router.navigateByUrl('/send-email/resend-email-confirmation-link');
   }
 }

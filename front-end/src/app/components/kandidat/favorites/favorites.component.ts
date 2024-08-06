@@ -3,14 +3,14 @@ import {NavbarComponent} from "../../navbar/navbar.component";
 import {FormsModule} from "@angular/forms";
 import {DatePipe, NgForOf, NgIf} from "@angular/common";
 import {NgxPaginationModule} from "ngx-pagination";
-import {NotificationComponent} from "../../notification/notification.component";
+import {NotificationToastComponent} from "../../notifications/notification-toast/notification-toast.component";
 import {OglasGetResponseOglasi} from "../../../endpoints/oglas-endpoint/get/oglas-get-response";
 import {OglasGetEndpoint} from "../../../endpoints/oglas-endpoint/get/oglas-get-endpoint";
 import {firstValueFrom} from "rxjs";
 import {OglasGetRequest} from "../../../endpoints/oglas-endpoint/get/oglas-get-request";
 import {RouterLink} from "@angular/router";
 import {HttpErrorResponse} from "@angular/common/http";
-import {NotificationService} from "../../notification/notification-service";
+import {NotificationService} from "../../../services/notification-service";
 import {
   KandidatSpaseniOglasiUpdateEndpoint
 } from "../../../endpoints/kandidat-spaseni-oglasi-endpoint/update/kandidat-spaseni-oglasi-update-endpoint";
@@ -33,7 +33,7 @@ declare var bootstrap: any;
     NgForOf,
     NgIf,
     NgxPaginationModule,
-    NotificationComponent,
+    NotificationToastComponent,
     RouterLink,
     MatButtonToggle,
     MatButtonToggleGroup,

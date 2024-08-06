@@ -5,7 +5,7 @@ import {ActivatedRoute, RouterLink} from "@angular/router";
 import {KompanijaGetByIdResponse} from "../../endpoints/kompanija-endpoint/get-by-id/kompanija-get-by-id-response";
 import {KompanijaGetByIdEndpoint} from "../../endpoints/kompanija-endpoint/get-by-id/kompanija-get-by-id-endpoint";
 import {NgxPaginationModule} from "ngx-pagination";
-import {NotificationComponent} from "../notification/notification.component";
+import {NotificationToastComponent} from "../notifications/notification-toast/notification-toast.component";
 import {firstValueFrom} from "rxjs";
 import {OglasGetRequest} from "../../endpoints/oglas-endpoint/get/oglas-get-request";
 import {OglasGetEndpoint} from "../../endpoints/oglas-endpoint/get/oglas-get-endpoint";
@@ -21,7 +21,7 @@ import {OglasGetResponseOglasi} from "../../endpoints/oglas-endpoint/get/oglas-g
     RouterLink,
     NgIf,
     NgxPaginationModule,
-    NotificationComponent
+    NotificationToastComponent
   ],
   templateUrl: './kompanija-detalji.component.html',
   styleUrl: './kompanija-detalji.component.css'

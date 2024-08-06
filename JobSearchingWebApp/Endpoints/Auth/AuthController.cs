@@ -16,6 +16,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using JobSearchingWebApp.Endpoints.Kandidat.Dodaj;
 using JobSearchingWebApp.Endpoints.Kompanija.Dodaj;
+using Microsoft.Identity.Client;
+using Mailjet.Client.Resources;
+using Microsoft.AspNetCore.WebUtilities;
 
 namespace JobSearchingWebApp.Endpoints.Auth
 {
@@ -26,16 +29,18 @@ namespace JobSearchingWebApp.Endpoints.Auth
         private readonly UserManager<Models.Korisnik> userManager;
         private readonly SignInManager<Models.Korisnik> signInManager;
         private readonly IMapper mapper;
-        private readonly IConfiguration configuration;
-        private readonly JWTService jwtService;
+        private readonly IConfiguration config;
+        private readonly JWTService jwtService; 
+        private readonly EmailService emailService;
 
-        public AuthController(UserManager<Models.Korisnik> userManager, SignInManager<Models.Korisnik> signInManager, IMapper mapper, IConfiguration configuration, JWTService jwtService)
+        public AuthController(UserManager<Models.Korisnik> userManager, SignInManager<Models.Korisnik> signInManager, IMapper mapper, IConfiguration config, JWTService jwtService, EmailService emailService)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.mapper = mapper;
-            this.configuration = configuration;
+            this.config = config;
             this.jwtService = jwtService;
+            this.emailService = emailService;   
         }
 
         [HttpPost("register/admin")]
@@ -56,24 +61,76 @@ namespace JobSearchingWebApp.Endpoints.Auth
             return await RegisterUser<Models.Kompanija, KompanijaDodajRequest>(request, "Kompanija", 3);
         }
 
-        [HttpGet("refresh-token")]
-        [Authorize]
-        public async Task<IActionResult> RefereshToken()
+        [HttpPut("confirm-email")]
+        public async Task<IActionResult> ConfirmEmail(ConfirmEmail model)
         {
-            var token = Request.Cookies["identityAppRefreshToken"];
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var user = await userManager.FindByEmailAsync(model.Email);
 
-            return Ok(userId);
+            if (user == null) 
+                return Unauthorized(new { message = "This email address has not been registered yet" } );
+
+            if (user.EmailConfirmed == true) 
+                return BadRequest(new { message = "Your email was confirmed before. Please login to your account" });
+
+            try
+            {
+                var decodedTokenBytes = WebEncoders.Base64UrlDecode(model.Token);
+                var decodedToken = Encoding.UTF8.GetString(decodedTokenBytes);
+
+                var result = await userManager.ConfirmEmailAsync(user, decodedToken);
+                if (result.Succeeded)
+                { 
+                    return Ok(new JsonResult(new { title = "Email confirmed", message = "Your email address is confirmed. You can login now" }));
+                }
+
+                return BadRequest("Invalid token. Please try again");
+            }
+            catch (Exception)
+            {
+                return BadRequest("Invalid token. Please try again");
+            }
         }
 
+        [HttpPost("resend-email-confirmation-link/{email}")]
+        public async Task<IActionResult> ResendEMailConfirmationLink(string email)
+        {
+            if (string.IsNullOrEmpty(email)) return BadRequest("Invalid email");
+            var user = await userManager.FindByEmailAsync(email);
+
+            if (user == null) return Unauthorized("This email address has not been registerd yet");
+            if (user.EmailConfirmed == true) return BadRequest("Your email address was confirmed before. Please login to your account");
+
+            try
+            {
+                if (await SendConfirmEMailAsync(user))
+                {
+                    return Ok(new JsonResult(new { title = "Confirmation link sent", message = "Please confirm your email address" }));
+                }
+
+                return BadRequest("Failed to send email. PLease contact admin");
+            }
+            catch (Exception)
+            {
+                return BadRequest("Failed to send email. PLease contact admin");
+            }
+        }
+
+        [Authorize]
+        [HttpGet("refresh-token")]
+        public async Task<ActionResult<AuthResponse>> RefereshToken()
+        {
+            var user = await userManager.FindByEmailAsync(User.FindFirst(ClaimTypes.Email)?.Value);
+
+            return new AuthResponse { JWT = await jwtService.CreateJWT(user), };
+        }
 
         [HttpPost("login")]
-        public async Task<ActionResult<LoginResponse>> Login([FromBody] LoginRequest model)
+        public async Task<ActionResult<AuthResponse>> Login([FromBody] LoginRequest model)
         {
             var user = await userManager.FindByNameAsync(model.Username);
-            if (user == null) return Unauthorized(new { Message = "Invalid username or password" });
+            if (user == null) return Unauthorized(new { message = "Invalid username or password" });
 
-            //if (user.EmailConfirmed == false) return Unauthorized("Please confirm your email.");
+            if (user.EmailConfirmed == false) return Unauthorized(new { message = "Please confirm your email." });
 
             var result = await signInManager.CheckPasswordSignInAsync(user, model.Password, false);
 
@@ -107,7 +164,7 @@ namespace JobSearchingWebApp.Endpoints.Auth
 
             var token = jwtService.CreateJWT(user);
 
-            return new LoginResponse { JWT = await jwtService.CreateJWT(user), };
+            return new AuthResponse { JWT = await jwtService.CreateJWT(user), };
         }
 
         private async Task<IActionResult> RegisterUser<TUser, TRequest>(TRequest request, string role, int roleId)
@@ -124,7 +181,36 @@ namespace JobSearchingWebApp.Endpoints.Auth
 
             await userManager.AddToRoleAsync(user, role);
 
-            return Ok(new { Result = $"{role} created successfully" });
+            try
+            {
+                if (await SendConfirmEMailAsync(user))
+                {
+                    return Ok(new JsonResult(new { title = "Account Created", message = "Your account has been created, please confirm your email address." }));
+                }
+
+                return BadRequest("Failed to send email. Please contact admin");
+            }
+            catch (Exception)
+            {
+                return BadRequest("Failed to send email. Please contact admin");
+            }
+        }
+
+        private async Task<bool> SendConfirmEMailAsync(Korisnik user)
+        {
+            var token = await userManager.GenerateEmailConfirmationTokenAsync(user);
+            token = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
+            var url = $"{config["JwtSettings:Audience"]}/{config["Email:ConfirmEmailPath"]}?token={token}&email={user.Email}";
+
+            var body = $"<p>Hello</p>" +
+                "<p>Please confirm your email address by clicking on the following link.</p>" +
+                $"<p><a href=\"{url}\">Click here</a></p>" +
+                "<p>Thank you,</p>" +
+                $"<br>{config["Email:ApplicationName"]}";
+
+            var emailSend = new EmailSend(user.Email, "Confirm your email", body);
+
+            return await emailService.SendEmailAsync(emailSend);
         }
     }
 }

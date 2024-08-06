@@ -1,22 +1,20 @@
-import {ApplicationConfig, NgModule} from '@angular/core';
+import { ApplicationConfig } from '@angular/core';
 import { provideRouter } from '@angular/router';
-import {AppRoutingModule, routes} from './app.routes';
-import {BrowserModule, provideClientHydration} from "@angular/platform-browser";
-import {provideHttpClient, withFetch} from "@angular/common/http";
-import { provideNoopAnimations } from '@angular/platform-browser/animations';
-import { MatPaginatorModule} from "@angular/material/paginator";
-import { NgxPaginationModule } from "ngx-pagination";
+import { routes} from './app.routes';
+import { provideHttpClient, withFetch, withInterceptors } from "@angular/common/http";
 import { provideAnimations } from '@angular/platform-browser/animations';
-import {AppComponent} from "./app.component";
-import bootstrap from '../main.server';
-import {JwtHelperService} from "@auth0/angular-jwt";
+import { JwtHelperService } from "@auth0/angular-jwt";
+import { JwtInterceptor } from "./interceptors/jwt.interceptor";
 
 export const appConfig: ApplicationConfig = {
   providers: [provideRouter(routes),
               //provideClientHydration(),
-              provideHttpClient(withFetch()),
+              provideHttpClient(
+                withFetch(),
+                withInterceptors([JwtInterceptor])
+              ),
               provideAnimations(),
-              JwtHelperService
+              JwtHelperService,
   ]
 };
 

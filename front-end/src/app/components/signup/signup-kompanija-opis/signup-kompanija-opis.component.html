@@ -60,7 +60,23 @@
       <button class="btn-confirm">Sign up</button>
     </div>
 
+    <div class="form-group">
+      @if (f.submitted && isSignUpFailed) {
+        <div class="alert alert-danger" role="alert">
+          Signup failed: {{ errorMessage }}
+        </div>
+      }
+    </div>
   </form>
+
+}
+
+@else {
+  <div class="alert alert-success">Your account has been created.</div>
+
+  <div class="d-flex flex-row justify-content-end">
+    <button class="btn-confirm mt-2" [routerLink]="'/login'">Login</button>
+  </div>
 }
 
 

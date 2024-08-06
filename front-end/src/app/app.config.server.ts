@@ -8,7 +8,7 @@ const serverConfig: ApplicationConfig = {
   providers: [
     provideServerRendering(),
     provideClientHydration(),
-    JwtHelperService
+    JwtHelperService,
   ]
 };
 

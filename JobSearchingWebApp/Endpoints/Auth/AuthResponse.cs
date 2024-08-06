@@ -1,6 +1,6 @@
 ﻿namespace JobSearchingWebApp.Endpoints.Auth
 {
-    public class LoginResponse
+    public class AuthResponse
     {
         public string JWT { get; set; }
     }

@@ -1,21 +1,16 @@
 import { Component } from '@angular/core';
 import {
-  AbstractControl,
-  FormBuilder,
-  FormControl,
-  FormGroup,
   FormsModule,
-  ReactiveFormsModule, ValidatorFn,
-  Validators,
+  ReactiveFormsModule,
 } from "@angular/forms";
 import {NgClass, NgIf} from "@angular/common";
 import {AuthService} from "../../../services/auth-service";
-import {StorageService} from "../../../services/storage-service";
-import {RouterLink} from "@angular/router";
+import {Router, RouterLink} from "@angular/router";
 import {SignupKompanijaComponent} from "../signup-kompanija/signup-kompanija.component";
 import {SignupKandidatComponent} from "../signup-kandidat/signup-kandidat.component";
 import {SignupKompanijaOpisComponent} from "../signup-kompanija-opis/signup-kompanija-opis.component";
 import {PasswordPatternDirective} from "../../../directives/password-pattern.directive";
+import {take} from "rxjs";
 
 
 @Component({
@@ -31,7 +26,7 @@ import {PasswordPatternDirective} from "../../../directives/password-pattern.dir
     SignupKandidatComponent,
     NgIf,
     SignupKompanijaOpisComponent,
-    PasswordPatternDirective
+    PasswordPatternDirective,
   ],
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.css'
@@ -53,17 +48,19 @@ export class SignupComponent {
   next: boolean = false;
   korisnik: any = this.form;
 
-  constructor(private authService: AuthService, private storageService: StorageService, private formBuilder: FormBuilder) { }
-
-  ngOnInit(): void {
-    if (this.storageService.isLoggedIn()) {
-      this.isSignUp = true;
-      this.roles = this.storageService.getUser().roles;
-    }
+  constructor(private authService: AuthService,
+              private router: Router) {
+    this.authService.user$.pipe(take(1)).subscribe({
+      next: user => {
+        if(user) {
+          this.router.navigateByUrl('/');
+        }
+      }
+    })
   }
 
-  reloadPage(): void {
-    window.location.reload();
+  ngOnInit(): void {
+
   }
 
 

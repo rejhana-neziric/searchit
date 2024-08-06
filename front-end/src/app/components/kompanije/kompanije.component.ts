@@ -6,20 +6,15 @@ import {
   GetBrojZaposlenihEndpoint
 } from "../../endpoints/kompanija-endpoint/get-broj-zaposlenih-range/get-broj-zaposlenih-endpoint";
 import {NgxPaginationModule} from "ngx-pagination";
-import {NotificationComponent} from "../notification/notification.component";
+import {NotificationToastComponent} from "../notifications/notification-toast/notification-toast.component";
 import {KompanijeGetEndpoint} from "../../endpoints/kompanija-endpoint/get/kompanije-get-endpoint";
 import {firstValueFrom} from "rxjs";
 import {KompanijeGetRequest} from "../../endpoints/kompanija-endpoint/get/kompanije-get-request";
 import {KompanijeGetResponseKomapanija} from "../../endpoints/kompanija-endpoint/get/kompanije-get-response";
-import {OglasGetResponseOglasi} from "../../endpoints/oglas-endpoint/get/oglas-get-response";
-import {OglasGetByIdResponse} from "../../endpoints/oglas-endpoint/get-by-id/oglas-get-by-id-response";
 import {SortParametar} from "../../endpoints/SortParametar";
 import {KompanijaGetByIdResponse} from "../../endpoints/kompanija-endpoint/get-by-id/kompanija-get-by-id-response";
 import {KompanijaGetByIdEndpoint} from "../../endpoints/kompanija-endpoint/get-by-id/kompanija-get-by-id-endpoint";
 import {RouterLink} from "@angular/router";
-import {
-  KanidatSpaseniOglasiDodajRequest
-} from "../../endpoints/kandidat-spaseni-oglasi-endpoint/dodaj/kanidat-spaseni-oglasi-dodaj-request";
 import {HttpErrorResponse} from "@angular/common/http";
 import {
   KandidatSpaseneKompanijeDodajRequest
@@ -27,7 +22,7 @@ import {
 import {
   KandidatSpaseneKompanijeDodajEndpoint
 } from "../../endpoints/kandidat-spasene-kompanije-endpoint/dodaj/kandidat-spasene-kompanije-dodaj-endpoint";
-import {NotificationService} from "../notification/notification-service";
+import {NotificationService} from "../../services/notification-service";
 import {
   KandidatSpaseneKompanijeUpdateRequest
 } from "../../endpoints/kandidat-spasene-kompanije-endpoint/update/kandidat-spasene-kompanije-update-request";
@@ -50,7 +45,7 @@ declare var bootstrap: any;
     FormsModule,
     DatePipe,
     NgxPaginationModule,
-    NotificationComponent,
+    NotificationToastComponent,
     RouterLink,
     NgClass
   ],

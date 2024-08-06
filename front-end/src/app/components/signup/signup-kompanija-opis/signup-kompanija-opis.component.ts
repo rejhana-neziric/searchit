@@ -3,6 +3,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NgClass, NgForOf, NgIf} from "@angular/common";
 import {RouterLink} from "@angular/router";
 import {AuthService} from "../../../services/auth-service";
+import {NotificationService} from "../../../services/notification-service";
 
 @Component({
   selector: 'app-signup-kompanija-opis',
@@ -35,7 +36,8 @@ export class SignupKompanijaOpisComponent{
   username: string = '';
   role: string = "";
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService,
+              private notificationService: NotificationService) { }
 
   onSubmit() {
     const kompanija = Object.assign({}, this.form, this.kompanija);
@@ -47,6 +49,7 @@ export class SignupKompanijaOpisComponent{
         this.isSignUpFailed = false;
         this.isSigned = true;
         this.reloadPage();
+        this.notificationService.showModalNotification(true, 'Notification Title', 'This is a notification-toast message.');
       },
       error: err => {
 
@@ -65,4 +68,5 @@ export class SignupKompanijaOpisComponent{
   reloadPage(): void {
     window.location.reload();
   }
+
 }

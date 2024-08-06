@@ -1,5 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { isPlatformBrowser } from '@angular/common';
+
+declare var bootstrap: any;
 
 export interface Notification {
   id: number;
@@ -11,6 +14,10 @@ export interface Notification {
   providedIn: 'root'
 })
 export class NotificationService {
+
+  constructor(@Inject(PLATFORM_ID) private platformId: any) {
+  }
+
   private notificationsSubject = new BehaviorSubject<Notification[]>([]);
   notifications$ = this.notificationsSubject.asObservable();
   private idCounter = 0;
@@ -22,10 +29,11 @@ export class NotificationService {
     };
     const currentNotifications = this.notificationsSubject.value;
     this.notificationsSubject.next([...currentNotifications, newNotification]);
-
-    setTimeout(() => {
-      this.removeNotification(newNotification.id);
-    }, 4000);
+    if (isPlatformBrowser(this.platformId)) {
+      setTimeout(() => {
+        this.removeNotification(newNotification.id);
+      }, 4000);
+    }
   }
 
   removeNotification(notificationId: number) {
@@ -33,5 +41,17 @@ export class NotificationService {
       n => n.id !== notificationId
     );
     this.notificationsSubject.next(currentNotifications);
+  }
+
+  private notificationModalSubject = new BehaviorSubject<{ isSuccess: boolean, title: string, message: string } | null>(null);
+
+  notificationModal$ = this.notificationModalSubject.asObservable();
+
+  showModalNotification(isSuccess: boolean, title: string, message: string) {
+    this.notificationModalSubject.next({ isSuccess, title, message });
+  }
+
+  clearModalNotification() {
+    this.notificationModalSubject.next(null);
   }
 }

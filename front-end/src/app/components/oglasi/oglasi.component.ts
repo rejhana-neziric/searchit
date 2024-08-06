@@ -17,8 +17,8 @@ import {
 import {
   KanidatSpaseniOglasiDodajRequest
 } from "../../endpoints/kandidat-spaseni-oglasi-endpoint/dodaj/kanidat-spaseni-oglasi-dodaj-request";
-import {NotificationService} from "../notification/notification-service";
-import {NotificationComponent} from "../notification/notification.component";
+import {NotificationService} from "../../services/notification-service";
+import {NotificationToastComponent} from "../notifications/notification-toast/notification-toast.component";
 import {HttpErrorResponse} from '@angular/common/http';
 import {SortParametar} from "../../endpoints/SortParametar";
 import {
@@ -44,7 +44,7 @@ declare var bootstrap: any;
     NgClass,
     NavbarComponent,
     RouterLink,
-    NotificationComponent,
+    NotificationToastComponent,
   ],
   templateUrl: './oglasi.component.html',
   styleUrl: './oglasi.component.css'
@@ -138,7 +138,7 @@ export class OglasiComponent implements OnInit {
       naziv: this.pretragaNaziv,
       tipPosla: this.selektovaniJobType,
       sortParametri: this.sortParametri,
-      kandidatId: 25,
+      kandidatId: undefined,
       otvoren: undefined
     };
 

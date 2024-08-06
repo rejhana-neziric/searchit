@@ -55,6 +55,12 @@
           }
         </div>
 
+        <div *ngIf="errorMessage && errorMessage === 'Please confirm your email.'">
+          <a class="btn btn-link" (click)="resendEmailConfirmationLink()">
+            Click here to resend email confirmation link in case you didn't receive it.
+          </a>
+        </div>
+
         <div class="form-group d-flex justify-content-end">
           <button class="btn-confirm">Login</button>
         </div>

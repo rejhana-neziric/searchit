@@ -3,6 +3,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {RouterLink} from "@angular/router";
 import {NgClass} from "@angular/common";
 import {AuthService} from "../../../services/auth-service";
+import {NotificationService} from "../../../services/notification-service";
 
 @Component({
   selector: 'app-signup-kandidat',
@@ -35,7 +36,8 @@ export class SignupKandidatComponent implements OnInit{
   roles: string[] = [];
   username: string = '';
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService,
+              private notificationService: NotificationService) {
   }
 
   ngOnInit(): void {
@@ -49,11 +51,10 @@ export class SignupKandidatComponent implements OnInit{
 
     this.authService.registerCandidate(kandidat.username, kandidat.password, kandidat.email, kandidat.ime, kandidat.prezime,
       kandidat.datumRodjenja, kandidat.mjestoPrebivalista, kandidat.zvanje, kandidat.brojTelefona).subscribe({
-      next: data => {
+      next: response => {
         this.isSignUpFailed = false;
         this.isSigned = true;
-        this.reloadPage();
-        console.log("pozvan endpoint")
+        this.notificationService.showModalNotification(true, response.value.title, response.value.message);
       },
       error: err => {
 

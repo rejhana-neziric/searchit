@@ -1,11 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, OnInit, PLATFORM_ID} from '@angular/core';
 import {OglasGetResponseOglasi} from "../../../endpoints/oglas-endpoint/get/oglas-get-response";
 import {OglasGetRequest} from "../../../endpoints/oglas-endpoint/get/oglas-get-request";
 import {OglasGetEndpoint} from "../../../endpoints/oglas-endpoint/get/oglas-get-endpoint";
 import {
   KandidatSpaseniOglasiUpdateEndpoint
 } from "../../../endpoints/kandidat-spaseni-oglasi-endpoint/update/kandidat-spaseni-oglasi-update-endpoint";
-import {NotificationService} from "../../notification/notification-service";
+import {NotificationService} from "../../../services/notification-service";
 import {firstValueFrom} from "rxjs";
 import {
   KanidatSpaseniOglasiUpdateRequest
@@ -14,10 +14,11 @@ import {HttpErrorResponse} from "@angular/common/http";
 import {DatePipe, NgForOf, NgIf} from "@angular/common";
 import {NavbarComponent} from "../../navbar/navbar.component";
 import {NgxPaginationModule} from "ngx-pagination";
-import {NotificationComponent} from "../../notification/notification.component";
+import {NotificationToastComponent} from "../../notifications/notification-toast/notification-toast.component";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {RouterLink} from "@angular/router";
 import {MatButtonToggle, MatButtonToggleGroup} from "@angular/material/button-toggle";
+import { isPlatformBrowser } from '@angular/common';
 
 declare var bootstrap: any;
 
@@ -30,7 +31,7 @@ declare var bootstrap: any;
     NgForOf,
     NgIf,
     NgxPaginationModule,
-    NotificationComponent,
+    NotificationToastComponent,
     ReactiveFormsModule,
     RouterLink,
     FormsModule,
@@ -53,7 +54,8 @@ export class FavoritesOglasiComponent implements OnInit{
 
   constructor(private oglasGetAllEndpoint: OglasGetEndpoint,
               private kandidatSpaseniOglasiUpdateEndpoint: KandidatSpaseniOglasiUpdateEndpoint,
-              private notificationService: NotificationService) {
+              private notificationService: NotificationService,
+              @Inject(PLATFORM_ID) private platformId: any) {
   }
 
   async ngOnInit(): Promise<void> {
@@ -78,10 +80,12 @@ export class FavoritesOglasiComponent implements OnInit{
   }
 
   scrollToTop() {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
+    if (isPlatformBrowser(this.platformId)) {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
   }
 
   async getAll() {
@@ -135,19 +139,23 @@ export class FavoritesOglasiComponent implements OnInit{
 
   openUnsaveModal(post: any) {
     this.selectedPost = post;
-    const modalElement = document.getElementById('confirmUnsaveModal');
-    if (modalElement) {
-      const modal = new bootstrap.Modal(modalElement);
-      modal.show();
+    if (isPlatformBrowser(this.platformId)) {
+      const modalElement = document.getElementById('confirmUnsaveModal');
+      if (modalElement) {
+        const modal = new bootstrap.Modal(modalElement);
+        modal.show();
+      }
     }
   }
 
   closeModal() {
-    const modalElement = document.getElementById('confirmUnsaveModal');
-    if (modalElement) {
-      const modal = bootstrap.Modal.getInstance(modalElement);
-      if (modal) {
-        modal.hide();
+    if (isPlatformBrowser(this.platformId)) {
+      const modalElement = document.getElementById('confirmUnsaveModal');
+      if (modalElement) {
+        const modal = bootstrap.Modal.getInstance(modalElement);
+        if (modal) {
+          modal.hide();
+        }
       }
     }
   }

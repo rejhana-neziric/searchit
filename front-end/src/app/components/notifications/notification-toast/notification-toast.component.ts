@@ -1,20 +1,19 @@
-import {Component, Injectable, OnInit} from '@angular/core';
-import {BehaviorSubject} from "rxjs";
-import {NotificationService} from "./notification-service";
-import {Notification} from "./notification-service";
+import {Component, OnInit} from '@angular/core';
+import {NotificationService} from "../../../services/notification-service";
+import {Notification} from "../../../services/notification-service";
 import {NgClass, NgForOf} from "@angular/common";
 
 @Component({
-  selector: 'app-notification',
+  selector: 'app-notification-toast',
   standalone: true,
   imports: [
     NgClass,
     NgForOf
   ],
-  templateUrl: './notification.component.html',
-  styleUrl: './notification.component.css'
+  templateUrl: './notification-toast.component.html',
+  styleUrl: './notification-toast.component.css'
 })
-export class NotificationComponent implements OnInit{
+export class NotificationToastComponent implements OnInit{
   notifications: Notification[] = [];
 
   constructor(private notificationService: NotificationService) {}

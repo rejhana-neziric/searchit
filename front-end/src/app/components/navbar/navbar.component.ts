@@ -1,6 +1,7 @@
 import {booleanAttribute, Component, Input} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from "@angular/router";
-import {NgClass, NgIf} from "@angular/common";
+import {AsyncPipe, NgClass, NgIf} from "@angular/common";
+import {AuthService} from "../../services/auth-service";
 
 @Component({
   selector: 'app-navbar',
@@ -8,7 +9,8 @@ import {NgClass, NgIf} from "@angular/common";
   imports: [
     RouterLink,
     NgIf,
-    NgClass
+    NgClass,
+    AsyncPipe
   ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
@@ -16,12 +18,13 @@ import {NgClass, NgIf} from "@angular/common";
 export class NavbarComponent {
   @Input() user!: string;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router,
+              public authService: AuthService) {
+  }
 
   isActiveRoute(route: string): boolean {
     return this.router.url === route;
   }
-
 
   scrollToSection(event: Event, sectionId: string): void {
     event.preventDefault();
@@ -29,5 +32,9 @@ export class NavbarComponent {
     if (targetElement) {
       targetElement.scrollIntoView({ behavior: 'smooth' });
     }
+  }
+
+  logout() {
+    this.authService.logout();
   }
 }

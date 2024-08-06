@@ -3,6 +3,7 @@ import {Injectable} from "@angular/core";
 import {AuthService} from "../services/auth-service";
 import {Observable} from "rxjs";
 
+// za izbrisati
 @Injectable()
 export class HttpRequestInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {

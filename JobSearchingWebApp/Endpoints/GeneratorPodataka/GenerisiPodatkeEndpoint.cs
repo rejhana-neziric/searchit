@@ -3,6 +3,8 @@ using JobSearchingWebApp.Data;
 using JobSearchingWebApp.Helper;
 
 using JobSearchingWebApp.Models;
+using MapsterMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -15,35 +17,56 @@ namespace JobSearchingWebApp.Endpoints.GeneratorPodataka
     public class GenerisiPodatkeEndpoint : ControllerBase
     {
         private readonly ApplicationDbContext dbContext;
+        private readonly UserManager<Models.Korisnik> userManager;
 
-        public GenerisiPodatkeEndpoint(ApplicationDbContext dbContext)
+        public GenerisiPodatkeEndpoint(ApplicationDbContext dbContext, UserManager<Models.Korisnik> userManager)
         {
             this.dbContext = dbContext;
+            this.userManager = userManager; 
         }
 
         [HttpPost]
-        public ActionResult Generisi()
+        public async Task<ActionResult> Generisi()
         {
-            /* zadnje
             var oglasi = new List<Models.Oglas>();
-            var iskustvo = new List<Models.Iskustvo>(); 
+            var iskustvo = new List<Models.Iskustvo>();
             var lokacija = new List<Models.Lokacija>();
             var oglasIskustvo = new List<Models.OglasIskustvo>();
             var oglasLokacija = new List<Models.OglasLokacija>();
             var opisOglas = new List<Models.OpisOglas>();
-            */
-            //xxxxxxxxxxxxxxxx
-            //oglasi.Add(new Models.Oglas { NazivPozicije = "Software Engineer", DatumObjave = DateTime.Now, Plata = 2000, TipPosla = "Full Time", RokPrijave = DateTime.MaxValue, KompanijaId = 66 });
-            //oglasi.Add(new Models.Oglas { NazivPozicije = "DevOps Engineer", DatumObjave = DateTime.Now, Plata = 3400, TipPosla = "Full Time", RokPrijave = DateTime.MaxValue, KompanijaId = 67 });
-            //oglasi.Add(new Models.Oglas { NazivPozicije = "QA Engineer", DatumObjave = DateTime.Now, Plata = 2500, TipPosla = "Full Time", RokPrijave = DateTime.MaxValue, KompanijaId = 68 });
-            //oglasi.Add(new Models.Oglas { NazivPozicije = "Software Engineer", DatumObjave = DateTime.Now, Plata = 2300, TipPosla = "Full Time", RokPrijave = DateTime.MaxValue, KompanijaId = 69 });
-            //oglasi.Add(new Models.Oglas { NazivPozicije = "ML Engineer", DatumObjave = DateTime.Now, Plata = 4000, TipPosla = "Full Time", RokPrijave = DateTime.MaxValue, KompanijaId = 66 });
-            //oglasi.Add(new Models.Oglas { NazivPozicije = "UI/UX Designer", DatumObjave = DateTime.Now, Plata = 1000, TipPosla = "Part Time", RokPrijave = DateTime.MaxValue, KompanijaId = 67 });
-            //oglasi.Add(new Models.Oglas { NazivPozicije = "Backend Developer", DatumObjave = DateTime.Now, Plata = 2600, TipPosla = "Full Time", RokPrijave = DateTime.MaxValue, KompanijaId = 68 });
-            //oglasi.Add(new Models.Oglas { NazivPozicije = "Frontend Developer", DatumObjave = DateTime.Now, Plata = 2300, TipPosla = "Full Time", RokPrijave = DateTime.MaxValue, KompanijaId = 69 });
-            //oglasi.Add(new Models.Oglas { NazivPozicije = "Graphical Designer", DatumObjave = DateTime.Now, Plata = 1800, TipPosla = "Part Time", RokPrijave = DateTime.MaxValue, KompanijaId = 66 });
 
-            //
+
+            //lokacije
+            lokacija.Add(new Lokacija { Naziv = "Sarajevo" });
+            lokacija.Add(new Lokacija { Naziv = "Mostar" });
+            lokacija.Add(new Lokacija { Naziv = "Jablanica" });
+            lokacija.Add(new Lokacija { Naziv = "Remote" });
+
+            dbContext.Add(lokacija);
+            //lokacije
+
+
+            //iskustvo
+            iskustvo.Add(new Models.Iskustvo { Naziv = "Junior" });
+            iskustvo.Add(new Models.Iskustvo { Naziv = "Medior" });
+            iskustvo.Add(new Models.Iskustvo { Naziv = "Senior" });
+            
+            dbContext.Add(iskustvo);
+            //iskustvo
+
+            //oglasi
+            //oglasi.Add(new Models.Oglas { NazivPozicije = "Software Engineer", DatumObjave = DateTime.Now, Plata = 2000, TipPosla = "Full Time", RokPrijave = DateTime.MaxValue, KompanijaId = 1 });
+            //oglasi.Add(new Models.Oglas { NazivPozicije = "DevOps Engineer", DatumObjave = DateTime.Now, Plata = 3400, TipPosla = "Full Time", RokPrijave = DateTime.MaxValue, KompanijaId =  1});
+            //oglasi.Add(new Models.Oglas { NazivPozicije = "QA Engineer", DatumObjave = DateTime.Now, Plata = 2500, TipPosla = "Full Time", RokPrijave = DateTime.MaxValue, KompanijaId = 1});
+            //oglasi.Add(new Models.Oglas { NazivPozicije = "Software Engineer", DatumObjave = DateTime.Now, Plata = 2300, TipPosla = "Full Time", RokPrijave = DateTime.MaxValue, KompanijaId =1  });
+            //oglasi.Add(new Models.Oglas { NazivPozicije = "ML Engineer", DatumObjave = DateTime.Now, Plata = 4000, TipPosla = "Full Time", RokPrijave = DateTime.MaxValue, KompanijaId = 1 });
+            //oglasi.Add(new Models.Oglas { NazivPozicije = "UI/UX Designer", DatumObjave = DateTime.Now, Plata = 1000, TipPosla = "Part Time", RokPrijave = DateTime.MaxValue, KompanijaId = 1 });
+            //oglasi.Add(new Models.Oglas { NazivPozicije = "Backend Developer", DatumObjave = DateTime.Now, Plata = 2600, TipPosla = "Full Time", RokPrijave = DateTime.MaxValue, KompanijaId = 1 });
+            //oglasi.Add(new Models.Oglas { NazivPozicije = "Frontend Developer", DatumObjave = DateTime.Now, Plata = 2300, TipPosla = "Full Time", RokPrijave = DateTime.MaxValue, KompanijaId = 1 });
+            //oglasi.Add(new Models.Oglas { NazivPozicije = "Graphical Designer", DatumObjave = DateTime.Now, Plata = 1800, TipPosla = "Part Time", RokPrijave = DateTime.MaxValue, KompanijaId = 1 });
+
+            //oglasi
+
             //opisOglas.Add(
             //    new Models.OpisOglas 
             //    { OpisPozicije = "We are seeking a highly skilled and motivated Software Engineer to join our talented team. " +
@@ -194,60 +217,39 @@ namespace JobSearchingWebApp.Endpoints.GeneratorPodataka
             });
             */
 
-            /*
-            var jezici = new List<Models.Jezik>
-            {
-                new Models.Jezik { Naziv = "Bosanski jezik" },
-                new Models.Jezik { Naziv = "Engleski jezik" },
-                new Models.Jezik { Naziv = "Arapski jezik" }
-            };
 
-            var teme = new List<Models.Tema>
+
+
+            //kompanije
+
+            var kompanijaByteMatrix = new Models.Kompanija()
             {
-                new Models.Tema { Vrsta = "tema1" },
-                new Models.Tema { Vrsta = "tema2" }
-            };*/
+                Naziv = "ByteMatrix Solutions",
+                GodinaOsnivanja = 2012,
+                Lokacija = "Sarajevo",
+                Email = "ByteMatrix.Solutions@gmail.com",
+                UserName = "bytematrix",
+            };
+            kompanijaByteMatrix.PasswordSalt = HelperMethods.GenerateSalt();
+            kompanijaByteMatrix.UlogaId = 3;
+
+            var result = await userManager.CreateAsync(kompanijaByteMatrix, "");
+
+            await userManager.AddToRoleAsync(kompanijaByteMatrix, "Kompanija");
+
+
+
+            //kompanije
 
             //kompanije.Add(new Models.Kompanija { Naziv = "ByteMatrix Solutions", GodinaOsnivanja = 2012, Lokacija = "Sarajevo", Slika = "slika...", Email = "ByteMatrix.Solutions@gmail.com", Username = "bytematrix", Password = "bytematrix", TemaId = 1, JezikId = 1 });
             //kompanije.Add(new Models.Kompanija { Naziv = "TechVista Dynamics", GodinaOsnivanja = 2016, Lokacija = "Mostar", Slika = "slika...", Email = "TechVista Dynamics@gmail.com", Username = "techvista", Password = "techvista", TemaId = 1, JezikId = 1 });
             //kompanije.Add(new Models.Kompanija { Naziv = "CloudMesh", GodinaOsnivanja = 2010, Lokacija = "Jablanica", Slika = "slika...", Email = "CloudMesh@gmail.com", Username = "cloudmesh", Password = "cloudmesh", TemaId = 1, JezikId = 1 });
             //kompanije.Add(new Models.Kompanija { Naziv = "Insightify", GodinaOsnivanja = 2021, Lokacija = "Tuzla", Slika = "slika...", Email = "Insightify@gmail.com", Username = "insightify", Password = "insightify", TemaId = 1, JezikId = 1 });
 
-            // Insert Jezici and Teme first to ensure they exist before referencing them
-            /*
-            dbContext.AddRange(jezici);
-            dbContext.AddRange(teme);
-            dbContext.SaveChanges();*/
 
-            //jezici.Add(new Models.Jezik { Naziv = "Bosanski jezik" });
-            //jezici.Add(new Models.Jezik { Naziv = "Engleski jezik" });
-            //jezici.Add(new Models.Jezik { Naziv = "Arapski jezik" });
-            // Retrieve the inserted entities to get their IDs
             /*
-            var bosanskiJezik = dbContext.Jezici.FirstOrDefault(j => j.Naziv == "Bosanski jezik");
-            var engleskiJezik = dbContext.Jezici.FirstOrDefault(j => j.Naziv == "Engleski jezik");
-            var arapskiJezik = dbContext.Jezici.FirstOrDefault(j => j.Naziv == "Arapski jezik");
-            var tema1 = dbContext.Teme.FirstOrDefault(t => t.Vrsta == "tema1");
-            var tema2 = dbContext.Teme.FirstOrDefault(t => t.Vrsta == "tema2");*/
+      
 
-            //teme.Add(new Models.Tema { Vrsta = "tema1" });
-            //teme.Add(new Models.Tema { Vrsta = "tema2" });
-
-            //iskustvo.Add(new Models.Iskustvo { Naziv = "Junior" });
-            //iskustvo.Add(new Models.Iskustvo { Naziv = "Medior" });
-            //iskustvo.Add(new Models.Iskustvo { Naziv = "Senior" });
-            /*
-            if (bosanskiJezik == null || engleskiJezik == null || arapskiJezik == null || tema1 == null || tema2 == null)
-            {
-                return StatusCode(500, "Error retrieving inserted reference data.");
-            }*/
-
-            //lokacija.Add(new Models.Lokacija { Naziv = "Sarajevo" });
-            //lokacija.Add(new Models.Lokacija { Naziv = "Mostar" });
-            //lokacija.Add(new Models.Lokacija { Naziv = "Jablanica" });
-            //lokacija.Add(new Models.Lokacija { Naziv = "Zenica" });
-            //lokacija.Add(new Models.Lokacija { Naziv = "Remote" });
-            /*
             var kompanije = new List<Models.Kompanija>
             {
                 new Models.Kompanija { Naziv = "ByteMatrix Solutions", GodinaOsnivanja = 2012, Lokacija="Sarajevo", Slika = "slika...", Email = "ByteMatrix.Solutions@gmail.com", Username = "bytematrix", Password = "bytematrix", TemaId = tema1.Id, JezikId = bosanskiJezik.Id},
@@ -255,6 +257,8 @@ namespace JobSearchingWebApp.Endpoints.GeneratorPodataka
                 new Models.Kompanija { Naziv = "CloudMesh", GodinaOsnivanja = 2010, Lokacija = "Jablanica", Slika = "slika...", Email = "CloudMesh@gmail.com", Username = "cloudmesh", Password = "cloudmesh", TemaId = tema1.Id, JezikId = arapskiJezik.Id },
                 new Models.Kompanija { Naziv = "Insightify", GodinaOsnivanja = 2021, Lokacija = "Tuzla", Slika = "slika...", Email = "Insightify@gmail.com", Username = "insightify", Password = "insightify", TemaId = tema2.Id, JezikId = bosanskiJezik.Id }
             };*/
+
+
 
             //var ByteMatrix = dbContext.Kompanije.Where(x => x.Naziv == "ByteMatrix Solutions").FirstOrDefault();
 
@@ -293,14 +297,7 @@ namespace JobSearchingWebApp.Endpoints.GeneratorPodataka
             //Insightify.Opis = "At Insightify, we are passionate about unlocking the potential of data to drive business success. Since our inception in 2010, we have been at the forefront of delivering advanced data analytics and business intelligence solutions that empower organizations to make informed, data-driven decisions. Located in the thriving tech ecosystem of Austin, TX, we are a dedicated team of over 300 professionals who are committed to helping our clients harness the power of their data.\r\n\r\nOur expertise spans a wide range of data analytics services, including data integration, predictive analytics, machine learning, and custom dashboard development. We work closely with our clients to understand their unique needs and challenges, providing tailored solutions that deliver actionable insights and drive measurable results. Our goal is to make complex data accessible and valuable, enabling businesses to uncover hidden opportunities and optimize their operations.\r\n\r\nInnovation and excellence are at the core of Insightify. We continuously invest in cutting-edge technologies and methodologies to stay ahead of industry trends and deliver the best possible solutions to our clients. Our customer-centric approach ensures that we build strong, lasting relationships, providing exceptional service and support at every step of the way. We serve a diverse array of industries, including finance, healthcare, manufacturing, and retail, helping them leverage their data to gain a competitive edge.\r\n\r\nAt Insightify, our mission is to transform the way businesses use data. We believe that with the right tools and expertise, any organization can achieve greater efficiency, profitability, and growth. Our team is dedicated to delivering high-quality solutions and unparalleled support, ensuring that our clients can confidently navigate the data-driven landscape and achieve their strategic objectives.";
 
 
-            var korisnik = new Models.Korisnik()
-            {
-                //Username = "quantumbytes",
-               // Password = "quantumbytes",
-                Email = "quantumbytes@gmail.com",
-                //TemaId = 1,
-               // JezikId = 1,
-            };
+
 
             //var QuantumBytes = new Models.Kompanija(korisnik)
             //{
@@ -357,7 +354,7 @@ namespace JobSearchingWebApp.Endpoints.GeneratorPodataka
             //dbContext.AddRange(oglasLokacija);
             //dbContext.AddRange(opisOglas); 
 
-           // dbContext.SaveChanges();    
+            // dbContext.SaveChanges();    
             //var oglasi = new List<Models.Oglas>
             //{
             //    new Models.Oglas { NazivPozicije = "Software Engineer", Lokacija = "Remote", DatumObjave = DateTime.Now, Plata = 2000, TipPosla = "Full Time", RokPrijave = DateTime.MaxValue, Iskustvo = "Junior", OpisPosla = "opis.....", KompanijaId = kompanije[0].Id },

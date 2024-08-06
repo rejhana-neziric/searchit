@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import {Component, Inject, PLATFORM_ID} from '@angular/core';
 import {DatePipe, NgForOf, NgIf} from "@angular/common";
 import {NgxPaginationModule} from "ngx-pagination";
-import {NotificationComponent} from "../../notification/notification.component";
+import {NotificationToastComponent} from "../../notifications/notification-toast/notification-toast.component";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {OglasGetResponseOglasi} from "../../../endpoints/oglas-endpoint/get/oglas-get-response";
 import {OglasGetRequest} from "../../../endpoints/oglas-endpoint/get/oglas-get-request";
@@ -9,7 +9,7 @@ import {OglasGetEndpoint} from "../../../endpoints/oglas-endpoint/get/oglas-get-
 import {
   KandidatSpaseniOglasiUpdateEndpoint
 } from "../../../endpoints/kandidat-spaseni-oglasi-endpoint/update/kandidat-spaseni-oglasi-update-endpoint";
-import {NotificationService} from "../../notification/notification-service";
+import {NotificationService} from "../../../services/notification-service";
 import {firstValueFrom} from "rxjs";
 import {
   KanidatSpaseniOglasiUpdateRequest
@@ -25,6 +25,7 @@ import {
   KandidatSpaseneKompanijeUpdateRequest
 } from "../../../endpoints/kandidat-spasene-kompanije-endpoint/update/kandidat-spasene-kompanije-update-request";
 import {RouterLink} from "@angular/router";
+import { isPlatformBrowser } from '@angular/common';
 
 declare var bootstrap: any;
 
@@ -37,7 +38,7 @@ declare var bootstrap: any;
     NgForOf,
     NgIf,
     NgxPaginationModule,
-    NotificationComponent,
+    NotificationToastComponent,
     ReactiveFormsModule,
     FormsModule,
     RouterLink
@@ -58,7 +59,8 @@ export class FavoritesKompanijeComponent {
 
   constructor(private kompanijeGetEndpoint: KompanijeGetEndpoint,
               private kandidatSpaseneKompanijeUpdateEndpoint: KandidatSpaseneKompanijeUpdateEndpoint,
-              private notificationService: NotificationService) {
+              private notificationService: NotificationService,
+              @Inject(PLATFORM_ID) private platformId: any) {
   }
 
   async ngOnInit(): Promise<void> {
@@ -142,19 +144,23 @@ export class FavoritesKompanijeComponent {
 
   openUnsaveModal(company: any) {
     this.selectedCompany = company;
-    const modalElement = document.getElementById('confirmUnsaveModal');
-    if (modalElement) {
-      const modal = new bootstrap.Modal(modalElement);
-      modal.show();
+    if (isPlatformBrowser(this.platformId)) {
+      const modalElement = document.getElementById('confirmUnsaveModal');
+      if (modalElement) {
+        const modal = new bootstrap.Modal(modalElement);
+        modal.show();
+      }
     }
   }
 
   closeModal() {
-    const modalElement = document.getElementById('confirmUnsaveModal');
-    if (modalElement) {
-      const modal = bootstrap.Modal.getInstance(modalElement);
-      if (modal) {
-        modal.hide();
+    if (isPlatformBrowser(this.platformId)) {
+      const modalElement = document.getElementById('confirmUnsaveModal');
+      if (modalElement) {
+        const modal = bootstrap.Modal.getInstance(modalElement);
+        if (modal) {
+          modal.hide();
+        }
       }
     }
   }
