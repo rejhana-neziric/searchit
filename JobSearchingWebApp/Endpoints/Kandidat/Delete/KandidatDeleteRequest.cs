@@ -2,6 +2,6 @@
 {
     public class KandidatDeleteRequest
     {
-        public string kandidat_id { get; set; } 
+        public string Id { get; set; } 
     }
 }

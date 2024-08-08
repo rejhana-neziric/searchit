@@ -1,0 +1,158 @@
+<app-navbar user='neregistrovani'></app-navbar>
+
+<div class="main">
+
+  <div class="headline">
+    <h3 class="fw-bold">Account details </h3>
+    <hr class="text-underline">
+  </div>
+
+  <div class="container">
+    <form [formGroup]="candidateForm" class="form-grid" (ngSubmit)="save()" autocomplete="off">
+      <div class="content">
+        <div class="firstpart">
+
+          <div class="mt-2 mb-4">
+            <label>Username</label>
+            <input type="text" [value]=loggedUser?.userName class="form-control" disabled>
+          </div>
+
+          <div class="mt-2 mb-4">
+            <label>Email</label>
+            <input type="text" [value]=loggedUser?.email class="form-control" disabled>
+          </div>
+
+          <div class="mt-2 mb-4">
+            <label>First Name</label>
+            <input type="text" [value]=loggedUser?.ime class="form-control" disabled>
+          </div>
+
+          <div class="mt-2 mb-4">
+            <label>Last Name</label>
+            <input type="text" [value]=loggedUser?.prezime class="form-control" disabled>
+          </div>
+
+          <div class="mt-2 mb-4">
+            <label>Title</label>
+            <input formControlName="title" type="text" class="form-control"
+                   [class.is-invalid]="submitted && candidateForm.get('title')?.errors">
+            <span class="text-danger" *ngIf="submitted && candidateForm.get('title')?.hasError('required')">
+                        Title is required!
+                    </span>
+            <span class="text-danger" *ngIf="submitted && candidateForm.get('title')?.hasError('min')">
+                       Title must be at least 3 characters!
+                    </span>
+            <span class="text-danger" *ngIf="submitted && candidateForm.get('title')?.hasError('max')">
+                        Title must be less than 50 characters!
+                    </span>
+          </div>
+
+        </div>
+        <!-- First column -->
+
+        <!-- Second column -->
+        <div class="secondpart">
+
+          <div class="mt-2 mb-4">
+            <label>Date of Birth</label>
+            <input type="date" [value]="loggedUser?.datumRodjenja | date:'yyyy-MM-dd' " class="form-control" disabled>
+          </div>
+
+          <div class="mt-2 mb-4">
+            <label>Residence</label>
+            <input formControlName="residence" type="text" class="form-control"
+                   [class.is-invalid]="submitted && candidateForm.get('residence')?.errors">
+            <span class="text-danger" *ngIf="submitted && candidateForm.get('residence')?.hasError('required')">
+                        Residence is required!
+                    </span>
+          </div>
+
+
+          <div class="mt-2 mb-4">
+            <label>Phone Number</label>
+            <input formControlName="phoneNumber" type="text" class="form-control"
+                   [class.is-invalid]="submitted && candidateForm.get('phoneNumber')?.errors">
+            <span class="text-danger" *ngIf="submitted && candidateForm.get('phoneNumber')?.hasError('required')">
+                       Phone number is required!
+                    </span>
+
+            <span class="text-danger" *ngIf="submitted && candidateForm.get('phoneNumber')?.hasError('pattern')">
+                      Invalid phone number format!
+                    </span>
+          </div>
+
+        </div>
+        <!-- Second column -->
+
+      </div>
+
+      <div class="form-group d-flex flex-row justify-content-between">
+
+        <div>
+          <button type="button" class="btn-danger" (click)="openDeleteModal()">Delete account</button>
+        </div>
+
+        <div>
+          <button type="button" class="btn-cancel" (click)="cancel()">Cancel</button>
+          <button type="button" class="btn-confirm ms-2" (click)="openModal()">Save change</button>
+        </div>
+
+      </div>
+
+      <app-notification-toast></app-notification-toast>
+
+      <!-- Modal -->
+      <div class="modal fade" id="confirmUnsaveModal" tabindex="-1" aria-labelledby="confirmUnsaveModalLabel"
+           aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="confirmUnsaveModalLabel">Confirm changes</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              Are you sure you want to save changes?
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="nav-link btn-cancel" data-bs-dismiss="modal">Cancel</button>
+              <button type="button" class="btn-confirm"
+                      (click)="confirm()">Save
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Modal -->
+
+      <!-- Modal -->
+      <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel"
+           aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="confirmDeleteModalLabel">Confirm changes</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              Are you sure you want to delete account?
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="nav-link btn-cancel" data-bs-dismiss="modal">Cancel</button>
+              <button type="button" class="btn-danger"
+                      (click)="confirmDelete()">Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Modal -->
+
+    </form>
+  </div>
+</div>
+
+
+
+
+
+

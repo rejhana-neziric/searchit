@@ -29,7 +29,8 @@
 }
 
 .error {
-  background-color: #fab1b7;
+  background-color: #FFFFFF;
+  border: 1px solid #fab1b7;
 }
 
 .info {
@@ -47,7 +48,7 @@
   cursor: pointer;
 }
 
-.img-tick {
+.img {
   height: 25px;
   width: 25px;
 }

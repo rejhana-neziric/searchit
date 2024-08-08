@@ -1,14 +1,15 @@
 import {Component, OnInit} from '@angular/core';
 import {NotificationService} from "../../../services/notification-service";
 import {Notification} from "../../../services/notification-service";
-import {NgClass, NgForOf} from "@angular/common";
+import {NgClass, NgForOf, NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-notification-toast',
   standalone: true,
   imports: [
     NgClass,
-    NgForOf
+    NgForOf,
+    NgIf
   ],
   templateUrl: './notification-toast.component.html',
   styleUrl: './notification-toast.component.css'

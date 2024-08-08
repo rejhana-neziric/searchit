@@ -1,11 +1,8 @@
-﻿using JobSearchingWebApp.Endpoints.Kandidat.Dodaj;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using JobSearchingWebApp.Models;
 
-namespace JobSearchingWebApp.Models
+namespace JobSearchingWebApp.Endpoints.Kandidat.GetById
 {
-    [Table("Kandidati")]
-    public class Kandidat : Korisnik
+    public class KandidatGetByIdResponse : Korisnik
     {
         public string Ime { get; set; }
         public string Prezime { get; set; }

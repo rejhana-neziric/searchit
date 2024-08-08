@@ -2,13 +2,15 @@ import {Component, OnInit} from '@angular/core';
 import {NavbarComponent} from "../navbar/navbar.component";
 import {RouterLink} from "@angular/router";
 import {NotificationService} from "../../services/notification-service";
+import {FooterComponent} from "../footer/footer.component";
 
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [
     NavbarComponent,
-    RouterLink
+    RouterLink,
+    FooterComponent
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'

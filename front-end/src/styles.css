@@ -29,6 +29,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   background-color: rgba(221, 216, 196, 0.74);
 }
 
+/*
 .btn-cancel {
   background-color: grey;
   border-radius: 7px;
@@ -41,5 +42,24 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   justify-content: center;
   height: 40px;
 }
+*/
+
+.btn-cancel {
+  background-color: #ffffff;
+  border-radius: 7px;
+  text-decoration: none;
+  color: dimgrey;
+  font-size: 16px;
+  width: 100px;
+  border: 1px solid dimgrey;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+}
+
+.btn-cancel:hover {
+  background-color: rgba(239, 239, 239, 0.74);
+}
+
 
 

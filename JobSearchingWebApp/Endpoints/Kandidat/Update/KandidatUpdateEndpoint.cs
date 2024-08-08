@@ -1,42 +1,39 @@
 ﻿using JobSearchingWebApp.Data;
 using JobSearchingWebApp.Endpoints.Kandidat.Delete;
 using JobSearchingWebApp.Helper;
+using MapsterMapper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JobSearchingWebApp.Endpoints.Kandidat.Update
 {
+
     [Tags("Kandidat")]
     [Route("kandidat-update")]
-    public class KandidatUpdateEndpoint : MyBaseEndpoint<KandidatUpdateRequest, KandidatUpdateResponse>
+    public class KandidatUpdateEndpoint : MyBaseEndpoint<KandidatUpdateRequest, ActionResult<KandidatUpdateResponse>>
     {
         private readonly ApplicationDbContext dbContext;
+        private readonly UserManager<Models.Korisnik> userManager;
+        private readonly IMapper mapper;
 
-        public KandidatUpdateEndpoint(ApplicationDbContext dbContext)
+        public KandidatUpdateEndpoint(ApplicationDbContext dbContext, UserManager<Models.Korisnik> userManager, IMapper mapper)
         {
             this.dbContext = dbContext;
+            this.userManager = userManager;
+            this.mapper = mapper;
         }
 
         [HttpPost]
-        public override async Task<KandidatUpdateResponse> MyAction(KandidatUpdateRequest request, CancellationToken cancellationToken)
+        public override async Task<ActionResult<KandidatUpdateResponse>> MyAction(KandidatUpdateRequest request, CancellationToken cancellationToken)
         {
-            var kandidat = dbContext.Kandidati.FirstOrDefault(x => x.Id == request.kandidat_id); 
+            var kandidat = await dbContext.Kandidati.FindAsync(request.Id);
+            if (kandidat == null) return BadRequest(new { message = $"User with ID {request.Id} doesn't exist." });
+            if (kandidat.UlogaId == 1) return BadRequest(new { message = $"User with ID {request.Id} is not candidate." });
 
-            if (kandidat == null) 
-            {
-                throw new Exception("Nije pronađen kandidat sa ID " + request.kandidat_id); 
-            }
-
-            kandidat.Email = request.email; 
-            kandidat.UserName = request.username;   
-           // kandidat.Password = request.password;   
-            //kandidat.TemaId = request.tema_id;  
-           // kandidat.JezikId = request.jezik_id;    
-            kandidat.Ime = request.ime; 
-            kandidat.Prezime = request.prezime;
-            kandidat.DatumRodjenja = request.datum_rodjenja;
-            kandidat.MjestoPrebivalista = request.mjesto_prebivalista; 
-            //kandidat.Zvanje = request.zvanje;
-            kandidat.BrojTelefona = request.broj_telefona; 
+            kandidat.MjestoPrebivalista = request.MjestoPrebivalista ?? kandidat.MjestoPrebivalista;
+            kandidat.Zvanje = request.Zvanje ?? kandidat.Zvanje;
+            kandidat.BrojTelefona = request.BrojTelefona ?? kandidat.BrojTelefona;
 
             await dbContext.SaveChangesAsync();
 

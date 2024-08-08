@@ -19,6 +19,7 @@ using JobSearchingWebApp.Endpoints.Kompanija.Dodaj;
 using Microsoft.Identity.Client;
 using Mailjet.Client.Resources;
 using Microsoft.AspNetCore.WebUtilities;
+using System.Data;
 
 namespace JobSearchingWebApp.Endpoints.Auth
 {
@@ -121,7 +122,10 @@ namespace JobSearchingWebApp.Endpoints.Auth
         {
             var user = await userManager.FindByEmailAsync(User.FindFirst(ClaimTypes.Email)?.Value);
 
-            return new AuthResponse { JWT = await jwtService.CreateJWT(user), };
+            var role = await userManager.GetRolesAsync(user);
+            string roleString = string.Join(", ", role);
+
+            return new AuthResponse { JWT = await jwtService.CreateJWT(user), Id = user.Id, Role = roleString};
         }
 
         [HttpPost("login")]
@@ -130,7 +134,7 @@ namespace JobSearchingWebApp.Endpoints.Auth
             var user = await userManager.FindByNameAsync(model.Username);
             if (user == null) return Unauthorized(new { message = "Invalid username or password" });
 
-            if (user.EmailConfirmed == false) return Unauthorized(new { message = "Please confirm your email." });
+            //if (user.EmailConfirmed == false) return Unauthorized(new { message = "Please confirm your email." });
 
             var result = await signInManager.CheckPasswordSignInAsync(user, model.Password, false);
 
@@ -164,7 +168,11 @@ namespace JobSearchingWebApp.Endpoints.Auth
 
             var token = jwtService.CreateJWT(user);
 
-            return new AuthResponse { JWT = await jwtService.CreateJWT(user), };
+            var role = await userManager.GetRolesAsync(user);
+            string roleString = string.Join(", ", role);
+
+
+            return new AuthResponse { JWT = await jwtService.CreateJWT(user), Id = user.Id, Role = roleString };
         }
 
         private async Task<IActionResult> RegisterUser<TUser, TRequest>(TRequest request, string role, int roleId)
@@ -212,5 +220,27 @@ namespace JobSearchingWebApp.Endpoints.Auth
 
             return await emailService.SendEmailAsync(emailSend);
         }
+
+        //private async Task<IActionResult> GetCurrentUser()
+        //{
+        //    // Get the user's ID from the claims
+        //    var userId = userManager.GetUserId(User);
+
+        //    // Find the user by their ID
+        //    var user = await userManager.FindByIdAsync(userId);
+
+        //    if (user == null)
+        //    {
+        //        return NotFound("User not found.");
+        //    }
+
+        //    // Return user information (you can adjust what information you return)
+        //    return Ok(new
+        //    {
+        //        user.Id,
+        //        user.UserName,
+        //        user.Email
+        //    });
+        //}
     }
 }

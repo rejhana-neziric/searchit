@@ -5,19 +5,37 @@
     <div class="naslov fs-1 fw-bold me-auto p-1 bd-highlight">
       <a class="nav-link active text-dark fs-1 fw-bold " *ngIf="user == 'neregistrovani'"
          [routerLink]="'/home'">searchit</a>
-      <hr>
+      <hr style="color: #1d7b4f">
     </div>
     <div class="nav p-2">
       <ul class="navbar-nav flex-row py-1">
+
         <li class="nav-item" [ngClass]="{'active-link': isActiveRoute('/home')}">
           <a class="nav-link active px-3  fw-bold fs-5 text-underline mt-2" [routerLink]="'/home'">Home</a>
         </li>
+
         <li class="nav-item" [ngClass]="{'active-link': isActiveRoute('/jobs')}">
           <a class="nav-link active px-3  fw-bold fs-5 text-underline mt-2" [routerLink]="'/jobs'">Jobs</a>
         </li>
+
         <li class="nav-item" [ngClass]="{'active-link': isActiveRoute('/companies')}">
           <a class="nav-link active px-3  fw-bold fs-5 text-underline mt-2" [routerLink]="'/companies'">Companies</a>
         </li>
+
+        <li class="nav-item" *ngIf="loggedUser?.role == 'Kandidat'" [ngClass]="{'active-link': isActiveRoute('/cv')}">
+          <a class="nav-link active px-3  fw-bold fs-5 text-underline mt-2" [routerLink]="'/cv'">Create CV</a>
+        </li>
+
+        <li class="nav-item" *ngIf="loggedUser?.role == 'Kandidat'">
+          <a class="nav-link active px-3 fw-bold fs-5 text-underline mt-2">Applications</a>
+        </li>
+
+        <li class="nav-item" *ngIf="loggedUser?.role == 'Kandidat'"
+            [ngClass]="{'active-link': isActiveRoute('/favorites')}">
+          <a class="nav-link active px-3 fw-bold fs-5 text-underline mt-2"
+             [routerLink]="'/favorites'">Favorites</a>
+        </li>
+
         <li class="nav-item">
           <a class="nav-link active px-3 fw-bold fs-5 text-underline mt-2" href="#aboutUs"
              (click)="scrollToSection($event, '#aboutUs')">About Us</a>
@@ -26,13 +44,27 @@
         <li class="nav-item" *ngIf="(authService.user$ | async) === null">
           <a class="nav-link active fw-bold fs-5 text-underline log-in" [routerLink]="'/login'" href="">Login</a>
         </li>
+
         <li class="nav-item" *ngIf="(authService.user$ | async) === null">
           <a class="nav-link active fw-bold fs-5 text-underline sign-up" style="color: white" [routerLink]="'/signup'">Sign
             up</a>
         </li>
 
         <li class="nav-item" *ngIf="(authService.user$ | async) as user">
-          <a class="nav-link active fw-bold fs-5 text-underline sign-up" style="color: white" (click)="logout()">Logout</a>
+          <a class="nav-link active fw-bold fs-5 text-underline sign-up" style="color: white"
+             (click)="logout()">Logout</a>
+        </li>
+
+        <li class="nav-item d-flex justify-content-center align-items-end" *ngIf="loggedUser && loggedUser?.role == 'Kandidat'">
+          <a [routerLink]="'/account-candidate'" href="">
+            <img class="img-profile" src="./assets/img/profilna-ikona.png" alt="image">
+          </a>
+        </li>
+
+        <li class="nav-item d-flex justify-content-center align-items-end" *ngIf="loggedUser?.role == 'Kompanija' ">
+          <a href="">
+            <img class="img-profile" src="./assets/img/profilna-ikona.png" alt="image">
+          </a>
         </li>
 
       </ul>

@@ -1,8 +1,8 @@
-import {MyBaseEndpoint} from "../MyBaseEndpoint";
+import {MyBaseEndpoint} from "../../MyBaseEndpoint";
 import {KandidatGetAllResponse} from "./kandidat-get-all-response";
 import {Observable} from "rxjs";
 import {HttpClient} from "@angular/common/http";
-import {MojConfig} from "../../moj-config";
+import {MojConfig} from "../../../moj-config";
 import {Injectable} from "@angular/core";
 @Injectable({providedIn: 'root'})
 export class KandidatGetAllEndpoint implements MyBaseEndpoint<void, KandidatGetAllResponse> {

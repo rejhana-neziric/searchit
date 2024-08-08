@@ -17,6 +17,10 @@ import {NotificationModalComponent} from "./components/notifications/notificatio
 import {NotFoundComponent} from "./components/not-found/not-found.component";
 import {ConfirmEmailComponent} from "./components/confirm-email/confirm-email.component";
 import {SendEmailComponent} from "./components/send-email/send-email.component";
+import {OglasDodajComponent} from "./components/oglas-dodaj/oglas-dodaj.component";
+import {
+  AccountDetailsCandidateComponent
+} from "./components/account/account-details-candidate/account-details-candidate.component";
 
 export const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -26,6 +30,8 @@ export const routes: Routes = [
     canActivate: [AuthorizationGuard],
     children: [
       //dodati rute koje zahtijevaju login
+      //dodati koja rola ima pravo otvoriti koju rutu
+      {path: 'account-candidate', component: AccountDetailsCandidateComponent},
     ]
   },
 
@@ -37,6 +43,7 @@ export const routes: Routes = [
   {path: 'favorites', component: FavoritesComponent},
   {path: 'jobs', component: OglasiComponent},
   {path: 'jobs/:id', component: OglasDetaljiComponent},
+  {path: 'jobs-add', component: OglasDodajComponent},
   {path: 'companies', component: KompanijeComponent},
   {path: 'companies/:id', component: KompanijaDetaljiComponent},
   {path: 'cv', component: CvComponent},
