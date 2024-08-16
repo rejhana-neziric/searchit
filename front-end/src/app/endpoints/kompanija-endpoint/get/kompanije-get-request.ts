@@ -7,7 +7,7 @@ export class KompanijeGetRequest{
     public brojZaposlenih?: string [],
     public imaOtvorenePozicije?: string,
     public spasen?: boolean,
-    public kandidatId?: number,
+    public kandidatId?: string,
     public filters?: { [key: string]: any },
     public sortParametri?: SortParametar[]
   ) {}

@@ -20,6 +20,8 @@ using Microsoft.Identity.Client;
 using Mailjet.Client.Resources;
 using Microsoft.AspNetCore.WebUtilities;
 using System.Data;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using System.Text.RegularExpressions;
 
 namespace JobSearchingWebApp.Endpoints.Auth
 {
@@ -59,7 +61,39 @@ namespace JobSearchingWebApp.Endpoints.Auth
         [HttpPost("register/kompanija")]
         public async Task<IActionResult> RegisterKompanija([FromBody] KompanijaDodajRequest request)
         {
-            return await RegisterUser<Models.Kompanija, KompanijaDodajRequest>(request, "Kompanija", 3);
+            var user = mapper.Map<Models.Kompanija>(request);
+            user.PasswordSalt = HelperMethods.GenerateSalt();
+            user.UlogaId = 3;
+
+            byte[] logoBytes = null;
+            if (!string.IsNullOrEmpty(request.Logo))
+            {
+                // Convert base64 string to byte array
+                var base64Data = Regex.Replace(request.Logo, @"^data:image\/[a-zA-Z]+;base64,", string.Empty);
+                logoBytes = Convert.FromBase64String(base64Data);
+            }
+
+            user.Logo = logoBytes; 
+
+            var result = await userManager.CreateAsync(user, request.Password);
+            if (!result.Succeeded)
+                return BadRequest(result.Errors);
+
+            await userManager.AddToRoleAsync(user, "Kompanija");
+
+            try
+            {
+                if (await SendConfirmEMailAsync(user))
+                {
+                    return Ok(new JsonResult(new { title = "Account Created", message = "Your account has been created, please confirm your email address." }));
+                }
+
+                return BadRequest("Failed to send email. Please contact admin");
+            }
+            catch (Exception)
+            {
+                return BadRequest("Failed to send email. Please contact admin");
+            }
         }
 
         [HttpPut("confirm-email")]

@@ -26,7 +26,7 @@ namespace JobSearchingWebApp.Endpoints.KandidatSpaseneKomapnije.Update
                 throw new Exception("Nije pronađena kompanija sa ID " + request.kompanija_id);
             }
 
-            spaseni.Spasen = false;
+            spaseni.Spasen = request.Spasen;
 
             await dbContext.SaveChangesAsync();
 

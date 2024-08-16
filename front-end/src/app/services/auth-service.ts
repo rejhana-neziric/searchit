@@ -1,6 +1,6 @@
 import {Inject, Injectable, OnInit, PLATFORM_ID} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {BehaviorSubject, catchError, map, Observable, of, ReplaySubject} from 'rxjs';
+import {BehaviorSubject, catchError, map, Observable, of, ReplaySubject, take} from 'rxjs';
 import {MojConfig} from "../moj-config";
 import {environment} from "../../environments/environment.development";
 import {User} from "../modals/user";
@@ -21,6 +21,7 @@ export class AuthService {
   private isBrowser: boolean;
   private userSource: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null);
   public user$: Observable<User | null> = this.userSource.asObservable();
+  public userId: string | null = null;
 
   constructor(private http: HttpClient,
               private router: Router,
@@ -53,6 +54,19 @@ export class AuthService {
     );
   }
 
+  getLoggedUser() {
+
+    let loggedUser: User | null = { id: "", role: "", jwt: ""};
+
+    this.user$.pipe(take(1)).subscribe({
+      next: (user: User | null) => {
+        loggedUser = user;
+      }
+    })
+
+    return loggedUser;
+  }
+
   registerCandidate(username: string, password: string, email: string, ime: string, prezime: string,
                     datumRodjenja: any, mjestoPrebivalista: string, zvanje: string, brojTelefona: string): Observable<any> {
     return this.http.post(
@@ -73,7 +87,7 @@ export class AuthService {
   }
 
   registerCompany(username: string, password: string, email: string, naziv: string, godinaOsnivanja: number,
-                  lokacija: string, logo: string | null, brojZaposlenih: string, kratkiOpis: string,
+                  lokacija: string, logo: FormData | null, brojZaposlenih: string, kratkiOpis: string,
                   opis: string, website: string | null, linkedIn: string | null, twitter: string | null): Observable<any> {
     return this.http.post(
       MojConfig.lokalna_adresa + '/register/kompanija',

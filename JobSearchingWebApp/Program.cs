@@ -13,11 +13,17 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using Mapster;
-
-
+using JobSearchingWebApp.Endpoints.Kompanija.Dodaj;
+using JobSearchingWebApp.Endpoints.Kompanija.GetById;
 var config = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json", false)
     .Build();
+
+TypeAdapterConfig<KompanijaDodajRequest, Kompanija>.NewConfig()
+    .Ignore(dest => dest.Logo);
+
+TypeAdapterConfig<KompanijaGetByIdResponse, Kompanija>.NewConfig()
+    .Ignore(dest => dest.Logo);
 
 var builder = WebApplication.CreateBuilder(args);
 

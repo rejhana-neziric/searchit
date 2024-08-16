@@ -1,7 +1,9 @@
-﻿using JobSearchingWebApp.Data;
+﻿using Azure;
+using JobSearchingWebApp.Data;
 using JobSearchingWebApp.Endpoints.Oglas.GetAll;
 using JobSearchingWebApp.Helper;
 using JobSearchingWebApp.Models;
+using Mailjet.Client.Resources;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -69,14 +71,14 @@ namespace JobSearchingWebApp.Endpoints.Kompanija.GetAll
                 Naziv = kompanija.Naziv,
                 Lokacija = kompanija.Lokacija,
                 GodinaOsnivanja = kompanija.GodinaOsnivanja,
-                Logo = kompanija.Logo ?? null,
+                Logo = kompanija!.Logo != null ? Convert.ToBase64String(kompanija!.Logo) : null,
                 BrojZaposlenih = kompanija.BrojZaposlenih,
                 KratkiOpis = kompanija.KratkiOpis,
                 Opis = kompanija.Opis,
                 Website = kompanija.Website ?? null,
                 LinkedIn = kompanija.LinkedIn ?? null,
                 Twitter = kompanija.Twitter ?? null, 
-                Spasen = kompanija.KandidatSpaseneKompanije.Any(x => x.KandidatId == request.KandidatId && x.KompanijaId == kompanija.Id && x.Spasen),
+                Spasen = spaseni.Any(x => x.KandidatId == request.KandidatId && x.KompanijaId == kompanija.Id && x.Spasen),
                 BrojOtvorenihPozicija = kompanija.Oglasi.Count(x => x.KompanijaId == kompanija.Id && x.RokPrijave > DateTime.Now),
             }).ToList();
 

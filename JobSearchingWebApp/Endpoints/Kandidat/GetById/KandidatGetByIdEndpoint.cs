@@ -12,13 +12,11 @@ namespace JobSearchingWebApp.Endpoints.Kandidat.GetById
     [Route("kandidat/get-by-id")]
     public class KandidatGetByIdEndpoint : MyBaseEndpoint<string, ActionResult<KandidatGetByIdResponse>>
     {
-        private readonly ApplicationDbContext dbContext;
         private readonly UserManager<Models.Korisnik> userManager;
         private readonly IMapper mapper;
 
-        public KandidatGetByIdEndpoint(ApplicationDbContext dbContext, UserManager<Models.Korisnik> userManager, IMapper mapper)
+        public KandidatGetByIdEndpoint(UserManager<Models.Korisnik> userManager, IMapper mapper)
         {
-            this.dbContext = dbContext;
             this.userManager = userManager; 
             this.mapper = mapper;
         }
@@ -28,7 +26,7 @@ namespace JobSearchingWebApp.Endpoints.Kandidat.GetById
         {
             var user = await userManager.FindByIdAsync(id);
             if (user == null) return BadRequest(new { message = $"User with ID {id} doesn't exist." });
-            if (user.UlogaId == 1) return BadRequest(new { message = $"User with ID {id} is not candidate." });
+            if (user.UlogaId != 2) return BadRequest(new { message = $"User with ID {id} is not candidate." });
 
             var response = mapper.Map<KandidatGetByIdResponse>(user);
 

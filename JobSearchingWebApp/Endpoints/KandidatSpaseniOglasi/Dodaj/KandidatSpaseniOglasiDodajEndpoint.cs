@@ -36,7 +36,7 @@ namespace JobSearchingWebApp.Endpoints.KandidatSpaseniOglasi.Dodaj
                 throw new Exception($"Kandidat sa ID {request.kandidat_id} ne postoji.");
             }
 
-            var id = spaseni.Id;
+            var id = 0;
 
             if (spaseni != null && spaseni.Spasen == true)
             {

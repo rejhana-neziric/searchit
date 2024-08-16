@@ -32,6 +32,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Endpoints\KandidatSpaseneKomapnije\Delete\" />
     <Folder Include="Migrations\" />
   </ItemGroup>
 

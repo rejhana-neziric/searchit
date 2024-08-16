@@ -1,14 +1,15 @@
-﻿namespace JobSearchingWebApp.Endpoints.Kompanija.GetById
+﻿using JobSearchingWebApp.Models;
+
+namespace JobSearchingWebApp.Endpoints.Kompanija.GetById
 {
-    public class KompanijaGetByIdResponse
+    public class KompanijaGetByIdResponse : Korisnik
     {
-        public string Id { get; set; }
         public string Naziv { get; set; }
         public int GodinaOsnivanja { get; set; }
         public string Lokacija { get; set; }
-        public string? Logo { get; set; }
         public string BrojZaposlenih { get; set; }
         public string KratkiOpis { get; set; }
+        public string? Logo { get; set; }
         public string Opis { get; set; }
         public string? Website { get; set; }
         public string? LinkedIn { get; set; }

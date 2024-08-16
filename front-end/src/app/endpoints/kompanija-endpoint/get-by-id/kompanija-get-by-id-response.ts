@@ -1,5 +1,5 @@
 export interface KompanijaGetByIdResponse {
-  id: number
+  id: string
   naziv: string
   godinaOsnivanja: number
   lokacija: string
@@ -11,4 +11,6 @@ export interface KompanijaGetByIdResponse {
   linkedIn: string | null
   twitter: string | null
   brojOtvorenihPozicija: number
+  userName: string
+  email: string
 }

@@ -4,5 +4,6 @@
     {
         public string kandidat_id { get; set; }
         public string kompanija_id { get; set; }
+        public bool Spasen { get; set; }
     }
 }

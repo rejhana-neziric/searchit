@@ -6,6 +6,7 @@ namespace JobSearchingWebApp.Endpoints.Oglas.GetById
     {
         public int Id { get; set; }
         public string KompanijaNaziv { get; set; }
+        public string KompanijaId { get; set; }
         public string NazivPozicije { get; set; }
         public DateTime DatumObjave { get; set; }
         public string Plata { get; set; }

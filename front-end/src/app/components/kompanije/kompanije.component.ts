@@ -29,6 +29,8 @@ import {
 import {
   KandidatSpaseneKompanijeUpdateEndpoint
 } from "../../endpoints/kandidat-spasene-kompanije-endpoint/update/kandidat-spasene-kompanije-update-endpoint";
+import {AuthService} from "../../services/auth-service";
+import {User} from "../../modals/user";
 
 
 declare var bootstrap: any;
@@ -66,7 +68,7 @@ export class KompanijeComponent implements OnInit{
   total: number = 10;
   kompanijaZaPrikaz: KompanijeGetResponseKomapanija |  null = null;
   searchObject: KompanijeGetRequest | null = null
-  odabranaKompanijaId: number = 0;
+  odabranaKompanijaId: string = "";
   odabranaKompanija: KompanijaGetByIdResponse | null = null;
   selektovaneLokacije: string[] = [];
   selektovaniBrojZaposlenika: string[] = [];
@@ -76,7 +78,8 @@ export class KompanijeComponent implements OnInit{
   noNextElement: boolean = false;
   noPreviousElement: boolean = true;
   selectedCompany: any;
-
+  kandidat: User = {id: "", role: "", jwt: ""}
+  imageUrl: string | ArrayBuffer | null = '';
 
   constructor(private getBrojZaposlenihEndpoint : GetBrojZaposlenihEndpoint,
               private kompanijeGetEndpoint: KompanijeGetEndpoint,
@@ -84,12 +87,14 @@ export class KompanijeComponent implements OnInit{
               private kandidatSpaseneKompanijeDodajEndpoint: KandidatSpaseneKompanijeDodajEndpoint,
               private kandidatSpaseneKompanijeUpdateEndpoint: KandidatSpaseneKompanijeUpdateEndpoint,
               private notificationService: NotificationService,
-              private cdr: ChangeDetectorRef) {
+              private cdr: ChangeDetectorRef,
+              private authService: AuthService) {
   }
 
   async ngOnInit(): Promise<void> {
     this.getNumberOfEmployees();
     this.sortParametri = [];
+    this.kandidat = this.authService.getLoggedUser();
     await this.getAll();
     this.setTotal();
   }
@@ -125,13 +130,15 @@ export class KompanijeComponent implements OnInit{
   }
 
   async getAll() {
+
+
     this.searchObject = {
       lokacija: this.selektovaneLokacije,
       brojZaposlenih: this.selektovaniBrojZaposlenika,
       naziv: this.pretragaNaziv,
       imaOtvorenePozicije: this.imaOtvorenePozicije,
       spasen: undefined,
-      kandidatId: 25,
+      kandidatId: this.kandidat.id,
       sortParametri: this.sortParametri
     };
 
@@ -168,6 +175,9 @@ export class KompanijeComponent implements OnInit{
       next: x => {
         this.odabranaKompanija = x;
         this.odabranaKompanijaId = x?.id;
+        if (x.logo) {
+          this.imageUrl = `data:image/jpeg;base64,${x.logo}`;
+        }
       }
     })
   }
@@ -338,7 +348,7 @@ export class KompanijeComponent implements OnInit{
   saveKompanija(kompanija: KompanijeGetResponseKomapanija) {
     var request: KandidatSpaseneKompanijeDodajRequest = {
       kompanija_id: kompanija.id,
-      kandidat_id: 25 //promijeniti kasnije u trenutno logiranog korisnika
+      kandidat_id: this.kandidat.id//promijeniti kasnije u trenutno logiranog korisnika
     }
 
     this.kandidatSpaseneKompanijeDodajEndpoint.obradi(request).subscribe(
@@ -349,7 +359,7 @@ export class KompanijeComponent implements OnInit{
       },
       (error: HttpErrorResponse) => {
         if (error.status === 500) {
-          this.unsaveKompanija(kompanija);
+          this.unsaveKompanija(kompanija, false);
         } else {
           this.notificationService.addNotification({message: `Error: ${error.message}`, type: 'error'});
         }
@@ -357,10 +367,11 @@ export class KompanijeComponent implements OnInit{
     );
   }
 
-  async unsaveKompanija(kompanija: KompanijeGetResponseKomapanija) {
+  async unsaveKompanija(kompanija: KompanijeGetResponseKomapanija, spasen: boolean) {
     var request: KandidatSpaseneKompanijeUpdateRequest = {
       kompanija_id: kompanija.id,
-      kandidat_id: 25 //promijeniti kasnije u trenutno logiranog korisnika
+      kandidat_id: this.kandidat.id, //promijeniti kasnije u trenutno logiranog korisnika,
+      spasen: false
     };
 
     try {
@@ -379,8 +390,17 @@ export class KompanijeComponent implements OnInit{
     this.filtriraneKompanije();
   }
 
+  promijeniStatus(kompanija: KompanijeGetResponseKomapanija) {
+      if (kompanija.spasen == false) {
+        this.saveKompanija(kompanija);
+      }
+      else {
+        this.unsaveKompanija(kompanija, false);
+      }
+  }
+
   confirmUnsave() {
-    this.unsaveKompanija(this.selectedCompany);
+    this.unsaveKompanija(this.selectedCompany, false);
     this.closeModal();
   }
 

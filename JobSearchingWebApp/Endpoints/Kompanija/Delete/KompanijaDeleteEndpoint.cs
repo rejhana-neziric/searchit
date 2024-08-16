@@ -2,6 +2,7 @@
 using JobSearchingWebApp.Endpoints.Kandidat.Delete;
 using JobSearchingWebApp.Helper;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
@@ -9,29 +10,39 @@ namespace JobSearchingWebApp.Endpoints.Kompanija.Delete
 {
     [Tags("Kompanija")]
     [Route("kompanija-delete")]
-    public class KompanijaDeleteEndpoint : MyBaseEndpoint<KompanijaDeleteRequest, KompanijaDeleteResponse>
+    public class KompanijaDeleteEndpoint : MyBaseEndpoint<string, ActionResult<KompanijaDeleteResponse>>
     {
         private readonly ApplicationDbContext dbContext;
+        private readonly UserManager<Models.Korisnik> userManager;
 
-        public KompanijaDeleteEndpoint(ApplicationDbContext dbContext)
+        public KompanijaDeleteEndpoint(ApplicationDbContext dbContext, UserManager<Models.Korisnik> userManager)
         {
             this.dbContext = dbContext;
+            this.userManager = userManager;
         }
 
-        [HttpDelete]
-        public override async Task<KompanijaDeleteResponse> MyAction([FromQuery]KompanijaDeleteRequest request, CancellationToken cancellationToken)
+        [HttpDelete("{id}")]
+        public override async Task<ActionResult<KompanijaDeleteResponse>> MyAction(string id, CancellationToken cancellationToken)
         {
-            var kompanija = dbContext.Kompanije.FirstOrDefault(x => x.Id == request.kompanija_id);
+            var userId = userManager.GetUserId(User);
+            var user = await userManager.FindByIdAsync(userId);
 
-            if (kompanija == null)
+            if (id == userId || user.UlogaId == 1)
             {
-                throw new Exception("Nije pronađen kandidat sa ID " + request.kompanija_id);
+
+                var kompanija = dbContext.Kompanije.FirstOrDefault(x => x.Id == id);
+
+                if (kompanija == null)
+                    return BadRequest();
+
+                await userManager.RemoveFromRoleAsync(kompanija, "Kompanija");
+                await userManager.DeleteAsync(kompanija);
+
+                return new KompanijaDeleteResponse() { };
             }
 
-            dbContext.Remove(kompanija);
-            await dbContext.SaveChangesAsync();
-
-            return new KompanijaDeleteResponse() { };
+            else
+                return Unauthorized();
         }
     }
 }

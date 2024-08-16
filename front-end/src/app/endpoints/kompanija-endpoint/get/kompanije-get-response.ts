@@ -3,7 +3,7 @@ export interface KompanijeGetResponse {
 }
 
 export interface KompanijeGetResponseKomapanija {
-  id: number
+  id: string
   naziv: string
   godinaOsnivanja: number
   lokacija: string

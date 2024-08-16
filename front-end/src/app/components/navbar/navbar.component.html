@@ -55,14 +55,11 @@
              (click)="logout()">Logout</a>
         </li>
 
-        <li class="nav-item d-flex justify-content-center align-items-end" *ngIf="loggedUser && loggedUser?.role == 'Kandidat'">
-          <a [routerLink]="'/account-candidate'" href="">
+        <li class="nav-item d-flex justify-content-center align-items-end" *ngIf="(authService.user$ | async) as user">
+          <a *ngIf="loggedUser && loggedUser?.role == 'Kandidat'" [routerLink]="'/account-candidate'" href="">
             <img class="img-profile" src="./assets/img/profilna-ikona.png" alt="image">
           </a>
-        </li>
-
-        <li class="nav-item d-flex justify-content-center align-items-end" *ngIf="loggedUser?.role == 'Kompanija' ">
-          <a href="">
+          <a *ngIf="loggedUser && loggedUser?.role == 'Kompanija'" [routerLink]="'/account-company'" href="">
             <img class="img-profile" src="./assets/img/profilna-ikona.png" alt="image">
           </a>
         </li>

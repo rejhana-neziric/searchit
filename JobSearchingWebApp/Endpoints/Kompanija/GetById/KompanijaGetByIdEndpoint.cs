@@ -1,7 +1,10 @@
 ﻿using JobSearchingWebApp.Data;
+using JobSearchingWebApp.Endpoints.Kandidat.GetById;
 using JobSearchingWebApp.Endpoints.Oglas.GetById;
 using JobSearchingWebApp.Helper;
 using JobSearchingWebApp.Models;
+using MapsterMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,40 +12,29 @@ namespace JobSearchingWebApp.Endpoints.Kompanija.GetById
 {
     [Tags("Kompanija")]
     [Route("kompanija/get-by-id")]
-    public class KompanijaGetByIdEndpoint : MyBaseEndpoint<string, KompanijaGetByIdResponse>
+    public class KompanijaGetByIdEndpoint : MyBaseEndpoint<string, ActionResult<KompanijaGetByIdResponse>>
     {
-        private readonly ApplicationDbContext dbContext;
+        private readonly UserManager<Models.Korisnik> userManager;
+        private readonly IMapper mapper;
 
-        public KompanijaGetByIdEndpoint(ApplicationDbContext dbContext)
+        public KompanijaGetByIdEndpoint(UserManager<Models.Korisnik> userManager, IMapper mapper)
         {
-            this.dbContext = dbContext;
+            this.userManager = userManager;
+            this.mapper = mapper;
         }
 
         [HttpGet("{id}")]
-        public override async Task<KompanijaGetByIdResponse> MyAction(string id, CancellationToken cancellationToken)
+        public override async Task<ActionResult<KompanijaGetByIdResponse>> MyAction(string id, CancellationToken cancellationToken)
         {
-            var kompanija = dbContext.Kompanije.Include(oglas => oglas.Oglasi).Where(x => x.Id == id).FirstOrDefault();
+            var user = await userManager.FindByIdAsync(id);
+            if (user == null) return BadRequest(new { message = $"User with ID {id} doesn't exist." });
+            if (user.UlogaId != 3) return BadRequest(new { message = $"User with ID {id} is not company." });
 
-            if (kompanija == null)
-                throw new Exception("Ne postoji kompanija sa ID " + id);
+            var response = mapper.Map<KompanijaGetByIdResponse>(user);
 
-            var response = new KompanijaGetByIdResponse()
-            {
-                Id = kompanija.Id,  
-                Naziv = kompanija.Naziv,    
-                GodinaOsnivanja = kompanija.GodinaOsnivanja, 
-                BrojZaposlenih = kompanija.BrojZaposlenih, 
-                KratkiOpis = kompanija.KratkiOpis, 
-                Opis = kompanija.Opis, 
-                Website = kompanija.Website ?? null,
-                LinkedIn = kompanija.LinkedIn ?? null,
-                Twitter = kompanija.Twitter ?? null,
-                Logo = kompanija.Logo ?? null,
-                Lokacija = kompanija.Lokacija,
-                BrojOtvorenihPozicija = kompanija.Oglasi.Count(x => x.KompanijaId == kompanija.Id && x.RokPrijave > DateTime.Now),
-            };
+            response.Logo = (user as Models.Kompanija)!.Logo != null ? Convert.ToBase64String((user as Models.Kompanija)!.Logo) : null;
 
-            return response; 
+            return response;
         }
     }
 }

@@ -26,6 +26,8 @@ import {
 } from "../../../endpoints/kandidat-spasene-kompanije-endpoint/update/kandidat-spasene-kompanije-update-request";
 import {RouterLink} from "@angular/router";
 import { isPlatformBrowser } from '@angular/common';
+import {AuthService} from "../../../services/auth-service";
+import {User} from "../../../modals/user";
 
 declare var bootstrap: any;
 
@@ -56,15 +58,18 @@ export class FavoritesKompanijeComponent {
   selectedCompany: any;
   noCompanies: boolean = this.kompanije?.length == 0;
   pretragaNaziv: string = "";
+  kandidat: User = {id: "", role: "", jwt: ""}
 
   constructor(private kompanijeGetEndpoint: KompanijeGetEndpoint,
               private kandidatSpaseneKompanijeUpdateEndpoint: KandidatSpaseneKompanijeUpdateEndpoint,
               private notificationService: NotificationService,
+              private authService: AuthService,
               @Inject(PLATFORM_ID) private platformId: any) {
   }
 
   async ngOnInit(): Promise<void> {
     this.setTotal();
+    this.kandidat = this.authService.getLoggedUser();
     await this.getAll();
   }
 
@@ -95,7 +100,7 @@ export class FavoritesKompanijeComponent {
     this.searchObject = {
       naziv: this.pretragaNaziv,
       spasen: true,
-      kandidatId: 25
+      kandidatId: this.kandidat.id
     };
 
     try {
@@ -118,7 +123,7 @@ export class FavoritesKompanijeComponent {
   async unsaveKompanija(kompanija: KompanijeGetResponseKomapanija) {
     var request: KandidatSpaseneKompanijeUpdateRequest = {
       kompanija_id: kompanija.id,
-      kandidat_id: 25 //promijeniti kasnije u trenutno logiranog korisnika
+      kandidat_id: this.kandidat.id, spasen: false //promijeniti kasnije u trenutno logiranog korisnika
     };
 
     try {

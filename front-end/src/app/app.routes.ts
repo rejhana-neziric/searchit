@@ -21,6 +21,9 @@ import {OglasDodajComponent} from "./components/oglas-dodaj/oglas-dodaj.componen
 import {
   AccountDetailsCandidateComponent
 } from "./components/account/account-details-candidate/account-details-candidate.component";
+import {
+  AccountDetailsCompanyComponent
+} from "./components/account/account-details-company/account-details-company.component";
 
 export const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -39,6 +42,7 @@ export const routes: Routes = [
   {path: 'signup', component: SignupComponent},
   {path: 'confirm-email', component: ConfirmEmailComponent},
   {path: 'send-email/:mode', component: SendEmailComponent},
+  {path: 'account-company', component: AccountDetailsCompanyComponent},
   {path: 'home', component: HomeComponent},
   {path: 'favorites', component: FavoritesComponent},
   {path: 'jobs', component: OglasiComponent},

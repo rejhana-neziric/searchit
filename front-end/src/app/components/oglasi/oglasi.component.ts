@@ -27,6 +27,9 @@ import {
 import {
   KandidatSpaseniOglasiUpdateEndpoint
 } from "../../endpoints/kandidat-spaseni-oglasi-endpoint/update/kandidat-spaseni-oglasi-update-endpoint";
+import {User} from "../../modals/user";
+import {AuthService} from "../../services/auth-service";
+import {KompanijeGetResponseKomapanija} from "../../endpoints/kompanija-endpoint/get/kompanije-get-response";
 
 declare var bootstrap: any;
 
@@ -73,17 +76,19 @@ export class OglasiComponent implements OnInit {
   noNextElement: boolean = false;
   noPreviousElement: boolean = true;
   selectedPost: any;
+  user: User = {id: "", role: "", jwt: ""}
 
   constructor(private oglasGetAllEndpoint: OglasGetEndpoint,
               private oglasGetByIdEndpoint: OglasGetByIdEndpoint,
               private kandidatSpaseniOglasiDodajEndpoint: KandidatSpaseniOglasiDodajEndpoint,
               private kandidatSpaseniOglasiUpdateEndpoint: KandidatSpaseniOglasiUpdateEndpoint,
-              private notificationService: NotificationService
-  ) {
+              private notificationService: NotificationService,
+              private authService: AuthService) {
   }
 
   async ngOnInit() {
     this.sortParametri = [];
+    this.user = this.authService.getLoggedUser();
     await this.getAll();
     this.setTotal();
   }
@@ -138,7 +143,7 @@ export class OglasiComponent implements OnInit {
       naziv: this.pretragaNaziv,
       tipPosla: this.selektovaniJobType,
       sortParametri: this.sortParametri,
-      kandidatId: undefined,
+      kandidatId: this.user.id,
       otvoren: undefined
     };
 
@@ -342,10 +347,19 @@ export class OglasiComponent implements OnInit {
     this.getAll();
   }
 
+  promijeniStatus(oglas: OglasGetResponseOglasi) {
+    if (oglas.spasen == false) {
+      this.saveOglas(oglas);
+    }
+    else {
+      this.unsaveOglas(oglas);
+    }
+  }
+
   saveOglas(oglas: OglasGetResponseOglasi) {
     var request: KanidatSpaseniOglasiDodajRequest = {
       oglas_id: oglas.id,
-      kandidat_id: 25 //promijeniti kasnije u trenutno logiranog korisnika
+      kandidat_id: this.user.id //promijeniti kasnije u trenutno logiranog korisnika
     }
 
     this.kandidatSpaseniOglasiDodajEndpoint.obradi(request).subscribe(
@@ -366,7 +380,7 @@ export class OglasiComponent implements OnInit {
   async unsaveOglas(oglas: OglasGetResponseOglasi) {
     var request: KanidatSpaseniOglasiUpdateRequest = {
       oglas_id: oglas.id,
-      kandidat_id: 25 //promijeniti kasnije u trenutno logiranog korisnika
+      kandidat_id: this.user.id  //promijeniti kasnije u trenutno logiranog korisnika
     };
 
     try {

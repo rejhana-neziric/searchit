@@ -6,5 +6,5 @@ export interface KandidatGetByIdResponse {
   zvanje: string,
   brojTelefona: string,
   userName: string,
-  email: string
+  email: string,
 }

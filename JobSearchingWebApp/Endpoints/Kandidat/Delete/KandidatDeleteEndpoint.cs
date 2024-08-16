@@ -46,9 +46,7 @@ namespace JobSearchingWebApp.Endpoints.Kandidat.Delete
             }
 
             else
-            {
                 return Unauthorized();
-            }
         }
     }
 }

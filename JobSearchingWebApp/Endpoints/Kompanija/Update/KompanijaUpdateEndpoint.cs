@@ -1,15 +1,19 @@
 ﻿using JobSearchingWebApp.Data;
 using JobSearchingWebApp.Helper;
 using JobSearchingWebApp.Models;
+using Mailjet.Client.Resources;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.RegularExpressions;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace JobSearchingWebApp.Endpoints.Kompanija.Update
 {
+    [Authorize(Roles ="Admin, Kompanija")]
     [Tags("Kompanija")]
     [Route("kompanija-update")]
-    public class KompanijaUpdateEndpoint : MyBaseEndpoint<KompanijaUpdateRequest, KompanijaUpdateResponse>
+    public class KompanijaUpdateEndpoint : MyBaseEndpoint<KompanijaUpdateRequest, ActionResult<KompanijaUpdateResponse>>
     {
         private readonly ApplicationDbContext dbContext;
 
@@ -18,29 +22,37 @@ namespace JobSearchingWebApp.Endpoints.Kompanija.Update
             this.dbContext = dbContext;
         }
 
-        [HttpPost]
-        public override async Task<KompanijaUpdateResponse> MyAction(KompanijaUpdateRequest request, CancellationToken cancellationToken)
+        [HttpPut]
+        public override async Task<ActionResult<KompanijaUpdateResponse>> MyAction(KompanijaUpdateRequest request, CancellationToken cancellationToken)
         {
-            var kompanija = dbContext.Kompanije.FirstOrDefault(x => x.Id == request.kompanija_id);
+            var kompanija = await dbContext.Kompanije.FindAsync(request.Id);
 
-            if (kompanija == null)
+            if (kompanija == null) return BadRequest(new { message = $"User with ID {request.Id} doesn't exist." });
+            if (kompanija.UlogaId == 1) return BadRequest(new { message = $"User with ID {request.Id} is not company." });
+
+            kompanija.LinkedIn = request.LinkedIn ?? kompanija.LinkedIn;
+            kompanija.BrojZaposlenih = request.BrojZaposlenih ?? kompanija.BrojZaposlenih;
+            kompanija.Naziv = request.Naziv ?? kompanija.Naziv;
+            kompanija.Website = request.Website ?? kompanija.Website;
+            kompanija.LinkedIn = request.LinkedIn ?? kompanija.LinkedIn;
+            kompanija.Twitter = request.Twitter ?? kompanija.Twitter;
+            kompanija.Lokacija = request.Lokacija ?? kompanija.Lokacija;
+            kompanija.Opis = request.Opis ?? kompanija.Opis;
+            kompanija.KratkiOpis = request.KratkiOpis ?? kompanija.KratkiOpis;
+
+            byte[] logoBytes = null;
+            if (!string.IsNullOrEmpty(request.Logo))
             {
-                throw new Exception("Nije pronađen kompanija sa ID " + request.kompanija_id);
+                var base64Data = Regex.Replace(request.Logo, @"^data:image\/[a-zA-Z]+;base64,", string.Empty);
+                logoBytes = Convert.FromBase64String(base64Data);
             }
 
-            kompanija.Email = request.email;
-            kompanija.UserName = request.username;
-            //kompanija.Password = request.password;
-           // kompanija.TemaId = request.tema_id;
-           // kompanija.JezikId = request.jezik_id;
-            kompanija.Naziv = request.naziv;
-            kompanija.GodinaOsnivanja = request.godina_osnivanja; 
-            kompanija.Lokacija = request.lokacija;  
-            kompanija.Logo = request.slika;
+            kompanija.Logo = logoBytes;
+
 
             await dbContext.SaveChangesAsync();
 
-            return new KompanijaUpdateResponse { Id = request.kompanija_id }; 
+            return new KompanijaUpdateResponse { Id = request.Id }; 
         }
     }
 }

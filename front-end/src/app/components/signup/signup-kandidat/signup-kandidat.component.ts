@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {RouterLink} from "@angular/router";
+import {Router, RouterLink} from "@angular/router";
 import {NgClass} from "@angular/common";
 import {AuthService} from "../../../services/auth-service";
 import {NotificationService} from "../../../services/notification-service";
@@ -37,7 +37,8 @@ export class SignupKandidatComponent implements OnInit{
   username: string = '';
 
   constructor(private authService: AuthService,
-              private notificationService: NotificationService) {
+              private notificationService: NotificationService,
+              private router: Router) {
   }
 
   ngOnInit(): void {
@@ -47,14 +48,14 @@ export class SignupKandidatComponent implements OnInit{
   onSubmit() {
     const kandidat = Object.assign({}, this.form, this.korisnik);
 
-    console.log("pozvan onsubit", kandidat);
-
     this.authService.registerCandidate(kandidat.username, kandidat.password, kandidat.email, kandidat.ime, kandidat.prezime,
       kandidat.datumRodjenja, kandidat.mjestoPrebivalista, kandidat.zvanje, kandidat.brojTelefona).subscribe({
       next: response => {
         this.isSignUpFailed = false;
         this.isSigned = true;
-        this.notificationService.showModalNotification(true, response.value.title, response.value.message);
+        //this.notificationService.showModalNotification(true, response.value.title, response.value.message);
+        this.notificationService.showModalNotification(true, 'Account created', 'Your account has been successfully created, please login.');
+        this.router.navigateByUrl('/login');
       },
       error: err => {
 

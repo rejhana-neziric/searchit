@@ -2,6 +2,6 @@
 {
     public class KompanijaDeleteRequest
     {
-        public string kompanija_id { get; set; } 
+        public string Id { get; set; } 
     }
 }

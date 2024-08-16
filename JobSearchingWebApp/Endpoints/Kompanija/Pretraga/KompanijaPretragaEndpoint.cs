@@ -33,7 +33,7 @@ namespace JobSearchingWebApp.Endpoints.Kompanija.Pretraga
                                     Naziv = x.Naziv,
                                     Lokacija = x.Lokacija,
                                     GodinaOsnivanja = x.GodinaOsnivanja,
-                                    Slika = x.Logo,
+                                    //Slika = x.Logo,
                                 }).ToListAsync();
 
             return new KompanijaPretragaResponse { Kompanije = kompanije };

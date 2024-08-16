@@ -39,14 +39,22 @@
                 </div>
               </span>
           </div>
-          <a class="d-flex flex-row nav-link button-section">
-            <a class="nav-link text-dark btn-confirm d-flex justify-content-center align-middle"
-               style="background-color: #e1adad"
-               (click)="openUnsaveModal(kompanija)" type="button">
-              Remove</a>
-            <a class="nav-link text-dark btn-confirm d-flex justify-content-center align-middle" type="button"
-               style="margin-left: 10px" [routerLink]="['/kompanije/', kompanija?.id]">Details</a>
-          </a>
+
+          <div class="d-flex flex-row ">
+            <div>
+              <button type="button" class="btn-danger"
+                      (click)="openUnsaveModal(kompanija)">
+                Remove
+              </button>
+            </div>
+
+            <div>
+              <button class="btn-confirm" type="button"
+                      style="margin-left: 10px" [routerLink]="['/companies/', kompanija?.id]">Details
+              </button>
+            </div>
+
+          </div>
         </div>
 
         <app-notification-toast></app-notification-toast>
@@ -63,7 +71,6 @@
   <!-- Kompanije -->
 
 </div>
-
 
 
 <!-- Nema rezultata pretrage  -->
@@ -85,7 +92,7 @@
   <span class="fs-5 mb-4">You haven't saved any company yet.</span> <br>
   <br>
   <a class="nav-link text-dark btn-confirm d-flex justify-content-center align-middle" type="button"
-     style="width: 140px" [routerLink]="['/kompanije/']">Explore Companies</a>
+     style="width: 140px" [routerLink]="['/companies/']">Explore Companies</a>
 </div>
 
 <!-- Nema rezultata pretrage  -->
@@ -103,7 +110,7 @@
         Are you sure you want to unsave this company?
       </div>
       <div class="modal-footer">
-        <button type="button" class="nav-link btn-cancel" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn-cancel" data-bs-dismiss="modal">Cancel</button>
         <button type="button" class="nav-link btn-confirm d-flex justify-content-center align-middle"
                 (click)="confirmUnsave()">Unsave
         </button>

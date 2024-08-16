@@ -31,7 +31,7 @@ namespace JobSearchingWebApp.Endpoints.Oglas.GetById
             {
                 Id = oglas.Id,
                 KompanijaNaziv = oglas.Kompanija.Naziv,
-                //KompanijaID = oglas.Kompanija.Id, SKONTAT
+                KompanijaId = oglas.Kompanija.Id, 
                 NazivPozicije = oglas.NazivPozicije,
                 DatumObjave = oglas.DatumObjave,
                 Plata = oglas.Plata,

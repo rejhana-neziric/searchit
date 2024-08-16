@@ -1,7 +1,7 @@
 import {Component, Output, EventEmitter, Input, OnInit} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NgClass, NgForOf, NgIf} from "@angular/common";
-import {RouterLink} from "@angular/router";
+import {Router, RouterLink} from "@angular/router";
 import {AuthService} from "../../../services/auth-service";
 import {NotificationService} from "../../../services/notification-service";
 
@@ -37,7 +37,8 @@ export class SignupKompanijaOpisComponent{
   role: string = "";
 
   constructor(private authService: AuthService,
-              private notificationService: NotificationService) { }
+              private notificationService: NotificationService,
+              private router: Router) { }
 
   onSubmit() {
     const kompanija = Object.assign({}, this.form, this.kompanija);
@@ -48,8 +49,8 @@ export class SignupKompanijaOpisComponent{
       next: data => {
         this.isSignUpFailed = false;
         this.isSigned = true;
-        this.reloadPage();
-        this.notificationService.showModalNotification(true, 'Notification Title', 'This is a notification-toast message.');
+        this.notificationService.showModalNotification(true, 'Account created', 'Your account has been successfully created, please login.');
+        this.router.navigateByUrl('/login');
       },
       error: err => {
 
@@ -64,9 +65,4 @@ export class SignupKompanijaOpisComponent{
   triggerEvent() {
     this.customEvent.emit();
   }
-
-  reloadPage(): void {
-    window.location.reload();
-  }
-
 }

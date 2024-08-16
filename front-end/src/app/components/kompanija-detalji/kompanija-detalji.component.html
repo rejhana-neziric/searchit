@@ -12,7 +12,11 @@
   <div class="pregled-kompanija">
     <div class="d-flex flex-column">
       <div class="d-flex flex-row">
-        <img class="img-logo" src="../../../../assets/img/kompanija-logo.png" alt="image" loading="lazy">
+        <!--<img class="img-logo" src="../../../../assets/img/kompanija-logo.png" alt="image" loading="lazy">-->
+        <div *ngIf="imageUrl">
+          <img [src]="imageUrl" class="img-logo"  alt="Company Logo" />
+        </div>
+
         <div class="d-flex flex-column" style="margin-left: 25px; margin-bottom: 5px">
           <span class="fw-bold fs-3 tekst" style="color: #84B59F">{{ kompanija?.naziv }}</span>
           <a class="fw-normal fs-6 py-2" href=" {{ kompanija?.website }}">

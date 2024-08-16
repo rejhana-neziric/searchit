@@ -20,6 +20,8 @@ import {
 import {MatButtonToggle, MatButtonToggleGroup} from "@angular/material/button-toggle";
 import {FavoritesOglasiComponent} from "../favorites-oglasi/favorites-oglasi.component";
 import {FavoritesKompanijeComponent} from "../favorites-kompanije/favorites-kompanije.component";
+import {User} from "../../../modals/user";
+import {AuthService} from "../../../services/auth-service";
 
 declare var bootstrap: any;
 
@@ -55,14 +57,18 @@ export class FavoritesComponent implements OnInit {
   noPosts: boolean = this.oglasi?.length == 0;
   pretragaNaziv: string = "";
   selectedValue: string = 'Jobs';
+  kandidat: User = {id: "", role: "", jwt: ""}
+
 
   constructor(private oglasGetAllEndpoint: OglasGetEndpoint,
               private kandidatSpaseniOglasiUpdateEndpoint: KandidatSpaseniOglasiUpdateEndpoint,
-              private notificationService: NotificationService) {
+              private notificationService: NotificationService,
+              private authService: AuthService) {
   }
 
   async ngOnInit(): Promise<void> {
     this.setTotal();
+    this.kandidat = this.authService.getLoggedUser();
     await this.getAll();
   }
 
@@ -93,7 +99,7 @@ export class FavoritesComponent implements OnInit {
     this.searchObject = {
       naziv: this.pretragaNaziv,
       spasen: true,
-      kandidatId: 25
+      kandidatId: this.kandidat.id
     };
 
     try {
@@ -114,7 +120,7 @@ export class FavoritesComponent implements OnInit {
   async unsaveOglas(oglas: OglasGetResponseOglasi) {
     var request: KanidatSpaseniOglasiUpdateRequest = {
       oglas_id: oglas.id,
-      kandidat_id: 25 //promijeniti kasnije u trenutno logiranog korisnika
+      kandidat_id: this.kandidat.id //promijeniti kasnije u trenutno logiranog korisnika
     };
 
     try {

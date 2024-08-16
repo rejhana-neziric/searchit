@@ -28,10 +28,11 @@ import {OglasGetResponseOglasi} from "../../endpoints/oglas-endpoint/get/oglas-g
 })
 export class KompanijaDetaljiComponent implements OnInit{
 
-  kompanijaId: number | undefined = undefined;
+  kompanijaId: string | undefined = undefined;
   kompanija: KompanijaGetByIdResponse | null = null;
   searchObject: OglasGetRequest | null = null
   oglasi: OglasGetResponseOglasi [] = [];
+  imageUrl: string | ArrayBuffer | null = '';
 
   constructor(private activatedRoute: ActivatedRoute,
               private kompanijaGetByIdEndpoint: KompanijaGetByIdEndpoint,
@@ -40,6 +41,7 @@ export class KompanijaDetaljiComponent implements OnInit{
 
   async ngOnInit(): Promise<void> {
     this.kompanijaId = this.activatedRoute.snapshot.params["id"];
+    console.log(this.kompanijaId)
     this.getKompanija();
     await this.getOglasi();
   }
@@ -48,6 +50,9 @@ export class KompanijaDetaljiComponent implements OnInit{
     this.kompanijaGetByIdEndpoint.obradi(this.kompanijaId!).subscribe({
       next: x => {
         this.kompanija = x;
+        if (x.logo) {
+          this.imageUrl = `data:image/jpeg;base64,${x.logo}`;
+        }
       }
     })
   }

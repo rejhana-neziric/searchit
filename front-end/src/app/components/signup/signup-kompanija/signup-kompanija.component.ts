@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {RouterLink} from "@angular/router";
 import {NgClass, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 import {
@@ -38,23 +38,27 @@ export class SignupKompanijaComponent implements OnInit{
     twitter: null
   };
 
-  isSignUp = false;
-  isSignUpFailed = false;
-  errorMessage = '';
-  roles: string[] = [];
   username: string = '';
   role: string = "";
   godine: number[] = [];
   selectedImage: string | ArrayBuffer | null = null;
   brojZaposlenihRange: string[] = [];
   isRegisterDetails: boolean = false;
-  kompanija : any
+  kompanija: any
+  selectedFile: File | null = null;
+  companyForm: FormGroup;
 
-  constructor(private getBrojZaposlenihEndpoint : GetBrojZaposlenihEndpoint) {
-  }
-
-  onSubmit() {
-    return false;
+  constructor(private getBrojZaposlenihEndpoint : GetBrojZaposlenihEndpoint,
+              private fb: FormBuilder) {
+    this.companyForm = this.fb.group({
+      naziv: [''],
+      godinaOsnivanja: [''],
+      lokacija: [''],
+      brojZaposlenih: [''],
+      website: [''],
+      linkedin: [''],
+      twitter: [''],
+    });
   }
 
   ngOnInit(){
@@ -74,26 +78,18 @@ export class SignupKompanijaComponent implements OnInit{
     return this.godine;
   }
 
-  reloadPage(): void {
-    window.location.reload();
-  }
-
   onFileChange(event: any) {
-    const file = event.target.files[0];
+    const file: File = event.target.files[0];
     if (file) {
       const reader = new FileReader();
-      reader.onload = (e: any) => {
-        this.selectedImage = e.target.result;
-      };
-      reader.readAsDataURL(file);
-      this.form.logo = this.selectedImage;
-    }
-  }
 
-  removeImage() {
-    this.selectedImage = null;
-    // Reset the file input
-    (document.getElementById('logo') as HTMLInputElement).value = '';
+      reader.onload = (e: any) => {
+        this.selectedImage = reader.result;
+        this.form.logo = e.target.result; // Base64 string of the image
+      };
+
+      reader.readAsDataURL(file);
+    }
   }
 
   getNumberOfEmployees() {
