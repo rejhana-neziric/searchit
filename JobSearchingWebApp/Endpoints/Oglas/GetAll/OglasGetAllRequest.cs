@@ -14,6 +14,7 @@ namespace JobSearchingWebApp.Endpoints.Oglas.GetAll
         public string? KandidatId { get; set; }
         public string? KompanijaId { get; set; }
         public bool? Otvoren { get; set; }
+        public bool? Objavljen { get; set; }
         public List<SortParametar>? SortParametri { get; set; }
     }
 }

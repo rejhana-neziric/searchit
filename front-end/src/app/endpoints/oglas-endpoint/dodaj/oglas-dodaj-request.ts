@@ -13,5 +13,6 @@ export interface OglasDodajRequest {
   preferirane_godine_iskustva:number|null;
   kvalifikacija:string|null;
   vjestine:string|null;
-  benefiti:string|null
+  benefiti:string|null;
+  objavljen:boolean;
 }

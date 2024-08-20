@@ -42,6 +42,10 @@ export class OglasGetEndpoint implements MyBaseEndpoint<OglasGetRequest, OglasGe
       params = params.set('otvoren', request.otvoren);
     }
 
+    if(request.objavljen) {
+      params = params.set('objavljen', request.objavljen);
+    }
+
     if (request.kandidatId) {
       params = params.set('kandidatId', request.kandidatId);
     }

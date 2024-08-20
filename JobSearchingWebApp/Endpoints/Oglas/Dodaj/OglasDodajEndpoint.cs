@@ -39,8 +39,8 @@ namespace JobSearchingWebApp.Endpoints.Oglas.Dodaj
                     Kvalifikacija = request?.kvalifikacija,
                     Vjestine = request?.vjestine,
                 },
-                
-            };
+               Objavljen = request?.objavljen
+            };  
             var lokacije = dbContext.Lokacija.Where(x=> x.Naziv.ToLower().Contains(request.lokacija.ToLower())).ToList();
 
             if(lokacije == null)

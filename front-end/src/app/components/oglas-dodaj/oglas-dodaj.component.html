@@ -254,7 +254,11 @@
 
     <div class="form-group d-flex justify-content-between">
       <button class="btn-confirm">Back</button>
-      <button class="btn-confirm" (click)="onSubmit()">Save</button>
+      <div>
+        <button class="btn-confirm" (click)="onSubmitDraft()">Save draft</button>
+        <button class="btn-confirm" (click)="onSubmit()">Publish</button>
+      </div>
+
     </div>
 
   </form>

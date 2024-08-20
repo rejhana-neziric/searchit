@@ -25,7 +25,9 @@ import {OglasDodajComponent} from "./components/oglas-dodaj/oglas-dodaj.componen
     HttpClientModule,
     OglasiComponent,
     JeziciComponent,
-    NotificationModalComponent,],
+    NotificationModalComponent,
+    OglasDodajComponent,
+  ],
   providers: [],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'

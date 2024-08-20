@@ -41,7 +41,8 @@ export class OglasDodajComponent {
     preferirane_godine_iskustva:null,
     kvalifikacija:null,
     vjestine:null,
-    benefiti:null
+    benefiti:null,
+    objavljen:false
   };
 
   kompanije: KompanijeGetResponseKomapanija[]=[];
@@ -64,14 +65,25 @@ export class OglasDodajComponent {
     console.log(this.kompanije);
   }
 
-  onSubmit(){
-    //this.form.opis_pozicije="The HTTP 405 Method Not Allowed client error response status code indicates that the server knows the request method, but the target resource doesn't support this method. The server must generate an Allow header in a 405 response with a list of methods that the target resource currently supports.";
-    //this.form.plata=1200;
-    //this.form.preferirane_godine_iskustva=3;
+  onSubmitDraft(){
     const now = new Date();
     this.form.datum_modificiranja = this.datePipe.transform(now, 'yyyy-MM-dd');
     this.form.datum_objave=this.form.datum_modificiranja;
     this.form.kompanija_id = this.kompanije[0].id;
+    this.form.objavljen = false;
+    console.log(this.form)
+    //const oglas = Object.assign({}, this.form, this.oglas);
+    this.oglasDodajEndpoint.obradi(this.form).subscribe(response=>{
+      console.log("Oglas uspjesno dodan", response);
+    });
+  }
+  onSubmit(){
+    const now = new Date();
+    this.form.datum_modificiranja = this.datePipe.transform(now, 'yyyy-MM-dd');
+    this.form.datum_objave=this.form.datum_modificiranja;
+    console.log(this.kompanije)
+    this.form.kompanija_id = this.kompanije[0].id;
+    this.form.objavljen = true;
     console.log(this.form)
     //const oglas = Object.assign({}, this.form, this.oglas);
     this.oglasDodajEndpoint.obradi(this.form).subscribe(response=>{

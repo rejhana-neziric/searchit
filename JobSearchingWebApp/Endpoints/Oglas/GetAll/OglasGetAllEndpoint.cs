@@ -88,6 +88,11 @@ namespace JobSearchingWebApp.Endpoints.Oglas.GetAll
                 oglasi = oglasi.Where(oglas => oglas.KandidatSpaseniOglasi.Any(spaseni => spaseni.KandidatId == request.KandidatId && spaseni.Spasen == true));
             }
 
+            if(request?.Objavljen!=null)
+            {
+                oglasi= oglasi.Where(oglas => oglas.Objavljen ==  request.Objavljen);   
+            }
+
             var lista = oglasi.Select(oglas => new OglasGetAllResponseOglas
             {
                 Id = oglas.Id,

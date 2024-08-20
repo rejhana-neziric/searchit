@@ -22,6 +22,7 @@ namespace JobSearchingWebApp.Endpoints.Oglas.GetAll
         public OglasGetAllResponseOpisOglas OpisOglasa { get; set; }
         public int RazlikaDana => (DateTime.Today - RokPrijave).Days;
         public bool Spasen { get; set; }
+        public bool? Objavljen { get; set; }
     }
 
     public class OglasGetAllResponseOglasLokacija

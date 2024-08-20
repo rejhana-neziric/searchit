@@ -21,5 +21,6 @@ namespace JobSearchingWebApp.Endpoints.Oglas.Dodaj
         public string? kvalifikacija { get; set; }
         public string? vjestine { get; set; }
         public string? benefiti { get; set; }
+        public bool? objavljen { get; set; }
     }
 }

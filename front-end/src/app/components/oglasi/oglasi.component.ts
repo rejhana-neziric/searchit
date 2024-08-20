@@ -144,13 +144,15 @@ export class OglasiComponent implements OnInit {
       tipPosla: this.selektovaniJobType,
       sortParametri: this.sortParametri,
       kandidatId: this.user.id,
-      otvoren: undefined
+      otvoren: undefined,
+      objavljen: true
     };
 
 
     try {
       const response = await firstValueFrom(this.oglasGetAllEndpoint.obradi(this.searchObject));
       this.oglasi = response.oglasi;
+      console.log(this.oglasi);
     } catch (error) {
       console.log(error);
       this.oglasi = [];

@@ -12,6 +12,7 @@ export class OglasGetRequest {
     public otvoren?: boolean,
     public kompanijaId?: string,
     public filters?: { [key: string]: any },
-    public sortParametri?: SortParametar[]
+    public sortParametri?: SortParametar[],
+    public objavljen?:boolean
   ){}
 }
