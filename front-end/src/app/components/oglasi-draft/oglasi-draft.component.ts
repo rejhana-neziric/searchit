@@ -150,8 +150,8 @@ export class OglasiDraftComponent implements OnInit {
       naziv: this.pretragaNaziv,
       tipPosla: this.selektovaniJobType,
       sortParametri: this.sortParametri,
-      kandidatId: "603a72ed-f279-4f10-85f6-3a42c9d7e788",
-      kompanijaId: "603a72ed-f279-4f10-85f6-3a42c9d7e788",
+      kandidatId: this.user.id,
+      kompanijaId: this.user.id,
       otvoren: undefined,
       objavljen: false
     };
@@ -438,7 +438,7 @@ export class OglasiDraftComponent implements OnInit {
       this.deleteObject = {
         oglas_id : id
       }
-      this.oglasSoftDeleteEndpoint.obradi({oglas_id: id}).subscribe();
+      this.oglasSoftDeleteEndpoint.obradi(this.deleteObject).subscribe();
       console.log("Uspjesan delete za id ", id)
       console.log(this.deleteObject)
     } else {

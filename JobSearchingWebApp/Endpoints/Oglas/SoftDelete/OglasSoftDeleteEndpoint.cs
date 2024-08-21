@@ -17,7 +17,7 @@ namespace JobSearchingWebApp.Endpoints.Oglas.SoftDelete
         }
 
         [HttpPut]
-        public override async Task<OglasSoftDeleteResponse> MyAction([FromQuery] OglasSoftDeleteRequest request, CancellationToken cancellationToken)
+        public override async Task<OglasSoftDeleteResponse> MyAction([FromBody] OglasSoftDeleteRequest request, CancellationToken cancellationToken)
         {
             var oglas = dbContext.Oglasi.FirstOrDefault(x => x.Id == request.oglas_id);
             Console.WriteLine(request.oglas_id);
