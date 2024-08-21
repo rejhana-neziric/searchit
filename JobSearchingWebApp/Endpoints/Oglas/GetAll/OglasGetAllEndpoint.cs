@@ -29,7 +29,7 @@ namespace JobSearchingWebApp.Endpoints.Oglas.GetAll
         [HttpGet]
         public override async Task<OglasGetAllResponse> MyAction([FromQuery] OglasGetAllRequest request, CancellationToken cancellationToken)
         {
-            var oglasi = dbContext.Oglasi.AsQueryable();
+            var oglasi = dbContext.Oglasi.Where(x=> !x.IsObrisan).AsQueryable();
             var lokacije = dbContext.OglasLokacija.Include(lokacija => lokacija.Lokacija).AsQueryable();
             var iskustva = dbContext.OglasIskustvo.Include(iskustvo => iskustvo.Iskustvo).AsQueryable();
             var spaseni = dbContext.KandidatSpaseniOglasi.Include(spaseni => spaseni.Oglas).AsQueryable();

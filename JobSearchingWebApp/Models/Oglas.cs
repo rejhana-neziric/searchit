@@ -19,6 +19,7 @@ namespace JobSearchingWebApp.Models
         public DateTime? DatumModificiranja { get; set; }
         public bool Otvoren => RokPrijave > DateTime.Now;
         public bool? Objavljen { get; set; }
+        public bool IsObrisan { get; set; } = false;
         public virtual OpisOglas OpisOglas { get; set; }    
         public virtual ICollection<OglasLokacija> OglasLokacija { get; set; } = new List<OglasLokacija>();
         public virtual ICollection<OglasIskustvo> OglasIskustvo { get; set; } = new List<OglasIskustvo>();

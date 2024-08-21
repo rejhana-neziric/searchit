@@ -1,0 +1,253 @@
+@import "../../../../node_modules/bourbon";
+
+*{
+  font-family: "Noto Sans", Helvetica;
+}
+
+.nav-bar {
+  background-color: #ffffff;
+}
+
+.accordion-item, .accordion-button{
+  background-color: var(--primary-color);
+}
+
+.accordion-item {
+  border-top: red;
+}
+
+.message-section{
+  padding-top: 50px;
+  padding-bottom: 50px;
+  padding-left: 10px;
+  font-size: x-large;
+  color: #262525;;
+  font-family: Cambria;
+}
+
+
+.naslov-underline{
+  margin-top: -20px;
+  margin-left: 18px;
+  width: 43px;
+  height: 3px;
+  background-color: #1d7b4f;
+}
+
+.btnAsc{
+  margin-left: -50px;
+  border-radius: 50px;
+  cursor: pointer;
+  border: 0.1px solid #88ab89;
+  background-color: var(--secondary-color);
+  box-shadow: rgb(0 0 0 / 20%) 0 0 8px;
+  letter-spacing: 1.5px;
+  font-size: 15px;
+  transition: all 0.5s ease;
+}
+
+.btnAsc:hover
+{
+  letter-spacing: 2px;
+}
+
+.oglas {
+  width: 100%;
+}
+
+.oglasi {
+  flex: 1;
+  box-sizing: border-box;
+}
+
+.pregled {
+  flex: 1;
+  box-sizing: border-box;
+}
+
+.pregled-content {
+  width: 100%;
+  min-width: 100px;
+}
+
+.prikaz-section {
+  min-width: 1188px;
+  width: 100%;
+  padding-left: 3%;
+}
+
+.img-logo {
+  width: 80px;
+  height: 80px;
+  padding: 15px;
+}
+
+.nav-item .nav-link{
+  text-decoration: none;
+  color: black;
+}
+
+.nav-item .nav-link:hover{
+  color: var(--secondary-color);
+}
+
+.container {
+  padding-top: 40px;
+  padding-bottom: 40px;
+  padding-left: 0;
+  margin: 0;
+  width: 100%;
+}
+
+.search-box {
+  display: inline-block;
+  min-width: 567px;
+  border-radius: 3px;
+  padding: 4px 55px 4px 15px;
+  position: relative;
+  background: #fff;
+  border: 1px solid #ddd;
+
+
+  &.hovered,
+  &:hover,
+  &:active {
+    border: 1px solid #aaa;
+  }
+
+  input[type=text] {
+    border: none;
+    box-shadow: none;
+    display: inline-block;
+    padding: 0;
+    background: transparent;
+
+    &:hover,
+    &:focus,
+    &:active {
+      box-shadow: none;
+    }
+  }
+
+  .search-btn {
+    position: absolute;
+    right: 2px;
+    top: 2px;
+    color: #aaa;
+    border-radius: 3px;
+    font-size: 21px;
+    padding: 5px 10px 1px;
+    height: 95%;
+
+    &:hover {
+      color: #fff;
+      background-color: var(--secondary-color);
+    }
+  }
+}
+
+.deadline {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 15px;
+}
+
+.job-type-location {
+  background-color: var(--secondary-color);
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.job-type{
+  margin-left: 25px ;
+}
+
+.location{
+  margin-right: 10px;
+}
+
+.pregled-content {
+  background: #FFF;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  width: 567px;
+  height: max-content;
+  min-height: 600px;
+  border-radius: 25px;
+  margin-top: 120px;
+  margin-right: 20px;
+}
+
+.pregled-naslovi {
+  color: var(--secondary-color);
+}
+
+.pregled-btn {
+  background-color: var(--primary-color);
+  border-radius: 7px;
+  margin: 10px;
+  padding: 10px;
+  color: #3d3b3b;
+  font-size: 16px;
+  width: 100px;
+}
+
+.pregled-btn:hover {
+  background-color: var(--hover-button-color);
+  border-radius: 7px;
+  margin: 10px;
+}
+
+.years-input {
+  width:45px;
+  height: 30px;
+  font-size: small;
+}
+
+.mat-button-toggle {
+  width: 120px;
+  font-size: larger;
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.mat-button-toggle-group {
+  border: none;
+}
+
+.mat-button-toggle-checked {
+  background-color: var(--primary-color) !important;
+}
+
+.mat-button-toggle:hover {
+  background-color: hsl(153 25% 61% / 25%);
+}
+
+.oglas-content {
+  margin-bottom: 15px;
+  border-radius: 30px;
+  background: #FFF;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  min-width: 567px;
+  height: 166px;
+  position: relative;
+}
+
+.oglas-content.selected {
+  border-color: var(--secondary-color);
+  border-style: solid;
+}
+
+.img-right-arrow {
+  width: 50px;
+  height: 50px;
+  order: 2;
+  flex: 1;
+}
+
+.img-left-arrow {
+  width: 50px;
+  height: 50px;
+  order: 1;
+  flex: 1;
+}

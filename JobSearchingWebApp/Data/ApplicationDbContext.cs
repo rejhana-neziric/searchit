@@ -51,6 +51,11 @@ namespace JobSearchingWebApp.Data
             {
                 relationship.DeleteBehavior = DeleteBehavior.NoAction;
             }
+            modelBuilder.Entity<Oglas>()
+            .HasMany(o => o.OglasIskustvo)
+            .WithOne(oi => oi.Oglas)
+            .HasForeignKey(oi => oi.OglasId)
+            .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

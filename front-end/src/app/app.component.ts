@@ -12,6 +12,7 @@ import {JwtInterceptor} from "./interceptors/jwt.interceptor";
 import {NotificationModalComponent} from "./components/notifications/notification-modal/notification-modal.component";
 import {HomeComponent} from "./components/home/home.component";
 import {OglasDodajComponent} from "./components/oglas-dodaj/oglas-dodaj.component";
+import {OglasiDraftComponent} from "./components/oglasi-draft/oglasi-draft.component";
 
 @Component({
   selector: 'app-root',
@@ -27,6 +28,7 @@ import {OglasDodajComponent} from "./components/oglas-dodaj/oglas-dodaj.componen
     JeziciComponent,
     NotificationModalComponent,
     OglasDodajComponent,
+    OglasiDraftComponent
   ],
   providers: [],
   templateUrl: './app.component.html',

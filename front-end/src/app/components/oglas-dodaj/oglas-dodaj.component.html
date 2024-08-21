@@ -6,13 +6,7 @@
     <hr class="text-underline">
   </div>
 
-  <form
-    name="form"
-
-    (ngSubmit)="f.form.valid && onSubmit()"
-    #f="ngForm"
-    novalidate
-  >
+  <form name="form" #f="ngForm" novalidate>
 
     <div class="form-group">
       <label for="naziv_pozicije" class="required fw-bold fs-5 naslov">Job Title</label>
@@ -255,8 +249,24 @@
     <div class="form-group d-flex justify-content-between">
       <button class="btn-confirm">Back</button>
       <div>
-        <button class="btn-confirm" (click)="onSubmitDraft()">Save draft</button>
-        <button class="btn-confirm" (click)="onSubmit()">Publish</button>
+        <!-- Publish Button -->
+        <button
+          class="btn-confirm"
+          type="button"
+        (click)="onSubmit()"
+        [disabled]="!f.form.valid"
+        >
+        Publish
+        </button>
+
+        <!-- Save Draft Button -->
+        <button
+          class="btn-confirm"
+          type="button"
+        (click)="onSubmitDraft($event)"
+        >
+        Save draft
+        </button>
       </div>
 
     </div>

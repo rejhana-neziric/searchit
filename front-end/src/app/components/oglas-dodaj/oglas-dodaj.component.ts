@@ -8,6 +8,7 @@ import {RouterLink} from "@angular/router";
 import {KompanijeGetEndpoint} from "../../endpoints/kompanija-endpoint/get/kompanije-get-endpoint";
 import {KompanijeGetResponseKomapanija} from "../../endpoints/kompanija-endpoint/get/kompanije-get-response";
 import {firstValueFrom} from "rxjs";
+import {AppRoutingModule} from "../../app.routes";
 
 @Component({
   selector: 'app-oglas-dodaj',
@@ -16,7 +17,7 @@ import {firstValueFrom} from "rxjs";
         NavbarComponent,
         FormsModule,
         RouterLink,
-        NgClass
+        NgClass,
     ],
   templateUrl: './oglas-dodaj.component.html',
   styleUrl: './oglas-dodaj.component.css',
@@ -62,17 +63,17 @@ export class OglasDodajComponent {
       this.kompanije = [];
     }
 
-    console.log(this.kompanije);
+    //console.log(this.kompanije);
   }
 
-  onSubmitDraft(){
+  onSubmitDraft(event: Event){
+    event.preventDefault();
     const now = new Date();
     this.form.datum_modificiranja = this.datePipe.transform(now, 'yyyy-MM-dd');
     this.form.datum_objave=this.form.datum_modificiranja;
     this.form.kompanija_id = this.kompanije[0].id;
     this.form.objavljen = false;
-    console.log(this.form)
-    //const oglas = Object.assign({}, this.form, this.oglas);
+    console.log("draft funk")
     this.oglasDodajEndpoint.obradi(this.form).subscribe(response=>{
       console.log("Oglas uspjesno dodan", response);
     });
@@ -84,8 +85,7 @@ export class OglasDodajComponent {
     console.log(this.kompanije)
     this.form.kompanija_id = this.kompanije[0].id;
     this.form.objavljen = true;
-    console.log(this.form)
-    //const oglas = Object.assign({}, this.form, this.oglas);
+    console.log("glavna funk")
     this.oglasDodajEndpoint.obradi(this.form).subscribe(response=>{
       console.log("Oglas uspjesno dodan", response);
     });

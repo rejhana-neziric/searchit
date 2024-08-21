@@ -24,6 +24,7 @@ import {
 import {
   AccountDetailsCompanyComponent
 } from "./components/account/account-details-company/account-details-company.component";
+import {OglasiDraftComponent} from "./components/oglasi-draft/oglasi-draft.component";
 
 export const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -52,8 +53,10 @@ export const routes: Routes = [
   {path: 'companies/:id', component: KompanijaDetaljiComponent},
   {path: 'cv', component: CvComponent},
   {path: 'cv-create', component: CreateCvComponent},
+  {path: 'post-job', component:OglasDodajComponent},
+  {path: 'job-drafts', component: OglasiDraftComponent},
   {path: 'not-found', component: NotFoundComponent},
-  {path: '**', component: NotFoundComponent, pathMatch: 'full'}
+  {path: '**', component: NotFoundComponent, pathMatch: 'full'},
 ];
 
 @NgModule({

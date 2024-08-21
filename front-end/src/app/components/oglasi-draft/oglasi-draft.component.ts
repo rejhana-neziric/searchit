@@ -30,11 +30,15 @@ import {
 import {User} from "../../modals/user";
 import {AuthService} from "../../services/auth-service";
 import {KompanijeGetResponseKomapanija} from "../../endpoints/kompanija-endpoint/get/kompanije-get-response";
-
+import {AppRoutingModule} from "../../app.routes";
+import {OglasDeleteEndpoint} from "../../endpoints/oglas-endpoint/delete/oglas-delete-endpoint";
+import {OglasDeleteRequest} from "../../endpoints/oglas-endpoint/delete/oglas-delete-request";
+import {OglasSoftDeleteEndpoint} from "../../endpoints/oglas-endpoint/soft-delete/oglas-soft-delete-endpoint";
+import {OglasSoftDeleteRequest} from "../../endpoints/oglas-endpoint/soft-delete/oglas-soft-delete-request"
 declare var bootstrap: any;
 
 @Component({
-  selector: 'app-oglasi',
+  selector: 'app-oglasi-drafts',
   standalone: true,
   imports: [
     NgForOf,
@@ -49,10 +53,10 @@ declare var bootstrap: any;
     RouterLink,
     NotificationToastComponent,
   ],
-  templateUrl: './oglasi.component.html',
-  styleUrl: './oglasi.component.css'
+  templateUrl: './oglasi-draft.component.html',
+  styleUrl: './oglasi-draft.component.css'
 })
-export class OglasiComponent implements OnInit {
+export class OglasiDraftComponent implements OnInit {
 
   oglasi: OglasGetResponseOglasi [] = [];
   isDaysChecked: boolean = false;
@@ -70,16 +74,19 @@ export class OglasiComponent implements OnInit {
   pretragaNaziv: string = "";
   searchObject: OglasGetRequest | null = null
   sortParametri: SortParametar[] | undefined = undefined
-  itemsPerPage: number = 2;
+  itemsPerPage: number = 5;
   currentPage: number = 1;
   total: number = 10;
   noNextElement: boolean = false;
   noPreviousElement: boolean = true;
   selectedPost: any;
   user: User = {id: "", role: "", jwt: ""}
+  deleteObject: OglasSoftDeleteRequest | null = null
 
   constructor(private oglasGetAllEndpoint: OglasGetEndpoint,
               private oglasGetByIdEndpoint: OglasGetByIdEndpoint,
+              private oglasDeleteEndpoint: OglasDeleteEndpoint,
+              private oglasSoftDeleteEndpoint: OglasSoftDeleteEndpoint,
               private kandidatSpaseniOglasiDodajEndpoint: KandidatSpaseniOglasiDodajEndpoint,
               private kandidatSpaseniOglasiUpdateEndpoint: KandidatSpaseniOglasiUpdateEndpoint,
               private notificationService: NotificationService,
@@ -144,8 +151,9 @@ export class OglasiComponent implements OnInit {
       tipPosla: this.selektovaniJobType,
       sortParametri: this.sortParametri,
       kandidatId: "603a72ed-f279-4f10-85f6-3a42c9d7e788",
+      kompanijaId: "603a72ed-f279-4f10-85f6-3a42c9d7e788",
       otvoren: undefined,
-      objavljen: true
+      objavljen: false
     };
 
 
@@ -371,7 +379,7 @@ export class OglasiComponent implements OnInit {
       },
       (error: HttpErrorResponse) => {
         if (error.status === 500) {
-         this.unsaveOglas(oglas);
+          this.unsaveOglas(oglas);
         } else {
           this.notificationService.addNotification({message: `Error: ${error.message}`, type: 'error'});
         }
@@ -424,4 +432,19 @@ export class OglasiComponent implements OnInit {
       }
     }
   }
+
+  deleteOglas(id: number | undefined) {
+    if (id !== undefined) {
+      this.deleteObject = {
+        oglas_id : id
+      }
+      this.oglasSoftDeleteEndpoint.obradi({oglas_id: id}).subscribe();
+      console.log("Uspjesan delete za id ", id)
+      console.log(this.deleteObject)
+    } else {
+      console.warn("Oglas ID is undefined, cannot perform delete");
+    }
+  }
+
+
 }
