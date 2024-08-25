@@ -32,8 +32,8 @@ namespace JobSearchingWebApp.Endpoints.CV.Pretraga
                           Prezime = x.Prezime,
                           Email = x.Email,
                           BrojTelefona = x.BrojTelefona,
-                          OpisProfila = x.OpisProfila,  
-                          Slika = x.Slika,  
+                          //OpisProfila = x.OpisProfila,  
+                          //Slika = x.Slika,  
                       }).ToListAsync();
 
             return new CVPretragaResponse { CVLista = cv };

@@ -105,7 +105,7 @@ export class FavoritesKompanijeComponent {
 
     try {
       const response = await firstValueFrom(this.kompanijeGetEndpoint.obradi(this.searchObject));
-      this.kompanije = response.kompanije;
+      this.kompanije = response.kompanije.$values;
       this.imaRezultataPretrage = this.kompanije?.length != 0;
       this.noCompanies = this.kompanije?.length == 0;
     } catch (error) {

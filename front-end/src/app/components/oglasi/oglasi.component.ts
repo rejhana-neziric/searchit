@@ -151,7 +151,7 @@ export class OglasiComponent implements OnInit {
 
     try {
       const response = await firstValueFrom(this.oglasGetAllEndpoint.obradi(this.searchObject));
-      this.oglasi = response.oglasi;
+      this.oglasi = response.oglasi.$values;
       console.log(this.oglasi);
     } catch (error) {
       console.log(error);

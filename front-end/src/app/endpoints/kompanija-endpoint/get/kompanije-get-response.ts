@@ -1,5 +1,7 @@
 export interface KompanijeGetResponse {
-  kompanije: KompanijeGetResponseKomapanija []
+  kompanije: {
+    $values: KompanijeGetResponseKomapanija [];
+  }
 }
 
 export interface KompanijeGetResponseKomapanija {

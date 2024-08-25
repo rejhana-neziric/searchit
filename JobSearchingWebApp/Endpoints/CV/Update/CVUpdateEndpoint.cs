@@ -33,8 +33,8 @@ namespace JobSearchingWebApp.Endpoints.CV.Update
             cv.Prezime = request.prezime;   
             cv.Email = request.email;
             cv.BrojTelefona = request.broj_telefona; 
-            cv.OpisProfila = request.opis_profila;
-            cv.Slika = request.slika;
+            //cv.OpisProfila = request.opis_profila;
+            //cv.Slika = request.slika;
 
             await dbContext.SaveChangesAsync();
 

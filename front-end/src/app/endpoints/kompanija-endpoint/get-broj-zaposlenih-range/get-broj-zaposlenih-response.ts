@@ -1,3 +1,5 @@
 export interface GetBrojZaposlenihResponse {
-  lista: string[]
+  lista: {
+    $values: string[];
+  };
 }

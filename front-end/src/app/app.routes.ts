@@ -36,6 +36,7 @@ export const routes: Routes = [
       //dodati rute koje zahtijevaju login
       //dodati koja rola ima pravo otvoriti koju rutu
       {path: 'account-candidate', component: AccountDetailsCandidateComponent},
+      {path: 'account-company', component: AccountDetailsCompanyComponent},
     ]
   },
 
@@ -43,7 +44,6 @@ export const routes: Routes = [
   {path: 'signup', component: SignupComponent},
   {path: 'confirm-email', component: ConfirmEmailComponent},
   {path: 'send-email/:mode', component: SendEmailComponent},
-  {path: 'account-company', component: AccountDetailsCompanyComponent},
   {path: 'home', component: HomeComponent},
   {path: 'favorites', component: FavoritesComponent},
   {path: 'jobs', component: OglasiComponent},
