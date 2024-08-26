@@ -1,21 +1,24 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, OnInit, PLATFORM_ID} from '@angular/core';
 import {NavbarComponent} from "../../navbar/navbar.component";
-import {DatePipe, NgClass, NgForOf, NgIf} from "@angular/common";
+import {DatePipe, isPlatformBrowser, NgClass, NgForOf, NgIf} from "@angular/common";
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {MatFormField} from "@angular/material/form-field";
 import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from "@angular/material/datepicker";
 import {MatInput} from "@angular/material/input";
-import { Moment } from 'moment';
-import * as moment from 'moment';
 import {NotificationToastComponent} from "../../notifications/notification-toast/notification-toast.component";
-import {Employment} from "../../../modals/employment";
 import {GetVjestineEndpoint} from "../../../endpoints/vjestine-endpoint/get/get-vjestine-endpoint";
 import {
   GetTehnickeVjestineEndpoint
 } from "../../../endpoints/tehnicke-vjestine-endpoint/get/tehnicke-vjestine-get-endpoint";
-import {HttpClient} from "@angular/common/http";
-import {catchError, throwError} from "rxjs";
-import {GetVjestineResponse} from "../../../endpoints/vjestine-endpoint/get/get-vjestine-response";
+import {take} from "rxjs";
+import {CvDodajRequest} from "../../../endpoints/cv-endpoint/dodaj/cv-dodaj-request";
+import {CVDodajEndpoint} from "../../../endpoints/cv-endpoint/dodaj/cv-dodaj-endpoint";
+import {User} from "../../../modals/user";
+import {AuthService} from "../../../services/auth-service";
+import {NotificationService} from "../../../services/notification-service";
+import {Router} from "@angular/router";
+
+declare var bootstrap: any;
 
 interface Section {
   id: string;
@@ -45,17 +48,17 @@ interface Section {
   templateUrl: './create-cv.component.html',
   styleUrl: './create-cv.component.css'
 })
-export class CreateCvComponent implements OnInit{
+export class CreateCvComponent implements OnInit {
 
   sections: Section[] = [
-    { id: 'section1', name: 'Personal Details', isActive: false, isCompleted: false },
-    { id: 'section2', name: 'Professional Summary', isActive: false, isCompleted: false },
-    { id: 'section3', name: 'Education', isActive: false, isCompleted: false },
-    { id: 'section4', name: 'Employment History', isActive: false, isCompleted: false },
-    { id: 'section5', name: 'Skills', isActive: false, isCompleted: false },
-    { id: 'section6', name: 'Technical Skills', isActive: false, isCompleted: false },
-    { id: 'section7', name: 'Courses', isActive: false, isCompleted: false },
-    { id: 'section8', name: 'Websites & Social Links', isActive: false, isCompleted: false },
+    {id: 'section1', name: 'Personal Details', isActive: false, isCompleted: false},
+    {id: 'section2', name: 'Professional Summary', isActive: false, isCompleted: false},
+    {id: 'section3', name: 'Education', isActive: false, isCompleted: false},
+    {id: 'section4', name: 'Employment History', isActive: false, isCompleted: false},
+    {id: 'section5', name: 'Skills', isActive: false, isCompleted: false},
+    {id: 'section6', name: 'Technical Skills', isActive: false, isCompleted: false},
+    {id: 'section7', name: 'Courses', isActive: false, isCompleted: false},
+    {id: 'section8', name: 'Websites & Social Links', isActive: false, isCompleted: false},
   ];
 
   selectedSectionId: string | null = null;
@@ -67,28 +70,45 @@ export class CreateCvComponent implements OnInit{
   technicalSkills: string[] = [];
   selectedTechnicalSkills: string[] = [];
   courses: string[] = [];
+  cv: CvDodajRequest | undefined = undefined;
+  loggedUserId: string = "";
+  employments: any[] = [];
+  educations: any[] = [];
+  urls: { naziv: string; putanja: string }[] = [];
 
   constructor(private formBuilder: FormBuilder,
               private getVjestineEndpoint: GetVjestineEndpoint,
               private getTehnickeVjestineEndpoint: GetTehnickeVjestineEndpoint,
-              private http: HttpClient) {
+              private cvDodajEndpoint: CVDodajEndpoint,
+              private authService: AuthService,
+              private notificationService: NotificationService,
+              private router: Router,
+              @Inject(PLATFORM_ID) private platformId: any) {
 
   }
 
   async ngOnInit(): Promise<void> {
+    this.selectedSectionId = 'section1';
     this.initializeForm();
     await this.getVjestine();
     await this.getTehnickeVjestine();
 
-    console.log(this.skills);
+    this.authService.user$.pipe(take(1)).subscribe({
+      next: (user: User | null) => {
+        if (user) {
+          this.loggedUserId = user.id;
+        }
+      }
+    })
   }
 
   initializeForm() {
     this.form = this.formBuilder.group({
+      naziv: ['', [Validators.required]],
       firstName: ['', [Validators.required, Validators.min(3), Validators.max(30)]],
       lastName: ['', [Validators.required, Validators.min(3), Validators.max(30)]],
       email: ['', [Validators.required, Validators.email]],
-      phoneNumber: ['', Validators.pattern("^\\+[0-9]{3}-[0-9]{3}-[0-9]{3}-[0-9]{3,4}$")],
+      phoneNumber: ['', [Validators.pattern(/^\+\d{1,3}-\d{2}-\d{3}-\d{3,4}$/)]],
       city: [''],
       country: [''],
     })
@@ -97,39 +117,24 @@ export class CreateCvComponent implements OnInit{
   async getVjestine() {
     this.getVjestineEndpoint.obradi().subscribe({
       next: x => {
-          //const lista = x.lista
-          this.skills = x.lista.$values
+        //const lista = x.lista
+        this.skills = x.lista.$values
       },
       error: err => {
-        console.error('Error fetching skills:', err); // Log the error
+        console.error('Error fetching skills:', err);
       }
     })
-
-    console.log('Skills before update:', this.skills);
   }
 
-
-  onSkillChange(skill: string, event: Event) {
+  onSkillChange(skill: string, event: Event, selectedSkills: string[]) {
     const isChecked = (event.target as HTMLInputElement).checked;
     if (isChecked) {
-      this.selectedSkills.push(skill);
+      selectedSkills.push(skill);
     } else {
-      this.selectedSkills = this.selectedSkills.filter(s => s !== skill);
+      selectedSkills = selectedSkills.filter(s => s !== skill);
     }
-
-    console.log(this.selectedSkills)
+    console.log(selectedSkills);
   }
-
-  onTechnicalSkillChange(technicalSkill: string, event: Event) {
-    const isChecked = (event.target as HTMLInputElement).checked;
-    if (isChecked) {
-      this.selectedTechnicalSkills.push(technicalSkill);
-    } else {
-      this.selectedTechnicalSkills = this.selectedTechnicalSkills.filter(s => s !== technicalSkill);
-    }
-    console.log(this.selectedTechnicalSkills)
-  }
-
 
   async getTehnickeVjestine() {
     this.getTehnickeVjestineEndpoint.obradi().subscribe({
@@ -139,8 +144,6 @@ export class CreateCvComponent implements OnInit{
     })
   }
 
-
-  // Add a new course with an empty name
   addCourse() {
     this.courses.push('');
   }
@@ -151,20 +154,15 @@ export class CreateCvComponent implements OnInit{
   }
 
   trackByFn(index: number, item: string) {
-    return index; // Track items by their index
+    return index;
   }
 
   addUrl() {
-    this.urls.push({ name: '', link: '' });
+    this.urls.push({naziv: '', putanja: ''});
   }
 
   removeUrl(index: number) {
     this.urls.splice(index, 1);
-  }
-
-  // Get the list of course names (e.g., to save to the backend)
-  getCoursesList(): string[] {
-    return this.courses;
   }
 
   selectSection(sectionId: string): void {
@@ -178,16 +176,6 @@ export class CreateCvComponent implements OnInit{
     }
   }
 
-  employments: any[] = [
-    //{ companyName: '', position: '', startDate: '', endDate: '', description: '', isExpanded: false }
-  ];
-
-  educations: any[] = [
-    //{ schoolName: '', city: '', startDate: '', endDate: '', description: '', isExpanded: false }
-  ];
-
-  urls: { name: string; link: string }[] = [];
-
   toggleEducation(index: number): void {
     this.educations[index].isExpanded = !this.educations[index].isExpanded;
   }
@@ -197,7 +185,14 @@ export class CreateCvComponent implements OnInit{
   }
 
   addEmployment(): void {
-    this.employments.push({ companyName: '', position: '', startDate: '', endDate: '', description: '', isExpanded: false });
+    this.employments.push({
+      nazivKompanije: '',
+      nazivPozicije: '',
+      datumPocetka: '',
+      datumZavrsetka: '',
+      opis: '',
+      isExpanded: false
+    });
   }
 
   deleteEmployment(index: number): void {
@@ -205,7 +200,7 @@ export class CreateCvComponent implements OnInit{
   }
 
   addEducation(): void {
-    this.educations.push({ companyName: '', position: '', startDate: '', endDate: '', description: '', isExpanded: false });
+    this.educations.push({nazivSkole: '', datumPocetka: '', datumZavrsetka: '', opis: '', isExpanded: false});
   }
 
   deleteEducation(index: number): void {
@@ -214,59 +209,83 @@ export class CreateCvComponent implements OnInit{
 
   savePersonalDetails() {
     this.submitted = true;
-
     if (this.form.valid) {
       this.completeSection('section1');
       this.selectedSectionId = 'section2';
     }
-
   }
 
-  completedProfessinalSummary(){
+  completedProfessinalSummary() {
     this.selectedSectionId = 'section3';
-
-    if(this.professionalSummary != null){
+    if (this.professionalSummary != null) {
       this.completeSection('section2');
     }
   }
 
-  completedEducation() {
-    this.selectedSectionId = 'section4';
-
-    if(this.educations.length > 0){
-      this.completeSection('section3');
+  completedSectionWithList(sectionId: string, nextSectionId: string, items: any[]) {
+    this.selectedSectionId = nextSectionId;
+    if (items.length > 0) {
+      this.completeSection(sectionId);
     }
   }
 
-  completedEmployment() {
-    this.selectedSectionId = 'section5';
+  createCV(objavljen: boolean) {
+    const edukacija = JSON.parse(JSON.stringify(this.educations));
+    const zaposlenje = JSON.parse(JSON.stringify(this.employments));
+    const url = JSON.parse(JSON.stringify(this.urls));
 
-    if(this.employments.length > 0){
-      this.completeSection('section4');
+    this.cv = {
+      kandidatId: this.loggedUserId,
+      naziv: this.form.get('naziv')?.value,
+      objavljen: objavljen,
+      ime: this.form.get('firstName')?.value,
+      prezime: this.form.get('lastName')?.value,
+      email: this.form.get('email')?.value,
+      brojTelefona: this.form.get('phoneNumber')?.value,
+      grad: this.form.get('city')?.value,
+      drzava: this.form.get('country')?.value,
+      profesionalniSazetak: this.professionalSummary,
+      vjestine: this.selectedSkills,
+      tehnickeVjestine: this.selectedTechnicalSkills,
+      kursevi: this.courses,
+      edukacija: edukacija,
+      zaposlenje: zaposlenje,
+      url: url
+    }
+
+    this.cvDodajEndpoint.obradi(this.cv!).subscribe({
+      next: response => {
+        this.notificationService.showModalNotification(true, 'CV created', 'Your CV has been successfully created.');
+        this.router.navigateByUrl('/cv');
+      },
+      error: error => {
+        this.closeModal();
+        this.notificationService.addNotification({message: `Error: ${error.message}`, type: 'error'});
+      }
+    })
+  }
+
+  openModal() {
+    if (this.form.invalid) {
+      this.selectedSectionId = 'section1';
+    } else if (isPlatformBrowser(this.platformId)) {
+      const modalElement = document.getElementById('confirmSaveModal');
+      if (modalElement) {
+        const modal = new bootstrap.Modal(modalElement);
+        modal.show();
+      }
     }
   }
 
-  completedSkills() {
-    this.selectedSectionId = 'section6';
-
-    if(this.selectedSkills.length > 0){
-      this.completeSection('section5');
-    }
-  }
-
-  completedTechnicalSkills() {
-    this.selectedSectionId = 'section7';
-
-    if(this.selectedTechnicalSkills.length > 0){
-      this.completeSection('section6');
-    }
-  }
-
-  completedCourses() {
-    this.selectedSectionId = 'section8';
-
-    if(this.courses.length > 0){
-      this.completeSection('section7');
+  closeModal() {
+    if (isPlatformBrowser(this.platformId)) {
+      const modalElement = document.getElementById('confirmSaveModal');
+      if (modalElement) {
+        const modal = bootstrap.Modal.getInstance(modalElement);
+        if (modal) {
+          modal.hide();
+        }
+      }
     }
   }
 }

@@ -23,7 +23,7 @@
         </li>
 
         <li class="nav-item" *ngIf="loggedUser?.role == 'Kandidat'" [ngClass]="{'active-link': isActiveRoute('/cv')}">
-          <a class="nav-link active px-3  fw-bold fs-5 text-underline mt-2" [routerLink]="'/cv'">Create CV</a>
+          <a class="nav-link active px-3  fw-bold fs-5 text-underline mt-2" [routerLink]="'/cv'">CV</a>
         </li>
 
         <li class="nav-item" *ngIf="loggedUser?.role == 'Kandidat'">

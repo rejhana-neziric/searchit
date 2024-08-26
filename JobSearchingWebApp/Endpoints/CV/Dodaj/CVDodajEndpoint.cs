@@ -3,147 +3,179 @@ using JobSearchingWebApp.Endpoints.Oglas.Dodaj;
 using JobSearchingWebApp.Helper;
 using JobSearchingWebApp.Models;
 using MapsterMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace JobSearchingWebApp.Endpoints.CV.Dodaj
 {
+    [Authorize(Roles = "Admin, Kandidat")]
     [Tags("CV")]
     [Route("cv-dodaj")]
     public class CVDodajEndpoint : MyBaseEndpoint<CVDodajRequest, ActionResult<CVDodajResponse>>
     {
         private readonly ApplicationDbContext dbContext;
-        private readonly IMapper mapper; 
+        private readonly UserManager<Models.Korisnik> userManager;
 
-        public CVDodajEndpoint(ApplicationDbContext dbContext, IMapper mapper)
+        public CVDodajEndpoint(ApplicationDbContext dbContext, UserManager<Models.Korisnik> userManager)
         {
             this.dbContext = dbContext;
-                this.mapper = mapper;
+            this.userManager = userManager;
         }
 
         [HttpPost]
         public override async Task<ActionResult<CVDodajResponse>> MyAction([FromBody]CVDodajRequest request, CancellationToken cancellationToken)
         {
+            var userId = userManager.GetUserId(User);
+            var user = await userManager.FindByIdAsync(userId);
 
-            // Kreiranje CV-a
-            var cv = new Models.CV
+
+            if (request.KandidatId == userId || user.UlogaId == 1)
             {
-                Ime = request.Ime,
-                Prezime = request.Prezime,
-                Email = request.Email,
-                BrojTelefona = request.BrojTelefona,
-                Drzava = request.Drzava,
-                Grad = request.Grad,
-                ProfesionalniSazetak = request.ProfesionalniSazetak,
-                Vještine = request.Vještine,
-                TehničkeVještine = request.TehničkeVještine,
-                Kursevi = request.Kursevi
-            };
 
-            dbContext.CV.Add(cv);
-            await dbContext.SaveChangesAsync();  // Generisanje CVId
-
-            // Dodavanje edukacija
-            var edukacijaIds = new List<int>();
-
-            foreach (var edukacijaRequest in request.Edukacija)
-            {
-                var edukacija = new Edukacija
+                // Kreiranje CV-a
+                var cv = new Models.CV
                 {
-                    NazivSkole = edukacijaRequest.NazivSkole,
-                    DatumPocetka = edukacijaRequest.DatumPocetka,
-                    DatumZavrsetka = edukacijaRequest.DatumZavrsetka,
-                    Grad = edukacijaRequest.Grad,
-                    Opis = edukacijaRequest.Opis
+                    KandidatId = request.KandidatId,
+                    Naziv = request.Naziv,
+                    Objavljen = request.Objavljen,
+                    Ime = request.Ime,
+                    Prezime = request.Prezime,
+                    Email = request.Email,
+                    BrojTelefona = request.BrojTelefona,
+                    Drzava = request.Drzava,
+                    Grad = request.Grad,
+                    ProfesionalniSazetak = request.ProfesionalniSazetak,
+                    Vještine = request.Vjestine,
+                    TehničkeVještine = request.TehnickeVjestine,
+                    Kursevi = request.Kursevi
                 };
 
-                dbContext.Edukacija.Add(edukacija);
-                await dbContext.SaveChangesAsync();  // Generisanje EdukacijaId
+                dbContext.CV.Add(cv);
+                await dbContext.SaveChangesAsync();  // Generisanje CVId
 
-                edukacijaIds.Add(edukacija.Id);
-            }
+                // Dodavanje edukacija
 
-            // Dodavanje CVEdukacija
-            foreach (var edukacijaId in edukacijaIds)
-            {
-                var cvEdukacija = new CVEdukacija
+                if (request.Edukacija?.Count > 0)
                 {
-                    CVId = cv.Id,  
-                    EdukacijaId = edukacijaId 
-                };
+                    var edukacijaIds = new List<int>();
 
-                dbContext.CVEdukacija.Add(cvEdukacija);
-            }
+                    foreach (var edukacijaRequest in request.Edukacija)
+                    {
+                        var edukacija = new Edukacija
+                        {
+                            NazivSkole = edukacijaRequest.NazivSkole,
+                            DatumPocetka = edukacijaRequest.DatumPocetka,
+                            DatumZavrsetka = edukacijaRequest.DatumZavrsetka,
+                            Grad = edukacijaRequest.Grad,
+                            Opis = edukacijaRequest.Opis
+                        };
 
-            await dbContext.SaveChangesAsync();
+                        dbContext.Edukacija.Add(edukacija);
+                        await dbContext.SaveChangesAsync();  // Generisanje EdukacijaId
 
-            // Dodavanje zaposlenja
-            var zaposlenjeIds = new List<int>();
+                        edukacijaIds.Add(edukacija.Id);
+                    }
 
-            foreach (var zaposlenjeRequest in request.Zasposlenje)
-            {
-                var zaposlenje = new Zaposlenje
+                    // Dodavanje CVEdukacija
+                    foreach (var edukacijaId in edukacijaIds)
+                    {
+                        var cvEdukacija = new CVEdukacija
+                        {
+                            CVId = cv.Id,
+                            EdukacijaId = edukacijaId
+                        };
+
+                        dbContext.CVEdukacija.Add(cvEdukacija);
+                    }
+
+                    await dbContext.SaveChangesAsync();
+                }
+
+
+                // Dodavanje zaposlenja
+
+                if (request.Zasposlenje?.Count > 0)
                 {
-                    NazivKompanije = zaposlenjeRequest.NazivKompanije,
-                    NazivPozicije = zaposlenjeRequest.NazivPozicije,
-                    DatumPocetka = zaposlenjeRequest.DatumPocetka,
-                    DatumZavrsetka = zaposlenjeRequest.DatumZavrsetka,
-                    Opis = zaposlenjeRequest.Opis
-                };
+                    var zaposlenjeIds = new List<int>();
 
-                dbContext.Zaposlenje.Add(zaposlenje);
-                await dbContext.SaveChangesAsync();  // Generisanje ZaposlenjeId
+                    foreach (var zaposlenjeRequest in request.Zasposlenje)
+                    {
+                        var zaposlenje = new Zaposlenje
+                        {
+                            NazivKompanije = zaposlenjeRequest.NazivKompanije,
+                            NazivPozicije = zaposlenjeRequest.NazivPozicije,
+                            DatumPocetka = zaposlenjeRequest.DatumPocetka,
+                            DatumZavrsetka = zaposlenjeRequest.DatumZavrsetka,
+                            Opis = zaposlenjeRequest.Opis
+                        };
 
-                zaposlenjeIds.Add(zaposlenje.Id);
-            }
+                        dbContext.Zaposlenje.Add(zaposlenje);
+                        await dbContext.SaveChangesAsync();  // Generisanje ZaposlenjeId
 
-            // Dodavanje CVZaposlenje
-            foreach (var zaposlenjeId in zaposlenjeIds)
-            {
-                var cvZaposlenje = new CVZaposlenje
+                        zaposlenjeIds.Add(zaposlenje.Id);
+                    }
+
+                    // Dodavanje CVZaposlenje
+                    foreach (var zaposlenjeId in zaposlenjeIds)
+                    {
+                        var cvZaposlenje = new CVZaposlenje
+                        {
+                            CVId = cv.Id,
+                            ZaposlenjeId = zaposlenjeId
+                        };
+
+                        dbContext.CVZaposlenje.Add(cvZaposlenje);
+                    }
+
+                }
+
+
+                // Dodavanje URL
+
+                if (request.URL?.Count > 0)
                 {
-                    CVId = cv.Id,
-                    ZaposlenjeId = zaposlenjeId  
-                };
+                    var urlIds = new List<int>();
 
-                dbContext.CVZaposlenje.Add(cvZaposlenje);
+                    foreach (var urlRequest in request.URL)
+                    {
+                        var url = new URL
+                        {
+                            Naziv = urlRequest.Naziv,
+                            Putanja = urlRequest.Putanja
+                        };
+
+                        dbContext.URL.Add(url);
+                        await dbContext.SaveChangesAsync();  // Generisanje URLId
+
+                        urlIds.Add(url.Id);
+                    }
+
+                    // Dodavanje CVURL
+                    foreach (var urlId in urlIds)
+                    {
+                        var cvURL = new CVURL
+                        {
+                            CVId = cv.Id,
+                            URLId = urlId
+                        };
+
+                        dbContext.CVURL.Add(cvURL);
+                    }
+                }
+
+
+
+                // Save all changes
+                await dbContext.SaveChangesAsync();
+
+                return Ok(cv.Id);
             }
 
-            // Dodavanje URL
-            var urlIds = new List<int>();
-
-            foreach (var urlRequest in request.URL)
-            {
-                var url = new URL
-                {
-                    Naziv = urlRequest.Naziv,
-                    Putanja = urlRequest.Putanja
-                };
-
-                dbContext.URL.Add(url);
-                await dbContext.SaveChangesAsync();  // Generisanje URLId
-
-                urlIds.Add(url.Id);
-            }
-
-            // Dodavanje CVURL
-            foreach (var urlId in urlIds)
-            {
-                var cvURL = new CVURL
-                {
-                    CVId = cv.Id,  
-                    URLId = urlId 
-                };
-
-                dbContext.CVURL.Add(cvURL);
-            }
-
-            // Save all changes
-            await dbContext.SaveChangesAsync();
-
-            return Ok(cv.Id);
+            else return Unauthorized();
         }
     }
 }

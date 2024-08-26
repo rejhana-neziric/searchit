@@ -6,6 +6,15 @@ namespace JobSearchingWebApp.Endpoints.CV.Dodaj
     public class CVDodajRequest
     {
         [Required]
+        public string KandidatId { get; set; }
+
+        [Required]
+        public string Naziv { get; set; }
+
+        [Required]
+        public bool Objavljen { get; set; }
+
+        [Required]
         public string Ime { get; set; }
 
         [Required]
@@ -24,9 +33,9 @@ namespace JobSearchingWebApp.Endpoints.CV.Dodaj
 
         public string? ProfesionalniSazetak { get; set; }
 
-        public List<string>? Vještine { get; set; }
+        public List<string>? Vjestine { get; set; }
 
-        public List<string>? TehničkeVještine { get; set; }
+        public List<string>? TehnickeVjestine { get; set; }
 
         public List<string>? Kursevi { get; set; }
 

@@ -37,6 +37,8 @@ export const routes: Routes = [
       //dodati koja rola ima pravo otvoriti koju rutu
       {path: 'account-candidate', component: AccountDetailsCandidateComponent},
       {path: 'account-company', component: AccountDetailsCompanyComponent},
+      {path: 'cv', component: CvComponent},
+      {path: 'cv-create', component: CreateCvComponent},
     ]
   },
 
@@ -51,8 +53,6 @@ export const routes: Routes = [
   {path: 'jobs-add', component: OglasDodajComponent},
   {path: 'companies', component: KompanijeComponent},
   {path: 'companies/:id', component: KompanijaDetaljiComponent},
-  {path: 'cv', component: CvComponent},
-  {path: 'cv-create', component: CreateCvComponent},
   {path: 'post-job', component:OglasDodajComponent},
   {path: 'job-drafts', component: OglasiDraftComponent},
   {path: 'not-found', component: NotFoundComponent},

@@ -3,7 +3,6 @@ export interface OglasGetResponse {
   oglasi: {
     $values: OglasGetResponseOglasi [];
   }
-
 }
 
 export interface OglasGetResponseOglasi {

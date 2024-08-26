@@ -45,6 +45,10 @@ hr{
   color: #88ab89;
 }
 
+.section-item:hover {
+  background-color: #e0e0e0;
+}
+
 .section-item.active {
   background-color: #e0e0e0;
 }
@@ -81,7 +85,6 @@ hr{
   align-items: flex-end;
 }
 
-
 .icon {
   transition: transform 0.5s ease;
 }
@@ -89,7 +92,6 @@ hr{
 .icon.expanded {
   transform: rotate(180deg);
 }
-
 
 .accordion-item {
   border: none;
@@ -111,20 +113,6 @@ hr{
   .icon-del{
     display: inline;
     margin-right: 15px;
-  }
-}
-
-.course-input:hover {
-  .icon-del{
-    display: flex;
-    margin-left: 5px;
-  }
-}
-
-.url-input:hover {
-  .icon-del{
-    display: flex;
-    margin-left: 5px;
   }
 }
 
@@ -178,15 +166,26 @@ hr{
 
 .skills-content {
   display: flex;
-  flex-wrap: wrap; /* Allow items to wrap to the next line */
+  flex-wrap: wrap;
 }
 
 .skill-item {
-  flex: 1 100%; /* Take up 50% of the container width */
-  margin-bottom: 10px; /* Space between items */
+  flex: 1 100%;
+  margin-bottom: 10px;
+}
+.course-input:hover {
+  .icon-del{
+    display: flex;
+    margin-left: 5px;
+  }
 }
 
-
+.url-input:hover {
+  .icon-del{
+    display: flex;
+    margin-left: 5px;
+  }
+}
 
 @media (min-width:768px) {
   .content {
@@ -199,8 +198,7 @@ hr{
   }
 
   .skill-item {
-    flex: 1 1 50%; /* Take up 50% of the container width */
-    margin-bottom: 10px; /* Space between items */
+    flex: 1 1 50%;
+    margin-bottom: 10px;
   }
-
 }
