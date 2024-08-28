@@ -12,9 +12,9 @@ export interface CvDodajRequest {
     vjestine: string[];
     tehnickeVjestine: string[];
     kursevi: string[];
-    edukacija: EdukacijaRequest[];
-    zaposlenje: ZaposlenjeRequest[];
-    url: UrlRequest[];
+    edukacija: EdukacijaRequest[] | null;
+    zaposlenje: ZaposlenjeRequest[] | null;
+    url: UrlRequest[] | null;
 }
 
 export interface EdukacijaRequest {

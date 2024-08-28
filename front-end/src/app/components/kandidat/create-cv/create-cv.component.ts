@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit, PLATFORM_ID} from '@angular/core';
+import {Component, EventEmitter, Inject, OnInit, Output, PLATFORM_ID} from '@angular/core';
 import {NavbarComponent} from "../../navbar/navbar.component";
 import {DatePipe, isPlatformBrowser, NgClass, NgForOf, NgIf} from "@angular/common";
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
@@ -16,7 +16,7 @@ import {CVDodajEndpoint} from "../../../endpoints/cv-endpoint/dodaj/cv-dodaj-end
 import {User} from "../../../modals/user";
 import {AuthService} from "../../../services/auth-service";
 import {NotificationService} from "../../../services/notification-service";
-import {Router} from "@angular/router";
+import {Router, RouterLink} from "@angular/router";
 
 declare var bootstrap: any;
 
@@ -43,12 +43,16 @@ interface Section {
     MatInput,
     DatePipe,
     NotificationToastComponent,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterLink
   ],
   templateUrl: './create-cv.component.html',
   styleUrl: './create-cv.component.css'
 })
 export class CreateCvComponent implements OnInit {
+
+  @Output() dataEmitter = new EventEmitter<CvDodajRequest>();
+
 
   sections: Section[] = [
     {id: 'section1', name: 'Personal Details', isActive: false, isCompleted: false},
@@ -64,7 +68,7 @@ export class CreateCvComponent implements OnInit {
   selectedSectionId: string | null = null;
   submitted: boolean = false;
   form: FormGroup = new FormGroup({});
-  professionalSummary: string | null = null;
+  professionalSummary: string | null | undefined = null;
   skills: string[] = [];
   selectedSkills: string[] = [];
   technicalSkills: string[] = [];
@@ -93,6 +97,13 @@ export class CreateCvComponent implements OnInit {
     await this.getVjestine();
     await this.getTehnickeVjestine();
 
+    const savedData = localStorage.getItem('cvData');
+    if (savedData) {
+      this.cv = JSON.parse(savedData);
+      this.getSavedData();
+    }
+
+
     this.authService.user$.pipe(take(1)).subscribe({
       next: (user: User | null) => {
         if (user) {
@@ -112,6 +123,27 @@ export class CreateCvComponent implements OnInit {
       city: [''],
       country: [''],
     })
+  }
+
+  getSavedData() {
+    this.form.patchValue({
+      naziv: this.cv?.naziv,
+      firstName: this.cv?.ime,
+      lastName: this.cv?.prezime,
+      email: this.cv?.email,
+      phoneNumber: this.cv?.brojTelefona,
+      city: this.cv?.grad,
+      country: this.cv?.drzava,
+    });
+
+    this.professionalSummary = this.cv?.profesionalniSazetak;
+    this.educations = this.cv?.edukacija ?? [];
+    this.employments = this.cv?.zaposlenje ?? [];
+    this.urls = this.cv?.url ?? [];
+
+    this.selectedSkills = this.cv?.vjestine ?? [];
+    this.selectedTechnicalSkills = this.cv?.tehnickeVjestine ?? [];
+    this.courses = this.cv?.kursevi ?? [];
   }
 
   async getVjestine() {
@@ -229,7 +261,7 @@ export class CreateCvComponent implements OnInit {
     }
   }
 
-  createCV(objavljen: boolean) {
+  saveCvData(objavljen: boolean) {
     const edukacija = JSON.parse(JSON.stringify(this.educations));
     const zaposlenje = JSON.parse(JSON.stringify(this.employments));
     const url = JSON.parse(JSON.stringify(this.urls));
@@ -244,7 +276,7 @@ export class CreateCvComponent implements OnInit {
       brojTelefona: this.form.get('phoneNumber')?.value,
       grad: this.form.get('city')?.value,
       drzava: this.form.get('country')?.value,
-      profesionalniSazetak: this.professionalSummary,
+      profesionalniSazetak: this.professionalSummary!,
       vjestine: this.selectedSkills,
       tehnickeVjestine: this.selectedTechnicalSkills,
       kursevi: this.courses,
@@ -252,11 +284,25 @@ export class CreateCvComponent implements OnInit {
       zaposlenje: zaposlenje,
       url: url
     }
+  }
+
+  cvPreview() {
+    this.saveCvData(false);
+    localStorage.setItem('cvData', JSON.stringify(this.cv));
+
+    this.router.navigate(['/cv-preview'], {
+      state: {data: this.cv}
+    });
+  }
+
+  createCV(objavljen: boolean) {
+    this.saveCvData(objavljen);
 
     this.cvDodajEndpoint.obradi(this.cv!).subscribe({
       next: response => {
         this.notificationService.showModalNotification(true, 'CV created', 'Your CV has been successfully created.');
         this.router.navigateByUrl('/cv');
+        localStorage.removeItem('cvData');
       },
       error: error => {
         this.closeModal();

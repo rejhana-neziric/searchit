@@ -25,6 +25,7 @@ import {
   AccountDetailsCompanyComponent
 } from "./components/account/account-details-company/account-details-company.component";
 import {OglasiDraftComponent} from "./components/oglasi-draft/oglasi-draft.component";
+import {CvPreviewComponent} from "./components/kandidat/cv-preview/cv-preview.component";
 
 export const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -39,6 +40,7 @@ export const routes: Routes = [
       {path: 'account-company', component: AccountDetailsCompanyComponent},
       {path: 'cv', component: CvComponent},
       {path: 'cv-create', component: CreateCvComponent},
+      {path: 'cv-preview', component: CvPreviewComponent},
     ]
   },
 
