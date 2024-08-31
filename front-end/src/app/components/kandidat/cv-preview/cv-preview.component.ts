@@ -6,6 +6,7 @@ import {DatePipe, isPlatformBrowser, NgForOf, NgIf} from "@angular/common";
 import {NgxPaginationModule} from "ngx-pagination";
 import {CVDodajEndpoint} from "../../../endpoints/cv-endpoint/dodaj/cv-dodaj-endpoint";
 import {NotificationService} from "../../../services/notification-service";
+import {CVGetByIdEndpoint} from "../../../endpoints/cv-endpoint/get-by-id/cv-get-by-id-endpoint";
 
 declare var bootstrap: any;
 
@@ -26,10 +27,13 @@ declare var bootstrap: any;
 export class CvPreviewComponent implements OnInit {
 
   cv: any;
+  cvId: number = 9;
+  cvPreview: boolean = true;
 
   constructor(private router: Router,
               @Inject(PLATFORM_ID) private platformId: any,
               private cvDodajEndpoint: CVDodajEndpoint,
+              private cvGetByIdEndpoint: CVGetByIdEndpoint,
               private notificationService: NotificationService) {
 
   }
@@ -37,6 +41,11 @@ export class CvPreviewComponent implements OnInit {
   ngOnInit() {
     this.cv = history.state.data;
     console.log(this.cv); // Use the received data as nee
+
+    if(this.cv == undefined) {
+      this.cvPreview = false;
+      this.getCV();
+    }
   }
 
   openModal() {
@@ -59,6 +68,16 @@ export class CvPreviewComponent implements OnInit {
         }
       }
     }
+  }
+
+
+  getCV() {
+    this.cvGetByIdEndpoint.obradi(this.cvId!).subscribe({
+      next: x => {
+        this.cv = x;
+        console.log("cv id = " + this.cv.id);
+      }
+    })
   }
 
   createCV(objavljen: boolean) {

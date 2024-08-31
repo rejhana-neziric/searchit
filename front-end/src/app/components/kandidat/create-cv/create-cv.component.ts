@@ -303,6 +303,7 @@ export class CreateCvComponent implements OnInit {
         this.notificationService.showModalNotification(true, 'CV created', 'Your CV has been successfully created.');
         this.router.navigateByUrl('/cv');
         localStorage.removeItem('cvData');
+        this.notificationService.clearModalNotification();
       },
       error: error => {
         this.closeModal();
