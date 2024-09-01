@@ -26,7 +26,7 @@
     </div>
     <!-- Search -->
 
-    <!-- Oglasi -->
+    <!-- CV -->
     <div class="cvs" *ngIf="imaRezultataPretrage">
       <div class="cv"
            *ngFor="let cv of renderCV() | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: total }">
@@ -133,7 +133,7 @@
       </div>
       <!-- Paginacija -->
     </div>
-    <!-- Oglasi -->
+    <!-- CV -->
   </div>
 
   <!-- Nema rezultata pretrage  -->

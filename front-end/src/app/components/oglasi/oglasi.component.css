@@ -251,3 +251,34 @@
   order: 1;
   flex: 1;
 }
+
+.cvs {
+  margin-top: 3px;
+  padding-bottom: 10px;
+}
+
+.cv-content {
+  margin-bottom: 5px;
+  border-radius: 5px;
+  background: #FFF;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  min-width: 400px;
+  height: 50px;
+  position: relative;
+}
+
+.published {
+  background-color: var(--secondary-color);
+  border-radius: 5px;
+  padding: 5px;
+  width: 65px;
+  display: flex;
+  justify-content: center;
+  font-size: small;
+  margin-right: 10px;
+}
+
+.cv-content.selected {
+  border-color: var(--secondary-color);
+  border-style: solid;
+}

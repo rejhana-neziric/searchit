@@ -30,6 +30,11 @@ import {
 import {User} from "../../modals/user";
 import {AuthService} from "../../services/auth-service";
 import {KompanijeGetResponseKomapanija} from "../../endpoints/kompanija-endpoint/get/kompanije-get-response";
+import {KandidatOglasDodajEndpoint} from "../../endpoints/kandidat-oglas-endpoint/dodaj/kandidat-oglas-dodaj-endpoint";
+import {KandidatOglasDodajRequest} from "../../endpoints/kandidat-oglas-endpoint/dodaj/kandidat-oglas-dodaj-request";
+import {CVGetEndpoint} from "../../endpoints/cv-endpoint/get/cv-get-endpoint";
+import {CVGetRequest} from "../../endpoints/cv-endpoint/get/cv-get-request";
+import {CVGetResponse, CVGetResponseCV} from "../../endpoints/cv-endpoint/get/cv-get-response";
 
 declare var bootstrap: any;
 
@@ -77,11 +82,17 @@ export class OglasiComponent implements OnInit {
   noPreviousElement: boolean = true;
   selectedPost: any;
   user: User = {id: "", role: "", jwt: ""}
+  oglasIdApply: number = 1;
+  cv: CVGetResponseCV [] = [];
+  cvIdApply: number | null = null;
+  selectedCV: CVGetResponseCV | null = null;
 
   constructor(private oglasGetAllEndpoint: OglasGetEndpoint,
               private oglasGetByIdEndpoint: OglasGetByIdEndpoint,
               private kandidatSpaseniOglasiDodajEndpoint: KandidatSpaseniOglasiDodajEndpoint,
               private kandidatSpaseniOglasiUpdateEndpoint: KandidatSpaseniOglasiUpdateEndpoint,
+              private kandidatOglasDodajEndpoint: KandidatOglasDodajEndpoint,
+              private cvGetEndpoint: CVGetEndpoint,
               private notificationService: NotificationService,
               private authService: AuthService) {
   }
@@ -352,8 +363,7 @@ export class OglasiComponent implements OnInit {
   promijeniStatus(oglas: OglasGetResponseOglasi) {
     if (oglas.spasen == false) {
       this.saveOglas(oglas);
-    }
-    else {
+    } else {
       this.unsaveOglas(oglas);
     }
   }
@@ -371,7 +381,7 @@ export class OglasiComponent implements OnInit {
       },
       (error: HttpErrorResponse) => {
         if (error.status === 500) {
-         this.unsaveOglas(oglas);
+          this.unsaveOglas(oglas);
         } else {
           this.notificationService.addNotification({message: `Error: ${error.message}`, type: 'error'});
         }
@@ -423,5 +433,101 @@ export class OglasiComponent implements OnInit {
         modal.hide();
       }
     }
+  }
+
+  confirmApply() {
+    var request: KandidatOglasDodajRequest = {
+      oglasId: this.oglasIdApply,
+      kandidatId: this.user.id,
+      cVId: this.cvIdApply!,
+      datumPrijave: new Date(),
+      status: 'nekiStatus'
+    }
+
+    this.kandidatOglasDodajEndpoint.obradi(request)
+
+    this.kandidatOglasDodajEndpoint.obradi(request).subscribe({
+      next: any => {
+        this.notificationService.showModalNotification(true, 'Applied', 'You have successfully applied to this job.');
+      },
+      error: error => {
+
+      }
+    })
+
+    this.cvIdApply = null;
+    this.closeApplyModal();
+  }
+
+  async apply() {
+    await this.closeCVModal();
+    const modalElement = document.getElementById('confirmApplyModal');
+    if (modalElement) {
+      const modal = new bootstrap.Modal(modalElement);
+      modal.show();
+    }
+  }
+
+  closeApplyModal() {
+    const modalElement = document.getElementById('confirmApplyModal');
+    if (modalElement) {
+      const modal = bootstrap.Modal.getInstance(modalElement);
+      if (modal) {
+        modal.hide();
+      }
+    }
+  }
+
+  openCVModal(id: number) {
+    if (this.cvIdApply) {
+      this.closeApplyModal()
+    }
+    this.getAllCV();
+    console.log(this.oglasIdApply)
+    this.oglasIdApply = id;
+    const modalElement = document.getElementById('confirmCVModal');
+    if (modalElement) {
+      const modal = new bootstrap.Modal(modalElement);
+      modal.show();
+    }
+  }
+
+  closeCVModal(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const modalElement = document.getElementById('confirmCVModal');
+      if (modalElement) {
+        const modal = bootstrap.Modal.getInstance(modalElement);
+        if (modal) {
+          modal.hide();
+          modalElement.addEventListener('hidden.bs.modal', () => {
+            resolve();
+          }, {once: true});
+        } else {
+          resolve();
+        }
+      } else {
+        resolve();
+      }
+    });
+  }
+
+
+  async getAllCV() {
+    var request: CVGetRequest = {
+      kandidatId: this.user.id
+    };
+
+    try {
+      const response = await firstValueFrom(this.cvGetEndpoint.obradi(request));
+      this.cv = response.cv.$values;
+    } catch (error) {
+      console.log(error);
+      this.cv = [];
+    }
+  }
+
+  selectCV(cv: CVGetResponseCV): void {
+    this.selectedCV = cv;
+    this.cvIdApply = cv.id;
   }
 }

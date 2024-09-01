@@ -27,6 +27,7 @@ import {
 import {OglasiDraftComponent} from "./components/oglasi-draft/oglasi-draft.component";
 import {CvPreviewComponent} from "./components/kandidat/cv-preview/cv-preview.component";
 import {CvDetailsComponent} from "./components/kandidat/cv-details/cv-details.component";
+import {ApplicationsComponent} from "./components/kandidat/applications/applications.component";
 
 export const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -43,6 +44,7 @@ export const routes: Routes = [
       {path: 'cv-create', component: CreateCvComponent},
       {path: 'cv-preview', component: CvPreviewComponent},
       {path: 'cv-details/:id', component: CvDetailsComponent},
+      {path: 'applications', component: ApplicationsComponent},
     ]
   },
 
