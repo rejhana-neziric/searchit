@@ -150,8 +150,8 @@ export class OglasiDraftComponent implements OnInit {
       naziv: this.pretragaNaziv,
       tipPosla: this.selektovaniJobType,
       sortParametri: this.sortParametri,
-      kandidatId: this.user.id,
-      kompanijaId: this.user.id,
+      kandidatId: "603a72ed-f279-4f10-85f6-3a42c9d7e788",
+      kompanijaId: "603a72ed-f279-4f10-85f6-3a42c9d7e788",
       otvoren: undefined,
       objavljen: false
     };

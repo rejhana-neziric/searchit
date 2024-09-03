@@ -3,7 +3,7 @@ export interface OglasGetByIdResponse {
   nazivPozicije: string
   kompanijaNaziv: string
   datumObjave: Date
-  plata: number
+  plata: string
   tipPosla: string
   rokPrijave: Date
   datumModificiranja: Date

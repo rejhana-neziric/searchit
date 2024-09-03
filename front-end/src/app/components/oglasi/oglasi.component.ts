@@ -70,7 +70,7 @@ export class OglasiComponent implements OnInit {
   pretragaNaziv: string = "";
   searchObject: OglasGetRequest | null = null
   sortParametri: SortParametar[] | undefined = undefined
-  itemsPerPage: number = 2;
+  itemsPerPage: number = 5;
   currentPage: number = 1;
   total: number = 10;
   noNextElement: boolean = false;
@@ -143,7 +143,7 @@ export class OglasiComponent implements OnInit {
       naziv: this.pretragaNaziv,
       tipPosla: this.selektovaniJobType,
       sortParametri: this.sortParametri,
-      kandidatId: this.user.id,
+      kandidatId: "603a72ed-f279-4f10-85f6-3a42c9d7e788",
       otvoren: undefined,
       objavljen: true
     };

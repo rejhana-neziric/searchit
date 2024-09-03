@@ -1,0 +1,281 @@
+<!--
+<app-navbar user='kompanija'></app-navbar>
+
+<div class="container p-5">
+  <div>
+    <h3 class="fw-bold">Post new job</h3>
+    <hr class="text-underline">
+  </div>
+
+  <form name="form" #f="ngForm" novalidate>
+
+    <div class="form-group">
+      <label for="naziv_pozicije" class="required fw-bold fs-5 naslov">Job Title</label>
+      <input
+        type="text"
+        class="form-control input-field"
+        name="naziv_pozicije"
+        [(ngModel)]="form.naziv_pozicije"
+        required
+        minlength="3"
+        maxlength="30"
+        placeholder="Specify the position's title, such as Software Developer, Network Engineer, or IT Support Specialist."
+        #naziv_pozicije="ngModel"
+        [ngClass]="{ 'is-invalid': f.submitted && naziv_pozicije.errors }"
+      />
+      @if (naziv_pozicije.errors && f.submitted) {
+        <div class="invalid-feedback">
+          @if (naziv_pozicije.errors['required']) {
+            <div>Job Title is required!</div>
+          }
+          @if (naziv_pozicije.errors['minlength']) {
+            <div>Job Title must be at least 3 characters!</div>
+          }
+          @if (naziv_pozicije.errors['maxlength']) {
+            <div>Job Title must be less than 30 characters!</div>
+          }
+        </div>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="opis_pozicije" class="required fw-bold fs-5 naslov">Job Description</label>
+      <textarea
+        type="text"
+        class="form-control input-field job-desc"
+        name="opis_pozicije"
+        [(ngModel)]="form.opis_pozicije"
+        required
+        minlength="10"
+        maxlength="255"
+        placeholder="Provide a detailed description of the job responsibilities, including specific tasks, projects, and expectations."
+        #opis_pozicije="ngModel"
+        [ngClass]="{ 'is-invalid': f.submitted && opis_pozicije.errors }"
+      ></textarea>
+      @if (opis_pozicije.errors && f.submitted) {
+        <div class="invalid-feedback">
+          @if (opis_pozicije.errors['required']) {
+            <div>Job Description is required!</div>
+          }
+          @if (opis_pozicije.errors['minlength']) {
+            <div>Job Description must be at least 10 characters!</div>
+          }
+          @if (opis_pozicije.errors['maxlength']) {
+            <div>Job Description must be less than 255 characters!</div>
+          }
+        </div>
+      }
+    </div>
+
+
+    <div class="form-group">
+      <label for="lokacija" class="required fw-bold fs-5 naslov">Location</label>
+      <input
+        type="text"
+        class="form-control input-field"
+        name="naziv_pozicije"
+        [(ngModel)]="form.lokacija"
+        required
+        minlength="4"
+        maxlength="15"
+        placeholder="Specify the location of the job, whether it's on-site, remote, or a combination."
+        #lokacija="ngModel"
+        [ngClass]="{ 'is-invalid': f.submitted && lokacija.errors }"
+      />
+      @if (lokacija.errors && f.submitted) {
+        <div class="invalid-feedback">
+          @if (lokacija.errors['required']) {
+            <div>Location is required!</div>
+          }
+          @if (lokacija.errors['minlength']) {
+            <div>Location must be at least 4 characters!</div>
+          }
+          @if (lokacija.errors['maxlength']) {
+            <div>Location must be less than 1 characters!</div>
+          }
+        </div>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="tip_posla" class="required fw-bold fs-5 naslov">Job Type</label>
+      <div class="row radio-container p-2">
+        <div class="col-sm-2 form-check">
+          <input class="form-check-input" type="radio" id="rbFullTime" name="jobType"
+                 value="Full Time"
+                 [(ngModel)]="form.tip_posla"
+                 #tip_posla="ngModel"
+                 [ngClass]="{ 'is-invalid': f.submitted && tip_posla.errors }">
+          <label class="form-check-label" for="rbFullTime">Full Time</label>
+        </div>
+        <div class="col-sm-2 form-check">
+          <input class="form-check-input" type="radio" id="rbPartTime" name="jobType"
+                 value="Part Time"
+                 [(ngModel)]="form.tip_posla"
+                 #tip_posla="ngModel"
+                 [ngClass]="{ 'is-invalid': f.submitted && tip_posla.errors }">
+          <label class="form-check-label" for="rbPartTime">Part Time</label>
+        </div>
+        <div class="col-1 form-check">
+          <input class="form-check-input" type="radio" id="rbInternship" name="jobType"
+                 value="Internship"
+                 [(ngModel)]="form.tip_posla"
+                 #tip_posla="ngModel"
+                 [ngClass]="{ 'is-invalid': f.submitted && tip_posla.errors }">
+          <label class="form-check-label" for="rbInternship">Internship</label>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="form-group">
+      <label for="iskustvo" class="required fw-bold fs-5 naslov">Experience</label>
+      <div class="row check-container">
+        <div class="col-sm-2 form-check">
+          <input class="form-check-input" type="checkbox" id="chbSenior"
+                 (change)="onCheckboxChange($event, 'Senior')"
+                 [checked]="form.iskustvo.some(item => item.naziv === 'Senior')">
+          <label class="form-check-label" for="chbSenior">Senior</label>
+        </div>
+        <div class="col-sm-2 form-check">
+          <input class="form-check-input" type="checkbox" id="chbMedior"
+                 (change)="onCheckboxChange($event, 'Medior')"
+                 [checked]="form.iskustvo.some(item => item.naziv === 'Medior')">
+          <label class="form-check-label" for="chbMedior">Medior</label>
+        </div>
+        <div class="col-sm-2 form-check">
+          <input class="form-check-input" type="checkbox" id="chbJunior"
+                 (change)="onCheckboxChange($event, 'Junior')"
+                 [checked]="form.iskustvo.some(item => item.naziv === 'Junior')">
+          <label class="form-check-label" for="chbJunior">Junior</label>
+        </div>
+      </div>
+    </div>
+
+
+
+<div>
+    <span class="p-2 fs-6">Minimum years of experience is: </span>
+      <input type="number" id="minExperience" name="minExperience" min="0" max="10" step="1" value="1" class="numSpinner"
+             [(ngModel)]="form.minimum_godina_iskustva"
+             #minimum_godina_iskustva = "ngModel"
+             [ngClass]="{ 'is-invalid': f.submitted && minimum_godina_iskustva.errors }">
+      <span class="p-2">and preferred years of experience are: </span>
+      <input type="number" id="maxExperience" name="maxExperience" min="1" max="40" step="1" value="1" class="numSpinner"
+             [(ngModel)]="form.preferirane_godine_iskustva"
+             #preferirane_godine_iskustva = "ngModel"
+             [ngClass]="{ 'is-invalid': f.submitted && preferirane_godine_iskustva.errors }">
+
+    </div>
+
+    <div class="form-group">
+      <label for="plata" class="required fw-bold fs-5 naslov">Salary</label>
+      <input
+        type="text"
+        class="form-control input-field"
+        name="plata"
+        [(ngModel)]="form.plata"
+        required
+        placeholder="Specify the position's salary, such as 15KM/hr or 2000KM monthly"
+        #plata="ngModel"
+        [ngClass]="{ 'is-invalid': f.submitted && plata.errors }"
+      />
+      @if (naziv_pozicije.errors && f.submitted) {
+        <div class="invalid-feedback">
+          @if (naziv_pozicije.errors['required']) {
+            <div>Salary is required!</div>
+          }
+        </div>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="kvalifikacija" class="fw-bold fs-5 naslov">Qualification</label>
+      <textarea
+        type="text"
+        class="form-control input-field job-desc"
+        name="kvalifikacija"
+        [(ngModel)]="form.kvalifikacija"
+        placeholder="Outline the required qualifications, including education, certifications, and relevant experience."
+        #kvalifikacija="ngModel"
+        [ngClass]="{ 'is-invalid': f.submitted && kvalifikacija.errors }"
+      ></textarea>
+    </div>
+
+
+    <div class="form-group">
+      <label for="vjestine" class="fw-bold fs-5 naslov">Skills</label>
+      <textarea
+        type="text"
+        class="form-control input-field job-desc"
+        name="vjestine"
+        [(ngModel)]="form.vjestine"
+        placeholder="List the technical and soft skills required for the position. This could include programming languages, software proficiency, communication skills, etc."
+        #vjestine="ngModel"
+        [ngClass]="{ 'is-invalid': f.submitted && vjestine.errors }"
+      ></textarea>
+    </div>
+
+
+
+    <div class="form-group">
+      <label for="benefiti" class="fw-bold fs-5 naslov">Benefits</label>
+      <textarea
+        type="text"
+        class="form-control input-field job-desc"
+        name="benefiti"
+        [(ngModel)]="form.benefiti"
+        placeholder="Highlight any additional perks, benefits, or unique aspects of your company culture."
+        #benefiti="ngModel"
+        [ngClass]="{ 'is-invalid': f.submitted && benefiti.errors }"
+      ></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="rok_prijave" class="required naslov fw-bold fs-5">Application Deadline</label>
+      <input
+        type="date"
+        class="form-control"
+        name="datumRodjenja"
+        [(ngModel)]="form.rok_prijave"
+        required
+        #rok_prijave="ngModel"
+        [ngClass]="{ 'is-invalid': f.submitted && rok_prijave.errors }"
+      />
+      @if (rok_prijave.errors && f.submitted) {
+        <div class="invalid-feedback">
+          @if (rok_prijave.errors['required']) {
+            <div>Application Deadline is required!</div>
+          }
+        </div>
+      }
+    </div>
+-->
+<!--
+    <div class="form-group d-flex justify-content-between">
+      <button class="btn-confirm">Back</button>
+      <div>
+        <button
+          class="btn-confirm"
+          type="button"
+           (click)="onSubmit()"
+          [disabled]="!f.form.valid"
+        >
+          Publish
+        </button>
+
+        <button
+          class="btn-confirm"
+          type="button"
+
+        >
+          Save draft
+        </button>
+      </div>
+
+    </div>
+
+  </form>
+</div>
+
+-->

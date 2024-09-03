@@ -25,6 +25,7 @@ import {
   AccountDetailsCompanyComponent
 } from "./components/account/account-details-company/account-details-company.component";
 import {OglasiDraftComponent} from "./components/oglasi-draft/oglasi-draft.component";
+import {OglasUpdateComponent} from "./components/oglas-update/oglas-update.component";
 
 export const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -55,6 +56,7 @@ export const routes: Routes = [
   {path: 'cv-create', component: CreateCvComponent},
   {path: 'post-job', component:OglasDodajComponent},
   {path: 'job-drafts', component: OglasiDraftComponent},
+  {path: 'edit-job/:id', component: OglasUpdateComponent},
   {path: 'not-found', component: NotFoundComponent},
   {path: '**', component: NotFoundComponent, pathMatch: 'full'},
 ];
