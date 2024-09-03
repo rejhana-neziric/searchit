@@ -23,10 +23,10 @@
           <br>
           <span class="fw-normal fs-5">{{ oglas.kompanijaNaziv }}</span>
           <br>
-          <span class="fw-normal fs-5" *ngFor="let iskustvo of oglas.iskustvo">  {{ iskustvo.naziv }}</span>
+          <span class="fw-normal fs-5" *ngFor="let iskustvo of oglas.iskustvo.$values">  {{ iskustvo.naziv }}</span>
           <br>
           <span class="fw-normal fs-6 job-type-location location"
-                *ngFor="let lokacija of oglas.lokacija">{{ lokacija.naziv }}</span>
+                *ngFor="let lokacija of oglas.lokacija.$values">{{ lokacija.naziv }}</span>
         </div>
         <a class="d-flex flex-row nav-link button-section">
           <button  class="btn-danger"

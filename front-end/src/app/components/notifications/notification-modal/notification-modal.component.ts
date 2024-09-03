@@ -67,4 +67,16 @@ export class NotificationModalComponent implements  OnInit{
       }
     }
   }
+
+  closeModal() {
+    if (isPlatformBrowser(this.platformId)) {
+      const modalElement = document.getElementById('notificationModal');
+      if (modalElement) {
+        const modal = bootstrap.Modal.getInstance(modalElement);
+        if (modal) {
+          modal.hide();
+        }
+      }
+    }
+  }
 }

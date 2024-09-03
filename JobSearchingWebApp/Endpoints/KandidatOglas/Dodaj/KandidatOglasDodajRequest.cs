@@ -4,9 +4,14 @@ namespace JobSearchingWebApp.Endpoints.KandidatOglas.Dodaj
 {
     public class KandidatOglasDodajRequest
     {
-        public string kandidat_id { get; set; }
-        public int oglas_id { get; set; }
-        public DateTime datum_prijave { get; set; }
-        public string status { get; set; }
+        public string KandidatId { get; set; }
+
+        public int OglasId { get; set; }
+
+        public int CVId { get; set; }
+
+        public DateTime DatumPrijave { get; set; }
+
+        public string Status { get; set; }
     }
 }

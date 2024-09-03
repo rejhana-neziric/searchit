@@ -124,7 +124,7 @@ export class AccountDetailsCompanyComponent implements OnInit{
   getNumberOfEmployees() {
     this.getBrojZaposlenihEndpoint.obradi().subscribe({
       next: x => {
-        this.numberOfEmployeesRange = x.lista;
+        this.numberOfEmployeesRange = x.lista.$values;
       }
     })
 

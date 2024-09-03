@@ -71,7 +71,7 @@ export class KompanijaDetaljiComponent implements OnInit{
 
     try {
       const response = await firstValueFrom(this.oglasGetAllEndpoint.obradi(this.searchObject));
-      this.oglasi = response.oglasi;
+      this.oglasi = response.oglasi.$values;
     } catch (error) {
       console.log(error);
       this.oglasi = [];

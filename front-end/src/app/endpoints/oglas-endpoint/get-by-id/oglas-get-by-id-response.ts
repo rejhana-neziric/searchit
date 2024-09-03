@@ -1,3 +1,5 @@
+import {OglasGetResponseOglasIskustvo, OglasGetResponseOglasLokacija} from "../get/oglas-get-response";
+
 export interface OglasGetByIdResponse {
   id: number
   nazivPozicije: string
@@ -7,8 +9,12 @@ export interface OglasGetByIdResponse {
   tipPosla: string
   rokPrijave: Date
   datumModificiranja: Date
-  iskustvo: OglasGetByIdResponseOglasIskustvo[]
-  lokacija: OglasGetByIdResponseOglasLokacija[]
+  iskustvo: {
+    $values:OglasGetByIdResponseOglasIskustvo[]
+  }
+  lokacija: {
+    $values: OglasGetByIdResponseOglasLokacija [];
+  }
   opisOglasa: OglasGetByIdResponseOpisOglasa | null
 }
 

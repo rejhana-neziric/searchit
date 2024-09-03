@@ -7,9 +7,11 @@ namespace JobSearchingWebApp.Models
     {
         [Key]
         public int Id { get; set; }
-        [ForeignKey(nameof(CV))]
-        public int CVId { get; set; }
-        public CV CV { get; set; }
-        public string Url { get; set; }
+
+        public string Naziv { get; set; }
+
+        public string Putanja { get; set; }
+
+        public ICollection<CVURL> CVs { get; set; }
     }
 }

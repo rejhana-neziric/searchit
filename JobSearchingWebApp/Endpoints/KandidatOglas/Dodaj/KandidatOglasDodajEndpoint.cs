@@ -24,10 +24,11 @@ namespace JobSearchingWebApp.Endpoints.KandidatOglas.Dodaj
         {
             var kandidat_oglas = new Models.KandidatiOglasi()
             {
-                KandidatId = request.kandidat_id, 
-                OglasId = request.oglas_id,  
-                DatumPrijave = request.datum_prijave,
-                Status = request.status,    
+                KandidatId = request.KandidatId, 
+                OglasId = request.OglasId,  
+                CVId = request.CVId,
+                DatumPrijave = request.DatumPrijave,
+                Status = request.Status,    
             };
 
             dbContext.KandidatiOglasi.Add(kandidat_oglas);

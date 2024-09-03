@@ -37,7 +37,7 @@ da klikom na apply ide na prijavu za oglas  -->
         <div class="ms-5">
           <div class="fw-bold fs-6 mb-2">Location</div>
           <span class="fw-normal fs-6 p-1 me-2" style="background-color: #84B59F; border-radius: 5px; width: 80px"
-                *ngFor="let lokacija of oglas?.lokacija">{{lokacija.naziv}}</span>
+                *ngFor="let lokacija of oglas?.lokacija?.$values">{{lokacija.naziv}}</span>
         </div>
         <div class="" style="margin-left: auto; width: 370px">
           <div class="d-flex flex-row mb-2">

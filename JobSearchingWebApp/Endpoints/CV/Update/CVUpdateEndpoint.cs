@@ -19,22 +19,28 @@ namespace JobSearchingWebApp.Endpoints.CV.Update
             this.dbContext = dbContext;
         }
 
-        [HttpPost]
+        [HttpPut]
         public override async Task<CVUpdateResponse> MyAction(CVUpdateRequest request, CancellationToken cancellationToken)
         {
-            var cv = dbContext.CV.FirstOrDefault(x => x.Id == request.cv_id);
+            var cv = dbContext.CV.FirstOrDefault(x => x.Id == request.Id);
 
             if (cv == null)
             {
-                throw new Exception("Nije pronađen CV sa ID " + request.cv_id);
+                throw new Exception("Nije pronađen CV sa ID " + request.Id);
             }
 
-            cv.Ime = request.ime; 
-            cv.Prezime = request.prezime;   
-            cv.Email = request.email;
-            cv.BrojTelefona = request.broj_telefona; 
-            cv.OpisProfila = request.opis_profila;
-            cv.Slika = request.slika;
+            if(request.Objavljen != null)
+            {
+                cv.Objavljen = (bool)request.Objavljen; 
+            }
+
+   
+            //cv.Ime = request.ime; 
+            //cv.Prezime = request.prezime;   
+            //cv.Email = request.email;
+            //cv.BrojTelefona = request.broj_telefona; 
+            //cv.OpisProfila = request.opis_profila;
+            //cv.Slika = request.slika;
 
             await dbContext.SaveChangesAsync();
 

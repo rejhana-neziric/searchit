@@ -95,7 +95,7 @@ export class SignupKompanijaComponent implements OnInit{
   getNumberOfEmployees() {
     this.getBrojZaposlenihEndpoint.obradi().subscribe({
       next: x => {
-        this.brojZaposlenihRange = x.lista;
+        this.brojZaposlenihRange = x.lista.$values;
       }
     })
 

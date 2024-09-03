@@ -144,7 +144,7 @@ export class KompanijeComponent implements OnInit{
 
     try {
       const response = await firstValueFrom(this.kompanijeGetEndpoint.obradi(this.searchObject));
-      this.kompanije = response.kompanije;
+      this.kompanije = response.kompanije.$values;
     } catch (error) {
       console.log(error);
       this.kompanije = [];
@@ -299,7 +299,7 @@ export class KompanijeComponent implements OnInit{
   getNumberOfEmployees() {
     this.getBrojZaposlenihEndpoint.obradi().subscribe({
       next: x => {
-        this.brojZaposlenihRange = x.lista;
+        this.brojZaposlenihRange = x.lista.$values;
       }
     })
   }

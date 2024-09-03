@@ -25,7 +25,11 @@ import {
   AccountDetailsCompanyComponent
 } from "./components/account/account-details-company/account-details-company.component";
 import {OglasiDraftComponent} from "./components/oglasi-draft/oglasi-draft.component";
-import {OglasUpdateComponent} from "./components/oglas-update/oglas-update.component";
+import { CvPreviewComponent } from "./components/kandidat/cv-preview/cv-preview.component";
+import { CvDetailsComponent } from "./components/kandidat/cv-details/cv-details.component";
+import { ApplicationsComponent } from "./components/kandidat/applications/applications.component";
+import { OglasUpdateComponent } from "./components/oglas-update/oglas-update.component";
+
 
 export const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -37,6 +41,12 @@ export const routes: Routes = [
       //dodati rute koje zahtijevaju login
       //dodati koja rola ima pravo otvoriti koju rutu
       {path: 'account-candidate', component: AccountDetailsCandidateComponent},
+      {path: 'account-company', component: AccountDetailsCompanyComponent},
+      {path: 'cv', component: CvComponent},
+      {path: 'cv-create', component: CreateCvComponent},
+      {path: 'cv-preview', component: CvPreviewComponent},
+      {path: 'cv-details/:id', component: CvDetailsComponent},
+      {path: 'applications', component: ApplicationsComponent},
     ]
   },
 
@@ -44,7 +54,6 @@ export const routes: Routes = [
   {path: 'signup', component: SignupComponent},
   {path: 'confirm-email', component: ConfirmEmailComponent},
   {path: 'send-email/:mode', component: SendEmailComponent},
-  {path: 'account-company', component: AccountDetailsCompanyComponent},
   {path: 'home', component: HomeComponent},
   {path: 'favorites', component: FavoritesComponent},
   {path: 'jobs', component: OglasiComponent},
@@ -52,8 +61,6 @@ export const routes: Routes = [
   {path: 'jobs-add', component: OglasDodajComponent},
   {path: 'companies', component: KompanijeComponent},
   {path: 'companies/:id', component: KompanijaDetaljiComponent},
-  {path: 'cv', component: CvComponent},
-  {path: 'cv-create', component: CreateCvComponent},
   {path: 'post-job', component:OglasDodajComponent},
   {path: 'job-drafts', component: OglasiDraftComponent},
   {path: 'edit-job/:id', component: OglasUpdateComponent},

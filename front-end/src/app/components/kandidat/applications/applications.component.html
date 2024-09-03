@@ -1,0 +1,123 @@
+<app-navbar user='neregistrovani'></app-navbar>
+
+<div class="content d-flex flex-column">
+
+  <!-- Breadcrumbs -->
+  <div class="d-flex flex-row nav-link pregled-breadcrumbs text-dark">
+    <a type="button nav-link" style="color: #84B59F;; font-size: larger;  text-decoration: none;"
+       [routerLink]="['/home-kandidat/']">Home > </a>
+    <p style="color: #84B59F; font-size: larger;"> > Applications
+  </div>
+  <!-- Breadcrumbs -->
+
+  <div class="d-flex flex-row justify-content-center align-items-center" style=" margin-bottom: 50px; margin-top: 10px">
+    <span class="fw-bold fs-2" style="color: #84B59F; margin-left: auto; margin-right: auto; ">Your Applications</span>
+    <button class="btn-confirm" [routerLink]="'/jobs'">Explore jobs</button>
+  </div>
+
+
+  <!-- Search -->
+  <div *ngIf="imaRezultataPretrage || pretragaNaziv != ''" class="search-box">
+    <input class="form-control" type="text" [(ngModel)]="pretragaNaziv" [ngModelOptions]="{standalone: true}"
+           placeholder="Search by position name or company name.">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </div>
+  <!-- Search -->
+
+  <!-- Oglasi -->
+  <div class="oglasi" *ngIf="imaRezultataPretrage">
+    <div class="oglas"
+         *ngFor="let oglas of renderOglasi() | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: total }">
+      <div class="oglas-content d-flex flex-row align-items-center justify-content-center">
+        <div style="margin-left: 20px">
+
+          <div >
+               <span  class="fs-6 d-flex flex-row">
+                <div class="otvoren">
+                                 {{ oglas.status }}
+                </div>
+              </span>
+          </div>
+
+          <span class="fw-bold fs-3" style="color: #84B59F">{{ oglas.nazivPozicije }}</span>
+          <span *ngIf="oglas.otvoren" class="deadline pd-5 fs-6"><img src="../../../../assets/img/datum.png"
+                                                        style="height: 35px; padding-right:10px "
+                                                        alt="">Open until: {{ oglas.rokPrijave | date:'d.M.yyyy' }}</span>
+          <span *ngIf="!oglas.otvoren" class="fs-6 d-flex flex-row deadline" >
+                <div class="otvoren" style="background-color: lightgray;">
+                                 Closed
+                </div>
+              </span>
+          <br>
+          <span class="fw-normal fs-5">{{ oglas.nazivKompanije }}</span>
+
+          <br>
+          <span class="fw-normal fs-6">CV you have send:</span> <a style="color: var(--primary-color); font-weight: bolder" [routerLink]="['/cv-details/', oglas.cvId]"> {{oglas.cvNaziv }}</a>
+        </div>
+        <a class="d-flex flex-row nav-link button-section">
+          <button *ngIf="oglas.otvoren" class="btn-danger"
+                   type="button" (click)="openWithdrawModal()">
+            Withdraw </button>
+
+
+          <button class="btn-confirm" type="button"
+                  style="margin-left: 10px" [routerLink]="['/jobs/', oglas?.oglasId]">Details</button>
+        </a>
+        <app-notification-toast></app-notification-toast>
+      </div>
+
+    </div>
+    <!-- Paginacija -->
+    <div *ngIf="imaRezultataPretrage" class="d-flex justify-content-center pe-5">
+      <pagination-controls class="pagination ps-0" (pageChange)="pageChangeEvent($event)"></pagination-controls>
+    </div>
+    <!-- Paginacija -->
+  </div>
+  <!-- Oglasi -->
+</div>
+
+<!-- Nema rezultata pretrage  -->
+<div *ngIf="!imaRezultataPretrage && pretragaNaziv != ''" class="p-4 border border-2 shadow bg-body-tertiary"
+     style="border-color: #84B59F; border-width: 10px; background-color: #fff; border-radius: 15px; width: 100%; margin: 50px auto 300px;">
+  <span class="fs-4 mb-4">No results for {{ this.pretragaNaziv }}</span> <br>
+  <div class="mt-3 fs-6">
+    <span>Search Help</span>
+    <ul>
+      <li>Check your search for typos and spelling errors.</li>
+      <li>Try more general keywords.</li>
+      <li>Try different keywords.</li>
+    </ul>
+  </div>
+</div>
+
+<div *ngIf="!imaRezultataPretrage && pretragaNaziv == ''" class="p-4 border border-2 shadow bg-body-tertiary"
+     style="border-color: #84B59F; border-width: 10px; background-color: #fff; border-radius: 15px; width: 100%; margin: 50px auto 300px;">
+  <span class="fs-5 mb-4">You haven't applied to any jobs yet.</span> <br>
+  <br>
+  <a class="nav-link text-dark btn-confirm d-flex justify-content-center align-middle" type="button" style="width: 140px" [routerLink]="['/jobs/']">Explore Jobs</a>
+</div>
+
+<!-- Nema rezultata pretrage  -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="confirmWirhdraxModal" tabindex="-1" aria-labelledby="confirmWirhdraxModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="confirmWirhdraxModalLabel">Withdraw application</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to withdraw this application?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="nav-link btn-cancel" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="nav-link btn-confirm" (click)="confirmWithdraw()">Withdraw</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal -->
+

@@ -104,7 +104,7 @@ export class FavoritesComponent implements OnInit {
 
     try {
       const response = await firstValueFrom(this.oglasGetAllEndpoint.obradi(this.searchObject));
-      this.oglasi = response.oglasi;
+      this.oglasi = response.oglasi.$values;
       this.imaRezultataPretrage = this.oglasi?.length != 0;
       this.noPosts = this.oglasi?.length == 0;
     } catch (error) {

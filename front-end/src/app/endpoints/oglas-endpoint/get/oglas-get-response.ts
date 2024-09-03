@@ -1,16 +1,24 @@
+
 export interface OglasGetResponse {
-  oglasi: OglasGetResponseOglasi []
+  oglasi: {
+    $values: OglasGetResponseOglasi [];
+  }
 }
 
 export interface OglasGetResponseOglasi {
   id: number
   kompanijaNaziv: string
   nazivPozicije: string
-  lokacija: OglasGetResponseOglasLokacija[]
+  lokacija: {
+    $values: OglasGetResponseOglasLokacija [];
+  }
   datumObjave: Date
   tipPosla: string
   rokPrijave: Date
-  iskustvo: OglasGetResponseOglasIskustvo[]
+  iskustvo: {
+    $values:OglasGetResponseOglasIskustvo[]
+  }
+
   opisOglasa: OglasGetResponseOpisOglas
   razlikaDana: number
   spasen: boolean

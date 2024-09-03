@@ -57,7 +57,7 @@ export class OglasDodajComponent {
   async getAll() {
     try {
       const response = await firstValueFrom(this.kompanijeGetEndpoint.obradi({}));
-      this.kompanije = response.kompanije;
+      this.kompanije = response.kompanije.$values;
     } catch (error) {
       console.log(error);
       this.kompanije = [];

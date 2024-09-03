@@ -22,12 +22,16 @@
           <a class="nav-link active px-3  fw-bold fs-5 text-underline mt-2" [routerLink]="'/companies'">Companies</a>
         </li>
 
-        <li class="nav-item" *ngIf="loggedUser?.role == 'Kandidat'" [ngClass]="{'active-link': isActiveRoute('/cv')}">
-          <a class="nav-link active px-3  fw-bold fs-5 text-underline mt-2" [routerLink]="'/cv'">Create CV</a>
+        <li class="nav-item" *ngIf="loggedUser?.role == 'Kandidat'"
+                             [ngClass]="{'active-link': isActiveRoute('/cv')
+                                                     || isActiveRoute('/cv-create')
+                                                     || isActiveRoute('/cv-preview')
+                                                     || isActiveRoute('/cv-details/:id')}">
+          <a class="nav-link active px-3  fw-bold fs-5 text-underline mt-2" [routerLink]="'/cv'">CV</a>
         </li>
 
-        <li class="nav-item" *ngIf="loggedUser?.role == 'Kandidat'">
-          <a class="nav-link active px-3 fw-bold fs-5 text-underline mt-2">Applications</a>
+        <li class="nav-item" *ngIf="loggedUser?.role == 'Kandidat'" [ngClass]="{'active-link': isActiveRoute('/applications')}">
+          <a class="nav-link active px-3 fw-bold fs-5 text-underline mt-2" [routerLink]="'/applications'">Applications</a>
         </li>
 
         <li class="nav-item" *ngIf="loggedUser?.role == 'Kandidat'"

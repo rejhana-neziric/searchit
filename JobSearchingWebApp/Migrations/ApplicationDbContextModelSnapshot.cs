@@ -60,32 +60,77 @@ namespace JobSearchingWebApp.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("BrojTelefona")
-                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Drzava")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Grad")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Ime")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("OpisProfila")
+                    b.Property<string>("KandidatId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Kursevi")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Naziv")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Objavljen")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Prezime")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Slika")
-                        .IsRequired()
+                    b.Property<string>("ProfesionalniSazetak")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TehničkeVještine")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Vještine")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("KandidatId");
+
                     b.ToTable("CV");
+                });
+
+            modelBuilder.Entity("JobSearchingWebApp.Models.CVEdukacija", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CVId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("EdukacijaId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CVId");
+
+                    b.HasIndex("EdukacijaId");
+
+                    b.ToTable("CVEdukacija");
                 });
 
             modelBuilder.Entity("JobSearchingWebApp.Models.CVJezici", b =>
@@ -134,6 +179,29 @@ namespace JobSearchingWebApp.Migrations
                     b.ToTable("CVTehnologije");
                 });
 
+            modelBuilder.Entity("JobSearchingWebApp.Models.CVURL", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CVId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("URLId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CVId");
+
+                    b.HasIndex("URLId");
+
+                    b.ToTable("CVURL");
+                });
+
             modelBuilder.Entity("JobSearchingWebApp.Models.CVVjestine", b =>
                 {
                     b.Property<int>("Id")
@@ -155,6 +223,58 @@ namespace JobSearchingWebApp.Migrations
                     b.HasIndex("VjestinaId");
 
                     b.ToTable("CVVjestine");
+                });
+
+            modelBuilder.Entity("JobSearchingWebApp.Models.CVZaposlenje", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CVId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ZaposlenjeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CVId");
+
+                    b.HasIndex("ZaposlenjeId");
+
+                    b.ToTable("CVZaposlenje");
+                });
+
+            modelBuilder.Entity("JobSearchingWebApp.Models.Edukacija", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateOnly?>("DatumPocetka")
+                        .HasColumnType("date");
+
+                    b.Property<DateOnly?>("DatumZavrsetka")
+                        .HasColumnType("date");
+
+                    b.Property<string>("Grad")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NazivSkole")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Opis")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Edukacija");
                 });
 
             modelBuilder.Entity("JobSearchingWebApp.Models.Iskustvo", b =>
@@ -254,6 +374,9 @@ namespace JobSearchingWebApp.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("CVId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("DatumPrijave")
                         .HasColumnType("datetime2");
 
@@ -269,6 +392,8 @@ namespace JobSearchingWebApp.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CVId");
 
                     b.HasIndex("KandidatId");
 
@@ -729,6 +854,27 @@ namespace JobSearchingWebApp.Migrations
                     b.ToTable("Teme");
                 });
 
+            modelBuilder.Entity("JobSearchingWebApp.Models.URL", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Naziv")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Putanja")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("URL");
+                });
+
             modelBuilder.Entity("JobSearchingWebApp.Models.Uloga", b =>
                 {
                     b.Property<int>("Id")
@@ -761,6 +907,36 @@ namespace JobSearchingWebApp.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Vjestine");
+                });
+
+            modelBuilder.Entity("JobSearchingWebApp.Models.Zaposlenje", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateOnly>("DatumPocetka")
+                        .HasColumnType("date");
+
+                    b.Property<DateOnly?>("DatumZavrsetka")
+                        .HasColumnType("date");
+
+                    b.Property<string>("NazivKompanije")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NazivPozicije")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Opis")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Zaposlenje");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -979,6 +1155,36 @@ namespace JobSearchingWebApp.Migrations
                     b.Navigation("Korisnik");
                 });
 
+            modelBuilder.Entity("JobSearchingWebApp.Models.CV", b =>
+                {
+                    b.HasOne("JobSearchingWebApp.Models.Kandidat", "Kandidat")
+                        .WithMany()
+                        .HasForeignKey("KandidatId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Kandidat");
+                });
+
+            modelBuilder.Entity("JobSearchingWebApp.Models.CVEdukacija", b =>
+                {
+                    b.HasOne("JobSearchingWebApp.Models.CV", "CV")
+                        .WithMany("Edukacije")
+                        .HasForeignKey("CVId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("JobSearchingWebApp.Models.Edukacija", "Edukacija")
+                        .WithMany("CVs")
+                        .HasForeignKey("EdukacijaId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("CV");
+
+                    b.Navigation("Edukacija");
+                });
+
             modelBuilder.Entity("JobSearchingWebApp.Models.CVJezici", b =>
                 {
                     b.HasOne("JobSearchingWebApp.Models.CV", "CV")
@@ -1017,6 +1223,25 @@ namespace JobSearchingWebApp.Migrations
                     b.Navigation("Tehnologija");
                 });
 
+            modelBuilder.Entity("JobSearchingWebApp.Models.CVURL", b =>
+                {
+                    b.HasOne("JobSearchingWebApp.Models.CV", "CV")
+                        .WithMany("URLovi")
+                        .HasForeignKey("CVId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("JobSearchingWebApp.Models.URL", "URL")
+                        .WithMany("CVs")
+                        .HasForeignKey("URLId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("CV");
+
+                    b.Navigation("URL");
+                });
+
             modelBuilder.Entity("JobSearchingWebApp.Models.CVVjestine", b =>
                 {
                     b.HasOne("JobSearchingWebApp.Models.CV", "CV")
@@ -1034,6 +1259,25 @@ namespace JobSearchingWebApp.Migrations
                     b.Navigation("CV");
 
                     b.Navigation("Vjestina");
+                });
+
+            modelBuilder.Entity("JobSearchingWebApp.Models.CVZaposlenje", b =>
+                {
+                    b.HasOne("JobSearchingWebApp.Models.CV", "CV")
+                        .WithMany("Zaposlenja")
+                        .HasForeignKey("CVId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("JobSearchingWebApp.Models.Zaposlenje", "Zaposlenje")
+                        .WithMany("CVs")
+                        .HasForeignKey("ZaposlenjeId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("CV");
+
+                    b.Navigation("Zaposlenje");
                 });
 
             modelBuilder.Entity("JobSearchingWebApp.Models.KandidatSpaseneKompanije", b =>
@@ -1076,6 +1320,12 @@ namespace JobSearchingWebApp.Migrations
 
             modelBuilder.Entity("JobSearchingWebApp.Models.KandidatiOglasi", b =>
                 {
+                    b.HasOne("JobSearchingWebApp.Models.CV", "CV")
+                        .WithMany()
+                        .HasForeignKey("CVId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
                     b.HasOne("JobSearchingWebApp.Models.Kandidat", "Kandidat")
                         .WithMany()
                         .HasForeignKey("KandidatId")
@@ -1087,6 +1337,8 @@ namespace JobSearchingWebApp.Migrations
                         .HasForeignKey("OglasId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
+
+                    b.Navigation("CV");
 
                     b.Navigation("Kandidat");
 
@@ -1312,6 +1564,20 @@ namespace JobSearchingWebApp.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("JobSearchingWebApp.Models.CV", b =>
+                {
+                    b.Navigation("Edukacije");
+
+                    b.Navigation("URLovi");
+
+                    b.Navigation("Zaposlenja");
+                });
+
+            modelBuilder.Entity("JobSearchingWebApp.Models.Edukacija", b =>
+                {
+                    b.Navigation("CVs");
+                });
+
             modelBuilder.Entity("JobSearchingWebApp.Models.Iskustvo", b =>
                 {
                     b.Navigation("OglasIskustvo");
@@ -1334,6 +1600,16 @@ namespace JobSearchingWebApp.Migrations
 
                     b.Navigation("OpisOglas")
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("JobSearchingWebApp.Models.URL", b =>
+                {
+                    b.Navigation("CVs");
+                });
+
+            modelBuilder.Entity("JobSearchingWebApp.Models.Zaposlenje", b =>
+                {
+                    b.Navigation("CVs");
                 });
 
             modelBuilder.Entity("JobSearchingWebApp.Models.Kompanija", b =>
