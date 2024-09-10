@@ -2,6 +2,12 @@
 {
     public class KandidatOglasGetAllRequest
     {
-        public string KandidatId { get; set; }
+        public string? KandidatId { get; set; }
+
+        public string? KompanijaId { get; set; }
+
+        public string? PretragaNaziv { get; set; }
+
+        public bool? Spasen { get; set; }
     }
 }

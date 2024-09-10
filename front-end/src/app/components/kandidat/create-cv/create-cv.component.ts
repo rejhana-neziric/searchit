@@ -10,13 +10,16 @@ import {GetVjestineEndpoint} from "../../../endpoints/vjestine-endpoint/get/get-
 import {
   GetTehnickeVjestineEndpoint
 } from "../../../endpoints/tehnicke-vjestine-endpoint/get/tehnicke-vjestine-get-endpoint";
-import {take} from "rxjs";
+import {firstValueFrom, take} from "rxjs";
 import {CvDodajRequest} from "../../../endpoints/cv-endpoint/dodaj/cv-dodaj-request";
 import {CVDodajEndpoint} from "../../../endpoints/cv-endpoint/dodaj/cv-dodaj-endpoint";
 import {User} from "../../../modals/user";
 import {AuthService} from "../../../services/auth-service";
 import {NotificationService} from "../../../services/notification-service";
 import {Router, RouterLink} from "@angular/router";
+import {CVGetEndpoint} from "../../../endpoints/cv-endpoint/get/cv-get-endpoint";
+import {CVGetResponseCV} from "../../../endpoints/cv-endpoint/get/cv-get-response";
+import {FooterComponent} from "../../footer/footer.component";
 
 declare var bootstrap: any;
 
@@ -44,7 +47,8 @@ interface Section {
     DatePipe,
     NotificationToastComponent,
     ReactiveFormsModule,
-    RouterLink
+    RouterLink,
+    FooterComponent
   ],
   templateUrl: './create-cv.component.html',
   styleUrl: './create-cv.component.css'
@@ -52,7 +56,6 @@ interface Section {
 export class CreateCvComponent implements OnInit {
 
   @Output() dataEmitter = new EventEmitter<CvDodajRequest>();
-
 
   sections: Section[] = [
     {id: 'section1', name: 'Personal Details', isActive: false, isCompleted: false},
@@ -79,11 +82,13 @@ export class CreateCvComponent implements OnInit {
   employments: any[] = [];
   educations: any[] = [];
   urls: { naziv: string; putanja: string }[] = [];
+  previouslyCreatedCv: CVGetResponseCV | null = null;
 
   constructor(private formBuilder: FormBuilder,
               private getVjestineEndpoint: GetVjestineEndpoint,
               private getTehnickeVjestineEndpoint: GetTehnickeVjestineEndpoint,
               private cvDodajEndpoint: CVDodajEndpoint,
+              private cvGetEndpoint: CVGetEndpoint,
               private authService: AuthService,
               private notificationService: NotificationService,
               private router: Router,
@@ -111,6 +116,25 @@ export class CreateCvComponent implements OnInit {
         }
       }
     })
+
+    await this.getCV();
+
+
+
+  }
+
+  async getCV() {
+    const requset = {
+      kandidatId: this.loggedUserId,
+      objavljen: null
+    };
+
+    try {
+      const response = await firstValueFrom(this.cvGetEndpoint.obradi(requset));
+      this.previouslyCreatedCv = response.cv.$values[0];
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   initializeForm() {
@@ -334,5 +358,17 @@ export class CreateCvComponent implements OnInit {
         }
       }
     }
+  }
+
+  importDetails() {
+    this.form.patchValue({
+      naziv: this.previouslyCreatedCv?.naziv,
+      firstName: this.previouslyCreatedCv?.ime,
+      lastName: this.previouslyCreatedCv?.prezime,
+      email: this.previouslyCreatedCv?.email,
+      phoneNumber: this.previouslyCreatedCv?.brojTelefona,
+      city: this.previouslyCreatedCv?.grad,
+      country: this.previouslyCreatedCv?.drzava,
+    });
   }
 }

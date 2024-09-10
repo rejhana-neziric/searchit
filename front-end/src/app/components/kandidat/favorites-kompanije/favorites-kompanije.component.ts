@@ -60,6 +60,8 @@ export class FavoritesKompanijeComponent {
   pretragaNaziv: string = "";
   kandidat: User = {id: "", role: "", jwt: ""}
 
+  imageUrl: string | ArrayBuffer | null = '';
+
   constructor(private kompanijeGetEndpoint: KompanijeGetEndpoint,
               private kandidatSpaseneKompanijeUpdateEndpoint: KandidatSpaseneKompanijeUpdateEndpoint,
               private notificationService: NotificationService,
@@ -168,5 +170,10 @@ export class FavoritesKompanijeComponent {
         }
       }
     }
+  }
+
+  ucitajLogo(logo: string | ArrayBuffer | null){
+    this.imageUrl = `data:image/jpeg;base64,${logo}`;
+    return this.imageUrl;
   }
 }

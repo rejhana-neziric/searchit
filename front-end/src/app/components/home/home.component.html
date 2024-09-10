@@ -1,31 +1,37 @@
-<app-navbar user = 'neregistrovani'></app-navbar>
+<app-navbar user='neregistrovani'></app-navbar>
 
-<div class = "container-fluid bgPage">
+<div class="container-fluid bgPage">
+
   <!-- Carousel -->
   <div id="carouselExampleInterval" class="carousel carousel-dark slide bgCarousel" data-bs-ride="carousel">
     <div class="carousel-indicators">
-      <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-      <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="1" aria-label="Slide 2"></button>
-      <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="2" aria-label="Slide 3"></button>
+      <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="0" class="active"
+              aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="1"
+              aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="2"
+              aria-label="Slide 3"></button>
     </div>
     <div class="carousel-inner">
       <div class="carousel-item active" data-bs-interval="4000">
         <div class="section1 d-flex flex-row align-middle">
           <div class="d-flex flex-column">
             <div>
-              <p class = "fs-4 fw-bold" >Embark on Your Career Odyssey with searchit!</p>
+              <p class="fs-4 fw-bold">Embark on Your Career Odyssey with searchit!</p>
               <br>
-              <p class = "fs-5 fw-bold">Discover, Connect, Thrive – Your Perfect Job Awaits</p>
+              <p class="fs-5 fw-bold">Discover, Connect, Thrive – Your Perfect Job Awaits</p>
               <br>
-              <p  class ="fs-6">
-                Are you ready to turn your career dreams into reality? Look no further than searchit, the ultimate companion for job seekers
-                like you. Tailored to empower candidates in their professional pursuits, searchit is here to redefine the way you navigate
+              <p class="fs-6">
+                Are you ready to turn your career dreams into reality? Look no further than searchit, the ultimate
+                companion for job seekers
+                like you. Tailored to empower candidates in their professional pursuits, searchit is here to redefine
+                the way you navigate
                 the job market.
               </p>
             </div>
             <br>
             <div>
-              <a class="nav-link text-dark btn-confirm d-flex justify-content-center align-middle btn-confirm" href="" [routerLink]="'/jobs'">Explore jobs</a>
+              <button class="btn-confirm ms-0" href="" [routerLink]="'/jobs'">Explore jobs</button>
             </div>
           </div>
           <div class="bd-highlight slika">
@@ -37,12 +43,13 @@
         <div class="section2 d-flex flex-row align-middle">
           <div class="d-flex flex-column">
             <div>
-              <p class = "fs-4 fw-bold">Welcome to searchit: Your Gateway to Exceptional Talent!</p>
+              <p class="fs-4 fw-bold">Welcome to searchit: Your Gateway to Exceptional Talent!</p>
               <br>
-              <p class = "fs-5 fw-bold">Revolutionize Your Hiring Experience with Our Premier Recruitment Platform</p>
+              <p class="fs-5 fw-bold">Revolutionize Your Hiring Experience with Our Premier Recruitment Platform</p>
               <br>
-              <p class ="fs-6">
-                Are you ready to elevate your team with top-tier talent? Enter searchit – the ultimate solution for companies seeking exceptional
+              <p class="fs-6">
+                Are you ready to elevate your team with top-tier talent? Enter searchit – the ultimate solution for
+                companies seeking exceptional
                 professionals to drive success.
                 Say goodbye to traditional hiring hassles and welcome a new era of streamlined, efficient recruitment.
               </p>
@@ -50,12 +57,12 @@
             <br>
             <br>
             <div>
-              <a class="nav-link text-dark btn-confirm d-flex justify-content-center align-middle btn-confirm" href="">Explore candidates</a>
+              <button class="btn-confirm ms-0" href="" [routerLink]="'/cvs'">Explore candidates</button>
             </div>
 
           </div>
           <div class="bd-highlight slika">
-            <img class ="img" src="./assets/img/dream-job.png" alt="image" style="width: 330px;">
+            <img class="img" src="./assets/img/dream-job.png" alt="image" style="width: 330px;">
           </div>
         </div>
       </div>
@@ -63,13 +70,15 @@
         <div class="section3 d-flex flex-row align-middle">
           <div class="d-flex flex-column">
             <div>
-              <p class = "fs-4 fw-bold">Welcome to searchit: Discover Leading IT Companies!</p>
+              <p class="fs-4 fw-bold">Welcome to searchit: Discover Leading IT Companies!</p>
               <br>
-              <p class = "fs-5 fw-bold">Find the Perfect Workplace for Your Career Growth</p>
+              <p class="fs-5 fw-bold">Find the Perfect Workplace for Your Career Growth</p>
               <br>
-              <p class ="fs-6">
-                Explore our curated list of top IT companies known for their innovation and commitment to employee growth.
-                Whether you’re looking for a dynamic startup or an established tech giant, our platform provides detailed
+              <p class="fs-6">
+                Explore our curated list of top IT companies known for their innovation and commitment to employee
+                growth.
+                Whether you’re looking for a dynamic startup or an established tech giant, our platform provides
+                detailed
                 insights into various companies to help you find the ideal workplace. Start your journey today
                 and connect with the companies that align with your professional goals and values.
               </p>
@@ -77,12 +86,12 @@
             <br>
             <br>
             <div>
-              <a class="nav-link text-dark btn-confirm d-flex justify-content-center align-middle btn-confirm" href="" [routerLink]="'/companies'">Explore companies</a>
+              <button class="btn-confirm ms-0" href="" [routerLink]="'/companies'">Explore companies</button>
             </div>
 
           </div>
           <div class="bd-highlight slika">
-            <img class ="img" src="./assets/img/dream-job.png" alt="image" style="width: 330px;">
+            <img class="img" src="./assets/img/dream-job.png" alt="image" style="width: 330px;">
           </div>
         </div>
       </div>
@@ -92,38 +101,52 @@
 
 
   <!--Tekst-->
-  <div class="container-fluid tekst">
-    <span class="fw-bold fs-2 d-flex justify-content-center" style="color: #84B59F; margin: 10px auto 50px;">About Us</span>
-    <br>
-    <div class="row">
-      <div class="col tekst-dio p-3 fs-6">
-        <img class="icon" src="./assets/img/mask-group-6.png" alt="">
-        <br>
-        A CV builder option on a web app provides users with a streamlined and user-friendly tool to create professional and visually appealing resumes.
-        It offers a range of customizable templates, allowing individuals to easily input their personal and professional information.
-        The intuitive interface guides users through the process, offering helpful suggestions and tips to enhance the overall quality of the CV.
-      </div>
-      <div class="col order-5 tekst-dio fs-6 p-3">
-        <img class="icon" src="./assets/img/mask-group-3.png" alt="">
-        <br>
-        We strive to provide a seamless platform that connects candidates with their dream opportunities, fostering a space where career aspirations align
-        seamlessly with employers seeking top-tier talent. With innovation at our core, we aim to redefine the job search experience, making it not just efficient,
-        but also a source of inspiration and growth for every user.
-      </div>
-      <div class="col order-1 tekst-dio p-3 fs-6">
-        <img class="icon" src="./assets/img/mask-group-4.png" alt="">
-        <br>
-        With advanced filtering and matching algorithms, our platform ensures that companies can effortlessly discover the perfect candidates for their job
-        openings. Streamlined and user-friendly, our application empowers employers to efficiently navigate through a pool of qualified individuals, saving
-        time and resources in the pursuit of building exceptional teams.
-      </div>
-      <div class="col order-1 tekst-dio fs-6 p-3">
-        <img class="icon" src="./assets/img/mask-group-5.png" alt="">
-        <br>
-        Embark on your career journey with our cutting-edge job searching web app, tailored to help candidates uncover their ideal job opportunities.
-        Our platform empowers users to navigate through a myriad of positions, ensuring a seamless and efficient job-hunting experience.
-        Our user-centric design  ensures that you discover and connect with the perfect job that
-        aligns with your skills and aspirations.
+  <div  id="aboutUs" >
+    <div class="container-fluid tekst mb-5" >
+
+
+      <span class="fw-bold fs-2 d-flex justify-content-center"
+            style="color: #84B59F; margin: 10px auto 50px;">About Us</span>
+      <br>
+      <div class="row">
+        <div class="col tekst-dio p-3 fs-6">
+          <img class="icon" src="./assets/img/mask-group-6.png" alt="">
+          <br>
+          A CV builder option on a web app provides users with a streamlined and user-friendly tool to create
+          professional and visually appealing resumes.
+          It offers a range of customizable templates, allowing individuals to easily input their personal and
+          professional information.
+          The intuitive interface guides users through the process, offering helpful suggestions and tips to enhance the
+          overall quality of the CV.
+        </div>
+        <div class="col order-5 tekst-dio fs-6 p-3">
+          <img class="icon" src="./assets/img/mask-group-3.png" alt="">
+          <br>
+          We strive to provide a seamless platform that connects candidates with their dream opportunities, fostering a
+          space where career aspirations align
+          seamlessly with employers seeking top-tier talent. With innovation at our core, we aim to redefine the job
+          search experience, making it not just efficient,
+          but also a source of inspiration and growth for every user.
+        </div>
+        <div class="col order-1 tekst-dio p-3 fs-6">
+          <img class="icon" src="./assets/img/mask-group-4.png" alt="">
+          <br>
+          With advanced filtering and matching algorithms, our platform ensures that companies can effortlessly discover
+          the perfect candidates for their job
+          openings. Streamlined and user-friendly, our application empowers employers to efficiently navigate through a
+          pool of qualified individuals, saving
+          time and resources in the pursuit of building exceptional teams.
+        </div>
+        <div class="col order-1 tekst-dio fs-6 p-3">
+          <img class="icon" src="./assets/img/mask-group-5.png" alt="">
+          <br>
+          Embark on your career journey with our cutting-edge job searching web app, tailored to help candidates uncover
+          their ideal job opportunities.
+          Our platform empowers users to navigate through a myriad of positions, ensuring a seamless and efficient
+          job-hunting experience.
+          Our user-centric design ensures that you discover and connect with the perfect job that
+          aligns with your skills and aspirations.
+        </div>
       </div>
     </div>
   </div>

@@ -5,7 +5,7 @@
   <!-- Breadcrumbs -->
   <div class="d-flex flex-row nav-link pregled-breadcrumbs text-dark">
     <a type="button nav-link" style="color: #84B59F;; font-size: larger;  text-decoration: none;"
-       [routerLink]="['/home-kandidat/']">Home > </a>
+       [routerLink]="['/home/']">Home > </a>
     <p style="color: #84B59F; font-size: larger;"> > CV
   </div>
   <!-- Breadcrumbs -->
@@ -46,6 +46,8 @@
               </span>
             </div>
             <span class="fw-bold fs-3" style="color: #84B59F">{{ cv.naziv }}</span>
+            <br>
+            <span class="fw-normal fs-6">{{ cv.profesionalniSazetak }}</span>
             <!--<span class="fw-bold deadline pd-5 fs-6"><img src="../../../../assets/img/datum.png"
                                                           style="height: 35px; padding-right:10px "
                                                           alt="">{{ '2024-08-07' | date:'d.M.yyyy' }}</span>-->
@@ -60,7 +62,7 @@
 
 
           <div class="d-flex flex-column justify-content-between" style="padding: 10px; order: 3; flex:2">
-            <span class="fw-normal fs-6 d-flex flex-row justify-content-end">Edited: {{ '2024-08-07' | date:'d.M.yyyy' }} </span>
+            <span class="fw-normal fs-6 d-flex flex-row justify-content-end">Edited: {{ Date() | date:'d.M.yyyy' }} </span>
 
             <a class="d-flex flex-row nav-link button-section">
               <button class="btn-danger"
@@ -183,3 +185,6 @@
 
 </div>
 
+
+
+<app-footer></app-footer>

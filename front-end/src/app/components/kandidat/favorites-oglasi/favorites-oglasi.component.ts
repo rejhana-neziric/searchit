@@ -54,7 +54,7 @@ export class FavoritesOglasiComponent implements OnInit{
   noPosts: boolean = this.oglasi?.length == 0;
   pretragaNaziv: string = "";
   kandidat: User = {id: "", role: "", jwt: ""}
-
+  imageUrl: string | ArrayBuffer | null = '';
   constructor(private oglasGetAllEndpoint: OglasGetEndpoint,
               private kandidatSpaseniOglasiUpdateEndpoint: KandidatSpaseniOglasiUpdateEndpoint,
               private notificationService: NotificationService,
@@ -163,5 +163,10 @@ export class FavoritesOglasiComponent implements OnInit{
         }
       }
     }
+  }
+
+  ucitajLogo(logo: string | ArrayBuffer | null){
+    this.imageUrl = `data:image/jpeg;base64,${logo}`;
+    return this.imageUrl;
   }
 }

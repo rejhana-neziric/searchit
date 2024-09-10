@@ -36,7 +36,7 @@ namespace JobSearchingWebApp.Endpoints.CV.GetById
 
         public List<EdukacijaResponse>? Edukacija { get; set; }
 
-        public List<ZaposlenjeResponse>? Zasposlenje { get; set; }
+        public List<ZaposlenjeResponse>? Zaposlenje { get; set; }
 
         public List<URLResponse>? URL { get; set; }
     }

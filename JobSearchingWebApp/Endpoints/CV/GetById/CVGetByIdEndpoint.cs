@@ -51,7 +51,7 @@ namespace JobSearchingWebApp.Endpoints.CV.GetById
                     Grad = e.Edukacija.Grad,
                     Opis = e.Edukacija.Opis
                 }).ToList(),
-                Zasposlenje = dbContext.CVZaposlenje.Where(x => x.CVId == id).Include(x => x.Zaposlenje).Select(z => new ZaposlenjeResponse
+                Zaposlenje = dbContext.CVZaposlenje.Where(x => x.CVId == id).Include(x => x.Zaposlenje).Select(z => new ZaposlenjeResponse
                 {
                     Id = z.ZaposlenjeId,
                     NazivKompanije = z.Zaposlenje.NazivKompanije,

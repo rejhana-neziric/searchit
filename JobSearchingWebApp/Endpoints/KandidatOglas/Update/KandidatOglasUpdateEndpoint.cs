@@ -4,6 +4,7 @@ using JobSearchingWebApp.Helper;
 using JobSearchingWebApp.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace JobSearchingWebApp.Endpoints.KandidatOglas.Update
@@ -19,17 +20,32 @@ namespace JobSearchingWebApp.Endpoints.KandidatOglas.Update
             this.dbContext = dbContext;
         }
 
-        [HttpPost]
+        [HttpPut]
         public override async Task<KandidatOglasUpdateResponse> MyAction(KandidatOglasUpdateRequest request, CancellationToken cancellationToken)
         {
-            var kandidat_oglas = dbContext.KandidatiOglasi.FirstOrDefault(x => x.Id == request.kandidat_oglas_id);
+            var kandidat_oglas = dbContext.KandidatiOglasi.Where(x => x.Id == request.Id 
+                                                                   && x.KandidatId == request.KandidatId 
+                                                                   && x.Oglas.KompanijaId == request.KompanijaId)
+                                                          .Include(x => x.Oglas)
+                                                          .ThenInclude(x => x.Kompanija) 
+                                                          .FirstOrDefault();
 
             if (kandidat_oglas == null)
             {
-                throw new Exception("Nije pronađen kandidat_oglas sa ID " + request.kandidat_oglas_id);
+                throw new Exception("Nije pronađen kandidat_oglas sa ID " + request.Id);
             }
 
-            kandidat_oglas.Status = request.status;
+
+            if(!string.IsNullOrEmpty(request.Status))
+            {
+                kandidat_oglas.Status = request.Status;
+            }
+
+
+            if (request.Spasen != null)
+            {
+                kandidat_oglas.Spasen = (bool)request.Spasen;
+            }
 
             await dbContext.SaveChangesAsync();
 

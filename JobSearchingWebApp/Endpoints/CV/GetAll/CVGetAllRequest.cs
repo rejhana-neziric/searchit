@@ -2,6 +2,8 @@
 {
     public class CVGetAllRequest
     {
-        public string KandidatId { get; set; }
+        public string? KandidatId { get; set; }
+
+        public bool? Objavljen { get; set; }
     }
 }

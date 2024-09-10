@@ -35,6 +35,7 @@ import {KandidatOglasDodajRequest} from "../../endpoints/kandidat-oglas-endpoint
 import {CVGetEndpoint} from "../../endpoints/cv-endpoint/get/cv-get-endpoint";
 import {CVGetRequest} from "../../endpoints/cv-endpoint/get/cv-get-request";
 import {CVGetResponse, CVGetResponseCV} from "../../endpoints/cv-endpoint/get/cv-get-response";
+import {FooterComponent} from "../footer/footer.component";
 
 declare var bootstrap: any;
 
@@ -53,6 +54,7 @@ declare var bootstrap: any;
     NavbarComponent,
     RouterLink,
     NotificationToastComponent,
+    FooterComponent,
   ],
   templateUrl: './oglasi.component.html',
   styleUrl: './oglasi.component.css'
@@ -75,7 +77,7 @@ export class OglasiComponent implements OnInit {
   pretragaNaziv: string = "";
   searchObject: OglasGetRequest | null = null
   sortParametri: SortParametar[] | undefined = undefined
-  itemsPerPage: number = 2;
+  itemsPerPage: number = 5;
   currentPage: number = 1;
   total: number = 10;
   noNextElement: boolean = false;
@@ -86,6 +88,7 @@ export class OglasiComponent implements OnInit {
   cv: CVGetResponseCV [] = [];
   cvIdApply: number | null = null;
   selectedCV: CVGetResponseCV | null = null;
+  imageUrl: string | ArrayBuffer | null = '';
 
   constructor(private oglasGetAllEndpoint: OglasGetEndpoint,
               private oglasGetByIdEndpoint: OglasGetByIdEndpoint,
@@ -154,7 +157,7 @@ export class OglasiComponent implements OnInit {
       naziv: this.pretragaNaziv,
       tipPosla: this.selektovaniJobType,
       sortParametri: this.sortParametri,
-      kandidatId: this.user.id,
+      kandidatId: this.user == null ? undefined : this.user.id,
       otvoren: undefined,
       objavljen: true
     };
@@ -441,7 +444,7 @@ export class OglasiComponent implements OnInit {
       kandidatId: this.user.id,
       cVId: this.cvIdApply!,
       datumPrijave: new Date(),
-      status: 'nekiStatus'
+      status: 'No status'
     }
 
     this.kandidatOglasDodajEndpoint.obradi(request)
@@ -514,7 +517,8 @@ export class OglasiComponent implements OnInit {
 
   async getAllCV() {
     var request: CVGetRequest = {
-      kandidatId: this.user.id
+      kandidatId: this.user.id,
+      objavljen: null
     };
 
     try {
@@ -529,5 +533,10 @@ export class OglasiComponent implements OnInit {
   selectCV(cv: CVGetResponseCV): void {
     this.selectedCV = cv;
     this.cvIdApply = cv.id;
+  }
+
+  ucitajLogo(logo: string | ArrayBuffer | null){
+    this.imageUrl = `data:image/jpeg;base64,${logo}`;
+    return this.imageUrl;
   }
 }

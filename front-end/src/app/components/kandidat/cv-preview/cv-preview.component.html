@@ -1,12 +1,12 @@
 <app-navbar user='neregistrovani'></app-navbar>
 
-<div class="d-flex flex-column container me-auto ms-auto">
+<div class="d-flex flex-column container me-auto ms-auto" style="height: fit-content">
 
 
   <!-- Breadcrumbs -->
   <div class="d-flex flex-row nav-link pregled-breadcrumbs text-dark">
     <a type="button nav-link" style="color: #84B59F;; font-size: larger;  text-decoration: none;"
-       [routerLink]="['/home-kandidat/']">Home > </a>
+       [routerLink]="['/home/']">Home > </a>
     <p style="color: #84B59F; font-size: larger;" [routerLink]="['/cv/']"> > CV >
     <p style="color: #84B59F; font-size: larger;" [routerLink]="['/cv-create/']"> > Create CV >
     <p style="color: #84B59F; font-size: larger;"> > CV Preview
@@ -101,7 +101,7 @@
 
     <!--Skills-->
 
-    <div *ngIf="this.cv.vjestine.lenght > 0" class="section">
+    <div *ngIf="this.cv.vjestine" class="section">
       <div class="fw-bold tekst mb-4 fs-5 mt-2 mb-2 d-flex justify-content-center">Skills</div>
       <div class="vjestine"
            *ngFor="let vjestina of this.cv.vjestine">
@@ -114,7 +114,7 @@
 
     <!--Technical Skills-->
 
-    <div *ngIf="this.cv.tehnickeVjestine.lenght > 0" class="section">
+    <div *ngIf="this.cv.tehnickeVjestine" class="section">
       <div class="fw-bold tekst mb-4 fs-5 mt-2 mb-2 d-flex justify-content-center">Technical Skills</div>
       <div class="tehnickeVjestine"
            *ngFor="let vjestina of this.cv.tehnickeVjestine">
@@ -144,10 +144,10 @@
 
   <!--Websites & Links-->
 
-  <div *ngIf="this.cv.url.lenght > 0" class="section">
+  <div *ngIf="this.cv.url.length > 0" class="section">
     <div class="fw-bold tekst mb-4 fs-5 mt-2 mb-2 d-flex justify-content-center">Websites & Links</div>
     <div class="linkovi "
-         *ngFor="let link of this.cv.linkovi">
+         *ngFor="let link of this.cv.url">
 
       {{ link.naziv }}: {{ link.putanja }}
     </div>
@@ -197,3 +197,6 @@
   </div>
 </div>
 <!-- Modal -->
+
+
+<app-footer></app-footer>

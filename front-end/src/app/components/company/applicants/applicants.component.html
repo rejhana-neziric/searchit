@@ -1,0 +1,266 @@
+<app-navbar user='neregistrovani'></app-navbar>
+
+
+<div class="content d-flex flex-column">
+
+
+  <!-- Breadcrumbs -->
+  <div class="d-flex flex-row nav-link pregled-breadcrumbs text-dark">
+    <a type="button nav-link" style="color: #84B59F;; font-size: larger;  text-decoration: none;"
+       [routerLink]="['/home/']">Home > </a>
+    <p style="color: #84B59F; font-size: larger;"> > Applicants
+  </div>
+  <!-- Breadcrumbs -->
+
+  <div class="d-flex flex-row justify-content-center align-items-center" style=" margin-bottom: 50px; margin-top: 10px">
+    <span class="fw-bold fs-2" style="color: #84B59F; margin-left: auto; margin-right: auto; ">Your Applicants</span>
+    <button class="btn-confirm" [routerLink]="'/jobs'">Explore jobs</button>
+  </div>
+
+
+  <!-- Filter  -->
+
+  <div>
+    <label for="filterDropdown" class="fs-6 me-2">Choose job:</label>
+    <select id="filterDropdown" [(ngModel)]="selectedFilter">
+      <option value="">All</option>
+      <option *ngFor="let option of filterList" [value]="option.oglasId">
+        <p>{{ option.nazivPozicije }} -
+          <span *ngIf="option.otvoren; else closed">Opened</span>
+          <ng-template #closed>Closed</ng-template>
+        </p>
+      </option>
+    </select>
+  </div>
+
+
+  <!--  <div>
+      <label for="filterDropdown" class="fs-6 me-2">Choose job:</label>
+      <select id="filterDropdown" [(ngModel)]="selectedFilter">
+        <option value="">All</option>
+        <option *ngFor="let option of kandidati" [value]="option.oglasId">
+          <p>{{ option.nazivPozicije }} -
+            <span *ngIf="option.otvoren; else closed">Opened</span>
+            <ng-template #closed>Closed</ng-template>
+          </p>
+        </option>
+      </select>
+    </div>-->
+  <!-- Filter  -->
+
+  <!-- Seach box  -->
+  <div class="search-box mt-4">
+    <form class="search-form">
+      <input class="form-control" type="text" [(ngModel)]="pretragaNaziv" [ngModelOptions]="{standalone: true}"
+             (ngModelChange)="onSearchChange($event)"
+             placeholder="Search by applicant name or title.">
+      <i class="fa-solid fa-magnifying-glass"></i>
+    </form>
+  </div>
+  <!-- Seach box  -->
+
+
+  <!-- Canidates Section -->
+  <div class="kandidati-section d-flex flex-row justify-content-between">
+    <!-- Canidates -->
+    <div class="kandidati d-flex flex-column">
+
+      <!-- Canidates  -->
+      <div class="kandidat"
+           *ngFor="let kandidat of filtriraneKompanije()   | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: total }"
+           (click)="prikazDetalja(kandidat)">
+        <div class="kandidat-content d-flex flex-row" [class.selected]="kandidat === selektovaniKandidatCV">
+
+          <div class="d-flex flex-column justify-content-center" style="order: 2; flex:5">
+            <div class="fw-bold fs-3" style="color: #84B59F">
+              <span> {{ kandidat.ime }} </span>
+              <span> {{ kandidat.prezime }} </span>
+            </div>
+            <span class="fw-normal fs-5">{{ kandidat.zvanje }}</span>
+            <div class="d-flex flex-row align-items-center mt-1">
+              <img style=" height: 15px; width: 15px;" alt="" src="../../../../assets/img/sat2.png">
+              <span class="fw-normal ms-1"
+                    style="font-size: 13px;">Applied on {{ kandidat.datumPrijave | date:'d.M.yyyy' }}
+                for {{ kandidat.nazivPozicije }}</span>
+            </div>
+          </div>
+
+
+          <div class="d-flex flex-column justify-content-between " style="padding: 10px; order: 3; flex:2">
+
+                 <span *ngIf="kandidat?.status != 'No status' "
+                       class="fs-6 d-flex flex-row justify-content-end ">
+                <div class="status">
+                                 {{ kandidat?.status }}
+                </div>
+                 </span>
+            <span *ngIf="kandidat?.status == 'No status' "
+                  class="fs-6 d-flex flex-row justify-content-end ">
+                 <div class="status" style="background-color: lightgray">
+                               {{ kandidat?.status }}
+                 </div>
+                  </span>
+
+            <a (click)="promijeniSpasen(kandidat)" class="d-flex flex-row justify-content-end">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="25px" height="25px">
+                <path [attr.fill]="kandidat.spasen ? '#FF0000' : '#999999'"
+                      d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+              </svg>
+            </a>
+
+          </div>
+
+          <app-notification-toast></app-notification-toast>
+
+        </div>
+      </div>
+      <!-- Kompanija  -->
+
+      <!-- Paginacija -->
+      <div *ngIf="imaRezultataPretrage" class="d-flex justify-content-center pe-5">
+        <pagination-controls class="pagination ps-0"
+                             (pageChange)="pageChangeEvent($event, true)"></pagination-controls>
+      </div>
+      <!-- Paginacija -->
+
+    </div>
+    <!-- Komapnije -->
+
+    <!-- Komapnije pregled -->
+    <div *ngIf="imaRezultataPretrage" class="kandidat-pregled">
+      <div class="pregled-content shadow p-3 mb-4 mt-0">
+        <div class="d-flex flex-column">
+          <div class="d-flex flex-row">
+
+            <div class="d-flex flex-column py-3">
+              <div class="fw-bold fs-1" style="color: #84B59F">
+                <span> {{ cvZaPrikaz?.ime }} </span>
+                <span> {{ cvZaPrikaz?.prezime }} </span>
+              </div>
+              <span class="fw-normal fs-5 py-2"> {{ selektovaniKandidatCV?.zvanje }}  </span>
+              <div class="d-flex flex-row align-items-center mt-1">
+                <img style=" height: 15px; width: 15px;" alt="" src="../../../../assets/img/sat2.png">
+                <span class="fw-normal ms-1"
+                      style="font-size: 13px;">Applied on {{ selektovaniKandidatCV?.datumPrijave | date:'d.M.yyyy' }}
+                  for {{ selektovaniKandidatCV?.nazivPozicije }}</span>
+              </div>
+            </div>
+            <div style="width: 170px; margin-left: auto;">
+              <!--  <span *ngIf="odabranaKompanija?.brojOtvorenihPozicija! > 0"
+                      class="fs-6 d-flex flex-row justify-content-end ">
+               <div class="open-positions">
+                                Open positions {{ odabranaKompanija?.brojOtvorenihPozicija }}
+               </div>
+                </span>
+             <span *ngIf="odabranaKompanija?.brojOtvorenihPozicija! == 0"
+                   class="fs-6 d-flex flex-row justify-content-end ">
+                <div class="open-positions" style="background-color: lightgray">
+                               No open positions
+                </div>
+                 </span>-->
+            </div>
+
+            <div style="width: 170px; margin-left: auto;">
+                 <span *ngIf="selektovaniKandidatCV?.status != 'No status' "
+                       class="fs-6 d-flex flex-row justify-content-end ">
+                <div class="status">
+                                 {{ selektovaniKandidatCV?.status }}
+                </div>
+                 </span>
+              <span *ngIf="selektovaniKandidatCV?.status == 'No status' "
+                    class="fs-6 d-flex flex-row justify-content-end ">
+                 <div class="status" style="background-color: lightgray">
+                                 {{ selektovaniKandidatCV?.status }}
+                 </div>
+                  </span>
+            </div>
+          </div>
+          <div>
+            <p style="color: #84B59F" class="pregled-naslovi fw-bold fs-5">Professional Summary:</p>
+            <span> {{ cvZaPrikaz?.profesionalniSazetak }}</span>
+
+            <p style="color: #84B59F" class="pregled-naslovi fw-bold fs-5 mt-3">Employment History</p>
+
+            <div *ngFor="let zaposlenje of cvZaPrikaz?.zaposlenje?.$values" class="mt-2">
+
+              <span>{{ zaposlenje.nazivPozicije }} | {{ zaposlenje.nazivKompanije }}</span>
+              <span> | {{ zaposlenje.datumPocetka | date:'MMMM yyyy' }}</span> <span *ngIf="zaposlenje.datumZavrsetka"> - {{ zaposlenje.datumZavrsetka | date:'MMMM yyyy' }} </span>
+            </div>
+
+
+          </div>
+        </div>
+        <div class="d-flex flex-row me-auto ms-auto mt-5 justify-content-center">
+          <a class="nav-link text-dark d-flex justify-content-center pregled-btn " type="button">Contact</a>
+          <a class="nav-link text-dark d-flex justify-content-center pregled-btn" type="button"
+             [routerLink]="['/cv-details/', odabraniZaPrikazCVId]" (click)="cvDetails()">Details</a>
+        </div>
+        <div class="d-flex flex-row mt-4 mb-4">
+          <div *ngIf="!noPreviousElement" class="img-left-arrow d-flex justify-content-center" style="">
+            <img src="../../../../assets/img/left-arrow.png" alt="" (click)="ucitajPrethodnuKompaniju()">
+          </div>
+          <div *ngIf="!noNextElement" class="img-right-arrow d-flex justify-content-center" style="">
+            <img src="../../../../assets/img/right-arrow.png" alt="" (click)="ucitajSljedecuKompaniju()">
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+    <!-- Komapnije pregled -->
+
+  </div>
+  <!-- Komapnije Section -->
+
+
+  <!-- Nema rezultata pretrage  -->
+  <div *ngIf="!imaRezultataPretrage && pretragaNaziv != ''"
+       class="p-4 border border-2 shadow bg-body-tertiary no-result-section">
+    <span class="fs-4 mb-4">No results for {{ this.pretragaNaziv }}</span> <br>
+    <div class="mt-3 fs-6">
+      <span>Search Help</span>
+      <ul>
+        <li>Check your search for typos and spelling errors.</li>
+        <li>Try more general keywords.</li>
+        <li>Try different keywords.</li>
+      </ul>
+    </div>
+  </div>
+
+
+  <div *ngIf="!imaRezultataPretrage && pretragaNaziv == ''"
+       class="p-4 border border-2 shadow bg-body-tertiary no-result-section">
+    <span class="fs-5 mb-4">We're sorry. We were not able to find a match.</span> <br>
+  </div>
+
+
+  <!-- Right Section -->
+  <div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="confirmUnsaveModal" tabindex="-1" aria-labelledby="confirmUnsaveModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="confirmUnsaveModalLabel">Confirm Unsave</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to unsave this applicant?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="nav-link btn-cancel" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="nav-link btn-confirm d-flex justify-content-center align-middle"
+                (click)="confirmUnsave()">Unsave
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal -->
+
+
+<app-footer></app-footer>

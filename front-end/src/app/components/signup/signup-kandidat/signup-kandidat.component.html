@@ -154,7 +154,7 @@
             name="brojTelefona"
             [(ngModel)]="form.brojTelefona"
             required
-            pattern="^\+[0-9]{3}-[0-9]{3}-[0-9]{3}-[0-9]{3,4}$"
+            pattern="^\+[0-9]{3}-[0-9]{2}-[0-9]{3}-[0-9]{3,4}$"
             placeholder="e.g. +387-12-345-678"
             #brojTelefona="ngModel"
             [ngClass]="{ 'is-invalid': f.submitted && brojTelefona.errors }"

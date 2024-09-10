@@ -3,9 +3,6 @@
 <div class="main d-flex flex-row">
 
 
-
-
-
   <div class="sections">
     <div class="d-flex flex-row ps-4 pt-5">
       <img class="mt-1" style="width: 25px; height: 30px;" src="../../../../assets/img/sections.png" alt="">
@@ -32,8 +29,15 @@
     <div *ngIf="selectedSectionId === 'section1'" class="section1 section d-flex flex-column">
       <!-- Content for Section 1 -->
 
-      <p class="fs-3 fw-bold m-0">Personal Details</p>
-      <hr class="m-0">
+      <div class="d-flex flex-row justify-content-between">
+        <div>
+          <p class="fs-3 fw-bold m-0">Personal Details</p>
+          <hr class="m-0">
+        </div>
+
+        <button *ngIf="this.previouslyCreatedCv" class="btn-confirm" style="width: 180px" (click)="importDetails()">Import Personal Details</button>
+      </div>
+
 
       <div class="container">
         <form [formGroup]="form" class="form-grid" (ngSubmit)="savePersonalDetails()" autocomplete="off">
@@ -309,38 +313,38 @@
                 <div class="row mt-5">
                   <div class="col-12 col-md-6">
                     <div class="mb-3">
-                      <label for="companyName{{i}}" class="form-label required">Company Name:</label>
-                      <input type="text" class="form-control" id="companyName{{i}}"
+                      <label for="nazivKompanije{{i}}" class="form-label required">Company Name:</label>
+                      <input type="text" class="form-control" id="nazivKompanije{{i}}"
                              [(ngModel)]="employment.nazivKompanije"
-                             name="companyName{{i}}">
+                             name="nazivKompanije{{i}}">
                     </div>
                   </div>
                   <div class="col-12 col-md-6">
                     <div class="mb-3">
-                      <label for="position{{i}}" class="form-label required">Position:</label>
-                      <input type="text" class="form-control" id="position{{i}}" [(ngModel)]="employment.nazivPozicije"
-                             name="position{{i}}">
+                      <label for="nazivPozicije{{i}}" class="form-label required">Position:</label>
+                      <input type="text" class="form-control" id="nazivPozicije{{i}}" [(ngModel)]="employment.nazivPozicije"
+                             name="nazivPozicije{{i}}">
                     </div>
                   </div>
                   <div class="col-12 col-md-6">
                     <div class="mb-3">
-                      <label for="startDate{{i}}" class="form-label required">Start Date:</label>
-                      <input type="date" class="form-control" id="startDate{{i}}" [(ngModel)]="employment.datumPocetka"
-                             name="startDate{{i}}">
+                      <label for="datumPocetka{{i}}" class="form-label required">Start Date:</label>
+                      <input type="date" class="form-control" id="datumPocetka{{i}}" [(ngModel)]="employment.datumPocetka"
+                             name="datumPocetka{{i}}">
                     </div>
                   </div>
                   <div class="col-12 col-md-6">
                     <div class="mb-3">
-                      <label for="endDate{{i}}" class="form-label">End Date:</label>
-                      <input type="date" class="form-control" id="endDate{{i}}" [(ngModel)]="employment.datumZavrsetka"
-                             name="endDate{{i}}">
+                      <label for="datumZavrsetka{{i}}" class="form-label">End Date:</label>
+                      <input type="date" class="form-control" id="datumZavrsetka{{i}}" [(ngModel)]="employment.datumZavrsetka"
+                             name="datumZavrsetka{{i}}">
                     </div>
                   </div>
 
                   <div class="mb-3">
-                    <label for="description{{i}}" class="form-label">Description:</label>
-                    <textarea class="form-control" id="description{{i}}" [(ngModel)]="employment.opis"
-                              name="description{{i}}"></textarea>
+                    <label for="opis{{i}}" class="form-label">Description:</label>
+                    <textarea class="form-control" id="opis{{i}}" [(ngModel)]="employment.opis"
+                              name="opis{{i}}"></textarea>
                   </div>
 
 
@@ -617,6 +621,6 @@
 
 
 
-
+<app-footer></app-footer>
 
 

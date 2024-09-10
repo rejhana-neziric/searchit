@@ -11,42 +11,79 @@
       <ul class="navbar-nav flex-row py-1">
 
         <li class="nav-item" [ngClass]="{'active-link': isActiveRoute('/home')}">
-          <a class="nav-link active px-3  fw-bold fs-5 text-underline mt-2" [routerLink]="'/home'">Home</a>
+          <a class="nav-link active px-3  fw-bold fs-5 text-underline mt-1" [routerLink]="'/home'">Home</a>
         </li>
 
-        <li class="nav-item" [ngClass]="{'active-link': isActiveRoute('/jobs')}">
-          <a class="nav-link active px-3  fw-bold fs-5 text-underline mt-2" [routerLink]="'/jobs'">Jobs</a>
+        <li class="nav-item" *ngIf="loggedUser?.role == 'Kandidat' || (authService.user$ | async) === null"
+            [ngClass]="{'active-link': isActiveRoute('/jobs')}">
+          <a class="nav-link active px-3  fw-bold fs-5 text-underline mt-1" [routerLink]="'/jobs'">Jobs</a>
+
+        <li class="nav-item" *ngIf="loggedUser?.role == 'Kompanija'"
+            [ngClass]="{'active-link': isActiveRoute('/my-jobs')}">
+          <a class="nav-link active px-3 fw-bold fs-5 text-underline mt-1"
+             [routerLink]="'/my-jobs'">My jobs</a>
         </li>
+
 
         <li class="nav-item" [ngClass]="{'active-link': isActiveRoute('/companies')}">
-          <a class="nav-link active px-3  fw-bold fs-5 text-underline mt-2" [routerLink]="'/companies'">Companies</a>
+          <a class="nav-link active px-3  fw-bold fs-5 text-underline mt-1" [routerLink]="'/companies'">Companies</a>
         </li>
+
 
         <li class="nav-item" *ngIf="loggedUser?.role == 'Kandidat'"
                              [ngClass]="{'active-link': isActiveRoute('/cv')
                                                      || isActiveRoute('/cv-create')
                                                      || isActiveRoute('/cv-preview')
                                                      || isActiveRoute('/cv-details/:id')}">
-          <a class="nav-link active px-3  fw-bold fs-5 text-underline mt-2" [routerLink]="'/cv'">CV</a>
+          <a class="nav-link active px-3  fw-bold fs-5 text-underline mt-1" [routerLink]="'/cv'">CV</a>
         </li>
 
         <li class="nav-item" *ngIf="loggedUser?.role == 'Kandidat'" [ngClass]="{'active-link': isActiveRoute('/applications')}">
-          <a class="nav-link active px-3 fw-bold fs-5 text-underline mt-2" [routerLink]="'/applications'">Applications</a>
+          <a class="nav-link active px-3 fw-bold fs-5 text-underline mt-1" [routerLink]="'/applications'">Applications</a>
         </li>
 
         <li class="nav-item" *ngIf="loggedUser?.role == 'Kandidat'"
             [ngClass]="{'active-link': isActiveRoute('/favorites')}">
-          <a class="nav-link active px-3 fw-bold fs-5 text-underline mt-2"
-             [routerLink]="'/favorites'">Favorites</a>
+          <a class="nav-link active px-3 fw-bold fs-5 text-underline mt-1"
+             [routerLink]="'/favorites'">Saved</a>
         </li>
 
-        <li class="nav-item">
-          <a class="nav-link active px-3 fw-bold fs-5 text-underline mt-2" href="#aboutUs"
-             (click)="scrollToSection($event, '#aboutUs')">About Us</a>
+        <li class="nav-item" *ngIf="loggedUser?.role == 'Kompanija'"
+            [ngClass]="{'active-link': isActiveRoute('/cvs')}">
+          <a class="nav-link active px-3 fw-bold fs-5 text-underline mt-1"
+             [routerLink]="'/cvs'">CVs</a>
+        </li>
+
+        <li class="nav-item" *ngIf="loggedUser?.role == 'Kompanija'" [ngClass]="{'active-link': isActiveRoute('/applicants')}">
+          <a class="nav-link active px-3 fw-bold fs-5 text-underline mt-1" [routerLink]="'/applicants'">Applicants</a>
+        </li>
+
+        <li class="nav-item" *ngIf="loggedUser?.role == 'Kompanija'"
+            [ngClass]="{'active-link': isActiveRoute('/favorites-applicants')}">
+          <a class="nav-link active px-3 fw-bold fs-5 text-underline mt-1"
+             [routerLink]="'/favorites-applicants'">Saved</a>
+        </li>
+
+        <li class="nav-item" *ngIf="loggedUser?.role == 'Kompanija'"
+            [ngClass]="{'active-link': isActiveRoute('/chat')}">
+          <a class="nav-link active px-3 fw-bold fs-5 text-underline mt-1"
+             [routerLink]="'/chat'">Chat</a>
+        </li>
+
+        <li class="nav-item" *ngIf="loggedUser?.role == 'Kandidat'"
+            [ngClass]="{'active-link': isActiveRoute('/chat')}">
+          <a class="nav-link active px-3 fw-bold fs-5 text-underline mt-1"
+             [routerLink]="'/chat'">Chat</a>
         </li>
 
         <li class="nav-item" *ngIf="(authService.user$ | async) === null">
-          <a class="nav-link active fw-bold fs-5 text-underline log-in" [routerLink]="'/login'" href="">Login</a>
+          <a class="nav-link active px-3 fw-bold fs-5 text-underline mt-1" routerLink="" (click)="scrollToSection($event, '#aboutUs')">
+            About Us
+          </a>
+        </li>
+
+        <li class="nav-item" *ngIf="(authService.user$ | async) === null">
+          <a class="nav-link active fw-bold fs-5 text-underline log-in" [routerLink]="'/login'" href="">Log in</a>
         </li>
 
         <li class="nav-item" *ngIf="(authService.user$ | async) === null">

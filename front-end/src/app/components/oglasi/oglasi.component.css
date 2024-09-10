@@ -108,6 +108,7 @@
   background: #fff;
   border: 1px solid #ddd;
 
+  width: 50%;
 
   &.hovered,
   &:hover,

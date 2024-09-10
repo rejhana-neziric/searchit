@@ -5,7 +5,7 @@
   <!-- Breadcrumbs -->
   <div class="d-flex flex-row nav-link pregled-breadcrumbs text-dark">
     <a type="button nav-link" style="color: #84B59F;; font-size: larger;  text-decoration: none;"
-       [routerLink]="['/home-kandidat/']">Home > </a>
+       [routerLink]="['/home/']">Home > </a>
     <p style="color: #84B59F; font-size: larger;"> > Applications
   </div>
   <!-- Breadcrumbs -->
@@ -40,7 +40,7 @@
           </div>
 
           <span class="fw-bold fs-3" style="color: #84B59F">{{ oglas.nazivPozicije }}</span>
-          <span *ngIf="oglas.otvoren" class="deadline pd-5 fs-6"><img src="../../../../assets/img/datum.png"
+          <span *ngIf="oglas.otvoren && oglas.status != 'Accepted'" class="deadline pd-5 fs-6"><img src="../../../../assets/img/datum.png"
                                                         style="height: 35px; padding-right:10px "
                                                         alt="">Open until: {{ oglas.rokPrijave | date:'d.M.yyyy' }}</span>
           <span *ngIf="!oglas.otvoren" class="fs-6 d-flex flex-row deadline" >
@@ -55,7 +55,7 @@
           <span class="fw-normal fs-6">CV you have send:</span> <a style="color: var(--primary-color); font-weight: bolder" [routerLink]="['/cv-details/', oglas.cvId]"> {{oglas.cvNaziv }}</a>
         </div>
         <a class="d-flex flex-row nav-link button-section">
-          <button *ngIf="oglas.otvoren" class="btn-danger"
+          <button *ngIf="oglas.otvoren && oglas.status != 'Accepted'" class="btn-danger"
                    type="button" (click)="openWithdrawModal()">
             Withdraw </button>
 
@@ -78,7 +78,7 @@
 
 <!-- Nema rezultata pretrage  -->
 <div *ngIf="!imaRezultataPretrage && pretragaNaziv != ''" class="p-4 border border-2 shadow bg-body-tertiary"
-     style="border-color: #84B59F; border-width: 10px; background-color: #fff; border-radius: 15px; width: 100%; margin: 50px auto 300px;">
+     style="border-color: #84B59F; border-width: 10px; background-color: #fff; border-radius: 15px; width: 65%; margin: 50px auto 300px;">
   <span class="fs-4 mb-4">No results for {{ this.pretragaNaziv }}</span> <br>
   <div class="mt-3 fs-6">
     <span>Search Help</span>
@@ -91,10 +91,10 @@
 </div>
 
 <div *ngIf="!imaRezultataPretrage && pretragaNaziv == ''" class="p-4 border border-2 shadow bg-body-tertiary"
-     style="border-color: #84B59F; border-width: 10px; background-color: #fff; border-radius: 15px; width: 100%; margin: 50px auto 300px;">
+     style="border-color: #84B59F; border-width: 10px; background-color: #fff; border-radius: 15px; width: 65%; margin: 50px auto 300px;">
   <span class="fs-5 mb-4">You haven't applied to any jobs yet.</span> <br>
   <br>
-  <a class="nav-link text-dark btn-confirm d-flex justify-content-center align-middle" type="button" style="width: 140px" [routerLink]="['/jobs/']">Explore Jobs</a>
+  <button class="btn-confirm ms-0" type="button" style="width: 140px" [routerLink]="['/jobs/']">Explore Jobs</button>
 </div>
 
 <!-- Nema rezultata pretrage  -->
@@ -121,3 +121,4 @@
 </div>
 <!-- Modal -->
 
+<app-footer></app-footer>

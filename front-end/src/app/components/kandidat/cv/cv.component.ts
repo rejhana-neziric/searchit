@@ -21,6 +21,7 @@ import {CVGetRequest} from "../../../endpoints/cv-endpoint/get/cv-get-request";
 import {CVGetEndpoint} from "../../../endpoints/cv-endpoint/get/cv-get-endpoint";
 import {CvUpdateRequest} from "../../../endpoints/cv-endpoint/update/cv-update-request";
 import {CVUpdateEndpoint} from "../../../endpoints/cv-endpoint/update/cv-update-endpoint";
+import {FooterComponent} from "../../footer/footer.component";
 
 declare var bootstrap: any;
 
@@ -36,7 +37,8 @@ declare var bootstrap: any;
     FormsModule,
     NgForOf,
     NgxPaginationModule,
-    NotificationToastComponent
+    NotificationToastComponent,
+    FooterComponent
   ],
   templateUrl: './cv.component.html',
   styleUrl: './cv.component.css'
@@ -95,7 +97,8 @@ export class CvComponent implements OnInit{
 
   async getAll() {
     this.searchObject = {
-      kandidatId: this.kandidat.id
+      kandidatId: this.kandidat.id,
+      objavljen: null
     };
 
     try {
@@ -110,7 +113,13 @@ export class CvComponent implements OnInit{
   }
 
   renderCV() {
-    return this.cv
+
+    if(this.pretragaNaziv == "") {
+      return this.cv
+
+    }
+
+    return this.cv.filter(x => x.naziv.toLowerCase().includes(this.pretragaNaziv));
   }
 
   confirmDelete() {
@@ -230,4 +239,5 @@ export class CvComponent implements OnInit{
     })
   }
 
+    protected readonly Date = Date;
 }

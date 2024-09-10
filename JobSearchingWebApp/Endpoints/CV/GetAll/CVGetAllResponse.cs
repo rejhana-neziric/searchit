@@ -23,11 +23,15 @@ namespace JobSearchingWebApp.Endpoints.CV.GetAll
 
         public string Email { get; set; }
 
+        public string Zvanje { get; set; }
+
         public string? BrojTelefona { get; set; }
 
         public string? Drzava { get; set; }
 
         public string? Grad { get; set; }
+
+        public string? ProfesionalniSazetak { get; set; }
 
     }
 }

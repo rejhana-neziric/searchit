@@ -2,6 +2,7 @@
 using JobSearchingWebApp.Endpoints.Oglas.GetAll;
 using JobSearchingWebApp.Helper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace JobSearchingWebApp.Endpoints.CV.GetAll
 {
@@ -20,7 +21,8 @@ namespace JobSearchingWebApp.Endpoints.CV.GetAll
         [HttpGet]
         public override async Task<CVGetAllResponse> MyAction([FromQuery] CVGetAllRequest request, CancellationToken cancellationToken)
         {
-            var cv = dbContext.CV.AsQueryable();
+            var cv = dbContext.CV.Include(x => x.Kandidat).AsQueryable();
+
             //var lokacije = dbContext.OglasLokacija.Include(lokacija => lokacija.Lokacija).AsQueryable();
             //var iskustva = dbContext.OglasIskustvo.Include(iskustvo => iskustvo.Iskustvo).AsQueryable();
             //var spaseni = dbContext.KandidatSpaseniOglasi.Include(spaseni => spaseni.Oglas).AsQueryable();
@@ -28,6 +30,12 @@ namespace JobSearchingWebApp.Endpoints.CV.GetAll
             if (!string.IsNullOrEmpty(request.KandidatId))
             {
                 cv = cv.Where(cv => cv.KandidatId == request.KandidatId);
+            }
+
+
+            if (request.Objavljen != null)
+            {
+                cv = cv.Where(cv => cv.Objavljen == request.Objavljen);
             }
 
             //if (request?.Lokacija?.Count > 0)
@@ -90,10 +98,12 @@ namespace JobSearchingWebApp.Endpoints.CV.GetAll
                 Objavljen = cv.Objavljen,
                 Ime = cv.Ime,
                 Prezime = cv.Prezime,
+                Zvanje = cv.Kandidat.Zvanje,
                 Email = cv.Email,
                 BrojTelefona = cv.BrojTelefona,
                 Grad = cv.Grad,
                 Drzava = cv.Drzava,
+                ProfesionalniSazetak = cv.ProfesionalniSazetak
             }).ToList();
 
             //if (request?.SortParametri != null && request?.SortParametri.Count() > 0)

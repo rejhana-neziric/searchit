@@ -15,6 +15,12 @@ namespace JobSearchingWebApp.Endpoints.KandidatOglas.GetAll
 
         public string KandidatId { get; set; }
 
+        public string Ime  { get; set; }
+
+        public string Prezime { get; set; }
+
+        public string Zvanje { get; set; }
+
         public int OglasId { get; set; }
 
         public string NazivPozicije { get; set; }
@@ -32,5 +38,7 @@ namespace JobSearchingWebApp.Endpoints.KandidatOglas.GetAll
         public DateTime DatumPrijave { get; set; }
 
         public string Status { get; set; }
+
+        public bool Spasen { get; set; }
     }
 }

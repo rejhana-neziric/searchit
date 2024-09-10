@@ -1,0 +1,180 @@
+.accordion-item, .accordion-button{
+  background-color: var(--primary-color);
+  border: none;
+}
+
+.filter-search-section {
+  background-color: var(--primary-color);
+  height: 1500px;
+  order: 1;
+  flex: 1;
+}
+
+.rigth-section {
+
+}
+
+.message-section{
+  padding: 50px 40px;
+  font-size: x-large;
+  color: #262525;;
+  font-family: Cambria;
+}
+
+.search-box {
+  padding: 4px 55px 4px 15px;
+  background: #fff;
+  border: 1px solid #ddd;
+  margin-bottom: 20px;
+
+  width: 47%;
+
+  &.hovered,
+  &:hover,
+  &:active {
+    border: 1px solid #aaa;
+  }
+
+  input[type=text] {
+    border: none;
+    box-shadow: none;
+    display: inline-block;
+    padding: 0;
+    background: transparent;
+
+    &:hover,
+    &:focus,
+    &:active {
+      box-shadow: none;
+    }
+  }
+}
+
+
+.kandidati-section {
+
+}
+
+.kandidati{
+  width: 47%;
+}
+
+.kandidat-content {
+  margin-bottom: 15px;
+  border-radius: 30px;
+  background: #FFF;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  width: 100%;
+  height: 150px;
+  position: relative;
+  padding-left: 30px;
+}
+
+.kandidat-content.selected {
+  border-color: var(--secondary-color);
+  border-style: solid;
+}
+
+.img-logo {
+  width: 80px;
+  height: 80px;
+  padding: 15px;
+}
+
+.pregled-breadcrumbs {
+  padding: 0;
+}
+
+.location {
+  background-color: var(--secondary-color);
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.open-positions {
+  background-color: var(--secondary-color);
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.kandidat-pregled {
+  width: 45%;
+}
+
+.content {
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 80px;
+  padding-bottom: 100px;
+}
+
+.pregled-content{
+  background: #FFF;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  height: max-content;
+  min-height: fit-content;
+  border-radius: 25px;
+  margin-top: 120px;
+}
+
+.pregled-btn {
+  background-color: var(--primary-color);
+  border-radius: 7px;
+  margin: 10px;
+  padding: 10px;
+  color: #3d3b3b;
+  font-size: 16px;
+  width: 100px;
+  text-decoration: none;
+}
+
+.pregled-btn:hover {
+  background-color: var(--hover-button-color);
+  border-radius: 7px;
+  margin: 10px;
+}
+
+.img-right-arrow {
+  width: 50px;
+  height: 50px;
+  order: 2;
+  flex: 1;
+}
+
+.img-left-arrow {
+  width: 50px;
+  height: 50px;
+  order: 1;
+  flex: 1;
+}
+
+
+.no-result-section {
+  border-color: var(--secondary-color);
+  border-width: 10px;
+  background-color: #fff;
+  border-radius: 15px;
+  width: 95%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.status {
+  background-color: var(--secondary-color);
+  border-radius: 5px;
+  padding: 5px;
+}
+
+
+.btn-confirm {
+  width: 120px;
+}
+
+#filterDropdown {
+  background-color: white;
+  padding: 5px;
+  border-radius: 3px;
+}
+
+/* Change background color on hover for the entire select element */

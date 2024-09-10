@@ -98,11 +98,11 @@ namespace JobSearchingWebApp.Endpoints.CV.Dodaj
 
                 // Dodavanje zaposlenja
 
-                if (request.Zasposlenje?.Count > 0)
+                if (request.Zaposlenje?.Count > 0)
                 {
                     var zaposlenjeIds = new List<int>();
 
-                    foreach (var zaposlenjeRequest in request.Zasposlenje)
+                    foreach (var zaposlenjeRequest in request.Zaposlenje)
                     {
                         var zaposlenje = new Zaposlenje
                         {

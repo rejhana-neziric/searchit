@@ -15,4 +15,6 @@ export interface CVGetResponseCV {
   brojTelefona: string | null
   drzava: string | null
   grad: string | null
+  zvanje: string
+  profesionalniSazetak: string | null
 }

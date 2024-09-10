@@ -31,6 +31,7 @@ import {
 } from "../../endpoints/kandidat-spasene-kompanije-endpoint/update/kandidat-spasene-kompanije-update-endpoint";
 import {AuthService} from "../../services/auth-service";
 import {User} from "../../modals/user";
+import {FooterComponent} from "../footer/footer.component";
 
 
 declare var bootstrap: any;
@@ -49,7 +50,8 @@ declare var bootstrap: any;
     NgxPaginationModule,
     NotificationToastComponent,
     RouterLink,
-    NgClass
+    NgClass,
+    FooterComponent
   ],
   templateUrl: './kompanije.component.html',
   styleUrl: './kompanije.component.css'
@@ -63,7 +65,7 @@ export class KompanijeComponent implements OnInit{
   isNumberOfOpenPositionsAscending: boolean = true;
   pretragaNaziv: string = "";
   imaRezultataPretrage: boolean = true;
-  itemsPerPage: number = 3;
+  itemsPerPage: number = 5;
   currentPage: number = 1;
   total: number = 10;
   kompanijaZaPrikaz: KompanijeGetResponseKomapanija |  null = null;
@@ -138,7 +140,7 @@ export class KompanijeComponent implements OnInit{
       naziv: this.pretragaNaziv,
       imaOtvorenePozicije: this.imaOtvorenePozicije,
       spasen: undefined,
-      kandidatId: this.kandidat.id,
+      kandidatId: this.kandidat == null ? undefined : this.kandidat.id,
       sortParametri: this.sortParametri
     };
 
@@ -421,5 +423,10 @@ export class KompanijeComponent implements OnInit{
         modal.hide();
       }
     }
+  }
+
+  ucitajLogo(logo: string | ArrayBuffer | null){
+    this.imageUrl = `data:image/jpeg;base64,${logo}`;
+    return this.imageUrl;
   }
 }

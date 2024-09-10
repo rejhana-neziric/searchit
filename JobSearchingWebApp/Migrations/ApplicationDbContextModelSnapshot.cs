@@ -387,6 +387,9 @@ namespace JobSearchingWebApp.Migrations
                     b.Property<int>("OglasId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("Spasen")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");

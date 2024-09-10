@@ -132,7 +132,12 @@
         </div>
 
       </form>
+
+    <div class="d-flex flex-row">Already have an account?
+      <div style="font-weight: bold; color: var(--secondary-color); margin-left: 3px;" [routerLink]="['/login']">Log in</div>
+    </div>
   </div>
+
 </div>
 
 <div *ngIf="next && role == 'Company'" class="register-container-details">

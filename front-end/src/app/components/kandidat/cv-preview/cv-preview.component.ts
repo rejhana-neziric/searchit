@@ -7,6 +7,7 @@ import {NgxPaginationModule} from "ngx-pagination";
 import {CVDodajEndpoint} from "../../../endpoints/cv-endpoint/dodaj/cv-dodaj-endpoint";
 import {NotificationService} from "../../../services/notification-service";
 import {CVGetByIdEndpoint} from "../../../endpoints/cv-endpoint/get-by-id/cv-get-by-id-endpoint";
+import {FooterComponent} from "../../footer/footer.component";
 
 declare var bootstrap: any;
 
@@ -19,7 +20,8 @@ declare var bootstrap: any;
     NgForOf,
     NgxPaginationModule,
     DatePipe,
-    RouterLink
+    RouterLink,
+    FooterComponent
   ],
   templateUrl: './cv-preview.component.html',
   styleUrl: './cv-preview.component.css'
@@ -88,6 +90,7 @@ export class CvPreviewComponent implements OnInit {
         this.notificationService.showModalNotification(true, 'CV created', 'Your CV has been successfully created.');
         this.router.navigateByUrl('/cv');
         localStorage.removeItem('cvData');
+        this.closeModal();
       },
       error: error => {
         this.closeModal();
