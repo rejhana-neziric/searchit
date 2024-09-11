@@ -530,4 +530,5 @@ export class OglasiComponent implements OnInit {
     this.selectedCV = cv;
     this.cvIdApply = cv.id;
   }
+
 }

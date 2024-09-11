@@ -28,36 +28,36 @@ import {
   styleUrl: './oglas-update.component.css'
 })
 export class OglasUpdateComponent {
-  @Output() customEvent= new EventEmitter<string>();
-  @Input() oglas:any;
+  @Output() customEvent = new EventEmitter<string>();
+  @Input() oglas: any;
 
-  public oglas_id:number = 0;
-  form:OglasUpdateRequest ={
-    oglas_id : this.oglas_id,
+  public oglas_id: number = 0;
+  form: OglasUpdateRequest = {
+    oglas_id: this.oglas_id,
     naziv_pozicije: null,
     lokacija: [] as OglasUpdateOglasLokacija[],
     plata: null,
     tip_posla: null,
     rok_prijave: null,
-    iskustvo:[] as OglasUpdateOglasIskustvo[],
+    iskustvo: [] as OglasUpdateOglasIskustvo[],
     datum_modificiranja: null,
-    objavljen:false,
-    opis_oglasa:  {} as OglasUpdateOpisOglasa
+    objavljen: false,
+    opis_oglasa: {} as OglasUpdateOpisOglasa
   };
+
   constructor(private route: ActivatedRoute, private oglasBetById: OglasGetByIdEndpoint, private oglasUpdateEndpoint: OglasUpdateEndpoint) {
   }
 
-  getOglasById(id:number){
-    this.oglasBetById.obradi(id).subscribe(x=>{
-      this.form.iskustvo = x.iskustvo;
+  getOglasById(id: number) {
+    this.oglasBetById.obradi(id).subscribe(x => {
+      this.form.iskustvo = x.iskustvo.$values;
       this.form.plata = x.plata;
       this.form.naziv_pozicije = x.nazivPozicije;
-      this.form.lokacija = x.lokacija;
-      this.form.rok_prijave =String(x.rokPrijave).split('T')[0];
+      this.form.lokacija = x.lokacija.$values;
+      this.form.rok_prijave = String(x.rokPrijave).split('T')[0];
       this.form.tip_posla = x.tipPosla;
 
-      if(x.opisOglasa != null)
-      {
+      if (x.opisOglasa != null) {
         this.form.opis_oglasa.opis_pozicije = x.opisOglasa?.opisPozicije ?? null;
         this.form.opis_oglasa.benefiti = x.opisOglasa?.benefiti ?? null;
         this.form.opis_oglasa.vjestine = x.opisOglasa?.vjestine ?? null;
@@ -68,17 +68,18 @@ export class OglasUpdateComponent {
       }
     })
   }
-  ngOnInit():void{
-    this.oglas_id =Number(this.route.snapshot.paramMap.get('id')); // Convert to number, if needed
+
+  ngOnInit(): void {
+    this.oglas_id = Number(this.route.snapshot.paramMap.get('id')); // Convert to number, if needed
     console.log('Job ID:', this.oglas_id);
     this.getOglasById(this.oglas_id)
     console.log(this.form)
   }
 
-  onSubmit():void{
+  onSubmit(): void {
     this.form.objavljen = true;
     console.log("glavna funk")
-    this.oglasUpdateEndpoint.obradi(this.form).subscribe(response=>{
+    this.oglasUpdateEndpoint.obradi(this.form).subscribe(response => {
       console.log("Oglas uspjesno dodan", response);
     });
   }
@@ -110,7 +111,7 @@ export class OglasUpdateComponent {
     if (input.checked) {
       if (!this.form.iskustvo.some(item => item.naziv === naziv)) {
         // Add the corresponding iskustvo item, assuming you have a predefined list or ids
-        this.form.iskustvo.push({ id: this.getIdForNaziv(naziv), naziv });
+        this.form.iskustvo.push({id: this.getIdForNaziv(naziv), naziv});
       }
     } else {
       this.form.iskustvo = this.form.iskustvo.filter(item => item.naziv !== naziv);
@@ -130,6 +131,4 @@ export class OglasUpdateComponent {
     return iskustvoMap[naziv] !== undefined ? iskustvoMap[naziv] : 0;
   }
 
-
-  protected readonly onabort = onabort;
 }

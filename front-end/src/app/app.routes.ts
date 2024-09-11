@@ -61,7 +61,6 @@ export const routes: Routes = [
   {path: 'jobs-add', component: OglasDodajComponent},
   {path: 'companies', component: KompanijeComponent},
   {path: 'companies/:id', component: KompanijaDetaljiComponent},
-  {path: 'post-job', component:OglasDodajComponent},
   {path: 'job-drafts', component: OglasiDraftComponent},
   {path: 'edit-job/:id', component: OglasUpdateComponent},
   {path: 'not-found', component: NotFoundComponent},

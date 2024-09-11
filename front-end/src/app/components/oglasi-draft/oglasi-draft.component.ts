@@ -35,6 +35,7 @@ import {OglasDeleteEndpoint} from "../../endpoints/oglas-endpoint/delete/oglas-d
 import {OglasDeleteRequest} from "../../endpoints/oglas-endpoint/delete/oglas-delete-request";
 import {OglasSoftDeleteEndpoint} from "../../endpoints/oglas-endpoint/soft-delete/oglas-soft-delete-endpoint";
 import {OglasSoftDeleteRequest} from "../../endpoints/oglas-endpoint/soft-delete/oglas-soft-delete-request"
+import {NotificationModalComponent} from "../notifications/notification-modal/notification-modal.component";
 declare var bootstrap: any;
 
 @Component({
@@ -52,6 +53,7 @@ declare var bootstrap: any;
     NavbarComponent,
     RouterLink,
     NotificationToastComponent,
+    NotificationModalComponent,
   ],
   templateUrl: './oglasi-draft.component.html',
   styleUrl: './oglasi-draft.component.css'
@@ -441,6 +443,8 @@ export class OglasiDraftComponent implements OnInit {
       this.oglasSoftDeleteEndpoint.obradi(this.deleteObject).subscribe();
       console.log("Uspjesan delete za id ", id)
       console.log(this.deleteObject)
+      this.getAll();
+      this.notificationService.addNotification({message: 'Job deleted.', type: 'success'});
     } else {
       console.warn("Oglas ID is undefined, cannot perform delete");
     }

@@ -325,6 +325,7 @@
               <a class="nav-link text-dark d-flex justify-content-center pregled-btn " type="button" [routerLink]="['/edit-job/', odabraniOglas?.id]">Edit</a>
               <a class="nav-link text-dark d-flex justify-content-center pregled-btn" type="button"
                  (click)="deleteOglas(odabraniOglas?.id)">Delete</a>
+              <app-notification-modal></app-notification-modal>
             </div>
             <div class="d-flex flex-row mt-4 mb-4">
               <div *ngIf="!noPreviousElement" class="img-left-arrow d-flex justify-content-center">
