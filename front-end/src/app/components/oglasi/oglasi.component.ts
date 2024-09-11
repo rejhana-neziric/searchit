@@ -157,7 +157,7 @@ export class OglasiComponent implements OnInit {
       naziv: this.pretragaNaziv,
       tipPosla: this.selektovaniJobType,
       sortParametri: this.sortParametri,
-        kandidatId: kandidatId: this.user == null ? undefined : this.user.id,
+        kandidatId:  this.user == null ? undefined : this.user.id,
       otvoren: undefined,
       objavljen: true
     };
@@ -533,5 +533,10 @@ export class OglasiComponent implements OnInit {
   selectCV(cv: CVGetResponseCV): void {
     this.selectedCV = cv;
     this.cvIdApply = cv.id;
+  }
+
+  ucitajLogo(logo: string | ArrayBuffer | null){
+    this.imageUrl = `data:image/jpeg;base64,${logo}`;
+    return this.imageUrl;
   }
 }

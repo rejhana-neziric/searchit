@@ -28,6 +28,6 @@ namespace JobSearchingWebApp.Models
 
         public string Status { get; set; }
 
-        public bool Spasen { get; set; }
+        public bool Spasen { get; set; } = false;
     }
 }

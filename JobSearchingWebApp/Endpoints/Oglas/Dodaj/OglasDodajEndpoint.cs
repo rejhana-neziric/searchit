@@ -39,31 +39,49 @@ namespace JobSearchingWebApp.Endpoints.Oglas.Dodaj
                     Kvalifikacija = request?.kvalifikacija,
                     Vjestine = request?.vjestine,
                 },
-               Objavljen = request?.objavljen
-            };  
-            var lokacije = dbContext.Lokacija.Where(x=> x.Naziv.ToLower().Contains(request.lokacija.ToLower())).ToList();
+                Objavljen = request?.objavljen
+            };
 
-            if(lokacije == null)
+            // Check if the location already exists (ignoring case)
+            var existingLokacija = dbContext.Lokacija.FirstOrDefault(x => x.Naziv.ToLower() == request.lokacija.ToLower());
+
+            // If the location doesn't exist, add it
+            if (existingLokacija == null)
             {
-                dbContext.Lokacija.Add(new Lokacija() { Naziv = request.lokacija });
+                existingLokacija = new Lokacija() { Naziv = request.lokacija };
+                dbContext.Lokacija.Add(existingLokacija);
+                await dbContext.SaveChangesAsync();  // Save the new location first
             }
-            
 
+            // Create the relationship between the new oglas and the lokacija
             OglasLokacija nova = new OglasLokacija()
             {
-                Lokacija = new Lokacija() { Naziv = request.lokacija},
+                Lokacija = existingLokacija, // Use either the existing or newly added location
                 Oglas = oglas
             };
 
             oglas.OglasLokacija.Add(nova);
 
-            foreach (var item in request.iskustvo)
+            foreach (var nazivIskustva in request.iskustvo)
             {
-                oglas.OglasIskustvo.Add(new OglasIskustvo() { Iskustvo = new Iskustvo() { Naziv = item } });
+                // Check if this experience already exists
+                var existingIskustvo = dbContext.Iskustvo.FirstOrDefault(x => x.Naziv.ToLower() == nazivIskustva.ToLower());
+
+                // If it doesn't exist, add a new one
+                if (existingIskustvo == null)
+                {
+                    existingIskustvo = new Iskustvo() { Naziv = nazivIskustva };
+                    dbContext.Iskustvo.Add(existingIskustvo);
+                    await dbContext.SaveChangesAsync();  // Save the new experience to avoid duplicates
+                }
+
+                // Add the experience to the oglas
+                oglas.OglasIskustvo.Add(new OglasIskustvo() { Iskustvo = existingIskustvo });
             }
 
+            // Save the oglas and related entities
             dbContext.Oglasi.Add(oglas);
-            await dbContext.SaveChangesAsync(); 
+            await dbContext.SaveChangesAsync();
 
             return new OglasDodajResponse { Id = oglas.Id };
         }
