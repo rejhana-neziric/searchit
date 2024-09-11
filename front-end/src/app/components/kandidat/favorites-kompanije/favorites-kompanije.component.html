@@ -4,7 +4,7 @@
   <div *ngIf="imaRezultataPretrage || pretragaNaziv != ''" class="search-box">
     <input class="form-control" type="text" [(ngModel)]="pretragaNaziv" [ngModelOptions]="{standalone: true}"
            (ngModelChange)="onSearchChange($event)"
-           placeholder="Search by position name or company name.">
+           placeholder="Search by company name.">
     <i class="fa-solid fa-magnifying-glass"></i>
   </div>
   <!-- Search -->
@@ -14,7 +14,7 @@
     <div class="kompanija"
          *ngFor="let kompanija of renderKompanije() | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: total }">
       <div class="kompanija-content d-flex flex-row">
-        <img style="order: 1; flex:0.5" class="img-logo" src="../../../../assets/img/kompanija-logo.png" alt="image"
+        <img [src]="ucitajLogo(kompanija?.logo!)" style="order: 1; flex:0.5" class="img-logo" alt="image"
              loading="lazy">
         <div class="d-flex flex-column justify-content-around" style="order: 2; flex:5">
           <span class="fw-bold fs-3" style="color: #84B59F">{{ kompanija.naziv }}</span>
@@ -91,8 +91,8 @@
      style="border-color: #84B59F; border-width: 10px; background-color: #fff; border-radius: 15px; width: 100%; margin: 100px auto 300px;">
   <span class="fs-5 mb-4">You haven't saved any company yet.</span> <br>
   <br>
-  <a class="nav-link text-dark btn-confirm d-flex justify-content-center align-middle" type="button"
-     style="width: 140px" [routerLink]="['/companies/']">Explore Companies</a>
+  <button class="btn-confirm ms-0" type="button"
+     style="width: 150px" [routerLink]="['/companies/']">Explore Companies</button>
 </div>
 
 <!-- Nema rezultata pretrage  -->

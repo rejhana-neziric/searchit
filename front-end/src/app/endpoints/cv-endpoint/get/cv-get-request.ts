@@ -1,5 +1,7 @@
 export class CVGetRequest {
   constructor(
-    public kandidatId: string,
-  ){}
+    public kandidatId: string | null,
+    public objavljen: boolean | null) {
+
+  }
 }

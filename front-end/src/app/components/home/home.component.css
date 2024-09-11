@@ -6,7 +6,7 @@
   background-color: #84B59F;
   padding: 5px;
   border-radius: 10px;
-  width: 120px;
+  width: 120px
 }
 
 .btn:hover
@@ -31,8 +31,12 @@
   background-color: #FFFFFF;
   border-radius: 50px;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-  margin: 130px auto;
+  margin-top:170px;
+  margin-left: auto;
+  margin-right: auto;
+
 }
+
 
 #naslov-underline{
   margin-top: -2px;
@@ -91,7 +95,6 @@
 }
 
 .tekst{
-  margin-top:50px;
   width: 90%;
 }
 
@@ -135,19 +138,12 @@
 }
 
 .btn-confirm {
-  background-color: var(--primary-color);
-  border-radius: 7px;
-  text-decoration: none;
-  color: #3d3b3b;
-  font-size: 16px;
-  width: 150px;
-  border: none;
-  align-items: center;
-  justify-content: center;
-  height: 40px;
+  width: 160px;
 }
 
-.btn-confirm:hover {
-  background-color: rgba(221, 216, 196, 0.74);
+#aboutUs {
+  padding-top: 85px;
+  margin-top: 80px;
 }
+
 

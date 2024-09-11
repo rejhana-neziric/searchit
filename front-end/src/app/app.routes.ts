@@ -25,9 +25,14 @@ import {
   AccountDetailsCompanyComponent
 } from "./components/account/account-details-company/account-details-company.component";
 import {OglasiDraftComponent} from "./components/oglasi-draft/oglasi-draft.component";
-import { CvPreviewComponent } from "./components/kandidat/cv-preview/cv-preview.component";
-import { CvDetailsComponent } from "./components/kandidat/cv-details/cv-details.component";
+import {CvPreviewComponent} from "./components/kandidat/cv-preview/cv-preview.component";
+import {CvDetailsComponent} from "./components/kandidat/cv-details/cv-details.component";
 import { ApplicationsComponent } from "./components/kandidat/applications/applications.component";
+import { ApplicantsComponent } from "./components/company/applicants/applicants.component";
+import { FavoritesKandidatiComponent } from "./components/company/favorites-kandidati/favorites-kandidati.component";
+import { CvPublishedComponent } from "./components/company/cv-published/cv-published.component";
+import { ChatCompanyComponent } from "./components/company/chat-company/chat-company.component";
+import { MyJobsComponent } from "./components/company/my-jobs/my-jobs.component";
 import { OglasUpdateComponent } from "./components/oglas-update/oglas-update.component";
 
 
@@ -47,6 +52,9 @@ export const routes: Routes = [
       {path: 'cv-preview', component: CvPreviewComponent},
       {path: 'cv-details/:id', component: CvDetailsComponent},
       {path: 'applications', component: ApplicationsComponent},
+      {path: 'applicants', component: ApplicantsComponent},
+      {path: 'cvs', component: CvPublishedComponent},
+      {path: 'chat', component: ChatCompanyComponent},
     ]
   },
 
@@ -56,6 +64,8 @@ export const routes: Routes = [
   {path: 'send-email/:mode', component: SendEmailComponent},
   {path: 'home', component: HomeComponent},
   {path: 'favorites', component: FavoritesComponent},
+  {path: 'favorites-applicants', component: FavoritesKandidatiComponent},
+  {path: 'my-jobs', component: MyJobsComponent},
   {path: 'jobs', component: OglasiComponent},
   {path: 'jobs/:id', component: OglasDetaljiComponent},
   {path: 'jobs-add', component: OglasDodajComponent},

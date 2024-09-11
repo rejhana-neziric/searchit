@@ -1,4 +1,4 @@
-<app-navbar user='kandidat'></app-navbar>
+<app-navbar user='neregistrovani'></app-navbar>
 
 <!-- Ovdje treba dodati klikom na ime kompanije da se ide na page za informacije o toj kompaniji i
 da klikom na apply ide na prijavu za oglas  -->
@@ -7,13 +7,14 @@ da klikom na apply ide na prijavu za oglas  -->
 
 <div class="d-flex flex-column pregled me-auto ms-auto">
   <div class="d-flex flex-row nav-link pregled-breadcrumbs text-dark">
-    <a type="button nav-link" style="color: #84B59F;; font-size: large;  text-decoration: none;" [routerLink]="['/home-kandidat/']">Home     > </a>
+    <a type="button nav-link" style="color: #84B59F;; font-size: large;  text-decoration: none;" [routerLink]="['/home/']">Home  > </a>
+    <p  [routerLink]="['/jobs/']" style="color: #84B59F; font-size: large;">   >    Jobs ></p>
     <p style="color: #84B59F; font-size: large;">   >    Job details</p>
   </div>
   <div class="pregled-oglas">
     <div class="d-flex flex-column">
       <div class="d-flex flex-row">
-        <img class="img-logo" src="./assets/img/kompanija-logo.png" alt="image">
+        <img [src]="ucitajLogo(oglas?.logo!)" class="img-logo" alt="image">
         <div class="d-flex flex-column" style="margin-left: 25px; margin-bottom: 5px">
           <p class="fw-bold tekst mb-0">{{oglas?.nazivPozicije}}</p>
           <p class="fw-normal fs-5">{{ oglas?.kompanijaNaziv }}</p>
@@ -77,3 +78,6 @@ da klikom na apply ide na prijavu za oglas  -->
 </div>
 
 <!-- Pregled oglasa  -->
+
+
+<app-footer></app-footer>

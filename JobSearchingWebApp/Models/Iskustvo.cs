@@ -8,7 +8,9 @@ namespace JobSearchingWebApp.Models
     {
         [Key]
         public int Id { get; set; }
+
         public string Naziv { get; set; }
+
         public virtual ICollection<OglasIskustvo> OglasIskustvo { get; set; } = new List<OglasIskustvo>();
     }
 }

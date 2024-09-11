@@ -10,19 +10,21 @@ import {firstValueFrom} from "rxjs";
 import {OglasGetRequest} from "../../endpoints/oglas-endpoint/get/oglas-get-request";
 import {OglasGetEndpoint} from "../../endpoints/oglas-endpoint/get/oglas-get-endpoint";
 import {OglasGetResponseOglasi} from "../../endpoints/oglas-endpoint/get/oglas-get-response";
+import {FooterComponent} from "../footer/footer.component";
 
 @Component({
   selector: 'app-kompanija-detalji',
   standalone: true,
-  imports: [
-    NavbarComponent,
-    DatePipe,
-    NgForOf,
-    RouterLink,
-    NgIf,
-    NgxPaginationModule,
-    NotificationToastComponent
-  ],
+    imports: [
+        NavbarComponent,
+        DatePipe,
+        NgForOf,
+        RouterLink,
+        NgIf,
+        NgxPaginationModule,
+        NotificationToastComponent,
+        FooterComponent
+    ],
   templateUrl: './kompanija-detalji.component.html',
   styleUrl: './kompanija-detalji.component.css'
 })
@@ -77,5 +79,10 @@ export class KompanijaDetaljiComponent implements OnInit{
       this.oglasi = [];
     }
 
+  }
+
+  ucitajLogo(logo: string | ArrayBuffer | null){
+    this.imageUrl = `data:image/jpeg;base64,${logo}`;
+    return this.imageUrl;
   }
 }

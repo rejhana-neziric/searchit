@@ -16,11 +16,13 @@ namespace JobSearchingWebApp.Endpoints.Kompanija.GetById
     {
         private readonly UserManager<Models.Korisnik> userManager;
         private readonly IMapper mapper;
+        private readonly ApplicationDbContext dbContext; 
 
-        public KompanijaGetByIdEndpoint(UserManager<Models.Korisnik> userManager, IMapper mapper)
+        public KompanijaGetByIdEndpoint(UserManager<Models.Korisnik> userManager, IMapper mapper, ApplicationDbContext dbContext)
         {
             this.userManager = userManager;
             this.mapper = mapper;
+            this.dbContext = dbContext; 
         }
 
         [HttpGet("{id}")]
@@ -33,6 +35,14 @@ namespace JobSearchingWebApp.Endpoints.Kompanija.GetById
             var response = mapper.Map<KompanijaGetByIdResponse>(user);
 
             response.Logo = (user as Models.Kompanija)!.Logo != null ? Convert.ToBase64String((user as Models.Kompanija)!.Logo) : null;
+
+            var brojPozicija = 0;
+
+            var kompanija = dbContext.Kompanije.Where(x => x.Id == id).Include(x => x.Oglasi).FirstOrDefault();
+
+            brojPozicija = kompanija.Oglasi.Count(x => x.KompanijaId == kompanija.Id && x.RokPrijave > DateTime.Now);
+
+            response.BrojOtvorenihPozicija = brojPozicija; 
 
             return response;
         }

@@ -2,7 +2,14 @@
 {
     public class KandidatOglasUpdateRequest
     {
-        public int kandidat_oglas_id { get; set; }
-        public string status { get; set; }
+        public int Id { get; set; }
+
+        public string KandidatId { get; set; }
+
+        public string KompanijaId { get; set; }
+
+        public string? Status { get; set; }
+
+        public bool? Spasen { get; set; }
     }
 }

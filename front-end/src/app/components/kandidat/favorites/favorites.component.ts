@@ -22,6 +22,7 @@ import {FavoritesOglasiComponent} from "../favorites-oglasi/favorites-oglasi.com
 import {FavoritesKompanijeComponent} from "../favorites-kompanije/favorites-kompanije.component";
 import {User} from "../../../modals/user";
 import {AuthService} from "../../../services/auth-service";
+import {FooterComponent} from "../../footer/footer.component";
 
 declare var bootstrap: any;
 
@@ -40,7 +41,8 @@ declare var bootstrap: any;
     MatButtonToggle,
     MatButtonToggleGroup,
     FavoritesOglasiComponent,
-    FavoritesKompanijeComponent
+    FavoritesKompanijeComponent,
+    FooterComponent
   ],
   templateUrl: './favorites.component.html',
   styleUrl: './favorites.component.css'

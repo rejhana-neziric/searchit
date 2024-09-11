@@ -8,6 +8,7 @@ export interface OglasGetResponse {
 export interface OglasGetResponseOglasi {
   id: number
   kompanijaNaziv: string
+  logo: string | null
   nazivPozicije: string
   lokacija: {
     $values: OglasGetResponseOglasLokacija [];

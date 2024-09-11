@@ -31,6 +31,7 @@ namespace JobSearchingWebApp.Endpoints.Oglas.GetById
             {
                 Id = oglas.Id,
                 KompanijaNaziv = oglas.Kompanija.Naziv,
+                Logo = oglas.Kompanija!.Logo != null ? Convert.ToBase64String(oglas.Kompanija!.Logo) : null,
                 KompanijaId = oglas.Kompanija.Id, 
                 NazivPozicije = oglas.NazivPozicije,
                 DatumObjave = oglas.DatumObjave,

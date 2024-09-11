@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
     this.authService.user$.pipe(take(1)).subscribe({
       next: user => {
         if (user) {
-          this.router.navigateByUrl('/');
+          this.router.navigateByUrl('/home');
 
         } else {
           this.activatedRoute.queryParams.subscribe({
@@ -67,7 +67,7 @@ export class LoginComponent implements OnInit {
         if (this.returnUrl) {
           this.router.navigateByUrl(this.returnUrl);
         } else {
-          this.router.navigateByUrl('/');
+          this.router.navigateByUrl('/home');
         }
       },
       error: error => {

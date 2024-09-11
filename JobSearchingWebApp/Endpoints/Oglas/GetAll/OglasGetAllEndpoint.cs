@@ -29,7 +29,7 @@ namespace JobSearchingWebApp.Endpoints.Oglas.GetAll
         [HttpGet]
         public override async Task<OglasGetAllResponse> MyAction([FromQuery] OglasGetAllRequest request, CancellationToken cancellationToken)
         {
-            var oglasi = dbContext.Oglasi.Where(x=> !x.IsObrisan).AsQueryable();
+            var oglasi = dbContext.Oglasi.Where(x=> !x.IsObrisan).Include(x => x.Kompanija).AsQueryable();
             var lokacije = dbContext.OglasLokacija.Include(lokacija => lokacija.Lokacija).AsQueryable();
             var iskustva = dbContext.OglasIskustvo.Include(iskustvo => iskustvo.Iskustvo).AsQueryable();
             var spaseni = dbContext.KandidatSpaseniOglasi.Include(spaseni => spaseni.Oglas).AsQueryable();
@@ -97,10 +97,12 @@ namespace JobSearchingWebApp.Endpoints.Oglas.GetAll
             {
                 Id = oglas.Id,
                 KompanijaNaziv = oglas.Kompanija.Naziv,
+                Logo = oglas.Kompanija!.Logo != null ? Convert.ToBase64String(oglas.Kompanija!.Logo) : null,
                 NazivPozicije = oglas.NazivPozicije,
                 DatumObjave = oglas.DatumObjave,
                 TipPosla = oglas.TipPosla,
                 RokPrijave = oglas.RokPrijave,
+                Objavljen = oglas.Objavljen,    
                 Spasen = oglas.KandidatSpaseniOglasi.Any(x => x.KandidatId == request.KandidatId && x.OglasId == oglas.Id && x.Spasen),
                 Iskustvo = dbContext.OglasIskustvo
                                     .Where(iskustvo => iskustvo.OglasId == oglas.Id)

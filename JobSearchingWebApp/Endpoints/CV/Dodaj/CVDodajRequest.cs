@@ -24,7 +24,7 @@ namespace JobSearchingWebApp.Endpoints.CV.Dodaj
         [EmailAddress]
         public string Email { get; set; }
 
-        [RegularExpression(@"\+\d{1,3}-\d{3}-\d{3,4}", ErrorMessage = "Phone number must be in the format +XXX-XXX-XXX or +XXX-XXX-XXXX.")]
+        [RegularExpression(@"\+\d{1,3}-\d{2}-\d{3}-\d{3,4}", ErrorMessage = "Phone number must be in the format +XXX-XX-XXX-XXX or +XXX-XX-XXX-XXXX.")]
         public string? BrojTelefona { get; set; }
 
         public string? Drzava { get; set; }
@@ -41,7 +41,7 @@ namespace JobSearchingWebApp.Endpoints.CV.Dodaj
 
         public List<EdukacijaRequest>? Edukacija { get; set; }
 
-        public List<ZaposlenjeRequest>? Zasposlenje { get; set; }
+        public List<ZaposlenjeRequest>? Zaposlenje { get; set; }
 
         public List<URLRequest>? URL { get; set; }
     }

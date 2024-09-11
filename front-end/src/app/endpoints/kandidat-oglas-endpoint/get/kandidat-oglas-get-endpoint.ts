@@ -19,6 +19,17 @@ export class KandidatOglasGetEndpoint implements MyBaseEndpoint<KandidatOglasGet
       params = params.set('kandidatId', request.kandidatId);
     }
 
+    if (request.kompanijaId) {
+      params = params.set('kompanijaId', request.kompanijaId);
+    }
+
+    if (request.pretragaNaziv) {
+      params = params.set('pretragaNaziv', request.pretragaNaziv);
+    }
+
+    if (request.spasen) {
+      params = params.set('spasen', request.spasen);
+    }
     return this.httpClient.get<KandidatOglasGetResponse>(url, {params});
   }
 }

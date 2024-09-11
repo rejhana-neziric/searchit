@@ -14,6 +14,7 @@ import {
   KandidatOglasGetResponseKandidatOglas
 } from "../../../endpoints/kandidat-oglas-endpoint/get/kandidat-oglas-get-response";
 import {RouterLink} from "@angular/router";
+import {FooterComponent} from "../../footer/footer.component";
 
 declare var bootstrap: any;
 
@@ -29,7 +30,8 @@ declare var bootstrap: any;
     NotificationToastComponent,
     ReactiveFormsModule,
     FormsModule,
-    RouterLink
+    RouterLink,
+    FooterComponent
   ],
   templateUrl: './applications.component.html',
   styleUrl: './applications.component.css'
@@ -79,7 +81,10 @@ export class ApplicationsComponent implements OnInit {
 
   async getAll() {
     this.searchObject = {
-      kandidatId: this.kandidat.id
+      kandidatId: this.kandidat.id,
+      kompanijaId: null,
+      pretragaNaziv: "",
+      spasen: null
     };
 
     try {
@@ -99,6 +104,7 @@ export class ApplicationsComponent implements OnInit {
   confirmWithdraw() {
     console.log('pozvan withdraw')
     this.oglasi.shift();
+    this.imaRezultataPretrage = this.oglasi?.length != 0;
     this.notificationService.addNotification({
       message: 'Application has successfully been withdrawn.',
       type: 'success'

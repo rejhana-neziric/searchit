@@ -6,9 +6,13 @@
   <!-- Breadcrumbs -->
   <div class="d-flex flex-row nav-link pregled-breadcrumbs text-dark">
     <a type="button nav-link" style="color: #84B59F;; font-size: larger;  text-decoration: none;"
-       [routerLink]="['/home-kandidat/']">Home > </a>
-    <p style="color: #84B59F; font-size: larger;" [routerLink]="['/cv/']"> > CV >
-    <p style="color: #84B59F; font-size: larger;"> > {{ this.cv?.naziv }}
+       [routerLink]="['/home/']">Home > </a>
+    <p *ngIf="loggedUser?.role == 'Kandidat'" style="color: #84B59F; font-size: larger;" [routerLink]="['/cv/']"> > CV >
+    <p *ngIf="loggedUser?.role == 'Kandidat'" style="color: #84B59F; font-size: larger;"> > {{ this.cv?.naziv }}
+    <p *ngIf="loggedUser?.role == 'Kompanija'" style="color: #84B59F; font-size: larger;"
+       [routerLink]="['/applicants/']"> > Applicants >
+    <p *ngIf="loggedUser?.role == 'Kompanija'" style="color: #84B59F; font-size: larger;">
+      > {{ this.cv?.ime }} {{ this.cv?.prezime }}
   </div>
   <!-- Breadcrumbs -->
 
@@ -38,7 +42,7 @@
 
   <!--Education-->
 
-  <div *ngIf="this.cv?.edukacija?.$values" class="section">
+  <div *ngIf="this.cv?.edukacija?.$values!.length > 0" class="section">
     <div class="fw-bold tekst mb-4 fs-5 mt-2 mb-2 d-flex justify-content-center">Education</div>
     <div class="edukacije"
          *ngFor="let edukacija of this.cv?.edukacija?.$values">
@@ -69,7 +73,7 @@
 
   <!--Employment History-->
 
-  <div *ngIf="this.cv?.zaposlenje?.$values" class="section">
+  <div *ngIf="this.cv?.zaposlenje?.$values!.length > 0" class="section">
     <div class="fw-bold tekst mb-4 fs-5 mt-2 mb-2 d-flex justify-content-center">Employment History</div>
     <div class="zaposlenje"
          *ngFor="let zasposljenje of this.cv?.zaposlenje?.$values">
@@ -101,7 +105,7 @@
 
     <!--Skills-->
 
-    <div *ngIf="this.cv?.vjestine?.$values" class="section">
+    <div *ngIf="this.cv?.vjestine?.$values!.length > 0" class="section">
       <div class="fw-bold tekst mb-4 fs-5 mt-2 mb-2 d-flex justify-content-center">Skills</div>
       <div class="vjestine"
            *ngFor="let vjestina of this.cv?.vjestine?.$values">
@@ -114,7 +118,7 @@
 
     <!--Technical Skills-->
 
-    <div *ngIf="this.cv?.tehnickeVjestine?.$values" class="section">
+    <div *ngIf="this.cv?.tehnickeVjestine?.$values!.length > 0" class="section">
       <div class="fw-bold tekst mb-4 fs-5 mt-2 mb-2 d-flex justify-content-center">Technical Skills</div>
       <div class="tehnickeVjestine"
            *ngFor="let vjestina of this.cv?.tehnickeVjestine?.$values">
@@ -130,7 +134,7 @@
 
   <!--Courses-->
 
-  <div *ngIf="this.cv?.kursevi?.$values" class="section">
+  <div *ngIf="this.cv?.kursevi?.$values!.length > 0" class="section">
     <div class="fw-bold tekst mb-4 fs-5 mt-2 mb-2 d-flex justify-content-center">Courses</div>
     <div class="kursevi"
          *ngFor="let kurs of this.cv?.kursevi?.$values">
@@ -144,7 +148,7 @@
 
   <!--Websites & Links-->
 
-  <div *ngIf="this.cv?.url?.$values" class="section">
+  <div *ngIf="this.cv?.url?.$values!.length > 0" class="section">
     <div class="fw-bold tekst mb-4 fs-5 mt-2 mb-2 d-flex justify-content-center">Websites & Links</div>
     <div class="linkovi "
          *ngFor="let link of this.cv?.url?.$values">
@@ -156,7 +160,7 @@
   <!--Websites & Links-->
 
 
-  <div class="button-section">
+  <div *ngIf="loggedUser?.role == 'Kandidat'" class="button-section">
     <div class="d-flex flex-row mt-2">
       <button type="button" class="btn-danger" (click)="openDeleteModal()">Delete
       </button>
@@ -171,7 +175,65 @@
       </button>
     </div>
   </div>
+
+  <div *ngIf="loggedUser?.role == 'Kompanija'" class="button-section">
+
+
+    <div class="d-flex flex-column mt-2 align-content-end">
+
+      <div class="d-flex flex-row justify-content-end mt-2">
+        <button type="button" class="btn-confirm d-flex justify-content-center align-middle"
+                (click)="openUnPublishModal()"> Contact
+        </button>
+      </div>
+
+      <div class="d-flex flex-row mt-3">
+        <button type="button" class="btn-danger" (click)="openDeleteModal()">Reject
+
+        </button>
+        <button type="button" class="btn-danger ms-2" (click)="openDeleteModal()">Disqualify
+        </button>
+        <button type="button" class="btn-confirm d-flex justify-content-center align-middle"
+                [routerLink]="'/cv-create'"> Shortlist
+        </button>
+        <button type="button" class="btn-confirm btn-accept d-flex justify-content-center align-middle"
+                (click)="openAcceptModal()">Accept
+        </button>
+      </div>
+
+
+    </div>
+  </div>
+
 </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="confirmAccept" tabindex="-1" aria-labelledby="confirmAcceptLabel"
+     aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="confirmAcceptLabel">Confirm Delete</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to accept this applicant?
+      </div>
+
+      <div class="modal-body" style="color: red">
+        Note: With accept you proceed with the candidate's application, possibly moving them forward in the hiring
+        process (e.g., to an interview).
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="nav-link btn-cancel" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="nav-link btn-confirm" (click)="confirmAccept()">Accept</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal -->
 
 
 <!-- Modal -->
@@ -239,3 +301,4 @@
 <!-- Modal -->
 
 
+<app-footer></app-footer>

@@ -27,5 +27,7 @@ namespace JobSearchingWebApp.Models
         public DateTime DatumPrijave { get; set; }
 
         public string Status { get; set; }
+
+        public bool Spasen { get; set; }
     }
 }

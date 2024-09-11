@@ -61,9 +61,26 @@
   align-items: center;
   justify-content: center;
   height: 40px;
+  position: relative;
+  cursor: pointer;
 }
 
 .btn-confirm:hover {
   background-color: rgba(221, 216, 196, 0.74);
+  .accept{
+    display: block;
+  }
 }
 
+.btn-danger {
+  width: 130px;
+}
+
+.accept{
+  display: none;
+}
+
+.btn-accept:hover .accept{
+    display: block;
+
+}

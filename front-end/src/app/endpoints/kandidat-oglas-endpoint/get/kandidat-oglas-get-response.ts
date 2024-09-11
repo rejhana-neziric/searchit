@@ -17,4 +17,8 @@ export interface KandidatOglasGetResponseKandidatOglas {
   nazivKompanije: string
   rokPrijave: Date
   otvoren: boolean
+  ime: string
+  prezime: string
+  zvanje: string
+  spasen: boolean
 }
