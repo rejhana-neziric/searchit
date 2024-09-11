@@ -13,6 +13,7 @@ import {NotificationService} from "../../services/notification-service";
 import {AuthService} from "../../services/auth-service";
 import {User} from "../../modals/user";
 import {FooterComponent} from "../footer/footer.component";
+import {CommonModule} from "@angular/common";
 
 declare var bootstrap: any;
 
@@ -25,50 +26,52 @@ declare var bootstrap: any;
     RouterLink,
     NgClass,
     FooterComponent,
+    CommonModule
   ],
   templateUrl: './oglas-dodaj.component.html',
   styleUrl: './oglas-dodaj.component.css',
   providers: [DatePipe]
-})
-export class OglasDodajComponent implements OnInit{
-  @Output() customEvent= new EventEmitter<string>();
-  @Input() oglas:any;
+})export class OglasDodajComponent implements OnInit {
+  @Output() customEvent = new EventEmitter<string>();
+  @Input() oglas: any;
 
-  form:any={
-    kompanija_id:null,
+  form: any = {
+    kompanija_id: null,
     naziv_pozicije: null,
-    lokacija: null,
+    lokacija: [''], // Start with one location input
     datum_objave: null,
     plata: null,
     tip_posla: null,
     rok_prijave: null,
-    iskustvo:[] as string[],
+    iskustvo: [] as string[],
     datum_modificiranja: null,
-    opis_pozicije:null,
-    minimum_godina_iskustva:null,
-    preferirane_godine_iskustva:null,
-    kvalifikacija:null,
-    vjestine:null,
-    benefiti:null,
-    objavljen:false
+    opis_pozicije: null,
+    minimum_godina_iskustva: null,
+    preferirane_godine_iskustva: null,
+    kvalifikacija: null,
+    vjestine: null,
+    benefiti: null,
+    objavljen: false
   };
 
-  kompanije: KompanijeGetResponseKomapanija[]=[];
-  user: User = {id: "", role: "", jwt: ""}
+  kompanije: KompanijeGetResponseKomapanija[] = [];
+  user: User = { id: "", role: "", jwt: "" };
 
-  constructor(private oglasDodajEndpoint: OglasDodajEndpoint,
-              private kompanijeGetEndpoint: KompanijeGetEndpoint,
-              private notificationService: NotificationService,
-              private authService: AuthService,
-              private router: Router,
-              @Inject(PLATFORM_ID) private platformId: any,
-              private datePipe:DatePipe) {
+  constructor(
+    private oglasDodajEndpoint: OglasDodajEndpoint,
+    private kompanijeGetEndpoint: KompanijeGetEndpoint,
+    private notificationService: NotificationService,
+    private authService: AuthService,
+    private router: Router,
+    @Inject(PLATFORM_ID) private platformId: any,
+    private datePipe: DatePipe
+  ) {
     this.getAll();
   }
 
   ngOnInit(): void {
     this.user = this.authService.getLoggedUser();
-    }
+  }
 
   async getAll() {
     try {
@@ -78,35 +81,34 @@ export class OglasDodajComponent implements OnInit{
       console.log(error);
       this.kompanije = [];
     }
-
-    //console.log(this.kompanije);
   }
 
-  onSubmitDraft(event: Event){
+  onSubmitDraft(event: Event) {
     event.preventDefault();
     const now = new Date();
     this.form.datum_modificiranja = this.datePipe.transform(now, 'yyyy-MM-dd');
-    this.form.datum_objave=this.form.datum_modificiranja;
+    this.form.datum_objave = this.form.datum_modificiranja;
     this.form.kompanija_id = this.kompanije[0].id;
     this.form.objavljen = false;
-    console.log("draft funk")
-    this.oglasDodajEndpoint.obradi(this.form).subscribe(response=>{
-      console.log("Oglas uspjesno dodan", response);
+    console.log("draft function");
+    this.oglasDodajEndpoint.obradi(this.form).subscribe(response => {
+      console.log("Oglas successfully added", response);
     });
   }
-  onSubmit(){
+
+  onSubmit() {
     const now = new Date();
     this.form.datum_modificiranja = this.datePipe.transform(now, 'yyyy-MM-dd');
-    this.form.datum_objave=this.form.datum_modificiranja;
-    console.log(this.kompanije)
+    this.form.datum_objave = this.form.datum_modificiranja;
+    console.log(this.kompanije);
     this.form.kompanija_id = this.user.id;
     this.form.objavljen = true;
-    console.log("glavna funk")
-    this.oglasDodajEndpoint.obradi(this.form).subscribe(response=>{
-      this.notificationService.showModalNotification(true, 'Published', 'You have successfully published job post.');
+    console.log("submit function");
+    this.oglasDodajEndpoint.obradi(this.form).subscribe(response => {
+      this.notificationService.showModalNotification(true, 'Published', 'You have successfully published the job post.');
     });
 
-    this.closePublishModal()
+    this.closePublishModal();
 
     this.router.navigateByUrl('/my-jobs');
   }
@@ -120,12 +122,10 @@ export class OglasDodajComponent implements OnInit{
     } else {
       this.form.iskustvo = this.form.iskustvo.filter((item: string) => item !== value);
     }
-    console.log(this.form.iskustvo)
+    console.log(this.form.iskustvo);
   }
 
-
   openPublishModal() {
-
     if (isPlatformBrowser(this.platformId)) {
       const modalElement = document.getElementById('confirmPublish');
       if (modalElement) {
@@ -146,4 +146,9 @@ export class OglasDodajComponent implements OnInit{
       }
     }
   }
+
+  addLocation() {
+    this.form.lokacija.push(''); // Adds a new empty location input
+  }
 }
+

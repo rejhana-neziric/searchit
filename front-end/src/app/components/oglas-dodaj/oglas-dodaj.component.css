@@ -75,3 +75,21 @@ input[type="radio"]:checked:after {
   padding-bottom: 100px;
 
 }
+
+.btn-add{
+  color:  var(--secondary-color);
+  font-weight: bolder;
+  width: 100%;
+  text-decoration: none;
+  border: none;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.btn-add:hover{
+  background-color: #FFFFFF;
+}
+
+.lokacije-input{
+  margin-top:10px;
+}

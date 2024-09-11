@@ -42,25 +42,22 @@ namespace JobSearchingWebApp.Endpoints.Oglas.Dodaj
                 Objavljen = request?.objavljen
             };
 
-            // Check if the location already exists (ignoring case)
-            var existingLokacija = dbContext.Lokacija.FirstOrDefault(x => x.Naziv.ToLower() == request.lokacija.ToLower());
-
-            // If the location doesn't exist, add it
-            if (existingLokacija == null)
+            foreach (var nazivLokacije in request.lokacija)
             {
-                existingLokacija = new Lokacija() { Naziv = request.lokacija };
-                dbContext.Lokacija.Add(existingLokacija);
-                await dbContext.SaveChangesAsync();  // Save the new location first
+                // Check if this experience already exists
+                var existingLokacija = dbContext.Lokacija.FirstOrDefault(x => x.Naziv.ToLower() == nazivLokacije.ToLower());
+
+                // If it doesn't exist, add a new one
+                if (existingLokacija == null)
+                {
+                    existingLokacija = new Lokacija() { Naziv = nazivLokacije };
+                    dbContext.Lokacija.Add(existingLokacija);
+                    await dbContext.SaveChangesAsync();  // Save the new experience to avoid duplicates
+                }
+
+                // Add the experience to the oglas
+                oglas.OglasLokacija.Add(new OglasLokacija() { Lokacija = existingLokacija });
             }
-
-            // Create the relationship between the new oglas and the lokacija
-            OglasLokacija nova = new OglasLokacija()
-            {
-                Lokacija = existingLokacija, // Use either the existing or newly added location
-                Oglas = oglas
-            };
-
-            oglas.OglasLokacija.Add(nova);
 
             foreach (var nazivIskustva in request.iskustvo)
             {

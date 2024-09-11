@@ -1,7 +1,7 @@
 export interface OglasDodajRequest {
   kompanija_id: number;
   naziv_pozicije: string;
-  lokacija: string;
+  lokacija: string[];
   datum_objave: string;
   plata: string;
   tip_posla: string;

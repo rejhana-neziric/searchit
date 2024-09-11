@@ -86,32 +86,32 @@
 
     <div class="form-group">
       <label for="lokacija" class="required fw-bold fs-5 naslov">Location</label>
-      <input
-        type="text"
-        class="form-control input-field"
-        name="naziv_pozicije"
-        [(ngModel)]="form.lokacija"
+      <div *ngFor="let lok of form.lokacija; let i = index">
+        <input
+          type="text"
+          class="form-control input-field lokacije-input"
+          name="naziv_pozicije{{i}}"
+          [(ngModel)]="form.lokacija[i]"
         required
         minlength="4"
         maxlength="15"
         placeholder="Specify the location of the job, whether it's on-site, remote, or a combination."
         #lokacija="ngModel"
         [ngClass]="{ 'is-invalid': f.submitted && lokacija.errors }"
-      />
-      @if (lokacija.errors && f.submitted) {
-        <div class="invalid-feedback">
-          @if (lokacija.errors['required']) {
-            <div>Location is required!</div>
-          }
-          @if (lokacija.errors['minlength']) {
-            <div>Location must be at least 4 characters!</div>
-          }
-          @if (lokacija.errors['maxlength']) {
-            <div>Location must be less than 1 characters!</div>
-          }
+        />
+
+        <!-- Error messages -->
+        <div *ngIf="lokacija.errors && f.submitted" class="invalid-feedback">
+          <div *ngIf="lokacija.errors['required']">Location is required!</div>
+          <div *ngIf="lokacija.errors['minlength']">Location must be at least 4 characters!</div>
+          <div *ngIf="lokacija.errors['maxlength']">Location must be less than 15 characters!</div>
         </div>
-      }
+      </div>
+
+      <!-- Button to add a new location -->
+      <button type="button" class="mt-3 btn-add" (click)="addLocation()">+ Add New Location</button>
     </div>
+
 
     <div class="form-group">
       <label for="tip_posla" class="required fw-bold fs-5 naslov">Job Type</label>
