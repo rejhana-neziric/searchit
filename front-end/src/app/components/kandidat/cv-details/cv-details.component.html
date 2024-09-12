@@ -165,13 +165,13 @@
       <button type="button" class="btn-danger" (click)="openDeleteModal()">Delete
       </button>
       <button type="button" class="btn-confirm d-flex justify-content-center align-middle"
-              [routerLink]="'/cv-create'">Edit
+              (click)="edit(this.cv?.id!)">Edit
       </button>
-      <button *ngIf="this.cv?.objavljen" type="button" class="btn-confirm d-flex justify-content-center align-middle"
-              (click)="openUnPublishModal()"> Unpublish
+      <button *ngIf="objavljen" type="button" class="btn-confirm d-flex justify-content-center align-middle"
+              (click)="openUnPublishModal(this.cv?.id)"> Unpublish
       </button>
-      <button *ngIf="!this.cv?.objavljen" type="button" class="btn-confirm d-flex justify-content-center align-middle"
-              (click)="openPublishModal()"> Publish
+      <button *ngIf="!objavljen" type="button" class="btn-confirm d-flex justify-content-center align-middle"
+              (click)="openPublishModal(this.cv?.id)"> Publish
       </button>
     </div>
   </div>
@@ -183,7 +183,7 @@
 
       <div class="d-flex flex-row justify-content-end mt-2">
         <button type="button" class="btn-confirm d-flex justify-content-center align-middle"
-                (click)="openUnPublishModal()"> Contact
+                > Contact
         </button>
       </div>
 
@@ -207,7 +207,7 @@
 
 </div>
 
-
+<app-notification-toast></app-notification-toast>
 <!-- Modal -->
 <div class="modal fade" id="confirmAccept" tabindex="-1" aria-labelledby="confirmAcceptLabel"
      aria-hidden="true">

@@ -16,10 +16,13 @@ import {CVDodajEndpoint} from "../../../endpoints/cv-endpoint/dodaj/cv-dodaj-end
 import {User} from "../../../modals/user";
 import {AuthService} from "../../../services/auth-service";
 import {NotificationService} from "../../../services/notification-service";
-import {Router, RouterLink} from "@angular/router";
+import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {CVGetEndpoint} from "../../../endpoints/cv-endpoint/get/cv-get-endpoint";
 import {CVGetResponseCV} from "../../../endpoints/cv-endpoint/get/cv-get-response";
 import {FooterComponent} from "../../footer/footer.component";
+import {CVGetByIdEndpoint} from "../../../endpoints/cv-endpoint/get-by-id/cv-get-by-id-endpoint";
+import {CVGetByIdResponse} from "../../../endpoints/cv-endpoint/get-by-id/cv-get-by-id-response";
+import {CVUpdateEndpoint} from "../../../endpoints/cv-endpoint/update/cv-update-endpoint";
 
 declare var bootstrap: any;
 
@@ -83,15 +86,21 @@ export class CreateCvComponent implements OnInit {
   educations: any[] = [];
   urls: { naziv: string; putanja: string }[] = [];
   previouslyCreatedCv: CVGetResponseCV | null = null;
+  cvEditId: string | null = null;
+  cvEdit: CVGetByIdResponse | null = null;
+  edit: boolean = false;
 
   constructor(private formBuilder: FormBuilder,
               private getVjestineEndpoint: GetVjestineEndpoint,
               private getTehnickeVjestineEndpoint: GetTehnickeVjestineEndpoint,
               private cvDodajEndpoint: CVDodajEndpoint,
               private cvGetEndpoint: CVGetEndpoint,
+              private cvGetByIdEndpoint: CVGetByIdEndpoint,
+              private cvUpdateEndpoint: CVUpdateEndpoint,
               private authService: AuthService,
               private notificationService: NotificationService,
               private router: Router,
+              private route: ActivatedRoute,
               @Inject(PLATFORM_ID) private platformId: any) {
 
   }
@@ -102,12 +111,26 @@ export class CreateCvComponent implements OnInit {
     await this.getVjestine();
     await this.getTehnickeVjestine();
 
+    // Loading id of the CV that needs to be edited
+    this.route.paramMap.subscribe(params => {
+      this.cvEditId = params.get('id');
+    });
+
+    // Loading data for editing CV
+    if(this.cvEditId != null) {
+      this.edit = true;
+      await this.getCV();
+      await this.setFormData(this.cvEdit);
+      this.checkCompletedSections();
+    }
+
+    // Loading CV data if CV is not created yet
     const savedData = localStorage.getItem('cvData');
     if (savedData) {
       this.cv = JSON.parse(savedData);
-      this.getSavedData();
+      await this.setFormData(this.cv);
+      this.checkCompletedSections();
     }
-
 
     this.authService.user$.pipe(take(1)).subscribe({
       next: (user: User | null) => {
@@ -117,16 +140,34 @@ export class CreateCvComponent implements OnInit {
       }
     })
 
-    await this.getCV();
 
 
-
+    await this.getPreviousCV();
   }
 
-  async getCV() {
+  // Get CV for editing
+  async getCV(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.cvGetByIdEndpoint.obradi(Number(this.cvEditId)).subscribe({
+        next: (x) => {
+          this.cvEdit = x;
+          console.log('edit' + this.cvEdit);
+          resolve();
+        },
+        error: (err) => {
+          console.error(err);
+          reject(err);
+        }
+      });
+    });
+  }
+
+  // Get previously created CV data for importing personal details
+  async getPreviousCV() {
     const requset = {
       kandidatId: this.loggedUserId,
-      objavljen: null
+      objavljen: null,
+      naziv: null
     };
 
     try {
@@ -149,35 +190,47 @@ export class CreateCvComponent implements OnInit {
     })
   }
 
-  getSavedData() {
-    this.form.patchValue({
-      naziv: this.cv?.naziv,
-      firstName: this.cv?.ime,
-      lastName: this.cv?.prezime,
-      email: this.cv?.email,
-      phoneNumber: this.cv?.brojTelefona,
-      city: this.cv?.grad,
-      country: this.cv?.drzava,
-    });
+  async setFormData(cvData: any): Promise<void> {
+    try {
+      this.form.patchValue({
+        naziv: cvData?.naziv,
+        firstName: cvData?.ime,
+        lastName: cvData?.prezime,
+        email: cvData?.email,
+        phoneNumber: cvData?.brojTelefona,
+        city: cvData?.grad,
+        country: cvData?.drzava,
+      });
 
-    this.professionalSummary = this.cv?.profesionalniSazetak;
-    this.educations = this.cv?.edukacija ?? [];
-    this.employments = this.cv?.zaposlenje ?? [];
-    this.urls = this.cv?.url ?? [];
+      this.professionalSummary = cvData?.profesionalniSazetak;
+      this.educations = cvData?.edukacija?.$values ?? cvData?.edukacija ?? [];
+      this.employments = cvData?.zaposlenje?.$values ?? cvData?.zaposlenje ?? [];
+      this.urls = cvData?.url?.$values ?? cvData?.url ?? [];
+      this.selectedSkills = cvData?.vjestine?.$values ?? cvData?.vjestine ?? [];
+      this.selectedTechnicalSkills = cvData?.tehnickeVjestine?.$values ?? cvData?.tehnickeVjestine ?? [];
+      this.courses = cvData?.kursevi?.$values ?? cvData?.kursevi ?? [];
 
-    this.selectedSkills = this.cv?.vjestine ?? [];
-    this.selectedTechnicalSkills = this.cv?.tehnickeVjestine ?? [];
-    this.courses = this.cv?.kursevi ?? [];
+      console.log(this.selectedSkills);
+    } catch (error) {
+      console.error('Error while setting form data:', error);
+    }
   }
 
   async getVjestine() {
     this.getVjestineEndpoint.obradi().subscribe({
       next: x => {
-        //const lista = x.lista
         this.skills = x.lista.$values
       },
       error: err => {
         console.error('Error fetching skills:', err);
+      }
+    })
+  }
+
+  async getTehnickeVjestine() {
+    this.getTehnickeVjestineEndpoint.obradi().subscribe({
+      next: x => {
+        this.technicalSkills = x.lista.$values;
       }
     })
   }
@@ -190,14 +243,6 @@ export class CreateCvComponent implements OnInit {
       selectedSkills = selectedSkills.filter(s => s !== skill);
     }
     console.log(selectedSkills);
-  }
-
-  async getTehnickeVjestine() {
-    this.getTehnickeVjestineEndpoint.obradi().subscribe({
-      next: x => {
-        this.technicalSkills = x.lista.$values;
-      }
-    })
   }
 
   addCourse() {
@@ -222,14 +267,32 @@ export class CreateCvComponent implements OnInit {
   }
 
   selectSection(sectionId: string): void {
-    this.selectedSectionId = sectionId;
+    if(this.selectedSectionId == 'section1'){
+      this.savePersonalDetails(sectionId);
+    } else if(this.selectedSectionId == 'section2') {
+      this.completedProfessinalSummary();
+    }
+    else {
+      this.selectedSectionId = sectionId;
+    }
   }
 
-  completeSection(sectionId: string): void {
+ completeSection(sectionId: string): void {
     const section = this.sections.find(s => s.id === sectionId);
     if (section) {
       section.isCompleted = true;
     }
+  }
+
+  checkCompletedSections() {
+    this.completeSection('section1');
+    this.completedProfessinalSummary();
+    this.completedSectionWithList('section3', 'section4', this.educations);
+    this.completedSectionWithList('section4', 'section5', this.employments);
+    this.completedSectionWithList('section5', 'section6', this.selectedSkills);
+    this.completedSectionWithList('section6', 'section7', this.selectedTechnicalSkills);
+    this.completedSectionWithList('section7', 'section8', this.courses);
+    this.completedSectionWithList('section8', 'section1', this.urls);
   }
 
   toggleEducation(index: number): void {
@@ -256,18 +319,24 @@ export class CreateCvComponent implements OnInit {
   }
 
   addEducation(): void {
-    this.educations.push({nazivSkole: '', datumPocetka: '', datumZavrsetka: '', opis: '', isExpanded: false});
+    this.educations.push({
+      nazivSkole: '',
+      datumPocetka: '',
+      datumZavrsetka: '',
+      opis: '',
+      isExpanded: false
+    });
   }
 
   deleteEducation(index: number): void {
     this.educations.splice(index, 1);
   }
 
-  savePersonalDetails() {
+  savePersonalDetails(sectionId: string) {
     this.submitted = true;
     if (this.form.valid) {
       this.completeSection('section1');
-      this.selectedSectionId = 'section2';
+      this.selectedSectionId = sectionId;
     }
   }
 
@@ -311,12 +380,19 @@ export class CreateCvComponent implements OnInit {
   }
 
   cvPreview() {
-    this.saveCvData(false);
-    localStorage.setItem('cvData', JSON.stringify(this.cv));
-
-    this.router.navigate(['/cv-preview'], {
-      state: {data: this.cv}
-    });
+    if(this.edit) {
+      this.saveCvData(Boolean(this.cvEdit?.objavljen));
+      localStorage.setItem('cvData', JSON.stringify(this.cv));
+      this.router.navigate([`/cv-preview`, this.cvEditId], {
+        state: { data: this.cv }
+      });
+    } else {
+      this.saveCvData(Boolean(this.cv?.objavljen));
+      localStorage.setItem('cvData', JSON.stringify(this.cv));
+      this.router.navigate(['/cv-preview'], {
+        state: {data: this.cv}
+      });
+    }
   }
 
   createCV(objavljen: boolean) {
@@ -340,7 +416,7 @@ export class CreateCvComponent implements OnInit {
     if (this.form.invalid) {
       this.selectedSectionId = 'section1';
     } else if (isPlatformBrowser(this.platformId)) {
-      const modalElement = document.getElementById('confirmSaveModal');
+      const modalElement = document.getElementById('confirmCreateModal');
       if (modalElement) {
         const modal = new bootstrap.Modal(modalElement);
         modal.show();
@@ -350,6 +426,30 @@ export class CreateCvComponent implements OnInit {
 
   closeModal() {
     if (isPlatformBrowser(this.platformId)) {
+      const modalElement = document.getElementById('confirmCreateModal');
+      if (modalElement) {
+        const modal = bootstrap.Modal.getInstance(modalElement);
+        if (modal) {
+          modal.hide();
+        }
+      }
+    }
+  }
+
+  openSaveModal() {
+    if (this.form.invalid) {
+      this.selectedSectionId = 'section1';
+    } else if (isPlatformBrowser(this.platformId)) {
+      const modalElement = document.getElementById('confirmSaveModal');
+      if (modalElement) {
+        const modal = new bootstrap.Modal(modalElement);
+        modal.show();
+      }
+    }
+  }
+
+  closeSaveModal() {
+    if (isPlatformBrowser(this.platformId)) {
       const modalElement = document.getElementById('confirmSaveModal');
       if (modalElement) {
         const modal = bootstrap.Modal.getInstance(modalElement);
@@ -358,6 +458,43 @@ export class CreateCvComponent implements OnInit {
         }
       }
     }
+  }
+
+  save() {
+    const edukacija = JSON.parse(JSON.stringify(this.educations));
+    const zaposlenje = JSON.parse(JSON.stringify(this.employments));
+    const url = JSON.parse(JSON.stringify(this.urls));
+
+    const updateRequest = {
+      id: this.cvEdit?.id ?? 1,
+      kandidatId: this.loggedUserId,
+      naziv: this.form.get('naziv')?.value,
+      objavljen: this.cvEdit?.objavljen ?? false,
+      ime: this.form.get('firstName')?.value,
+      prezime: this.form.get('lastName')?.value,
+      email: this.form.get('email')?.value,
+      brojTelefona: this.form.get('phoneNumber')?.value,
+      grad: this.form.get('city')?.value,
+      drzava: this.form.get('country')?.value,
+      profesionalniSazetak: this.professionalSummary!,
+      vjestine: this.selectedSkills,
+      tehnickeVjestine: this.selectedTechnicalSkills,
+      kursevi: this.courses,
+      edukacija: edukacija,
+      zaposlenje: zaposlenje,
+      url: url
+    }
+
+    this.cvUpdateEndpoint.obradi(updateRequest).subscribe({
+      next: any => {
+        this.notificationService.addNotification({message: 'Your CV has been successfully edited.', type: 'success'});
+        this.closeSaveModal()
+        this.router.navigateByUrl('/cv');
+      },
+      error: error => {
+        this.notificationService.addNotification({message: error.message, type: 'error'});
+      }
+    })
   }
 
   importDetails() {
@@ -370,5 +507,10 @@ export class CreateCvComponent implements OnInit {
       city: this.previouslyCreatedCv?.grad,
       country: this.previouslyCreatedCv?.drzava,
     });
+  }
+
+  cancel() {
+    localStorage.removeItem('cvData');
+    this.router.navigateByUrl('/cv');
   }
 }

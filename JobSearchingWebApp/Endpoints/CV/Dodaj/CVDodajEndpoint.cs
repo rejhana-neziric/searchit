@@ -49,8 +49,8 @@ namespace JobSearchingWebApp.Endpoints.CV.Dodaj
                     Drzava = request.Drzava,
                     Grad = request.Grad,
                     ProfesionalniSazetak = request.ProfesionalniSazetak,
-                    Vještine = request.Vjestine,
-                    TehničkeVještine = request.TehnickeVjestine,
+                    Vjestine = request.Vjestine,
+                    TehnickeVjestine = request.TehnickeVjestine,
                     Kursevi = request.Kursevi
                 };
 

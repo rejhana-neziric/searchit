@@ -39,9 +39,9 @@ namespace JobSearchingWebApp.Models
 
         public string? ProfesionalniSazetak { get; set; }
 
-        public List<string>? Vještine { get; set; }
+        public List<string>? Vjestine { get; set; }
 
-        public List<string>? TehničkeVještine { get; set; }
+        public List<string>? TehnickeVjestine { get; set; }
 
         public List<string>? Kursevi { get; set; }
 

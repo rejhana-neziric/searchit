@@ -25,6 +25,10 @@ export class CVGetEndpoint implements MyBaseEndpoint<CVGetRequest, CVGetResponse
       params = params.set('objavljen', request.objavljen);
     }
 
+    if (request.naziv) {
+      params = params.set('naziv', request.naziv);
+    }
+
    /* if (request.tipPosla) {
       request.tipPosla.forEach((l, index) => {
         params = params.append(`tipPosla[${index}]`, l);

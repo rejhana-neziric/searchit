@@ -1,37 +1,76 @@
-﻿using JobSearchingWebApp.Data;
+﻿using Azure.Core;
+using JobSearchingWebApp.Data;
+using JobSearchingWebApp.Endpoints.Kompanija.Delete;
 using JobSearchingWebApp.Endpoints.Oglas.Delete;
 using JobSearchingWebApp.Helper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace JobSearchingWebApp.Endpoints.CV.Delete
 {
+    [Authorize(Roles = "Admin, Kandidat")]
     [Tags("CV")]
     [Route("cv-delete")]
-    public class CVDeleteEndpoint : MyBaseEndpoint<CVDeleteRequest, CVDeleteResponse>
+    public class CVDeleteEndpoint : MyBaseEndpoint<int, ActionResult<CVDeleteResponse>>
     {
         private readonly ApplicationDbContext dbContext;
+        private readonly UserManager<Models.Korisnik> userManager;
 
-        public CVDeleteEndpoint(ApplicationDbContext dbContext)
+        public CVDeleteEndpoint(ApplicationDbContext dbContext, UserManager<Models.Korisnik> userManager)
         {
             this.dbContext = dbContext;
+            this.userManager = userManager;
         }
 
-        [HttpDelete]
-        public override async Task<CVDeleteResponse> MyAction([FromQuery]CVDeleteRequest request, CancellationToken cancellationToken)
+        [HttpDelete("{id}")]
+        public override async Task<ActionResult<CVDeleteResponse>> MyAction(int id, CancellationToken cancellationToken)
         {
-            var cv = dbContext.CV.FirstOrDefault(x => x.Id == request.cv_id);
+            var userId = userManager.GetUserId(User);
+            var user = await userManager.FindByIdAsync(userId);
 
-            if (cv == null)
+            if (user.UlogaId == 2 || user.UlogaId == 1)
             {
-                throw new Exception("Nije pronađen CV sa ID " + request.cv_id);
+                var cv = dbContext.CV.FirstOrDefault(x => x.Id == id);
+
+                if (cv == null)
+                    return BadRequest();
+
+                else
+                {
+
+                    var kandidatiOglasi = dbContext.KandidatiOglasi.Where(x => x.CVId == id).ToList();
+                    dbContext.KandidatiOglasi.RemoveRange(kandidatiOglasi);
+                    await dbContext.SaveChangesAsync();
+
+                    var cvEdukacija = dbContext.CVEdukacija.Where(x => x.CVId == id).ToList();
+
+                    dbContext.CVEdukacija.RemoveRange(cvEdukacija);
+                    await dbContext.SaveChangesAsync();
+
+                    var cvZaposlenje = dbContext.CVZaposlenje.Where(x => x.CVId == id).ToList();
+
+                    dbContext.CVZaposlenje.RemoveRange(cvZaposlenje);
+                    await dbContext.SaveChangesAsync();
+
+                    var cvUrl = dbContext.CVURL.Where(x => x.CVId == id).ToList();
+
+                    dbContext.CVURL.RemoveRange(cvUrl);
+                    await dbContext.SaveChangesAsync();
+
+
+                    dbContext.Remove(cv);
+                    await dbContext.SaveChangesAsync();
+
+                    return new CVDeleteResponse() { };
+
+                }
             }
 
-            dbContext.Remove(cv);
-            await dbContext.SaveChangesAsync();
-
-            return new CVDeleteResponse() { };
+            else 
+                return Unauthorized();
         }
     }
 }

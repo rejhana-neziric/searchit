@@ -1,13 +1,14 @@
 import {Component, Inject, Input, OnInit, PLATFORM_ID} from '@angular/core';
 import {NavbarComponent} from "../../navbar/navbar.component";
 import {CvDodajRequest} from "../../../endpoints/cv-endpoint/dodaj/cv-dodaj-request";
-import {Router, RouterLink} from "@angular/router";
+import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {DatePipe, isPlatformBrowser, NgForOf, NgIf} from "@angular/common";
 import {NgxPaginationModule} from "ngx-pagination";
 import {CVDodajEndpoint} from "../../../endpoints/cv-endpoint/dodaj/cv-dodaj-endpoint";
 import {NotificationService} from "../../../services/notification-service";
 import {CVGetByIdEndpoint} from "../../../endpoints/cv-endpoint/get-by-id/cv-get-by-id-endpoint";
 import {FooterComponent} from "../../footer/footer.component";
+import {CVUpdateEndpoint} from "../../../endpoints/cv-endpoint/update/cv-update-endpoint";
 
 declare var bootstrap: any;
 
@@ -31,11 +32,15 @@ export class CvPreviewComponent implements OnInit {
   cv: any;
   cvId: number = 9;
   cvPreview: boolean = true;
+  cvEditId: string | null = null;
+  edit: boolean = false;
 
   constructor(private router: Router,
               @Inject(PLATFORM_ID) private platformId: any,
               private cvDodajEndpoint: CVDodajEndpoint,
               private cvGetByIdEndpoint: CVGetByIdEndpoint,
+              private cvUpdateEndpoint: CVUpdateEndpoint,
+              private route: ActivatedRoute,
               private notificationService: NotificationService) {
 
   }
@@ -47,6 +52,14 @@ export class CvPreviewComponent implements OnInit {
     if(this.cv == undefined) {
       this.cvPreview = false;
       this.getCV();
+    }
+
+    this.route.paramMap.subscribe(params => {
+      this.cvEditId = params.get('id');
+    });
+
+    if(this.cvEditId != null) {
+      this.edit = true;
     }
   }
 
@@ -97,5 +110,34 @@ export class CvPreviewComponent implements OnInit {
         this.notificationService.addNotification({message: `Error: ${error.message}`, type: 'error'});
       }
     })
+  }
+
+  save() {
+
+    this.cv.id = Number(this.cvEditId);
+
+    console.log('save')
+
+    console.log(this.cv.id)
+
+    this.cvUpdateEndpoint.obradi(this.cv!).subscribe({
+      next: any => {
+        this.notificationService.addNotification({message: 'Your CV has been successfully edited.', type: 'success'});
+        //this.closeSaveModal()
+        this.router.navigateByUrl('/cv');
+        localStorage.removeItem('cvData');
+      },
+      error: error => {
+        this.notificationService.addNotification({message: error.message, type: 'error'});
+
+      }
+    })
+  }
+
+  protected readonly Number = Number;
+
+  cancel() {
+    localStorage.removeItem('cvData');
+    this.router.navigateByUrl('/cv');
   }
 }

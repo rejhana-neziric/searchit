@@ -1,6 +1,7 @@
 ﻿using JobSearchingWebApp.Data;
 using JobSearchingWebApp.Endpoints.Oglas.GetAll;
 using JobSearchingWebApp.Helper;
+using JobSearchingWebApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,73 +24,21 @@ namespace JobSearchingWebApp.Endpoints.CV.GetAll
         {
             var cv = dbContext.CV.Include(x => x.Kandidat).AsQueryable();
 
-            //var lokacije = dbContext.OglasLokacija.Include(lokacija => lokacija.Lokacija).AsQueryable();
-            //var iskustva = dbContext.OglasIskustvo.Include(iskustvo => iskustvo.Iskustvo).AsQueryable();
-            //var spaseni = dbContext.KandidatSpaseniOglasi.Include(spaseni => spaseni.Oglas).AsQueryable();
 
             if (!string.IsNullOrEmpty(request.KandidatId))
             {
                 cv = cv.Where(cv => cv.KandidatId == request.KandidatId);
             }
 
-
             if (request.Objavljen != null)
             {
                 cv = cv.Where(cv => cv.Objavljen == request.Objavljen);
             }
 
-            //if (request?.Lokacija?.Count > 0)
-            //{
-            //    oglasi = oglasi
-            //            .Where(oglas => lokacije
-            //                        .Where(l => l.OglasId == oglas.Id)
-            //                        .Any(lokacija => request.Lokacija.Contains(lokacija.Lokacija.Naziv)) == true);
-            //}
-
-            //if (request?.Iskustvo?.Count() > 0)
-            //{
-            //    oglasi = oglasi
-            //            .Where(oglas => iskustva
-            //                        .Where(l => l.OglasId == oglas.Id)
-            //                        .Any(iskustvo => request.Iskustvo.Contains(iskustvo.Iskustvo.Naziv)) == true);
-            //}
-
-            //if (request?.TipPosla?.Count() > 0)
-            //{
-            //    oglasi = oglasi
-            //            .Where(oglas => request.TipPosla.Contains(oglas.TipPosla) == true);
-            //}
-
-            //if (request?.MinimumGodinaIskustva != null)
-            //{
-
-            //    oglasi = oglasi.Where(oglas => oglas.OpisOglas.MinimumGodinaIskustva <= request.MinimumGodinaIskustva);
-            //}
-
-            //if (request?.KompanijaId != null)
-            //{
-
-            //    oglasi = oglasi.Where(oglas => oglas.KompanijaId == request.KompanijaId);
-            //}
-
-            //if (request?.Otvoren != null)
-            //{
-            //    if (request?.Otvoren == true)
-            //        oglasi = oglasi.Where(oglas => oglas.RokPrijave > DateTime.Now);
-
-            //    else
-            //        oglasi = oglasi.Where(oglas => oglas.RokPrijave < DateTime.Now);
-            //}
-
-            //if (request?.Spasen != null)
-            //{
-            //    oglasi = oglasi.Where(oglas => oglas.KandidatSpaseniOglasi.Any(spaseni => spaseni.KandidatId == request.KandidatId && spaseni.Spasen == true));
-            //}
-
-            //if (request?.Objavljen != null)
-            //{
-            //    oglasi = oglasi.Where(oglas => oglas.Objavljen == request.Objavljen);
-            //}
+            if (!string.IsNullOrEmpty(request.Naziv))
+            {
+                cv = cv.Where(cv => cv.Naziv.ToLower().Contains(request.Naziv.ToLower()));
+            }
 
             var lista = cv.Select(cv => new CVGetAllResponseCV
             {
@@ -105,21 +54,6 @@ namespace JobSearchingWebApp.Endpoints.CV.GetAll
                 Drzava = cv.Drzava,
                 ProfesionalniSazetak = cv.ProfesionalniSazetak
             }).ToList();
-
-            //if (request?.SortParametri != null && request?.SortParametri.Count() > 0)
-            //{
-            //    foreach (var parametar in request.SortParametri)
-            //    {
-            //        if (!string.IsNullOrEmpty(parametar.Naziv))
-            //        {
-            //            if (parametar.Redoslijed == "asc")
-            //                lista = HelperMethods.SortByProperty(lista, parametar.Naziv, true).ToList();
-
-            //            else if (parametar.Redoslijed == "desc")
-            //                lista = HelperMethods.SortByProperty(lista, parametar.Naziv, false).ToList();
-            //        }
-            //    }
-            //}
 
             return new CVGetAllResponse { CV = lista };
         }

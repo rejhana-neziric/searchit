@@ -75,6 +75,10 @@ hr{
   height: 40px;
 }
 
+.btn-cancel {
+  width: 130px;
+}
+
 .btn-confirm:hover {
   background-color: rgba(221, 216, 196, 0.74);
 }

@@ -1,16 +1,90 @@
-﻿namespace JobSearchingWebApp.Endpoints.CV.Update
+﻿using JobSearchingWebApp.Endpoints.CV.Dodaj;
+using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
+
+namespace JobSearchingWebApp.Endpoints.CV.Update
 {
     public class CVUpdateRequest
     {
         public int Id { get; set; }
 
+        public string KandidatId { get; set; }
+
+        public string? Naziv { get; set; }
+
         public bool? Objavljen { get; set; }
 
-        //public string ime { get; set; }
-        //public string prezime { get; set; }
-        //public string email { get; set; }
-        //public string broj_telefona { get; set; }
-        //public string opis_profila { get; set; }
-        //public string slika { get; set; }
+        public string? Ime { get; set; }
+
+        public string? Prezime { get; set; }
+
+        //[AllowNull]
+        //[EmailAddress]
+        public string? Email { get; set; }
+
+ 
+        //[RegularExpression(@"\+\d{1,3}-\d{2}-\d{3}-\d{3,4}", ErrorMessage = "Phone number must be in the format +XXX-XX-XXX-XXX or +XXX-XX-XXX-XXXX.")]
+        public string? BrojTelefona { get; set; }
+
+        public string? Drzava { get; set; }
+
+        public string? Grad { get; set; }
+
+        public string? ProfesionalniSazetak { get; set; }
+
+        public List<string>? Vjestine { get; set; }
+
+        public List<string>? TehnickeVjestine { get; set; }
+
+        public List<string>? Kursevi { get; set; }
+
+        public List<EdukacijaUpdateRequest>? Edukacija { get; set; }
+
+        public List<ZaposlenjeUpdateRequest>? Zaposlenje { get; set; }
+
+        public List<URLUpdateRequest>? URL { get; set; }
+    }
+
+    public class EdukacijaUpdateRequest
+    {
+        [Required]
+        public int Id { get; set; }
+
+        public string? NazivSkole { get; set; }
+
+        public DateOnly? DatumPocetka { get; set; }
+
+        public DateOnly? DatumZavrsetka { get; set; }
+
+        public string? Grad { get; set; }
+
+        public string? Opis { get; set; }
+    }
+
+    public class ZaposlenjeUpdateRequest
+    {
+        [Required]
+        public int Id { get; set; }
+
+        public string? NazivKompanije { get; set; }
+
+        public string? NazivPozicije { get; set; }
+
+        public DateOnly? DatumPocetka { get; set; }
+
+        public DateOnly? DatumZavrsetka { get; set; }
+
+        public string? Opis { get; set; }
+    }
+
+    public class URLUpdateRequest
+    {
+        [Required]
+        public int Id { get; set; }
+
+        public string? Naziv { get; set; }
+
+        [Url]
+        public string? Putanja { get; set; }
     }
 }

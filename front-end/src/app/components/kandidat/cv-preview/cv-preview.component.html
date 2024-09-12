@@ -158,11 +158,22 @@
 
   <div class="button-section">
     <div class="d-flex flex-row mt-2">
-      <button type="button" class="btn-confirm d-flex justify-content-center align-middle"
-              (click)="openModal()">Save CV
+      <button type="button" class="btn-cancel"
+              (click)="cancel()">Cancel
       </button>
-      <button type="button" class="btn-confirm d-flex justify-content-center align-middle"
-              [routerLink]="'/cv-create'">Edit
+
+      <button *ngIf="!edit" type="button" class="btn-confirm d-flex justify-content-center align-middle"
+              (click)="openModal()">Create CV
+      </button>
+      <button *ngIf="edit" type="button" class="btn-confirm d-flex justify-content-center align-middle"
+              (click)="save()">Save
+      </button>
+      <button  *ngIf="edit" type="button" class="btn-confirm d-flex justify-content-center align-middle"
+              [routerLink]="['/cv-create/', Number(this.cvEditId)]"    >Edit
+      </button>
+
+      <button *ngIf="!edit" type="button" class="btn-confirm d-flex justify-content-center align-middle"
+              [routerLink]="['/cv-create/']"    >Edit
       </button>
     </div>
   </div>

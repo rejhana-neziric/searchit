@@ -22,6 +22,9 @@ import {CVGetEndpoint} from "../../../endpoints/cv-endpoint/get/cv-get-endpoint"
 import {CvUpdateRequest} from "../../../endpoints/cv-endpoint/update/cv-update-request";
 import {CVUpdateEndpoint} from "../../../endpoints/cv-endpoint/update/cv-update-endpoint";
 import {FooterComponent} from "../../footer/footer.component";
+import {CvUpdateStatusEndpoint} from "../../../endpoints/cv-endpoint/update-status/cv-update-status-endpoint";
+import {CvUpdateStatusRequest} from "../../../endpoints/cv-endpoint/update-status/cv-update-status-request";
+import {CvDeleteEndpoint} from "../../../endpoints/cv-endpoint/delete/cv-delete-endpoint";
 
 declare var bootstrap: any;
 
@@ -43,7 +46,7 @@ declare var bootstrap: any;
   templateUrl: './cv.component.html',
   styleUrl: './cv.component.css'
 })
-export class CvComponent implements OnInit{
+export class CvComponent implements OnInit {
 
   cv: CVGetResponseCV [] = [];
   cvId: number = 1;
@@ -60,7 +63,8 @@ export class CvComponent implements OnInit{
   constructor(private notificationService: NotificationService,
               private authService: AuthService,
               private cvGetEndpoint: CVGetEndpoint,
-              private cvUpdateEndpoint: CVUpdateEndpoint,
+              private cvDeleteEndpoint: CvDeleteEndpoint,
+              private cvUpdateStatusEndpoint: CvUpdateStatusEndpoint,
               @Inject(PLATFORM_ID) private platformId: any) {
   }
 
@@ -98,7 +102,8 @@ export class CvComponent implements OnInit{
   async getAll() {
     this.searchObject = {
       kandidatId: this.kandidat.id,
-      objavljen: null
+      objavljen: null,
+      naziv: this.pretragaNaziv
     };
 
     try {
@@ -113,13 +118,10 @@ export class CvComponent implements OnInit{
   }
 
   renderCV() {
+    this.imaRezultataPretrage = this.cv?.length != 0;
+    this.setTotal();
 
-    if(this.pretragaNaziv == "") {
-      return this.cv
-
-    }
-
-    return this.cv.filter(x => x.naziv.toLowerCase().includes(this.pretragaNaziv));
+    return this.cv;
   }
 
   confirmDelete() {
@@ -127,7 +129,8 @@ export class CvComponent implements OnInit{
     this.closeModal();
   }
 
-  openDeleteModal() {
+  openDeleteModal(cv: CVGetResponseCV) {
+    this.selectedCV = cv;
     if (isPlatformBrowser(this.platformId)) {
       const modalElement = document.getElementById('confirmDeleteModal');
       if (modalElement) {
@@ -149,21 +152,32 @@ export class CvComponent implements OnInit{
     }
   }
 
+  delete() {
+    this.cvDeleteEndpoint.obradi(this.selectedCV.id).subscribe({
+      next: any => {
+        this.notificationService.addNotification({message: 'Your CV has been successfully deleted.', type: 'success'});
+        this.getAll();
+      },
+      error: error => {
+        this.notificationService.addNotification({
+          message: 'Sorry, there was mistake. Please try again..',
+          type: 'error'
+        });
+      }
+    })
 
-  //ispraviti sa deleteEndpointom
-  delete(){
-    this.cv.shift();
-    this.notificationService.addNotification({message: 'CV deleted.', type: 'success'});
     this.renderCV();
   }
 
   confirmPublish(cv: CVGetResponseCV) {
-    this.selectedCV = cv;
+    //this.selectedCV = cv;
+    console.log(this.selectedCV)
     this.changeStatus(true);
     this.closePublishModal()
   }
 
-  openPublishModal() {
+  openPublishModal(cvid: number | undefined) {
+    this.cvId = cvid ?? 1
     if (isPlatformBrowser(this.platformId)) {
       const modalElement = document.getElementById('confirmPublishModal');
       if (modalElement) {
@@ -186,12 +200,13 @@ export class CvComponent implements OnInit{
   }
 
   confirmUnPublish(cv: CVGetResponseCV) {
-    this.selectedCV = cv;
+    //this.selectedCV = cv;
     this.changeStatus(false);
     this.closeUnPublishModal()
   }
 
-  openUnPublishModal() {
+  openUnPublishModal(cvid: number | undefined) {
+    this.cvId = cvid ?? 1
     if (isPlatformBrowser(this.platformId)) {
       const modalElement = document.getElementById('confirmUnPublishModal');
       if (modalElement) {
@@ -214,30 +229,38 @@ export class CvComponent implements OnInit{
   }
 
   changeStatus(objavljen: boolean) {
-    const updateRequest: CvUpdateRequest = {
-      id: this.selectedCV.id,
+    const updateRequest: CvUpdateStatusRequest = {
+      id: this.cvId,
       objavljen: objavljen,
+      kandidatId: this.kandidat?.id,
     }
 
     console.log(updateRequest)
-    this.cvUpdateEndpoint.obradi(updateRequest).subscribe({
+    this.cvUpdateStatusEndpoint.obradi(updateRequest).subscribe({
       next: any => {
-        if(objavljen) {
-
-          this.notificationService.addNotification({message: 'Your CV has been successfully published.', type: 'success'});
+        if (objavljen) {
+          this.notificationService.addNotification({
+            message: 'Your CV has been successfully published.',
+            type: 'success'
+          });
         } else {
-          this.notificationService.addNotification({message: 'Your CV has been successfully unpublished.', type: 'success'});
-
+          this.notificationService.addNotification({
+            message: 'Your CV has been successfully unpublished.',
+            type: 'success'
+          });
         }
 
-      this.getAll();
+        this.getAll();
 
       },
       error: error => {
-
+        this.notificationService.addNotification({
+          message: 'Sorry, there was mistake. Please try again..',
+          type: 'error'
+        });
       }
     })
   }
 
-    protected readonly Date = Date;
+  protected readonly Date = Date;
 }

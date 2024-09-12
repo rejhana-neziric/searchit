@@ -18,6 +18,10 @@ import {
   KandidatOglasUpdateEndpoint
 } from "../../../endpoints/kandidat-oglas-endpoint/update/kandidat-oglas-update-endpoint";
 import {FooterComponent} from "../../footer/footer.component";
+import {CvUpdateStatusRequest} from "../../../endpoints/cv-endpoint/update-status/cv-update-status-request";
+import {CvUpdateStatusEndpoint} from "../../../endpoints/cv-endpoint/update-status/cv-update-status-endpoint";
+import {NotificationToastComponent} from "../../notifications/notification-toast/notification-toast.component";
+import {CvDeleteEndpoint} from "../../../endpoints/cv-endpoint/delete/cv-delete-endpoint";
 
 declare var bootstrap: any;
 
@@ -30,7 +34,8 @@ declare var bootstrap: any;
     NgForOf,
     NgIf,
     RouterLink,
-    FooterComponent
+    FooterComponent,
+    NotificationToastComponent
   ],
   templateUrl: './cv-details.component.html',
   styleUrl: './cv-details.component.css'
@@ -42,9 +47,11 @@ export class CvDetailsComponent implements OnInit {
   loggedUser: User | null = null;
   status: string = ""
   kandidatOglas: any
+  objavljen: boolean = false;
 
   constructor(private cvGetByIdEndpoint: CVGetByIdEndpoint,
-              private cvUpdateEndpoint: CVUpdateEndpoint,
+              private cvDeleteEndpoint: CvDeleteEndpoint,
+              private cvUpdateStatusEndpoint: CvUpdateStatusEndpoint,
               private kandidatOglasUpdateEndpoint: KandidatOglasUpdateEndpoint,
               private activatedRoute: ActivatedRoute,
               private notificationService: NotificationService,
@@ -55,9 +62,7 @@ export class CvDetailsComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.cvId = this.activatedRoute.snapshot.params["id"];
-    /*  console.log(this.cvId)
-      this.getCV();
-  */
+
     try {
       const user = await firstValueFrom(this.authService.user$.pipe(take(1)));
       if (user) {
@@ -66,14 +71,6 @@ export class CvDetailsComponent implements OnInit {
     } catch (err) {
       console.error('Error fetching user:', err);
     }
-
-   /* const savedData = localStorage.getItem('kandidatOglas');
-    if (savedData) {
-      this.kandidatOglas = JSON.parse(savedData);
-    }
-
-    //this.kandidatOglas = history.state.kandidatOglas;
-    console.log(this.cv); // Use the received data as nee*/
 
     this.kandidatOglas = history.state.kandidatOglas;
     console.log(this.kandidatOglas); // Use the received data as nee
@@ -92,27 +89,40 @@ export class CvDetailsComponent implements OnInit {
   }
 
   changeStatus(objavljen: boolean) {
-    const updateRequest: CvUpdateRequest = {
+    const updateRequest: CvUpdateStatusRequest = {
       id: this.cvId,
       objavljen: objavljen,
+      kandidatId: this.loggedUser?.id!,
     }
 
     console.log(updateRequest)
-    this.cvUpdateEndpoint.obradi(updateRequest).subscribe({
+    this.cvUpdateStatusEndpoint.obradi(updateRequest).subscribe({
       next: any => {
         if (objavljen) {
-          this.notificationService.showModalNotification(true, 'CV published', 'Your CV has been successfully published.');
+          this.notificationService.addNotification({
+            message: 'Your CV has been successfully published.',
+            type: 'success'
+          });
         } else {
-          this.notificationService.showModalNotification(true, 'CV unpublished', 'Your CV has been successfully unpublished.');
+          this.notificationService.addNotification({
+            message: 'Your CV has been successfully unpublished.',
+            type: 'success'
+          });
         }
 
-        this.router.navigateByUrl('/cv');
-
+        this.objavljen = objavljen;
       },
       error: error => {
-
+        this.notificationService.addNotification({
+          message: 'Sorry, there was mistake. Please try again..',
+          type: 'error'
+        });
       }
     })
+  }
+
+  getObjavljen(cv: CVGetByIdResponse | null) {
+    this.objavljen = cv?.objavljen ?? false;
   }
 
   confirmDelete() {
@@ -121,6 +131,7 @@ export class CvDetailsComponent implements OnInit {
   }
 
   openDeleteModal() {
+
     if (isPlatformBrowser(this.platformId)) {
       const modalElement = document.getElementById('confirmDeleteModal');
       if (modalElement) {
@@ -148,7 +159,8 @@ export class CvDetailsComponent implements OnInit {
 
   }
 
-  openPublishModal() {
+  openPublishModal(cvid: number | undefined) {
+    this.cvId = cvid ?? 1;
     if (isPlatformBrowser(this.platformId)) {
       const modalElement = document.getElementById('confirmPublishModal');
       if (modalElement) {
@@ -175,7 +187,8 @@ export class CvDetailsComponent implements OnInit {
     this.closeUnPublishModal()
   }
 
-  openUnPublishModal() {
+  openUnPublishModal(cvid: number | undefined) {
+    this.cvId = cvid ?? 1;
     if (isPlatformBrowser(this.platformId)) {
       const modalElement = document.getElementById('confirmUnPublishModal');
       if (modalElement) {
@@ -197,11 +210,20 @@ export class CvDetailsComponent implements OnInit {
     }
   }
 
-
-  //promijeniti
   delete() {
-    this.notificationService.showModalNotification(true, 'CV deleted', 'Your CV has been successfully deleted.');
-    this.router.navigateByUrl('/cv');
+
+    this.cvDeleteEndpoint.obradi(this.cv?.id!).subscribe({
+      next: any => {
+        this.notificationService.showModalNotification(true, 'CV deleted', 'Your CV has been successfully deleted.');
+        this.router.navigateByUrl('/cv');
+      },
+      error: error => {
+        this.notificationService.addNotification({
+          message: 'Sorry, there was mistake. Please try again..',
+          type: 'error'
+        });
+      }
+    })
   }
 
   confirmAccept() {
@@ -221,7 +243,10 @@ export class CvDetailsComponent implements OnInit {
 
       },
       error: error => {
-
+        this.notificationService.addNotification({
+          message: 'Sorry, there was mistake. Please try again..',
+          type: 'error'
+        });
       }
     })
 
@@ -248,5 +273,9 @@ export class CvDetailsComponent implements OnInit {
         }
       }
     }
+  }
+
+  edit(cvid: number) {
+    this.router.navigateByUrl(`/cv-create/${encodeURIComponent(cvid)}`);
   }
 }

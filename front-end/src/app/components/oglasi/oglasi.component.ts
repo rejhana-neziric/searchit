@@ -518,7 +518,8 @@ export class OglasiComponent implements OnInit {
   async getAllCV() {
     var request: CVGetRequest = {
       kandidatId: this.user.id,
-      objavljen: null
+      objavljen: null,
+      naziv: null
     };
 
     try {

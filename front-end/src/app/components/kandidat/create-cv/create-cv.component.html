@@ -1,4 +1,4 @@
-<app-navbar user = 'neregistrovani'></app-navbar>
+<app-navbar user='neregistrovani'></app-navbar>
 
 <div class="main d-flex flex-row">
 
@@ -35,12 +35,14 @@
           <hr class="m-0">
         </div>
 
-        <button *ngIf="this.previouslyCreatedCv" class="btn-confirm" style="width: 180px" (click)="importDetails()">Import Personal Details</button>
+        <button *ngIf="this.previouslyCreatedCv" class="btn-confirm" style="width: 180px" (click)="importDetails()">
+          Import Personal Details
+        </button>
       </div>
 
 
       <div class="container">
-        <form [formGroup]="form" class="form-grid" (ngSubmit)="savePersonalDetails()" autocomplete="off">
+        <form [formGroup]="form" class="form-grid" (ngSubmit)="savePersonalDetails('section2')" autocomplete="off">
 
           <div class="mt-2 mb-4 ms-2 my-3">
             <label class="required">CV Name</label>
@@ -138,9 +140,16 @@
             >Next section
             </button>
             <br>
-            <button type="button" class="btn-confirm d-flex justify-content-center align-middle"
-                    (click)="cvPreview()" >CV Preview
-            </button>
+            <div class="d-flex flex-row mt-2">
+
+              <button type="button" class="btn-cancel"
+                      (click)="cancel()">Cancel
+              </button>
+
+              <button type="button" class="btn-confirm d-flex justify-content-center align-middle"
+                      (click)="cvPreview()" [routerLink]="'/cv-preview'">CV Preview
+              </button>
+            </div>
 
           </div>
         </form>
@@ -175,9 +184,16 @@
         </div>
 
         <br>
-        <button type="button" class="btn-confirm d-flex justify-content-center align-middle"
-                (click)="cvPreview()" [routerLink]="'/cv-preview'">CV Preview
-        </button>
+        <div class="d-flex flex-row mt-2">
+
+          <button type="button" class="btn-cancel"
+                  (click)="cancel()">Cancel
+          </button>
+
+          <button type="button" class="btn-confirm d-flex justify-content-center align-middle"
+                  (click)="cvPreview()" [routerLink]="'/cv-preview'">CV Preview
+          </button>
+        </div>
 
       </div>
 
@@ -271,9 +287,16 @@
         </div>
 
         <br>
-        <button type="button" class="btn-confirm d-flex justify-content-center align-middle"
-                (click)="cvPreview()" [routerLink]="'/cv-preview'">CV Preview
-        </button>
+        <div class="d-flex flex-row mt-2">
+
+          <button type="button" class="btn-cancel"
+                  (click)="cancel()">Cancel
+          </button>
+
+          <button type="button" class="btn-confirm d-flex justify-content-center align-middle"
+                  (click)="cvPreview()" [routerLink]="'/cv-preview'">CV Preview
+          </button>
+        </div>
 
       </div>
     </div>
@@ -322,21 +345,24 @@
                   <div class="col-12 col-md-6">
                     <div class="mb-3">
                       <label for="nazivPozicije{{i}}" class="form-label required">Position:</label>
-                      <input type="text" class="form-control" id="nazivPozicije{{i}}" [(ngModel)]="employment.nazivPozicije"
+                      <input type="text" class="form-control" id="nazivPozicije{{i}}"
+                             [(ngModel)]="employment.nazivPozicije"
                              name="nazivPozicije{{i}}">
                     </div>
                   </div>
                   <div class="col-12 col-md-6">
                     <div class="mb-3">
                       <label for="datumPocetka{{i}}" class="form-label required">Start Date:</label>
-                      <input type="date" class="form-control" id="datumPocetka{{i}}" [(ngModel)]="employment.datumPocetka"
+                      <input type="date" class="form-control" id="datumPocetka{{i}}"
+                             [(ngModel)]="employment.datumPocetka"
                              name="datumPocetka{{i}}">
                     </div>
                   </div>
                   <div class="col-12 col-md-6">
                     <div class="mb-3">
                       <label for="datumZavrsetka{{i}}" class="form-label">End Date:</label>
-                      <input type="date" class="form-control" id="datumZavrsetka{{i}}" [(ngModel)]="employment.datumZavrsetka"
+                      <input type="date" class="form-control" id="datumZavrsetka{{i}}"
+                             [(ngModel)]="employment.datumZavrsetka"
                              name="datumZavrsetka{{i}}">
                     </div>
                   </div>
@@ -368,9 +394,16 @@
         </div>
 
         <br>
-        <button type="button" class="btn-confirm d-flex justify-content-center align-middle"
-                (click)="cvPreview()" [routerLink]="'/cv-preview'">CV Preview
-        </button>
+        <div class="d-flex flex-row mt-2">
+
+          <button type="button" class="btn-cancel"
+                  (click)="cancel()">Cancel
+          </button>
+
+          <button type="button" class="btn-confirm d-flex justify-content-center align-middle"
+                  (click)="cvPreview()" [routerLink]="'/cv-preview'">CV Preview
+          </button>
+        </div>
 
       </div>
     </div>
@@ -391,6 +424,7 @@
               <input
                 type="checkbox"
                 [value]="skill"
+                [checked]="selectedSkills.includes(skill)"
                 (change)="onSkillChange(skill, $event, this.selectedSkills)"
               />
               {{ skill }}
@@ -412,10 +446,16 @@
           </div>
 
           <br>
-          <button type="button" class="btn-confirm d-flex justify-content-center align-middle"
-                  (click)="cvPreview()" [routerLink]="'/cv-preview'">CV Preview
-          </button>
+          <div class="d-flex flex-row mt-2">
 
+            <button type="button" class="btn-cancel"
+                    (click)="cancel()">Cancel
+            </button>
+
+            <button type="button" class="btn-confirm d-flex justify-content-center align-middle"
+                    (click)="cvPreview()" [routerLink]="'/cv-preview'">CV Preview
+            </button>
+          </div>
         </div>
 
       </div>
@@ -438,6 +478,7 @@
               <input
                 type="checkbox"
                 [value]="technicalSkill"
+                [checked]="selectedTechnicalSkills.includes(technicalSkill)"
                 (change)="onSkillChange(technicalSkill, $event, this.selectedTechnicalSkills)"
               />
               {{ technicalSkill }}
@@ -454,14 +495,22 @@
                     (click)="selectedSectionId = 'section5'">Previous section
             </button>
             <button type="button" class="btn-confirm d-flex justify-content-center align-middle ms-2"
-                    (click)="completedSectionWithList('section6', 'section7', this.selectedTechnicalSkills)">Next section
+                    (click)="completedSectionWithList('section6', 'section7', this.selectedTechnicalSkills)">Next
+              section
             </button>
           </div>
 
           <br>
-          <button type="button" class="btn-confirm d-flex justify-content-center align-middle"
-                  (click)="cvPreview()" [routerLink]="'/cv-preview'">CV Preview
-          </button>
+          <div class="d-flex flex-row mt-2">
+
+            <button type="button" class="btn-cancel"
+                    (click)="cancel()">Cancel
+            </button>
+
+            <button type="button" class="btn-confirm d-flex justify-content-center align-middle"
+                    (click)="cvPreview()" [routerLink]="'/cv-preview'">CV Preview
+            </button>
+          </div>
 
         </div>
 
@@ -513,9 +562,16 @@
         </div>
 
         <br>
-        <button type="button" class="btn-confirm d-flex justify-content-center align-middle"
-                (click)="cvPreview()" [routerLink]="'/cv-preview'">CV Preview
-        </button>
+        <div class="d-flex flex-row mt-2">
+
+          <button type="button" class="btn-cancel"
+                  (click)="cancel()">Cancel
+          </button>
+
+          <button type="button" class="btn-confirm d-flex justify-content-center align-middle"
+                  (click)="cvPreview()" [routerLink]="'/cv-preview'">CV Preview
+          </button>
+        </div>
 
       </div>
 
@@ -529,7 +585,8 @@
       <p class="fs-3 fw-bold m-0">Websites & Social Links</p>
       <hr class="m-0">
 
-      <label class="mt-2 mb-2">Provide relevant links to your personal website, portfolio, or professional profiles.</label>
+      <label class="mt-2 mb-2">Provide relevant links to your personal website, portfolio, or professional
+        profiles.</label>
 
       <div *ngFor="let url of urls; let i = index" class="mb-3">
         <div class="url-input d-flex flex-row justify-content-between align-items-center" style="width: 95%;">
@@ -572,18 +629,34 @@
       <div class="button-section">
 
         <div class="d-flex flex-row mt-2">
+
+
           <button type="button" class="btn-confirm d-flex justify-content-center align-middle"
                   (click)="selectedSectionId = 'section7'">Previous section
           </button>
-          <button type="button" class="btn-confirm d-flex justify-content-center align-middle ms-2"
+
+
+          <button *ngIf="this.cv" type="button" class="btn-confirm d-flex justify-content-center align-middle ms-2"
                   (click)="openModal()">Create CV
+          </button>
+
+          <button *ngIf="this.cvEdit" type="button" class="btn-confirm d-flex justify-content-center align-middle ms-2"
+                  (click)="openSaveModal()">Save
           </button>
         </div>
 
         <br>
-        <button type="button" class="btn-confirm d-flex justify-content-center align-middle"
-                (click)="cvPreview()" [routerLink]="'/cv-preview'">CV Preview
-        </button>
+
+        <div class="d-flex flex-row mt-2">
+
+          <button type="button" class="btn-cancel"
+                  (click)="cancel()">Cancel
+          </button>
+
+          <button type="button" class="btn-confirm d-flex justify-content-center align-middle"
+                  (click)="cvPreview()" [routerLink]="'/cv-preview'">CV Preview
+          </button>
+        </div>
 
       </div>
 
@@ -591,12 +664,12 @@
   </div>
 
   <!-- Modal -->
-  <div class="modal fade" id="confirmSaveModal" tabindex="-1" aria-labelledby="confirmSaveModalLabel"
+  <div class="modal fade" id="confirmCreateModal" tabindex="-1" aria-labelledby="confirmCreateModalLabel"
        aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="confirmSaveModalLabel">Confirm changes</h5>
+          <h5 class="modal-title" id="confirmCreateModalLabel">Confirm changes</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -616,9 +689,32 @@
   </div>
   <!-- Modal -->
 
+
+  <!-- Modal -->
+  <div class="modal fade" id="confirmSaveModal" tabindex="-1" aria-labelledby="confirmSaveModalLabel"
+       aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="confirmSaveModalLabel">Confirm changes</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Are you sure you want to save changes?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="nav-link btn-cancel" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn-confirm"
+                  (click)="save()">Save
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal -->
+
   <!-- Websites & Social Links -->
 </div>
-
 
 
 <app-footer></app-footer>

@@ -48,32 +48,25 @@
             <span class="fw-bold fs-3" style="color: #84B59F">{{ cv.naziv }}</span>
             <br>
             <span class="fw-normal fs-6">{{ cv.profesionalniSazetak }}</span>
-            <!--<span class="fw-bold deadline pd-5 fs-6"><img src="../../../../assets/img/datum.png"
-                                                          style="height: 35px; padding-right:10px "
-                                                          alt="">{{ '2024-08-07' | date:'d.M.yyyy' }}</span>-->
             <br>
 
-            <br>
-            <!-- <span class="fw-normal fs-5" *ngFor="let iskustvo of oglas.iskustvo.$values">  {{ iskustvo.naziv }}</span>
-             <br>
-             <span class="fw-normal fs-6 job-type-location location"
-                   *ngFor="let lokacija of oglas.lokacija.$values">{{ lokacija.naziv }}</span>-->
           </div>
 
 
           <div class="d-flex flex-column justify-content-between" style="padding: 10px; order: 3; flex:2">
-            <span class="fw-normal fs-6 d-flex flex-row justify-content-end">Edited: {{ Date() | date:'d.M.yyyy' }} </span>
+            <span
+              class="fw-normal fs-6 d-flex flex-row justify-content-end">Edited: {{ Date() | date:'d.M.yyyy' }} </span>
 
             <a class="d-flex flex-row nav-link button-section">
               <button class="btn-danger"
-                      type="button" (click)="openDeleteModal()">
+                      type="button" (click)="openDeleteModal(cv)">
                 Delete
               </button>
               <button *ngIf="cv.objavljen" class="btn-confirm" type="button"
-                      style="margin-left: 10px" (click)="openUnPublishModal()">Unpublish
+                      style="margin-left: 10px" (click)="openUnPublishModal(cv?.id)">Unpublish
               </button>
               <button *ngIf="!cv.objavljen" class="btn-confirm" type="button"
-                      style="margin-left: 10px" (click)="openPublishModal()">Publish
+                      style="margin-left: 10px" (click)="openPublishModal(cv?.id)">Publish
               </button>
               <button class="btn-confirm" type="button"
                       style="margin-left: 10px" [routerLink]="['/cv-details/', cv?.id]">Details
@@ -89,7 +82,7 @@
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="confirmPublishModalLabel">Confirm Delete</h5>
+                  <h5 class="modal-title" id="confirmPublishModalLabel">Confirm Publish</h5>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -110,7 +103,7 @@
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="confirmUnPublishModalLabel">Confirm Delete</h5>
+                  <h5 class="modal-title" id="confirmUnPublishModalLabel">Confirm Unpublish</h5>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -157,7 +150,8 @@
     <span class="fs-5 mb-4">You haven't created any CVs yet.</span> <br>
     <br>
     <button class="btn-confirm"
-       style="width: 140px" [routerLink]="['/cv-create/']">Create CV</button>
+            style="width: 140px" [routerLink]="['/cv-create/']">Create CV
+    </button>
   </div>
 
   <!-- Nema rezultata pretrage  -->
@@ -184,7 +178,6 @@
   <!-- Modal -->
 
 </div>
-
 
 
 <app-footer></app-footer>

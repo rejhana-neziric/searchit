@@ -40,8 +40,8 @@ namespace JobSearchingWebApp.Endpoints.CV.GetById
                 Drzava = cv.Drzava,
                 ProfesionalniSazetak = cv.ProfesionalniSazetak, 
                 Kursevi = cv.Kursevi,   
-                Vjestine = cv.Vještine, 
-                TehnickeVjestine = cv.TehničkeVještine,
+                Vjestine = cv.Vjestine, 
+                TehnickeVjestine = cv.TehnickeVjestine,
                 Edukacija = dbContext.CVEdukacija.Where(x => x.CVId == id).Include(x => x.Edukacija).Select(e => new EdukacijaResponse
                 {
                     Id = e.EdukacijaId,

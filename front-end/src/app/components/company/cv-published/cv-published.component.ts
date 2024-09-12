@@ -102,7 +102,8 @@ export class CvPublishedComponent implements OnInit {
   async getAll() {
     this.searchObject = {
       kandidatId: null,
-      objavljen: true
+      objavljen: true,
+      naziv: null
     };
 
     try {
