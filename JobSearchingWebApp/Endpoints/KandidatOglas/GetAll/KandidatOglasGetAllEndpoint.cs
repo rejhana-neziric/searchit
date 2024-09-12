@@ -1,6 +1,8 @@
 ﻿using JobSearchingWebApp.Data;
 using JobSearchingWebApp.Endpoints.Oglas.GetAll;
 using JobSearchingWebApp.Helper;
+using JobSearchingWebApp.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,24 +13,23 @@ namespace JobSearchingWebApp.Endpoints.KandidatOglas.GetAll
     public class KandidatOglasGetAllEndpoint : MyBaseEndpoint<KandidatOglasGetAllRequest, KandidatOglasGetAllResponse>
     {
         private readonly ApplicationDbContext dbContext;
+        private readonly UserManager<Models.Korisnik> userManager;
 
-        public KandidatOglasGetAllEndpoint(ApplicationDbContext dbContext)
+        public KandidatOglasGetAllEndpoint(ApplicationDbContext dbContext, UserManager<Korisnik> userManager)
         {
             this.dbContext = dbContext;
+            this.userManager = userManager;
+
         }
-
-        public string NazivPozicije { get; set; }
-
-        public string NazivKompanije { get; set; }
-
-        public DateTime RokPrijave { get; set; }
-
-        public bool Otvoren { get; set; }
 
 
         [HttpGet]
         public override async Task<KandidatOglasGetAllResponse> MyAction([FromQuery] KandidatOglasGetAllRequest request, CancellationToken cancellationToken)
         {
+
+            var userId = userManager.GetUserId(User);
+            var user = await userManager.FindByIdAsync(userId);
+
             var kandidatOglasi = dbContext.KandidatiOglasi.Include(x => x.CV)
                                                             .ThenInclude(x => x.Kandidat)
                                                           .Include(x => x.Oglas)
@@ -49,9 +50,18 @@ namespace JobSearchingWebApp.Endpoints.KandidatOglas.GetAll
 
             if (!string.IsNullOrEmpty(request.PretragaNaziv))
             {
-                kandidatOglasi = kandidatOglasi.Where(x => x.Kandidat.Ime.ToLower().Contains(request.PretragaNaziv.ToLower())
+                if(user.UlogaId == 3)
+                {
+                    kandidatOglasi = kandidatOglasi.Where(x => x.Kandidat.Ime.ToLower().Contains(request.PretragaNaziv.ToLower())
                                             || x.Kandidat.Prezime.ToLower().Contains(request.PretragaNaziv.ToLower())
                                             || x.Kandidat.Zvanje.ToLower().Contains(request.PretragaNaziv.ToLower()));
+                }
+
+                if(user.UlogaId == 2)
+                {
+                    kandidatOglasi = kandidatOglasi.Where(x => x.Oglas.NazivPozicije.ToLower().Contains(request.PretragaNaziv.ToLower())
+                                           || x.Oglas.Kompanija.Naziv.ToLower().Contains(request.PretragaNaziv.ToLower()));
+                }
             }
 
             if(request.Spasen != null) 
@@ -59,6 +69,21 @@ namespace JobSearchingWebApp.Endpoints.KandidatOglas.GetAll
                 kandidatOglasi = kandidatOglasi.Where(x => x.Spasen == request.Spasen);
             }
 
+            if(request.Status != null)
+            {
+                kandidatOglasi = kandidatOglasi.Where(x => x.Status == request.Status);
+            }
+
+            if (request.Otvoren != null)
+            {
+                if(request.Otvoren == true)
+                    kandidatOglasi = kandidatOglasi.Where(x => x.Oglas.RokPrijave > DateTime.Now);
+
+
+                else
+                    kandidatOglasi = kandidatOglasi.Where(x => x.Oglas.RokPrijave < DateTime.Now);
+
+            }
 
             var lista = kandidatOglasi.Select(oglas => new KandidatOglasGetAllResponseKandidatOglas
             {

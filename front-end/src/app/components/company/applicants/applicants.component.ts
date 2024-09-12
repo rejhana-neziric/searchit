@@ -157,7 +157,9 @@ export class ApplicantsComponent implements OnInit{
       kandidatId: null,
       kompanijaId: this.user.id,
       pretragaNaziv: this.pretragaNaziv,
-      spasen: null
+      spasen: null,
+      status: null,
+      otvoren: null
     };
 
 

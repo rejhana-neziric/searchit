@@ -156,7 +156,9 @@ export class MyJobsComponent implements OnInit{
       kandidatId: null,
       kompanijaId: this.user.id,
       pretragaNaziv: "",
-      spasen: null
+      spasen: null,
+      status: null,
+      otvoren: null
     };
 
     try {

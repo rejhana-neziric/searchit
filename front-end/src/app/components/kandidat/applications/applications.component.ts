@@ -15,6 +15,7 @@ import {
 } from "../../../endpoints/kandidat-oglas-endpoint/get/kandidat-oglas-get-response";
 import {RouterLink} from "@angular/router";
 import {FooterComponent} from "../../footer/footer.component";
+import {StatusPrijaveGetEndpoint} from "../../../endpoints/status-prijave-endpoint/get/status-prijave-get-endpoint";
 
 declare var bootstrap: any;
 
@@ -47,8 +48,13 @@ export class ApplicationsComponent implements OnInit {
   noPosts: boolean = this.oglasi?.length == 0;
   pretragaNaziv: string = "";
   kandidat: User = {id: "", role: "", jwt: ""}
+  selectedStatus: string | null = null;
+  statusiPrijave: string[] = [];
+  statusiOglasa: boolean[] = [true, false];
+  selectedStatusOglasa: boolean | null = null;
 
   constructor(private kandidatOglasGetEndpoint: KandidatOglasGetEndpoint,
+              private statusPrijaveGetEndpoint: StatusPrijaveGetEndpoint,
               private notificationService: NotificationService,
               private authService: AuthService,
               @Inject(PLATFORM_ID) private platformId: any) {
@@ -58,6 +64,7 @@ export class ApplicationsComponent implements OnInit {
     this.setTotal();
     this.kandidat = this.authService.getLoggedUser();
     await this.getAll();
+    await this.getStatusiPrijave();
   }
 
   private setTotal() {
@@ -83,8 +90,10 @@ export class ApplicationsComponent implements OnInit {
     this.searchObject = {
       kandidatId: this.kandidat.id,
       kompanijaId: null,
-      pretragaNaziv: "",
-      spasen: null
+      pretragaNaziv: this.pretragaNaziv,
+      spasen: null,
+      status: this.selectedStatus,
+      otvoren: this.selectedStatusOglasa
     };
 
     try {
@@ -98,7 +107,16 @@ export class ApplicationsComponent implements OnInit {
   }
 
   renderOglasi() {
+    this.imaRezultataPretrage = this.oglasi?.length != 0;
+    this.setTotal();
+
     return this.oglasi;
+  }
+
+  onSearchChange(pretraga: string) {
+    this.pretragaNaziv = pretraga;
+    this.getAll();
+    this.renderOglasi();
   }
 
   confirmWithdraw() {
@@ -133,5 +151,26 @@ export class ApplicationsComponent implements OnInit {
         }
       }
     }
+  }
+
+  async getStatusiPrijave() {
+    this.statusPrijaveGetEndpoint.obradi().subscribe({
+      next: x => {
+        this.statusiPrijave = x.lista.$values
+      },
+      error: err => {
+        console.error('Error fetching skills:', err);
+      }
+    })
+  }
+
+  onStatusChange(status: string) {
+    this.selectedStatus = status;
+    this.getAll();
+  }
+
+  onStatusOglasaChange(status: boolean) {
+    this.selectedStatusOglasa = status;
+    this.getAll();
   }
 }

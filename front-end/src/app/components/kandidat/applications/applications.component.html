@@ -15,10 +15,35 @@
     <button class="btn-confirm" [routerLink]="'/jobs'">Explore jobs</button>
   </div>
 
+<div class="d-flex flex-row">
+  <div class="me-2">
+    <label for="filterDropdown" class="fs-6 me-2">Application status:</label>
+    <select id="filterDropdown" [(ngModel)]="selectedStatus" (ngModelChange)="onStatusChange($event)">
+      <option value="">All</option>
+      <option *ngFor="let option of statusiPrijave" [value]="option">
+        <p> {{ option }}
+        </p>
+      </option>
+    </select>
+  </div>
+
+  <div class="me-4 ms-5">
+    <label for="filterDropdown2" class="fs-6 me-2">Job post status:</label>
+    <select id="filterDropdown2" [(ngModel)]="selectedStatusOglasa" (ngModelChange)="onStatusOglasaChange($event)">
+      <option value="">All</option>
+      <option *ngFor="let option of statusiOglasa" [value]="option">
+        <span *ngIf="option; else closed">Opened</span>
+        <ng-template #closed>Closed</ng-template>
+      </option>
+    </select>
+  </div>
+</div>
+
 
   <!-- Search -->
   <div *ngIf="imaRezultataPretrage || pretragaNaziv != ''" class="search-box">
     <input class="form-control" type="text" [(ngModel)]="pretragaNaziv" [ngModelOptions]="{standalone: true}"
+           (ngModelChange)="onSearchChange($event)"
            placeholder="Search by position name or company name.">
     <i class="fa-solid fa-magnifying-glass"></i>
   </div>
@@ -31,8 +56,8 @@
       <div class="oglas-content d-flex flex-row align-items-center justify-content-center">
         <div style="margin-left: 20px">
 
-          <div >
-               <span  class="fs-6 d-flex flex-row">
+          <div>
+               <span class="fs-6 d-flex flex-row">
                 <div *ngIf="oglas.status != 'No status'" class="otvoren">
                                  {{ oglas.status }}
                 </div>
@@ -43,10 +68,11 @@
           </div>
 
           <span class="fw-bold fs-3" style="color: #84B59F">{{ oglas.nazivPozicije }}</span>
-          <span *ngIf="oglas.otvoren && oglas.status != 'Accepted'" class="deadline pd-5 fs-6"><img src="../../../../assets/img/datum.png"
-                                                        style="height: 35px; padding-right:10px "
-                                                        alt="">Open until: {{ oglas.rokPrijave | date:'d.M.yyyy' }}</span>
-          <span *ngIf="!oglas.otvoren" class="fs-6 d-flex flex-row deadline" >
+          <span *ngIf="oglas.otvoren && oglas.status != 'Accepted'" class="deadline pd-5 fs-6"><img
+            src="../../../../assets/img/datum.png"
+            style="height: 35px; padding-right:10px "
+            alt="">Open until: {{ oglas.rokPrijave | date:'d.M.yyyy' }}</span>
+          <span *ngIf="!oglas.otvoren" class="fs-6 d-flex flex-row deadline">
                 <div class="otvoren" style="background-color: lightgray;">
                                  Closed
                 </div>
@@ -55,16 +81,20 @@
           <span class="fw-normal fs-5">{{ oglas.nazivKompanije }}</span>
 
           <br>
-          <span class="fw-normal fs-6">CV you have send:</span> <a style="color: var(--primary-color); font-weight: bolder" [routerLink]="['/cv-details/', oglas.cvId]"> {{oglas.cvNaziv }}</a>
+          <span class="fw-normal fs-6">CV you have send:</span> <a
+          style="color: var(--primary-color); font-weight: bolder"
+          [routerLink]="['/cv-details/', oglas.cvId]"> {{ oglas.cvNaziv }}</a>
         </div>
         <a class="d-flex flex-row nav-link button-section">
           <button *ngIf="oglas.otvoren && oglas.status != 'Accepted'" class="btn-danger"
-                   type="button" (click)="openWithdrawModal()">
-            Withdraw </button>
+                  type="button" (click)="openWithdrawModal()">
+            Withdraw
+          </button>
 
 
           <button class="btn-confirm" type="button"
-                  style="margin-left: 10px" [routerLink]="['/jobs/', oglas?.oglasId]">Details</button>
+                  style="margin-left: 10px" [routerLink]="['/jobs/', oglas?.oglasId]">Details
+          </button>
         </a>
         <app-notification-toast></app-notification-toast>
       </div>
@@ -93,7 +123,13 @@
   </div>
 </div>
 
-<div *ngIf="!imaRezultataPretrage && pretragaNaziv == ''" class="p-4 border border-2 shadow bg-body-tertiary"
+<div *ngIf="!imaRezultataPretrage && selectedStatus != null" class="p-4 border border-2 shadow bg-body-tertiary"
+     style="border-color: #84B59F; border-width: 10px; background-color: #fff; border-radius: 15px; width: 65%;margin: 50px auto 300px;">
+  <span class="fs-5 mb-4">We're sorry. We were not able to find a match.</span> <br>
+</div>
+
+
+<div *ngIf="oglasi.length == 0 && selectedStatus == null && pretragaNaziv == ''" class="p-4 border border-2 shadow bg-body-tertiary"
      style="border-color: #84B59F; border-width: 10px; background-color: #fff; border-radius: 15px; width: 65%; margin: 50px auto 300px;">
   <span class="fs-5 mb-4">You haven't applied to any jobs yet.</span> <br>
   <br>

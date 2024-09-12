@@ -30,6 +30,15 @@ export class KandidatOglasGetEndpoint implements MyBaseEndpoint<KandidatOglasGet
     if (request.spasen) {
       params = params.set('spasen', request.spasen);
     }
+
+    if (request.status) {
+      params = params.set('status', request.status);
+    }
+
+    if (request.otvoren) {
+      params = params.set('otvoren', request.otvoren);
+    }
+
     return this.httpClient.get<KandidatOglasGetResponse>(url, {params});
   }
 }

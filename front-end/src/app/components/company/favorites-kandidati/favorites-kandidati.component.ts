@@ -113,7 +113,9 @@ export class FavoritesKandidatiComponent {
       kandidatId: null,
       kompanijaId: this.user.id,
       pretragaNaziv: this.pretragaNaziv,
-      spasen: true
+      spasen: true,
+      status: null,
+      otvoren: null
     };
 
     console.log(this.searchObject)
