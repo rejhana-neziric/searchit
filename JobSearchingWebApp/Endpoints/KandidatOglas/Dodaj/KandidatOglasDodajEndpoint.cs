@@ -2,39 +2,65 @@
 using JobSearchingWebApp.Endpoints.Kandidat.Dodaj;
 using JobSearchingWebApp.Helper;
 using JobSearchingWebApp.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace JobSearchingWebApp.Endpoints.KandidatOglas.Dodaj
 {
+    [Authorize(Roles = "Kandidat")]
     [Tags("Kandidat-Oglas")]
     [Route("kandidat-oglas-dodaj")]
-    public class KandidatOglasDodajEndpoint : MyBaseEndpoint<KandidatOglasDodajRequest, KandidatOglasDodajResponse>
+    public class KandidatOglasDodajEndpoint : MyBaseEndpoint<KandidatOglasDodajRequest, ActionResult<KandidatOglasDodajResponse>>
     {
         private readonly ApplicationDbContext dbContext;
+        private readonly UserManager<Models.Korisnik> userManager;
 
-        public KandidatOglasDodajEndpoint(ApplicationDbContext dbContext)
+
+        public KandidatOglasDodajEndpoint(ApplicationDbContext dbContext, UserManager<Korisnik> userManager)
         {
             this.dbContext = dbContext;
+            this.userManager = userManager;
         }
 
         [HttpPost]
-        public override async Task<KandidatOglasDodajResponse> MyAction(KandidatOglasDodajRequest request, CancellationToken cancellationToken)
+        public override async Task<ActionResult<KandidatOglasDodajResponse>> MyAction(KandidatOglasDodajRequest request, CancellationToken cancellationToken)
         {
-            var kandidat_oglas = new Models.KandidatiOglasi()
+
+            var userId = userManager.GetUserId(User);
+            var user = await userManager.FindByIdAsync(userId);
+
+            if (request.KandidatId == userId)
             {
-                KandidatId = request.KandidatId, 
-                OglasId = request.OglasId,  
-                CVId = request.CVId,
-                DatumPrijave = request.DatumPrijave,
-                Status = request.Status,    
-            };
 
-            dbContext.KandidatiOglasi.Add(kandidat_oglas);
-            await dbContext.SaveChangesAsync();
+                var kandidatOglas = dbContext.KandidatiOglasi.Where(x => x.OglasId == request.OglasId && x.KandidatId == request.KandidatId).FirstOrDefault();
 
-            return new KandidatOglasDodajResponse { Id = kandidat_oglas.Id };
+                if (kandidatOglas != null)
+                {
+                    return BadRequest(new { message = "You have already applied for this post." });
+                }
+
+                var status = StatusPrijaveExtensions.GetAllStatusPrijave().Where(x => x == "No status").FirstOrDefault();
+
+                var kandidat_oglas = new Models.KandidatiOglasi()
+                {
+                    KandidatId = request.KandidatId,
+                    OglasId = request.OglasId,
+                    CVId = request.CVId,
+                    DatumPrijave = request.DatumPrijave,
+                    Status = status
+                };
+
+                dbContext.KandidatiOglasi.Add(kandidat_oglas);
+                await dbContext.SaveChangesAsync();
+
+                return new KandidatOglasDodajResponse { Id = kandidat_oglas.Id };
+            }
+
+            else return Unauthorized(); 
         }
     }
 }

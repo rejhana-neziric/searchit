@@ -47,6 +47,7 @@ namespace JobSearchingWebApp.Endpoints.CV.UpdateStatus
                 }
 
                 cv.Objavljen = request.Objavljen; 
+                cv.DatumModificiranja = DateTime.Now;
                 
                 await dbContext.SaveChangesAsync();
 

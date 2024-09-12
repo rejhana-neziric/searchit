@@ -71,7 +71,7 @@ da klikom na apply ide na prijavu za oglas  -->
         <span>{{oglas?.opisOglasa!.benefiti}}</span>
       </div>
       <div class="d-flex flex-row ms-auto mt-5">
-        <a class="nav-link text-dark pregled-btn " href="" type="button">Apply now!</a>
+        <a class="nav-link text-dark pregled-btn " type="button" (click)="openCVModal()">Apply now!</a>
       </div>
     </div>
   </div>
@@ -79,5 +79,91 @@ da klikom na apply ide na prijavu za oglas  -->
 
 <!-- Pregled oglasa  -->
 
+<app-notification-toast></app-notification-toast>
+
+<!-- Modal -->
+<div class="modal fade" id="confirmCVModal" tabindex="-1" aria-labelledby="confirmCVModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="confirmCVModalLabel">Choose CV</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Choose CV you want to apply to job with.
+      </div>
+
+
+      <div class="modal-body cvs" *ngIf="this.cv.length > 0">
+        <div>
+          <div class="cv"
+               *ngFor="let cv of this.cv; let i = index" (click)="selectCV(cv)">
+            <div class="cv-content d-flex flex-row justify-content-between align-items-center"
+                 [class.selected]="cvIdApply === cv.id">
+              <div class="ms-4">
+
+                <span class="fw-bold fs-6" style="color: #84B59F">{{ cv.naziv }}</span>
+
+              </div>
+
+              <div>
+               <span *ngIf="cv.objavljen" class="fs-7 d-flex flex-row">
+                <div class="published">
+                                 Published
+                </div>
+              </span>
+                <span *ngIf="!cv.objavljen" class="fs-6 d-flex flex-row">
+                <div class="published" style="background-color: lightgray;">
+                                 Draft
+                </div>
+              </span>
+              </div>
+
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <!-- CV -->
+
+      <div class="modal-body">
+        <div *ngIf="cvIdApply == null" style="color: red">
+          You haven't choosen CV for your application.
+        </div>
+      </div>
+
+
+      <div class="modal-footer">
+        <button type="button" class="nav-link btn-cancel" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="nav-link btn-confirm" (click)="apply()">Continue</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal -->
+
+<!-- Modal -->
+<div class="modal fade" id="confirmApplyModal" tabindex="-1" aria-labelledby="confirmApplyModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="confirmApplyModalLabel">Confirm Application</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to apply to this job with CV {{this.selectedCV?.naziv}}?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="nav-link btn-cancel" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="nav-link btn-confirm" style="width: 110px" (click)="openCVModal()">Change CV</button>
+        <button type="button" class="nav-link btn-confirm" (click)="confirmApply()">Apply</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal -->
 
 <app-footer></app-footer>

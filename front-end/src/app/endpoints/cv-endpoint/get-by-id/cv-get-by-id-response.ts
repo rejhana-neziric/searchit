@@ -9,6 +9,7 @@ export interface CVGetByIdResponse {
   brojTelefona: string | null;
   drzava: string | null;
   grad: string | null;
+  datumModificiranja: Date,
   profesionalniSazetak: string | null;
   vjestine:  {
     $values: string[]

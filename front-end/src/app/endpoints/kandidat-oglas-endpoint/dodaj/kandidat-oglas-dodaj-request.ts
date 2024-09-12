@@ -3,5 +3,4 @@ export interface KandidatOglasDodajRequest {
   oglasId: number
   cVId: number
   datumPrijave: Date
-  status: string
 }

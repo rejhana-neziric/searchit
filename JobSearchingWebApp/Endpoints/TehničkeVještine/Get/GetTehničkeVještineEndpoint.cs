@@ -18,7 +18,7 @@ namespace JobSearchingWebApp.Endpoints.TehničkeVještine.Get
         [HttpGet]
         public override async Task<GetTehničkeVještineResponse> MyAction([FromQuery] NoRequest noRequest, CancellationToken cancellationToken)
         {
-            var ranges = TehničkeVještineExtensions.GetAllEmployeeCountRanges();
+            var ranges = TehničkeVještineExtensions.GetAllTehničkeVještine();
             return new GetTehničkeVještineResponse() { lista = ranges };
         }
     }

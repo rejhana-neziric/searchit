@@ -33,5 +33,7 @@ namespace JobSearchingWebApp.Endpoints.CV.GetAll
 
         public string? ProfesionalniSazetak { get; set; }
 
+        public DateTime DatumModificiranja { get; set; }
+
     }
 }

@@ -28,6 +28,8 @@ namespace JobSearchingWebApp.Endpoints.CV.GetById
 
         public string? ProfesionalniSazetak { get; set; }
 
+        public DateTime DatumModificiranja { get; set; }
+
         public List<string>? Vjestine { get; set; }
 
         public List<string>? TehnickeVjestine { get; set; }

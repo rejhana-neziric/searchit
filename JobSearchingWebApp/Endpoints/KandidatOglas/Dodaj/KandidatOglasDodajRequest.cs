@@ -11,7 +11,5 @@ namespace JobSearchingWebApp.Endpoints.KandidatOglas.Dodaj
         public int CVId { get; set; }
 
         public DateTime DatumPrijave { get; set; }
-
-        public string Status { get; set; }
     }
 }

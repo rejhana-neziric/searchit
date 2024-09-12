@@ -157,7 +157,7 @@ export class OglasiComponent implements OnInit {
       naziv: this.pretragaNaziv,
       tipPosla: this.selektovaniJobType,
       sortParametri: this.sortParametri,
-        kandidatId:  this.user == null ? undefined : this.user.id,
+      kandidatId:  this.user == null ? undefined : this.user.id,
       otvoren: undefined,
       objavljen: true
     };
@@ -444,7 +444,6 @@ export class OglasiComponent implements OnInit {
       kandidatId: this.user.id,
       cVId: this.cvIdApply!,
       datumPrijave: new Date(),
-      status: 'No status'
     }
 
     this.kandidatOglasDodajEndpoint.obradi(request)
@@ -454,7 +453,15 @@ export class OglasiComponent implements OnInit {
         this.notificationService.showModalNotification(true, 'Applied', 'You have successfully applied to this job.');
       },
       error: error => {
+        if (error.error instanceof Object && error.error.message) {
+          const  errorMessage = error.error.message;
+          this.notificationService.addNotification({message: errorMessage, type: 'error'});
 
+        } else {
+          const  errorMessage = typeof error.error === 'string' ? error.error : 'An unknown error occurred';
+          this.notificationService.addNotification({message: errorMessage, type: 'error'});
+
+        }
       }
     })
 

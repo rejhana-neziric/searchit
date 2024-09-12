@@ -326,6 +326,8 @@ namespace JobSearchingWebApp.Endpoints.CV.Update
                     }
                 }
 
+                cv.DatumModificiranja = DateTime.Now; 
+
                 await dbContext.SaveChangesAsync();
 
                 return new CVUpdateResponse { Id = cv.Id };

@@ -17,4 +17,5 @@ export interface CVGetResponseCV {
   grad: string | null
   zvanje: string
   profesionalniSazetak: string | null
+  datumModificiranja: Date
 }

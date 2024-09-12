@@ -45,6 +45,8 @@ namespace JobSearchingWebApp.Models
 
         public List<string>? Kursevi { get; set; }
 
+        public DateTime DatumModificiranja { get; set; }
+
         public ICollection<CVEdukacija> Edukacije { get; set; }
 
         public ICollection<CVZaposlenje> Zaposlenja { get; set; }

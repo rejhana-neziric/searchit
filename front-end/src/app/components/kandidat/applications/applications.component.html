@@ -33,7 +33,10 @@
 
           <div >
                <span  class="fs-6 d-flex flex-row">
-                <div class="otvoren">
+                <div *ngIf="oglas.status != 'No status'" class="otvoren">
+                                 {{ oglas.status }}
+                </div>
+                   <div *ngIf="oglas.status == 'No status'" class="otvoren" style="background-color: lightgray">
                                  {{ oglas.status }}
                 </div>
               </span>

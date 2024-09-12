@@ -51,7 +51,8 @@ namespace JobSearchingWebApp.Endpoints.CV.Dodaj
                     ProfesionalniSazetak = request.ProfesionalniSazetak,
                     Vjestine = request.Vjestine,
                     TehnickeVjestine = request.TehnickeVjestine,
-                    Kursevi = request.Kursevi
+                    Kursevi = request.Kursevi,
+                    DatumModificiranja = DateTime.Now,
                 };
 
                 dbContext.CV.Add(cv);

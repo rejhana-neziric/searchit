@@ -117,7 +117,7 @@
             };
         }
 
-        public static List<string> GetAllEmployeeCountRanges()
+        public static List<string> GetAllTehničkeVještine()
         {
             return Enum.GetValues(typeof(TehničkeVještine))
                        .Cast<TehničkeVještine>()

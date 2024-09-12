@@ -52,7 +52,8 @@ namespace JobSearchingWebApp.Endpoints.CV.GetAll
                 BrojTelefona = cv.BrojTelefona,
                 Grad = cv.Grad,
                 Drzava = cv.Drzava,
-                ProfesionalniSazetak = cv.ProfesionalniSazetak
+                ProfesionalniSazetak = cv.ProfesionalniSazetak,
+                DatumModificiranja = cv.DatumModificiranja
             }).ToList();
 
             return new CVGetAllResponse { CV = lista };

@@ -19,7 +19,7 @@ namespace JobSearchingWebApp.Endpoints.Vjestina.Get
         [HttpGet]
         public override async Task<GetVještineResponse> MyAction([FromQuery] NoRequest noRequest, CancellationToken cancellationToken)
         {
-            var ranges = VještineExtensions.GetAllEmployeeCountRanges();
+            var ranges = VještineExtensions.GetAllVještine();
             return new GetVještineResponse() { lista = ranges };
         }
     }

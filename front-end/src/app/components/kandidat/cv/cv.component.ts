@@ -6,25 +6,18 @@ import {Router, RouterLink} from "@angular/router";
 import {FormsModule} from "@angular/forms";
 import {NgxPaginationModule} from "ngx-pagination";
 import {NotificationToastComponent} from "../../notifications/notification-toast/notification-toast.component";
-import {OglasGetResponseOglasi} from "../../../endpoints/oglas-endpoint/get/oglas-get-response";
-import {OglasGetRequest} from "../../../endpoints/oglas-endpoint/get/oglas-get-request";
 import {User} from "../../../modals/user";
-import {OglasGetEndpoint} from "../../../endpoints/oglas-endpoint/get/oglas-get-endpoint";
-import {
-  KandidatSpaseniOglasiUpdateEndpoint
-} from "../../../endpoints/kandidat-spaseni-oglasi-endpoint/update/kandidat-spaseni-oglasi-update-endpoint";
 import {NotificationService} from "../../../services/notification-service";
 import {AuthService} from "../../../services/auth-service";
 import {firstValueFrom} from "rxjs";
 import {CVGetResponse, CVGetResponseCV} from "../../../endpoints/cv-endpoint/get/cv-get-response";
 import {CVGetRequest} from "../../../endpoints/cv-endpoint/get/cv-get-request";
 import {CVGetEndpoint} from "../../../endpoints/cv-endpoint/get/cv-get-endpoint";
-import {CvUpdateRequest} from "../../../endpoints/cv-endpoint/update/cv-update-request";
-import {CVUpdateEndpoint} from "../../../endpoints/cv-endpoint/update/cv-update-endpoint";
 import {FooterComponent} from "../../footer/footer.component";
+import {CvDeleteEndpoint} from "../../../endpoints/cv-endpoint/delete/cv-delete-endpoint";
 import {CvUpdateStatusEndpoint} from "../../../endpoints/cv-endpoint/update-status/cv-update-status-endpoint";
 import {CvUpdateStatusRequest} from "../../../endpoints/cv-endpoint/update-status/cv-update-status-request";
-import {CvDeleteEndpoint} from "../../../endpoints/cv-endpoint/delete/cv-delete-endpoint";
+
 
 declare var bootstrap: any;
 

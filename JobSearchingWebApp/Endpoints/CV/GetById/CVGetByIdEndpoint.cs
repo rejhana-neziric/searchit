@@ -39,6 +39,7 @@ namespace JobSearchingWebApp.Endpoints.CV.GetById
                 Grad = cv.Grad,
                 Drzava = cv.Drzava,
                 ProfesionalniSazetak = cv.ProfesionalniSazetak, 
+                DatumModificiranja = cv.DatumModificiranja,
                 Kursevi = cv.Kursevi,   
                 Vjestine = cv.Vjestine, 
                 TehnickeVjestine = cv.TehnickeVjestine,
