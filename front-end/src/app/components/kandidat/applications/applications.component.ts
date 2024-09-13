@@ -16,6 +16,9 @@ import {
 import {RouterLink} from "@angular/router";
 import {FooterComponent} from "../../footer/footer.component";
 import {StatusPrijaveGetEndpoint} from "../../../endpoints/status-prijave-endpoint/get/status-prijave-get-endpoint";
+import {
+  KandidatOglasDeleteEndpoint
+} from "../../../endpoints/kandidat-oglas-endpoint/delete/kandidat-oglas-delete-endpoint";
 
 declare var bootstrap: any;
 
@@ -52,9 +55,11 @@ export class ApplicationsComponent implements OnInit {
   statusiPrijave: string[] = [];
   statusiOglasa: boolean[] = [true, false];
   selectedStatusOglasa: boolean | null = null;
+  selectedOglasId: number | null = null;
 
   constructor(private kandidatOglasGetEndpoint: KandidatOglasGetEndpoint,
               private statusPrijaveGetEndpoint: StatusPrijaveGetEndpoint,
+              private kandidatOglasDeleteEndpoint: KandidatOglasDeleteEndpoint,
               private notificationService: NotificationService,
               private authService: AuthService,
               @Inject(PLATFORM_ID) private platformId: any) {
@@ -120,18 +125,26 @@ export class ApplicationsComponent implements OnInit {
   }
 
   confirmWithdraw() {
-    console.log('pozvan withdraw')
-    this.oglasi.shift();
-    this.imaRezultataPretrage = this.oglasi?.length != 0;
-    this.notificationService.addNotification({
-      message: 'Application has successfully been withdrawn.',
-      type: 'success'
-    });
-    this.renderOglasi();
+
+    this.kandidatOglasDeleteEndpoint.obradi(this.selectedOglasId!).subscribe({
+      next: any => {
+        this.notificationService.addNotification({message: 'Your CV has been successfully deleted.', type: 'success'});
+        this.imaRezultataPretrage = this.oglasi?.length != 0;
+        this.getAll();
+      },
+      error: error => {
+        this.notificationService.addNotification({
+          message: 'Sorry, there was mistake. Please try again..',
+          type: 'error'
+        });
+      }
+    })
+
     this.closeWithdrawModal()
   }
 
-  openWithdrawModal() {
+  openWithdrawModal(id: number) {
+    this.selectedOglasId = id;
     if (isPlatformBrowser(this.platformId)) {
       const modalElement = document.getElementById('confirmWirhdraxModal');
       if (modalElement) {

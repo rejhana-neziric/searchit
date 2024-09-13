@@ -87,7 +87,7 @@
         </div>
         <a class="d-flex flex-row nav-link button-section">
           <button *ngIf="oglas.otvoren && oglas.status != 'Accepted'" class="btn-danger"
-                  type="button" (click)="openWithdrawModal()">
+                  type="button" (click)="openWithdrawModal(oglas.id)">
             Withdraw
           </button>
 

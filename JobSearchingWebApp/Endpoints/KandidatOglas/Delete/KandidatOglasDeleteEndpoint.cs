@@ -1,37 +1,56 @@
-﻿using JobSearchingWebApp.Data;
+﻿using Azure.Core;
+using JobSearchingWebApp.Data;
+using JobSearchingWebApp.Endpoints.CV.Delete;
 using JobSearchingWebApp.Endpoints.Kandidat.Delete;
 using JobSearchingWebApp.Helper;
+using JobSearchingWebApp.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace JobSearchingWebApp.Endpoints.KandidatOglas.Delete
 {
+    [Authorize(Roles = "Admin, Kandidat")]
     [Tags("Kandidat-Oglas")]
     [Route("kandidat-oglas-delete")]
-    public class KandidatOglasDeleteEndpoint : MyBaseEndpoint<KandidatOglasDeleteRequest, KandidatOglasDeleteResponse>
+    public class KandidatOglasDeleteEndpoint : MyBaseEndpoint<int, ActionResult<KandidatOglasDeleteResponse>>
     {
         private readonly ApplicationDbContext dbContext;
+        private readonly UserManager<Models.Korisnik> userManager;
 
-        public KandidatOglasDeleteEndpoint(ApplicationDbContext dbContext)
+        public KandidatOglasDeleteEndpoint(ApplicationDbContext dbContext, UserManager<Models.Korisnik> userManager)
         {
             this.dbContext = dbContext;
+            this.userManager = userManager;
         }
 
-        [HttpDelete]
-        public override async Task<KandidatOglasDeleteResponse> MyAction([FromQuery]KandidatOglasDeleteRequest request, CancellationToken cancellationToken)
+        [HttpDelete("{id}")]
+        public override async Task<ActionResult<KandidatOglasDeleteResponse>> MyAction(int id, CancellationToken cancellationToken)
         {
-            var kandidat_oglas = dbContext.KandidatiOglasi.FirstOrDefault(x => x.Id == request.kandidat_oglas_id);
 
-            if (kandidat_oglas == null)
+            var userId = userManager.GetUserId(User);
+            var user = await userManager.FindByIdAsync(userId);
+
+            var kandidatOglas = dbContext.KandidatiOglasi.FirstOrDefault(x => x.Id == id);
+
+            if (kandidatOglas == null)
             {
-                throw new Exception("Nije pronađen kandidat_oglas sa ID " + request.kandidat_oglas_id);
+                return NotFound(new { message = "Application doesn't exist."});
             }
 
-            dbContext.Remove(kandidat_oglas);
-            await dbContext.SaveChangesAsync();
+            if (kandidatOglas.KandidatId == userId || user.UlogaId == 1)
+            {
 
-            return new KandidatOglasDeleteResponse() { };
+                dbContext.Remove(kandidatOglas);
+                await dbContext.SaveChangesAsync();
+
+                return new KandidatOglasDeleteResponse() { };
+
+            }
+
+            else return Unauthorized();
         }
     }
 }
