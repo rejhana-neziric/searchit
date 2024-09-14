@@ -28,23 +28,23 @@ import {RouterLink} from "@angular/router";
 import { isPlatformBrowser } from '@angular/common';
 import {AuthService} from "../../../services/auth-service";
 import {User} from "../../../modals/user";
-
-declare var bootstrap: any;
-
+import {ModalComponent} from "../../modal/modal.component";
+import {ModalService} from "../../../services/modal-service";
 
 @Component({
   selector: 'app-favorites-kompanije',
   standalone: true,
-  imports: [
-    DatePipe,
-    NgForOf,
-    NgIf,
-    NgxPaginationModule,
-    NotificationToastComponent,
-    ReactiveFormsModule,
-    FormsModule,
-    RouterLink
-  ],
+    imports: [
+        DatePipe,
+        NgForOf,
+        NgIf,
+        NgxPaginationModule,
+        NotificationToastComponent,
+        ReactiveFormsModule,
+        FormsModule,
+        RouterLink,
+        ModalComponent
+    ],
   templateUrl: './favorites-kompanije.component.html',
   styleUrl: './favorites-kompanije.component.css'
 })
@@ -59,13 +59,18 @@ export class FavoritesKompanijeComponent {
   noCompanies: boolean = this.kompanije?.length == 0;
   pretragaNaziv: string = "";
   kandidat: User = {id: "", role: "", jwt: ""}
-
   imageUrl: string | ArrayBuffer | null = '';
+
+  unsaveButtons = [
+    { text: 'Cancel', class: 'btn-cancel', action: () => this.closeUnSaveModal() },
+    { text: 'Unsave', class: 'btn-confirm', action: () => this.confirmUnSave() }
+  ];
 
   constructor(private kompanijeGetEndpoint: KompanijeGetEndpoint,
               private kandidatSpaseneKompanijeUpdateEndpoint: KandidatSpaseneKompanijeUpdateEndpoint,
               private notificationService: NotificationService,
               private authService: AuthService,
+              private modalService: ModalService,
               @Inject(PLATFORM_ID) private platformId: any) {
   }
 
@@ -114,8 +119,6 @@ export class FavoritesKompanijeComponent {
       console.log(error);
       this.kompanije = [];
     }
-
-    console.log(this.imaRezultataPretrage);
   }
 
   renderKompanije() {
@@ -140,36 +143,21 @@ export class FavoritesKompanijeComponent {
     }
 
     await this.getAll();
-
     this.renderKompanije();
   }
 
-  confirmUnsave() {
-    this.unsaveKompanija(this.selectedCompany);
-    this.closeModal();
-  }
-
-  openUnsaveModal(company: any) {
+  openUnSaveModal(company: any) {
     this.selectedCompany = company;
-    if (isPlatformBrowser(this.platformId)) {
-      const modalElement = document.getElementById('confirmUnsaveModal');
-      if (modalElement) {
-        const modal = new bootstrap.Modal(modalElement);
-        modal.show();
-      }
-    }
+    this.modalService.openModal('unsaveModal', 'Confirm Unsave', 'Are you sure you want to unsave this company?', []);
   }
 
-  closeModal() {
-    if (isPlatformBrowser(this.platformId)) {
-      const modalElement = document.getElementById('confirmUnsaveModal');
-      if (modalElement) {
-        const modal = bootstrap.Modal.getInstance(modalElement);
-        if (modal) {
-          modal.hide();
-        }
-      }
-    }
+  async closeUnSaveModal() {
+    await this.modalService.closeModal('unsaveModal');
+  }
+
+  async confirmUnSave() {
+    this.unsaveKompanija(this.selectedCompany);
+    await this.modalService.closeModal('unsaveModal');
   }
 
   ucitajLogo(logo: string | ArrayBuffer | null){

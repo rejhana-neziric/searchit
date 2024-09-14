@@ -14,24 +14,26 @@ import {KandidatUpdateEndpoint} from "../../../endpoints/kandidat-endpoint/updat
 import {NotificationService} from "../../../services/notification-service";
 import {NotificationToastComponent} from "../../notifications/notification-toast/notification-toast.component";
 import {KandidatDeleteEndpoint} from "../../../endpoints/kandidat-endpoint/delete/kandidat-delete-endpoint";
-
-declare var bootstrap: any;
+import {ModalComponent} from "../../modal/modal.component";
+import {CVGetResponseCV} from "../../../endpoints/cv-endpoint/get/cv-get-response";
+import {ModalService} from "../../../services/modal-service";
 
 @Component({
   selector: 'app-account-details-candidate',
   standalone: true,
-  imports: [
-    NavbarComponent,
-    FooterComponent,
-    NgForOf,
-    NgIf,
-    ReactiveFormsModule,
-    RouterLink,
-    FormsModule,
-    NgClass,
-    DatePipe,
-    NotificationToastComponent
-  ],
+    imports: [
+        NavbarComponent,
+        FooterComponent,
+        NgForOf,
+        NgIf,
+        ReactiveFormsModule,
+        RouterLink,
+        FormsModule,
+        NgClass,
+        DatePipe,
+        NotificationToastComponent,
+        ModalComponent
+    ],
   templateUrl: './account-details-candidate.component.html',
   styleUrl: './account-details-candidate.component.css'
 })
@@ -44,12 +46,24 @@ export class AccountDetailsCandidateComponent implements OnInit {
   loggedUser: KandidatGetByIdResponse | null = null;
   updateUser: KandidatUpdateRequest | null = null;
 
+  deleteButtons = [
+    { text: 'Cancel', class: 'btn-cancel', action: () => this.closeDeleteModal() },
+    { text: 'Delete', class: 'btn-danger', action: () => this.confirmDelete() }
+  ];
+
+  saveButtons = [
+    { text: 'Cancel', class: 'btn-cancel', action: () => this.closeSaveModal() },
+    { text: 'Save', class: 'btn-confirm', action: () => this.confirmSave() }
+  ];
+
+
   constructor(private formBuilder: FormBuilder,
               private kandidatGetByIdEndpoint: KandidatGetByIdEndpoint,
               private kandidatUpdateEndpoint: KandidatUpdateEndpoint,
               private authService: AuthService,
               private notificationService: NotificationService,
               private kandidatDeleteEndpoint: KandidatDeleteEndpoint,
+              private modalService: ModalService,
               private router: Router,
               @Inject(PLATFORM_ID) private platformId: any) {
   }
@@ -145,62 +159,33 @@ export class AccountDetailsCandidateComponent implements OnInit {
     )
   }
 
-  confirm() {
-    this.closeModal();
+  openDeleteModal() {
+    this.modalService.openModal('deleteModal', 'Confirm Delete', 'Are you sure you want to delete account?', []);
+  }
 
+  async closeDeleteModal() {
+    await this.modalService.closeModal('deleteModal');
+  }
+
+  async confirmDelete() {
+    this.delete();
+    await this.modalService.closeModal('deleteModal');
+  }
+
+  openSaveModal() {
+    this.modalService.openModal('saveModal', 'Confirm Changes', 'Are you sure you want to save changes?', []);
+  }
+
+  async closeSaveModal() {
+    await this.modalService.closeModal('saveModal');
+  }
+
+  async confirmSave() {
     if (this.candidateForm.valid) {
       this.save();
+      await this.modalService.closeModal('saveModal');
     } else {
       this.notificationService.addNotification({message: 'Invalid data', type: 'error'});
-    }
-  }
-
-  openModal() {
-    if (isPlatformBrowser(this.platformId)) {
-      const modalElement = document.getElementById('confirmUnsaveModal');
-      if (modalElement) {
-        const modal = new bootstrap.Modal(modalElement);
-        modal.show();
-      }
-    }
-  }
-
-  closeModal() {
-    if (isPlatformBrowser(this.platformId)) {
-      const modalElement = document.getElementById('confirmUnsaveModal');
-      if (modalElement) {
-        const modal = bootstrap.Modal.getInstance(modalElement);
-        if (modal) {
-          modal.hide();
-        }
-      }
-    }
-  }
-
-  confirmDelete() {
-    this.closeDeleteModal();
-    this.delete();
-  }
-
-  openDeleteModal() {
-    if (isPlatformBrowser(this.platformId)) {
-      const modalElement = document.getElementById('confirmDeleteModal');
-      if (modalElement) {
-        const modal = new bootstrap.Modal(modalElement);
-        modal.show();
-      }
-    }
-  }
-
-  closeDeleteModal() {
-    if (isPlatformBrowser(this.platformId)) {
-      const modalElement = document.getElementById('confirmDeleteModal');
-      if (modalElement) {
-        const modal = bootstrap.Modal.getInstance(modalElement);
-        if (modal) {
-          modal.hide();
-        }
-      }
     }
   }
 }

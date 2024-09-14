@@ -22,6 +22,9 @@ import {CvUpdateStatusRequest} from "../../../endpoints/cv-endpoint/update-statu
 import {CvUpdateStatusEndpoint} from "../../../endpoints/cv-endpoint/update-status/cv-update-status-endpoint";
 import {NotificationToastComponent} from "../../notifications/notification-toast/notification-toast.component";
 import {CvDeleteEndpoint} from "../../../endpoints/cv-endpoint/delete/cv-delete-endpoint";
+import {ModalComponent} from "../../modal/modal.component";
+import {CVGetResponseCV} from "../../../endpoints/cv-endpoint/get/cv-get-response";
+import {ModalService} from "../../../services/modal-service";
 
 declare var bootstrap: any;
 
@@ -35,7 +38,8 @@ declare var bootstrap: any;
     NgIf,
     RouterLink,
     FooterComponent,
-    NotificationToastComponent
+    NotificationToastComponent,
+    ModalComponent
   ],
   templateUrl: './cv-details.component.html',
   styleUrl: './cv-details.component.css'
@@ -49,12 +53,33 @@ export class CvDetailsComponent implements OnInit {
   kandidatOglas: any
   objavljen: boolean = false;
 
+  deleteButtons = [
+    {text: 'Cancel', class: 'btn-cancel', action: () => this.closeDeleteModal()},
+    {text: 'Delete', class: 'btn-danger', action: () => this.confirmDelete()}
+  ];
+
+  publishButtons = [
+    {text: 'Cancel', class: 'btn-cancel', action: () => this.closePublishModal()},
+    {text: 'Publish', class: 'btn-confirm', action: () => this.confirmPublish()}
+  ];
+
+  unpublishButtons = [
+    {text: 'Cancel', class: 'btn-cancel', action: () => this.closeUnPublishModal()},
+    {text: 'Unpublish', class: 'btn-confirm', action: () => this.confirmUnPublish()}
+  ];
+
+  acceptButtons = [
+    {text: 'Cancel', class: 'btn-cancel', action: () => this.closeAcceptModal()},
+    {text: 'Accept', class: 'btn-confirm', action: () => this.confirmAccept()}
+  ];
+
   constructor(private cvGetByIdEndpoint: CVGetByIdEndpoint,
               private cvDeleteEndpoint: CvDeleteEndpoint,
               private cvUpdateStatusEndpoint: CvUpdateStatusEndpoint,
               private kandidatOglasUpdateEndpoint: KandidatOglasUpdateEndpoint,
               private activatedRoute: ActivatedRoute,
               private notificationService: NotificationService,
+              private modalService: ModalService,
               private router: Router,
               private authService: AuthService,
               @Inject(PLATFORM_ID) private platformId: any) {
@@ -73,8 +98,6 @@ export class CvDetailsComponent implements OnInit {
     }
 
     this.kandidatOglas = history.state.kandidatOglas;
-    console.log(this.kandidatOglas); // Use the received data as nee
-
     this.getCV();
   }
 
@@ -125,93 +148,48 @@ export class CvDetailsComponent implements OnInit {
     this.objavljen = cv?.objavljen ?? false;
   }
 
-  confirmDelete() {
-    this.delete();
-    this.closeModal();
-  }
-
   openDeleteModal() {
-
-    if (isPlatformBrowser(this.platformId)) {
-      const modalElement = document.getElementById('confirmDeleteModal');
-      if (modalElement) {
-        const modal = new bootstrap.Modal(modalElement);
-        modal.show();
-      }
-    }
+    this.modalService.openModal('deleteModal', 'Confirm Delete', 'Are you sure you want to delete this item?', []);
   }
 
-  closeModal() {
-    if (isPlatformBrowser(this.platformId)) {
-      const modalElement = document.getElementById('confirmDeleteModal');
-      if (modalElement) {
-        const modal = bootstrap.Modal.getInstance(modalElement);
-        if (modal) {
-          modal.hide();
-        }
-      }
-    }
+  async closeDeleteModal() {
+    await this.modalService.closeModal('deleteModal');
   }
 
-  confirmPublish() {
-    this.changeStatus(true);
-    this.closePublishModal()
-
+  async confirmDelete() {
+    this.delete();
+    await this.modalService.closeModal('deleteModal');
   }
 
   openPublishModal(cvid: number | undefined) {
     this.cvId = cvid ?? 1;
-    if (isPlatformBrowser(this.platformId)) {
-      const modalElement = document.getElementById('confirmPublishModal');
-      if (modalElement) {
-        const modal = new bootstrap.Modal(modalElement);
-        modal.show();
-      }
-    }
+    this.modalService.openModal('publishModal', 'Confirm Publish', 'Are you sure you want to publish this CV?', []);
   }
 
-  closePublishModal() {
-    if (isPlatformBrowser(this.platformId)) {
-      const modalElement = document.getElementById('confirmPublishModal');
-      if (modalElement) {
-        const modal = bootstrap.Modal.getInstance(modalElement);
-        if (modal) {
-          modal.hide();
-        }
-      }
-    }
+  async closePublishModal() {
+    await this.modalService.closeModal('publishModal');
   }
 
-  confirmUnPublish() {
-    this.changeStatus(false);
-    this.closeUnPublishModal()
+  async confirmPublish() {
+    this.changeStatus(true);
+    await this.modalService.closeModal('publishModal');
   }
 
   openUnPublishModal(cvid: number | undefined) {
     this.cvId = cvid ?? 1;
-    if (isPlatformBrowser(this.platformId)) {
-      const modalElement = document.getElementById('confirmUnPublishModal');
-      if (modalElement) {
-        const modal = new bootstrap.Modal(modalElement);
-        modal.show();
-      }
-    }
+    this.modalService.openModal('unpublishModal', 'Confirm Unublish', 'Are you sure you want to unpublish this CV?', []);
   }
 
-  closeUnPublishModal() {
-    if (isPlatformBrowser(this.platformId)) {
-      const modalElement = document.getElementById('confirmUnPublishModal');
-      if (modalElement) {
-        const modal = bootstrap.Modal.getInstance(modalElement);
-        if (modal) {
-          modal.hide();
-        }
-      }
-    }
+  async closeUnPublishModal() {
+    await this.modalService.closeModal('unpublishModal');
+  }
+
+  async confirmUnPublish() {
+    this.changeStatus(false);
+    await this.modalService.closeModal('unpublishModal');
   }
 
   delete() {
-
     this.cvDeleteEndpoint.obradi(this.cv?.id!).subscribe({
       next: any => {
         this.notificationService.showModalNotification(true, 'CV deleted', 'Your CV has been successfully deleted.');
@@ -226,7 +204,7 @@ export class CvDetailsComponent implements OnInit {
     })
   }
 
-  confirmAccept() {
+  accept() {
     var request: KandidatOglasUpdateRequest = {
       id: this.kandidatOglas.id,
       kompanijaId: this.kandidatOglas.kompanijaId,
@@ -249,30 +227,19 @@ export class CvDetailsComponent implements OnInit {
         });
       }
     })
-
-    this.closeAcceptModal();
   }
 
   openAcceptModal() {
-    if (isPlatformBrowser(this.platformId)) {
-      const modalElement = document.getElementById('confirmAccept');
-      if (modalElement) {
-        const modal = new bootstrap.Modal(modalElement);
-        modal.show();
-      }
-    }
+    this.modalService.openModal('acceptModal', 'Confirm Acception', 'Are you sure you want to accept this applicant?', []);
   }
 
-  closeAcceptModal() {
-    if (isPlatformBrowser(this.platformId)) {
-      const modalElement = document.getElementById('confirmAccept');
-      if (modalElement) {
-        const modal = bootstrap.Modal.getInstance(modalElement);
-        if (modal) {
-          modal.hide();
-        }
-      }
-    }
+  async closeAcceptModal() {
+    await this.modalService.closeModal('acceptModal');
+  }
+
+  async confirmAccept() {
+    this.accept();
+    await this.modalService.closeModal('acceptModal');
   }
 
   edit(cvid: number) {

@@ -1,0 +1,30 @@
+<div class="modal fade" [attr.id]="modalId" tabindex="-1" [attr.aria-labelledby]="modalId + 'Label'" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" [attr.id]="modalId + 'Label'">{{ title }}</h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="close()"></button>
+      </div>
+      <div class="modal-body">
+        <p>{{ body }}</p>
+        <!-- Extra content for specific modals -->
+        <ng-content></ng-content>
+      </div>
+      <div class="modal-footer">
+        <button
+          *ngFor="let button of buttons"
+          type="button"
+          class="btn"
+          [ngClass]="button.class"
+          (click)="handleButtonClick(button.action)"
+        >
+          {{ button.text }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+

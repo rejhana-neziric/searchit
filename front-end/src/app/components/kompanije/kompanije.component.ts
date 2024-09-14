@@ -33,10 +33,6 @@ import {AuthService} from "../../services/auth-service";
 import {User} from "../../modals/user";
 import {FooterComponent} from "../footer/footer.component";
 
-
-declare var bootstrap: any;
-
-
 @Component({
   selector: 'app-kompanije',
   standalone: true,
@@ -56,7 +52,7 @@ declare var bootstrap: any;
   templateUrl: './kompanije.component.html',
   styleUrl: './kompanije.component.css'
 })
-export class KompanijeComponent implements OnInit{
+export class KompanijeComponent implements OnInit {
 
   kompanije: KompanijeGetResponseKomapanija [] = []
   brojZaposlenihRange: string[] = [];
@@ -68,7 +64,7 @@ export class KompanijeComponent implements OnInit{
   itemsPerPage: number = 5;
   currentPage: number = 1;
   total: number = 10;
-  kompanijaZaPrikaz: KompanijeGetResponseKomapanija |  null = null;
+  kompanijaZaPrikaz: KompanijeGetResponseKomapanija | null = null;
   searchObject: KompanijeGetRequest | null = null
   odabranaKompanijaId: string = "";
   odabranaKompanija: KompanijaGetByIdResponse | null = null;
@@ -83,7 +79,7 @@ export class KompanijeComponent implements OnInit{
   kandidat: User = {id: "", role: "", jwt: ""}
   imageUrl: string | ArrayBuffer | null = '';
 
-  constructor(private getBrojZaposlenihEndpoint : GetBrojZaposlenihEndpoint,
+  constructor(private getBrojZaposlenihEndpoint: GetBrojZaposlenihEndpoint,
               private kompanijeGetEndpoint: KompanijeGetEndpoint,
               private kompanijaGetByIdEndpoint: KompanijaGetByIdEndpoint,
               private kandidatSpaseneKompanijeDodajEndpoint: KandidatSpaseneKompanijeDodajEndpoint,
@@ -279,13 +275,13 @@ export class KompanijeComponent implements OnInit{
 
     console.log(this.imaOtvorenePozicijeLista);
 
-    if(this.imaOtvorenePozicijeLista.length > 1 || this.imaOtvorenePozicijeLista.length == 0)
+    if (this.imaOtvorenePozicijeLista.length > 1 || this.imaOtvorenePozicijeLista.length == 0)
       this.imaOtvorenePozicije = undefined;
 
-    else if(this.imaOtvorenePozicijeLista[0] == 'Positions available')
+    else if (this.imaOtvorenePozicijeLista[0] == 'Positions available')
       this.imaOtvorenePozicije = 'Positions available';
 
-    else if(this.imaOtvorenePozicijeLista[0] == 'No open positions')
+    else if (this.imaOtvorenePozicijeLista[0] == 'No open positions')
       this.imaOtvorenePozicije = 'No open positions';
 
     console.log(this.imaOtvorenePozicije);
@@ -393,39 +389,14 @@ export class KompanijeComponent implements OnInit{
   }
 
   promijeniStatus(kompanija: KompanijeGetResponseKomapanija) {
-      if (kompanija.spasen == false) {
-        this.saveKompanija(kompanija);
-      }
-      else {
-        this.unsaveKompanija(kompanija, false);
-      }
-  }
-
-  confirmUnsave() {
-    this.unsaveKompanija(this.selectedCompany, false);
-    this.closeModal();
-  }
-
-  openUnsaveModal(company: any) {
-    this.selectedCompany = company;
-    const modalElement = document.getElementById('confirmUnsaveModal');
-    if (modalElement) {
-      const modal = new bootstrap.Modal(modalElement);
-      modal.show();
+    if (kompanija.spasen == false) {
+      this.saveKompanija(kompanija);
+    } else {
+      this.unsaveKompanija(kompanija, false);
     }
   }
 
-  closeModal() {
-    const modalElement = document.getElementById('confirmUnsaveModal');
-    if (modalElement) {
-      const modal = bootstrap.Modal.getInstance(modalElement);
-      if (modal) {
-        modal.hide();
-      }
-    }
-  }
-
-  ucitajLogo(logo: string | ArrayBuffer | null){
+  ucitajLogo(logo: string | ArrayBuffer | null) {
     this.imageUrl = `data:image/jpeg;base64,${logo}`;
     return this.imageUrl;
   }

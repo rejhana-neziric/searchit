@@ -21,25 +21,26 @@ import {MatButtonToggle, MatButtonToggleGroup} from "@angular/material/button-to
 import { isPlatformBrowser } from '@angular/common';
 import {User} from "../../../modals/user";
 import {AuthService} from "../../../services/auth-service";
-
-declare var bootstrap: any;
+import {ModalComponent} from "../../modal/modal.component";
+import {ModalService} from "../../../services/modal-service";
 
 @Component({
   selector: 'app-favorites-oglasi',
   standalone: true,
-  imports: [
-    DatePipe,
-    NavbarComponent,
-    NgForOf,
-    NgIf,
-    NgxPaginationModule,
-    NotificationToastComponent,
-    ReactiveFormsModule,
-    RouterLink,
-    FormsModule,
-    MatButtonToggleGroup,
-    MatButtonToggle
-  ],
+    imports: [
+        DatePipe,
+        NavbarComponent,
+        NgForOf,
+        NgIf,
+        NgxPaginationModule,
+        NotificationToastComponent,
+        ReactiveFormsModule,
+        RouterLink,
+        FormsModule,
+        MatButtonToggleGroup,
+        MatButtonToggle,
+        ModalComponent
+    ],
   templateUrl: './favorites-oglasi.component.html',
   styleUrl: './favorites-oglasi.component.css'
 })
@@ -55,10 +56,17 @@ export class FavoritesOglasiComponent implements OnInit{
   pretragaNaziv: string = "";
   kandidat: User = {id: "", role: "", jwt: ""}
   imageUrl: string | ArrayBuffer | null = '';
+
+  unsaveButtons = [
+    { text: 'Cancel', class: 'btn-cancel', action: () => this.closeUnSaveModal() },
+    { text: 'Unsave', class: 'btn-confirm', action: () => this.confirmUnSave() }
+  ];
+
   constructor(private oglasGetAllEndpoint: OglasGetEndpoint,
               private kandidatSpaseniOglasiUpdateEndpoint: KandidatSpaseniOglasiUpdateEndpoint,
               private notificationService: NotificationService,
               private authService: AuthService,
+              private modalService: ModalService,
               @Inject(PLATFORM_ID) private platformId: any) {
   }
 
@@ -137,32 +145,18 @@ export class FavoritesOglasiComponent implements OnInit{
     this.renderOglasi();
   }
 
-  confirmUnsave() {
+  openUnSaveModal(post: any) {
+  this.selectedPost = post;
+    this.modalService.openModal('unsaveModal', 'Confirm Unsave', 'Are you sure you want to unsave this job post?', []);
+  }
+
+  async closeUnSaveModal() {
+    await this.modalService.closeModal('unsaveModal');
+  }
+
+  async confirmUnSave() {
     this.unsaveOglas(this.selectedPost);
-    this.closeModal();
-  }
-
-  openUnsaveModal(post: any) {
-    this.selectedPost = post;
-    if (isPlatformBrowser(this.platformId)) {
-      const modalElement = document.getElementById('confirmUnsaveModal');
-      if (modalElement) {
-        const modal = new bootstrap.Modal(modalElement);
-        modal.show();
-      }
-    }
-  }
-
-  closeModal() {
-    if (isPlatformBrowser(this.platformId)) {
-      const modalElement = document.getElementById('confirmUnsaveModal');
-      if (modalElement) {
-        const modal = bootstrap.Modal.getInstance(modalElement);
-        if (modal) {
-          modal.hide();
-        }
-      }
-    }
+    await this.modalService.closeModal('unsaveModal');
   }
 
   ucitajLogo(logo: string | ArrayBuffer | null){

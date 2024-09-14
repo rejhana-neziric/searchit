@@ -637,7 +637,7 @@
 
 
           <button *ngIf="this.cv" type="button" class="btn-confirm d-flex justify-content-center align-middle ms-2"
-                  (click)="openModal()">Create CV
+                  (click)="openCreateCVModal()">Create CV
           </button>
 
           <button *ngIf="this.cvEdit" type="button" class="btn-confirm d-flex justify-content-center align-middle ms-2"
@@ -663,58 +663,27 @@
     </div>
   </div>
 
-  <!-- Modal -->
-  <div class="modal fade" id="confirmCreateModal" tabindex="-1" aria-labelledby="confirmCreateModalLabel"
-       aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="confirmCreateModalLabel">Confirm changes</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          Are you sure you want to publish CV?
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="nav-link btn-cancel" data-bs-dismiss="modal">Cancel</button>
-          <button type="button" class="btn-confirm"
-                  (click)="createCV(false)">Save as draft
-          </button>
-          <button type="button" class="btn-confirm"
-                  (click)="createCV(true)">Publish CV
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- Modal -->
-
-
-  <!-- Modal -->
-  <div class="modal fade" id="confirmSaveModal" tabindex="-1" aria-labelledby="confirmSaveModalLabel"
-       aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="confirmSaveModalLabel">Confirm changes</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          Are you sure you want to save changes?
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="nav-link btn-cancel" data-bs-dismiss="modal">Cancel</button>
-          <button type="button" class="btn-confirm"
-                  (click)="save()">Save
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- Modal -->
-
   <!-- Websites & Social Links -->
 </div>
+
+
+<app-modal
+  modalId="saveModal"
+  title="Confirm Changes"
+  body="Are you sure you want to save changes?"
+  [buttons]="saveButtons"
+></app-modal>
+
+<app-modal
+  modalId="createCVModal"
+  title="Publish CV"
+  body="Are you sure you want to publish CV?"
+  [buttons]="createCVButtons"
+>
+  <div style="color: red">
+    Note: published CVs will be visible to all companies, while draft is visible only to you.
+  </div>
+</app-modal>
 
 
 <app-footer></app-footer>

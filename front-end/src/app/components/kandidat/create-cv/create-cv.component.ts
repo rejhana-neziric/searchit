@@ -23,6 +23,8 @@ import {FooterComponent} from "../../footer/footer.component";
 import {CVGetByIdEndpoint} from "../../../endpoints/cv-endpoint/get-by-id/cv-get-by-id-endpoint";
 import {CVGetByIdResponse} from "../../../endpoints/cv-endpoint/get-by-id/cv-get-by-id-response";
 import {CVUpdateEndpoint} from "../../../endpoints/cv-endpoint/update/cv-update-endpoint";
+import {ModalComponent} from "../../modal/modal.component";
+import {ModalService} from "../../../services/modal-service";
 
 declare var bootstrap: any;
 
@@ -51,7 +53,8 @@ interface Section {
     NotificationToastComponent,
     ReactiveFormsModule,
     RouterLink,
-    FooterComponent
+    FooterComponent,
+    ModalComponent
   ],
   templateUrl: './create-cv.component.html',
   styleUrl: './create-cv.component.css'
@@ -69,6 +72,17 @@ export class CreateCvComponent implements OnInit {
     {id: 'section6', name: 'Technical Skills', isActive: false, isCompleted: false},
     {id: 'section7', name: 'Courses', isActive: false, isCompleted: false},
     {id: 'section8', name: 'Websites & Social Links', isActive: false, isCompleted: false},
+  ];
+
+  saveButtons = [
+    {text: 'Cancel', class: 'btn-cancel', action: () => this.closeSaveModal()},
+    {text: 'Save', class: 'btn-confirm', action: () => this.confirmSave()}
+  ];
+
+  createCVButtons = [
+    {text: 'Cancel', class: 'btn-cancel', action: () => this.closeCreateCVModal()},
+    {text: 'Save as draft', class: 'btn-confirm w-auto', action: () => this.createCV(false)},
+    {text: 'Publish', class: 'btn-confirm', action: () => this.createCV(true)},
   ];
 
   selectedSectionId: string | null = null;
@@ -99,6 +113,7 @@ export class CreateCvComponent implements OnInit {
               private cvUpdateEndpoint: CVUpdateEndpoint,
               private authService: AuthService,
               private notificationService: NotificationService,
+              private modalService: ModalService,
               private router: Router,
               private route: ActivatedRoute,
               @Inject(PLATFORM_ID) private platformId: any) {
@@ -117,7 +132,7 @@ export class CreateCvComponent implements OnInit {
     });
 
     // Loading data for editing CV
-    if(this.cvEditId != null) {
+    if (this.cvEditId != null) {
       this.edit = true;
       await this.getCV();
       await this.setFormData(this.cvEdit);
@@ -139,7 +154,6 @@ export class CreateCvComponent implements OnInit {
         }
       }
     })
-
 
 
     await this.getPreviousCV();
@@ -267,17 +281,16 @@ export class CreateCvComponent implements OnInit {
   }
 
   selectSection(sectionId: string): void {
-    if(this.selectedSectionId == 'section1'){
+    if (this.selectedSectionId == 'section1') {
       this.savePersonalDetails(sectionId);
-    } else if(this.selectedSectionId == 'section2') {
+    } else if (this.selectedSectionId == 'section2') {
       this.completedProfessinalSummary();
-    }
-    else {
+    } else {
       this.selectedSectionId = sectionId;
     }
   }
 
- completeSection(sectionId: string): void {
+  completeSection(sectionId: string): void {
     const section = this.sections.find(s => s.id === sectionId);
     if (section) {
       section.isCompleted = true;
@@ -380,11 +393,11 @@ export class CreateCvComponent implements OnInit {
   }
 
   cvPreview() {
-    if(this.edit) {
+    if (this.edit) {
       this.saveCvData(Boolean(this.cvEdit?.objavljen));
       localStorage.setItem('cvData', JSON.stringify(this.cv));
       this.router.navigate([`/cv-preview`, this.cvEditId], {
-        state: { data: this.cv }
+        state: {data: this.cv}
       });
     } else {
       this.saveCvData(Boolean(this.cv?.objavljen));
@@ -397,6 +410,7 @@ export class CreateCvComponent implements OnInit {
 
   createCV(objavljen: boolean) {
     this.saveCvData(objavljen);
+    this.closeCreateCVModal();
 
     this.cvDodajEndpoint.obradi(this.cv!).subscribe({
       next: response => {
@@ -406,58 +420,39 @@ export class CreateCvComponent implements OnInit {
         this.notificationService.clearModalNotification();
       },
       error: error => {
-        this.closeModal();
+        //this.closeModal();
         this.notificationService.addNotification({message: `Error: ${error.message}`, type: 'error'});
       }
     })
   }
 
-  openModal() {
-    if (this.form.invalid) {
-      this.selectedSectionId = 'section1';
-    } else if (isPlatformBrowser(this.platformId)) {
-      const modalElement = document.getElementById('confirmCreateModal');
-      if (modalElement) {
-        const modal = new bootstrap.Modal(modalElement);
-        modal.show();
-      }
-    }
-  }
-
-  closeModal() {
-    if (isPlatformBrowser(this.platformId)) {
-      const modalElement = document.getElementById('confirmCreateModal');
-      if (modalElement) {
-        const modal = bootstrap.Modal.getInstance(modalElement);
-        if (modal) {
-          modal.hide();
-        }
-      }
-    }
-  }
-
   openSaveModal() {
     if (this.form.invalid) {
       this.selectedSectionId = 'section1';
-    } else if (isPlatformBrowser(this.platformId)) {
-      const modalElement = document.getElementById('confirmSaveModal');
-      if (modalElement) {
-        const modal = new bootstrap.Modal(modalElement);
-        modal.show();
-      }
+    } else {
+      this.modalService.openModal('saveModal', 'Confirm Changes', 'Are you sure you want to save changes?', []);
     }
   }
 
-  closeSaveModal() {
-    if (isPlatformBrowser(this.platformId)) {
-      const modalElement = document.getElementById('confirmSaveModal');
-      if (modalElement) {
-        const modal = bootstrap.Modal.getInstance(modalElement);
-        if (modal) {
-          modal.hide();
-        }
-      }
+  async closeSaveModal() {
+    await this.modalService.closeModal('saveModal');
+  }
+
+  async confirmSave() {
+    this.save();
+    await this.modalService.closeModal('saveModal');
+  }
+
+  openCreateCVModal() {
+    if (this.form.invalid) {
+      this.selectedSectionId = 'section1';
+    } else {
+      this.modalService.openModal('createCVModal', 'Publish CV', 'Are you sure you want to publish CV?', []);
     }
+  }
+
+  async closeCreateCVModal() {
+    await this.modalService.closeModal('createCVModal');
   }
 
   save() {

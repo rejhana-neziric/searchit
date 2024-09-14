@@ -19,8 +19,6 @@ import {CVGetByIdEndpoint} from "../../../endpoints/cv-endpoint/get-by-id/cv-get
 import {CVGetByIdResponse} from "../../../endpoints/cv-endpoint/get-by-id/cv-get-by-id-response";
 import {FooterComponent} from "../../footer/footer.component";
 
-declare var bootstrap: any;
-
 @Component({
   selector: 'app-cv-published',
   standalone: true,
@@ -149,98 +147,6 @@ export class CvPublishedComponent implements OnInit {
       cv.prezime.toLowerCase().includes(this.pretragaNaziv) ||
       cv.zvanje.toLowerCase().includes(this.pretragaNaziv)
     );
-
-  }
-
-  confirmDelete() {
-    this.delete();
-    this.closeModal();
-  }
-
-  openDeleteModal() {
-    if (isPlatformBrowser(this.platformId)) {
-      const modalElement = document.getElementById('confirmDeleteModal');
-      if (modalElement) {
-        const modal = new bootstrap.Modal(modalElement);
-        modal.show();
-      }
-    }
-  }
-
-  closeModal() {
-    if (isPlatformBrowser(this.platformId)) {
-      const modalElement = document.getElementById('confirmDeleteModal');
-      if (modalElement) {
-        const modal = bootstrap.Modal.getInstance(modalElement);
-        if (modal) {
-          modal.hide();
-        }
-      }
-    }
-  }
-
-
-  //ispraviti sa deleteEndpointom
-  delete() {
-    this.cv.shift();
-    this.notificationService.addNotification({message: 'CV deleted.', type: 'success'});
-    this.renderCV();
-  }
-
-  confirmPublish(cv: CVGetResponseCV) {
-    this.selectedCV = cv;
-    this.changeStatus(true);
-    this.closePublishModal()
-  }
-
-  openPublishModal() {
-    if (isPlatformBrowser(this.platformId)) {
-      const modalElement = document.getElementById('confirmPublishModal');
-      if (modalElement) {
-        const modal = new bootstrap.Modal(modalElement);
-        modal.show();
-      }
-    }
-  }
-
-  closePublishModal() {
-    if (isPlatformBrowser(this.platformId)) {
-      const modalElement = document.getElementById('confirmPublishModal');
-      if (modalElement) {
-        const modal = bootstrap.Modal.getInstance(modalElement);
-        if (modal) {
-          modal.hide();
-        }
-      }
-    }
-  }
-
-  confirmUnPublish(cv: CVGetResponseCV) {
-    this.selectedCV = cv;
-    this.changeStatus(false);
-    this.closeUnPublishModal()
-  }
-
-  openUnPublishModal() {
-    if (isPlatformBrowser(this.platformId)) {
-      const modalElement = document.getElementById('confirmUnPublishModal');
-      if (modalElement) {
-        const modal = new bootstrap.Modal(modalElement);
-        modal.show();
-      }
-    }
-  }
-
-  closeUnPublishModal() {
-    if (isPlatformBrowser(this.platformId)) {
-      const modalElement = document.getElementById('confirmUnPublishModal');
-      if (modalElement) {
-        const modal = bootstrap.Modal.getInstance(modalElement);
-        if (modal) {
-          modal.hide();
-        }
-      }
-    }
   }
 
   changeStatus(objavljen: boolean) {

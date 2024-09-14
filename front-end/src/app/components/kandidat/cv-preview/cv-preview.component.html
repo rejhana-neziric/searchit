@@ -163,7 +163,7 @@
       </button>
 
       <button *ngIf="!edit" type="button" class="btn-confirm d-flex justify-content-center align-middle"
-              (click)="openModal()">Create CV
+              (click)="openCreateCVModal()">Create CV
       </button>
       <button *ngIf="edit" type="button" class="btn-confirm d-flex justify-content-center align-middle"
               (click)="save()">Save
@@ -179,35 +179,16 @@
   </div>
 </div>
 
-
-<!-- Modal -->
-<div class="modal fade" id="confirmSaveModal" tabindex="-1" aria-labelledby="confirmSaveModalLabel"
-     aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="confirmSaveModalLabel">Confirm changes</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        Are you sure you want to save CV?
-      </div>
-      <div class="modal-body" style="color: red">
-        Note: published CVs will be visible to all companies, while draft is visible only to you.
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="nav-link btn-cancel" data-bs-dismiss="modal">Cancel</button>
-        <button type="button" class="btn-confirm"
-                (click)="createCV(false)">Save as draft
-        </button>
-        <button type="button" class="btn-confirm"
-                (click)="createCV(true)">Publish CV
-        </button>
-      </div>
-    </div>
+<app-modal
+  modalId="createCVModal"
+  title="Publish CV"
+  body="Are you sure you want to publish CV?"
+  [buttons]="createCVButtons"
+>
+  <div style="color: red">
+    Note: published CVs will be visible to all companies, while draft is visible only to you.
   </div>
-</div>
-<!-- Modal -->
+</app-modal>
 
 
 <app-footer></app-footer>

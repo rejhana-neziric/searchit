@@ -34,28 +34,30 @@ import {
   KandidatOglasUpdateRequest
 } from "../../../endpoints/kandidat-oglas-endpoint/update/kandidat-oglas-update-request";
 import {FooterComponent} from "../../footer/footer.component";
+import {ModalComponent} from "../../modal/modal.component";
+import {ModalService} from "../../../services/modal-service";
 
-declare var bootstrap: any;
 
 @Component({
   selector: 'app-favorites-kandidati',
   standalone: true,
-  imports: [
-    NavbarComponent,
-    FavoritesKompanijeComponent,
-    FavoritesOglasiComponent,
-    MatButtonToggle,
-    MatButtonToggleGroup,
-    NgIf,
-    NgForOf,
-    NgxPaginationModule,
-    NotificationToastComponent,
-    ReactiveFormsModule,
-    RouterLink,
-    FormsModule,
-    DatePipe,
-    FooterComponent
-  ],
+    imports: [
+        NavbarComponent,
+        FavoritesKompanijeComponent,
+        FavoritesOglasiComponent,
+        MatButtonToggle,
+        MatButtonToggleGroup,
+        NgIf,
+        NgForOf,
+        NgxPaginationModule,
+        NotificationToastComponent,
+        ReactiveFormsModule,
+        RouterLink,
+        FormsModule,
+        DatePipe,
+        FooterComponent,
+        ModalComponent
+    ],
   templateUrl: './favorites-kandidati.component.html',
   styleUrl: './favorites-kandidati.component.css'
 })
@@ -66,15 +68,21 @@ export class FavoritesKandidatiComponent {
   total: number = 10;
   imaRezultataPretrage: boolean = this.kandidati?.length != 0;
   searchObject: KandidatOglasGetRequest | null = null;
-  selectedCompany: any;
+  selectedApplicant: any;
   noCompanies: boolean = this.kandidati?.length == 0;
   pretragaNaziv: string = "";
   user: User = {id: "", role: "", jwt: ""}
+
+  unsaveButtons = [
+    { text: 'Cancel', class: 'btn-cancel', action: () => this.closeUnSaveModal() },
+    { text: 'Unsave', class: 'btn-confirm', action: () => this.confirmUnSave() }
+  ];
 
   constructor(private kandidatOglasGetEndpoint: KandidatOglasGetEndpoint,
               private kandidatOglasUpdateEndpoint: KandidatOglasUpdateEndpoint,
               private notificationService: NotificationService,
               private authService: AuthService,
+              private modalService: ModalService,
               @Inject(PLATFORM_ID) private platformId: any) {
   }
 
@@ -87,7 +95,7 @@ export class FavoritesKandidatiComponent {
   onSearchChange(pretraga: string) {
     this.pretragaNaziv = pretraga;
     this.getAll();
-    this.renderKompanije();
+    this.renderKandidati();
   }
 
   private setTotal() {
@@ -136,7 +144,7 @@ export class FavoritesKandidatiComponent {
   }
 
 
-  renderKompanije() {
+  renderKandidati() {
     return this.kandidati
   }
 
@@ -166,13 +174,12 @@ export class FavoritesKandidatiComponent {
     }
 
     await this.getAll();
-
-    this.renderKompanije();
+    this.renderKandidati();
   }
 
 
 
-  async unsaveKompanija(kandidatOglas: KandidatOglasGetResponseKandidatOglas) {
+  async unsaveKandidat(kandidatOglas: KandidatOglasGetResponseKandidatOglas) {
     var request: KandidatOglasUpdateRequest = {
       id: kandidatOglas.id,
       kompanijaId: this.user.id,
@@ -193,35 +200,20 @@ export class FavoritesKandidatiComponent {
     }
 
     await this.getAll();
-
-    this.renderKompanije();
+    this.renderKandidati();
   }
 
-  confirmUnsave() {
-    this.unsaveKompanija(this.selectedCompany);
-    this.closeModal();
+  openUnSaveModal(applicant: any) {
+    this.selectedApplicant = applicant;
+    this.modalService.openModal('unsaveModal', 'Confirm Unsave', 'Are you sure you want to unsave this applicant?', []);
   }
 
-  openUnsaveModal(company: any) {
-    this.selectedCompany = company;
-    if (isPlatformBrowser(this.platformId)) {
-      const modalElement = document.getElementById('confirmUnsaveModal');
-      if (modalElement) {
-        const modal = new bootstrap.Modal(modalElement);
-        modal.show();
-      }
-    }
+  async closeUnSaveModal() {
+    await this.modalService.closeModal('unsaveModal');
   }
 
-  closeModal() {
-    if (isPlatformBrowser(this.platformId)) {
-      const modalElement = document.getElementById('confirmUnsaveModal');
-      if (modalElement) {
-        const modal = bootstrap.Modal.getInstance(modalElement);
-        if (modal) {
-          modal.hide();
-        }
-      }
-    }
+  async confirmUnSave() {
+    this.unsaveKandidat(this.selectedApplicant);
+    await this.modalService.closeModal('unsaveModal');
   }
 }

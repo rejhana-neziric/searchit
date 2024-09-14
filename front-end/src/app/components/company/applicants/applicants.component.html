@@ -33,21 +33,6 @@
     </select>
   </div>
 
-
-  <!--  <div>
-      <label for="filterDropdown" class="fs-6 me-2">Choose job:</label>
-      <select id="filterDropdown" [(ngModel)]="selectedFilter">
-        <option value="">All</option>
-        <option *ngFor="let option of kandidati" [value]="option.oglasId">
-          <p>{{ option.nazivPozicije }} -
-            <span *ngIf="option.otvoren; else closed">Opened</span>
-            <ng-template #closed>Closed</ng-template>
-          </p>
-        </option>
-      </select>
-    </div>-->
-  <!-- Filter  -->
-
   <!-- Seach box  -->
   <div class="search-box mt-4">
     <form class="search-form">
@@ -146,18 +131,6 @@
               </div>
             </div>
             <div style="width: 170px; margin-left: auto;">
-              <!--  <span *ngIf="odabranaKompanija?.brojOtvorenihPozicija! > 0"
-                      class="fs-6 d-flex flex-row justify-content-end ">
-               <div class="open-positions">
-                                Open positions {{ odabranaKompanija?.brojOtvorenihPozicija }}
-               </div>
-                </span>
-             <span *ngIf="odabranaKompanija?.brojOtvorenihPozicija! == 0"
-                   class="fs-6 d-flex flex-row justify-content-end ">
-                <div class="open-positions" style="background-color: lightgray">
-                               No open positions
-                </div>
-                 </span>-->
             </div>
 
             <div style="width: 170px; margin-left: auto;">
@@ -238,29 +211,6 @@
   <div>
   </div>
 </div>
-
-<!-- Modal -->
-<div class="modal fade" id="confirmUnsaveModal" tabindex="-1" aria-labelledby="confirmUnsaveModalLabel"
-     aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="confirmUnsaveModalLabel">Confirm Unsave</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        Are you sure you want to unsave this applicant?
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="nav-link btn-cancel" data-bs-dismiss="modal">Cancel</button>
-        <button type="button" class="nav-link btn-confirm d-flex justify-content-center align-middle"
-                (click)="confirmUnsave()">Unsave
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- Modal -->
 
 
 <app-footer></app-footer>

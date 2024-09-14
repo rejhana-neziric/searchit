@@ -18,21 +18,22 @@ import {
   GetBrojZaposlenihEndpoint
 } from "../../../endpoints/kompanija-endpoint/get-broj-zaposlenih-range/get-broj-zaposlenih-endpoint";
 import {KompanijaDeleteEndpoint} from "../../../endpoints/kompanija-endpoint/delete/kompanija-delete-endpoint";
-
-declare var bootstrap: any;
+import {ModalComponent} from "../../modal/modal.component";
+import {ModalService} from "../../../services/modal-service";
 
 @Component({
   selector: 'app-account-details-company',
   standalone: true,
-  imports: [
-    DatePipe,
-    FormsModule,
-    NavbarComponent,
-    NgIf,
-    NotificationToastComponent,
-    ReactiveFormsModule,
-    NgForOf
-  ],
+    imports: [
+        DatePipe,
+        FormsModule,
+        NavbarComponent,
+        NgIf,
+        NotificationToastComponent,
+        ReactiveFormsModule,
+        NgForOf,
+        ModalComponent
+    ],
   templateUrl: './account-details-company.component.html',
   styleUrl: './account-details-company.component.css'
 })
@@ -48,6 +49,16 @@ export class AccountDetailsCompanyComponent implements OnInit{
   selectedFile: File | null = null;
   @ViewChild('textareaElement') textareaElement!: ElementRef<HTMLTextAreaElement>;
 
+  deleteButtons = [
+    { text: 'Cancel', class: 'btn-cancel', action: () => this.closeDeleteModal() },
+    { text: 'Delete', class: 'btn-danger', action: () => this.confirmDelete() }
+  ];
+
+  saveButtons = [
+    { text: 'Cancel', class: 'btn-cancel', action: () => this.closeSaveModal() },
+    { text: 'Save', class: 'btn-confirm', action: () => this.confirmSave() }
+  ];
+
   constructor(private formBuilder: FormBuilder,
               private authService: AuthService,
               private kompanijaGetByIdEndpoint: KompanijaGetByIdEndpoint,
@@ -56,6 +67,7 @@ export class AccountDetailsCompanyComponent implements OnInit{
               private kompanijaDeleteEndpoint: KompanijaDeleteEndpoint,
               private notificationService: NotificationService,
               private router: Router,
+              private modalService: ModalService,
               @Inject(PLATFORM_ID) private platformId: any) {
   }
 
@@ -135,7 +147,6 @@ export class AccountDetailsCompanyComponent implements OnInit{
     this.submitted = true;
 
      if (this.companyForm.valid) {
-       console.log('pozvana save')
        this.updateCompany = {
          id: this.loggedCompanyId,
          naziv: this.companyForm.get('companyName')?.value,
@@ -186,64 +197,34 @@ export class AccountDetailsCompanyComponent implements OnInit{
     )
   }
 
-  confirm() {
-    this.closeModal();
-
-     if (this.companyForm.valid) {
-       this.save();
-     } else {
-       this.notificationService.addNotification({message: 'Invalid data', type: 'error'});
-     }
-  }
-
-  openModal() {
-    if (isPlatformBrowser(this.platformId)) {
-      const modalElement = document.getElementById('confirmUnsaveModal');
-      if (modalElement) {
-        const modal = new bootstrap.Modal(modalElement);
-        modal.show();
-      }
-    }
-  }
-
-  closeModal() {
-    if (isPlatformBrowser(this.platformId)) {
-      const modalElement = document.getElementById('confirmUnsaveModal');
-      if (modalElement) {
-        const modal = bootstrap.Modal.getInstance(modalElement);
-        if (modal) {
-          modal.hide();
-        }
-      }
-    }
-  }
-
-  confirmDelete() {
-    this.closeDeleteModal();
-    this.delete();
-  }
-
   openDeleteModal() {
-    if (isPlatformBrowser(this.platformId)) {
-      const modalElement = document.getElementById('confirmDeleteModal');
-      if (modalElement) {
-        const modal = new bootstrap.Modal(modalElement);
-        modal.show();
-      }
-    }
+    this.modalService.openModal('deleteModal', 'Confirm Delete', 'Are you sure you want to delete account?', []);
   }
 
-  closeDeleteModal() {
-    if (isPlatformBrowser(this.platformId)) {
-      const modalElement = document.getElementById('confirmDeleteModal');
-      if (modalElement) {
-        const modal = bootstrap.Modal.getInstance(modalElement);
-        if (modal) {
-          modal.hide();
-        }
-      }
-    }
+  async closeDeleteModal() {
+    await this.modalService.closeModal('deleteModal');
+  }
 
+  async confirmDelete() {
+    this.delete();
+    await this.modalService.closeModal('deleteModal');
+  }
+
+  openSaveModal() {
+    this.modalService.openModal('saveModal', 'Confirm Changes', 'Are you sure you want to save changes?', []);
+  }
+
+  async closeSaveModal() {
+    await this.modalService.closeModal('saveModal');
+  }
+
+  async confirmSave() {
+    if (this.companyForm.valid) {
+      this.save();
+      await this.modalService.closeModal('saveModal');
+    } else {
+      this.notificationService.addNotification({message: 'Invalid data', type: 'error'});
+    }
   }
 
   adjustTextareaHeight(textarea: HTMLTextAreaElement): void {

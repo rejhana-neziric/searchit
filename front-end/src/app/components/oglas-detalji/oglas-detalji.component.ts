@@ -15,8 +15,8 @@ import {KandidatOglasDodajEndpoint} from "../../endpoints/kandidat-oglas-endpoin
 import {NotificationService} from "../../services/notification-service";
 import {CVGetEndpoint} from "../../endpoints/cv-endpoint/get/cv-get-endpoint";
 import {NotificationToastComponent} from "../notifications/notification-toast/notification-toast.component";
-
-declare var bootstrap: any;
+import {ModalComponent} from "../modal/modal.component";
+import {ModalService} from "../../services/modal-service";
 
 @Component({
   selector: 'app-oglas-detalji',
@@ -28,7 +28,8 @@ declare var bootstrap: any;
     NgIf,
     RouterLink,
     FooterComponent,
-    NotificationToastComponent
+    NotificationToastComponent,
+    ModalComponent
   ],
   templateUrl: './oglas-detalji.component.html',
   styleUrl: './oglas-detalji.component.css'
@@ -43,9 +44,21 @@ export class OglasDetaljiComponent implements OnInit {
   cvIdApply: number | null = null;
   selectedCV: CVGetResponseCV | null = null;
 
+  chooseCVButtons = [
+    {text: 'Cancel', class: 'btn-cancel', action: () => this.closeCVChooseModal()},
+    {text: 'Continue', class: 'btn-confirm', action: () => this.confirmCVChoose()}
+  ]
+
+  applyButtons = [
+    {text: 'Cancel', class: 'btn-cancel', action: () => this.closeApplyModal()},
+    {text: 'Change CV', class: 'btn-confirm w-auto', action: () => this.openCVChooseModal()},
+    {text: 'Apply', class: 'btn-confirm', action: () => this.confirmApply()}
+  ]
+
   constructor(private activatedRoute: ActivatedRoute,
               private authService: AuthService,
               private notificationService: NotificationService,
+              private modalService: ModalService,
               private cvGetEndpoint: CVGetEndpoint,
               private kandidatOglasDodajEndpoint: KandidatOglasDodajEndpoint,
               private oglasGetByIdEndpoint: OglasGetByIdEndpoint) {
@@ -73,12 +86,12 @@ export class OglasDetaljiComponent implements OnInit {
     return dani;
   }
 
-  ucitajLogo(logo: string | ArrayBuffer | null){
+  ucitajLogo(logo: string | ArrayBuffer | null) {
     this.imageUrl = `data:image/jpeg;base64,${logo}`;
     return this.imageUrl;
   }
 
-  confirmApply() {
+  apply() {
     var request: KandidatOglasDodajRequest = {
       oglasId: this.oglas?.id!,
       kandidatId: this.user.id,
@@ -92,11 +105,11 @@ export class OglasDetaljiComponent implements OnInit {
       },
       error: error => {
         if (error.error instanceof Object && error.error.message) {
-          const  errorMessage = error.error.message;
+          const errorMessage = error.error.message;
           this.notificationService.addNotification({message: errorMessage, type: 'error'});
 
         } else {
-          const  errorMessage = typeof error.error === 'string' ? error.error : 'An unknown error occurred';
+          const errorMessage = typeof error.error === 'string' ? error.error : 'An unknown error occurred';
           this.notificationService.addNotification({message: errorMessage, type: 'error'});
 
         }
@@ -104,62 +117,34 @@ export class OglasDetaljiComponent implements OnInit {
     })
 
     this.cvIdApply = null;
-    this.closeApplyModal();
   }
 
-  async apply() {
-    await this.closeCVModal();
-    const modalElement = document.getElementById('confirmApplyModal');
-    if (modalElement) {
-      const modal = new bootstrap.Modal(modalElement);
-      modal.show();
-    }
-  }
-
-  closeApplyModal() {
-    const modalElement = document.getElementById('confirmApplyModal');
-    if (modalElement) {
-      const modal = bootstrap.Modal.getInstance(modalElement);
-      if (modal) {
-        modal.hide();
-      }
-    }
-  }
-
-  openCVModal() {
-
-
-    if (this.cvIdApply) {
-      this.closeApplyModal()
-    }
+  openCVChooseModal() {
     this.getAllCV();
-    const modalElement = document.getElementById('confirmCVModal');
-    if (modalElement) {
-      const modal = new bootstrap.Modal(modalElement);
-      modal.show();
-    }
-
+    this.modalService.openModal('chooseCVModal', 'Choose CV', 'Choose CV you want to apply to job with.', []);
   }
 
-  closeCVModal(): Promise<void> {
-    return new Promise((resolve, reject) => {
-      const modalElement = document.getElementById('confirmCVModal');
-      if (modalElement) {
-        const modal = bootstrap.Modal.getInstance(modalElement);
-        if (modal) {
-          modal.hide();
-          modalElement.addEventListener('hidden.bs.modal', () => {
-            resolve();
-          }, {once: true});
-        } else {
-          resolve();
-        }
-      } else {
-        resolve();
-      }
-    });
+  async closeCVChooseModal() {
+    await this.modalService.closeModal('chooseCVModal');
   }
 
+  async confirmCVChoose() {
+    await this.modalService.closeModal('chooseCVModal');
+    this.openApplyModal();
+  }
+
+  openApplyModal() {
+    this.modalService.openModal('applyModal', 'Confirm Application', "Are you sure you want to apply to this job with CV " + this.selectedCV?.naziv, []);
+  }
+
+  async closeApplyModal() {
+    await this.modalService.closeModal('applyModal');
+  }
+
+  async confirmApply() {
+    this.apply();
+    await this.modalService.closeModal('applyModal');
+  }
 
   async getAllCV() {
     var request: CVGetRequest = {

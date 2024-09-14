@@ -28,6 +28,8 @@ import {FooterComponent} from "../../footer/footer.component";
 import {OglasGetEndpoint} from "../../../endpoints/oglas-endpoint/get/oglas-get-endpoint";
 import {OglasGetRequest} from "../../../endpoints/oglas-endpoint/get/oglas-get-request";
 import {OglasGetResponseOglasi} from "../../../endpoints/oglas-endpoint/get/oglas-get-response";
+import {ModalComponent} from "../../modal/modal.component";
+import {ModalService} from "../../../services/modal-service";
 
 declare var bootstrap: any;
 
@@ -44,7 +46,8 @@ declare var bootstrap: any;
     ReactiveFormsModule,
     RouterLink,
     DatePipe,
-    FooterComponent
+    FooterComponent,
+    ModalComponent
   ],
   templateUrl: './applicants.component.html',
   styleUrl: './applicants.component.css'
@@ -85,6 +88,7 @@ export class ApplicantsComponent implements OnInit{
               private kandidatOglasUpdateEndpoint: KandidatOglasUpdateEndpoint,
               private oglasGetEndpoint: OglasGetEndpoint,
               private cvGetByIdEndpoint: CVGetByIdEndpoint,
+              private modalService: ModalService,
               private router: Router) {
   }
 
@@ -442,30 +446,6 @@ export class ApplicantsComponent implements OnInit{
     this.status = status;
 
     //pozvat update
-  }
-
-  confirmUnsave() {
-    this.save(this.selectedCompany, false);
-    this.closeModal();
-  }
-
-  openUnsaveModal(company: any) {
-    this.selectedCompany = company;
-    const modalElement = document.getElementById('confirmUnsaveModal');
-    if (modalElement) {
-      const modal = new bootstrap.Modal(modalElement);
-      modal.show();
-    }
-  }
-
-  closeModal() {
-    const modalElement = document.getElementById('confirmUnsaveModal');
-    if (modalElement) {
-      const modal = bootstrap.Modal.getInstance(modalElement);
-      if (modal) {
-        modal.hide();
-      }
-    }
   }
 
   cvDetails() {

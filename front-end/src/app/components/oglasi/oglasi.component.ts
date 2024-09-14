@@ -36,6 +36,8 @@ import {CVGetEndpoint} from "../../endpoints/cv-endpoint/get/cv-get-endpoint";
 import {CVGetRequest} from "../../endpoints/cv-endpoint/get/cv-get-request";
 import {CVGetResponse, CVGetResponseCV} from "../../endpoints/cv-endpoint/get/cv-get-response";
 import {FooterComponent} from "../footer/footer.component";
+import {ModalService} from "../../services/modal-service";
+import {ModalComponent} from "../modal/modal.component";
 
 declare var bootstrap: any;
 
@@ -55,6 +57,7 @@ declare var bootstrap: any;
     RouterLink,
     NotificationToastComponent,
     FooterComponent,
+    ModalComponent,
   ],
   templateUrl: './oglasi.component.html',
   styleUrl: './oglasi.component.css'
@@ -90,6 +93,18 @@ export class OglasiComponent implements OnInit {
   selectedCV: CVGetResponseCV | null = null;
   imageUrl: string | ArrayBuffer | null = '';
 
+
+  chooseCVButtons = [
+    { text: 'Cancel', class: 'btn-cancel', action: () => this.closeCVChooseModal() },
+    { text: 'Continue', class: 'btn-confirm', action: () => this.confirmCVChoose() }
+  ]
+
+  applyButtons = [
+    { text: 'Cancel', class: 'btn-cancel', action: () => this.closeApplyModal() },
+    { text: 'Change CV', class: 'btn-confirm w-auto', action: () => this.openCVChooseModal(this.oglasIdApply) },
+    { text: 'Apply', class: 'btn-confirm', action: () => this.confirmApply() }
+  ]
+
   constructor(private oglasGetAllEndpoint: OglasGetEndpoint,
               private oglasGetByIdEndpoint: OglasGetByIdEndpoint,
               private kandidatSpaseniOglasiDodajEndpoint: KandidatSpaseniOglasiDodajEndpoint,
@@ -97,7 +112,8 @@ export class OglasiComponent implements OnInit {
               private kandidatOglasDodajEndpoint: KandidatOglasDodajEndpoint,
               private cvGetEndpoint: CVGetEndpoint,
               private notificationService: NotificationService,
-              private authService: AuthService) {
+              private authService: AuthService,
+              private modalService: ModalService) {
   }
 
   async ngOnInit() {
@@ -414,31 +430,7 @@ export class OglasiComponent implements OnInit {
     this.filtriraniOglasi();
   }
 
-  confirmUnsave() {
-    this.unsaveOglas(this.selectedPost);
-    this.closeModal();
-  }
-
-  openUnsaveModal(post: any) {
-    this.selectedPost = post;
-    const modalElement = document.getElementById('confirmUnsaveModal');
-    if (modalElement) {
-      const modal = new bootstrap.Modal(modalElement);
-      modal.show();
-    }
-  }
-
-  closeModal() {
-    const modalElement = document.getElementById('confirmUnsaveModal');
-    if (modalElement) {
-      const modal = bootstrap.Modal.getInstance(modalElement);
-      if (modal) {
-        modal.hide();
-      }
-    }
-  }
-
-  confirmApply() {
+  apply() {
     var request: KandidatOglasDodajRequest = {
       oglasId: this.oglasIdApply,
       kandidatId: this.user.id,
@@ -466,61 +458,35 @@ export class OglasiComponent implements OnInit {
     })
 
     this.cvIdApply = null;
-    this.closeApplyModal();
   }
 
-  async apply() {
-    await this.closeCVModal();
-    const modalElement = document.getElementById('confirmApplyModal');
-    if (modalElement) {
-      const modal = new bootstrap.Modal(modalElement);
-      modal.show();
-    }
-  }
-
-  closeApplyModal() {
-    const modalElement = document.getElementById('confirmApplyModal');
-    if (modalElement) {
-      const modal = bootstrap.Modal.getInstance(modalElement);
-      if (modal) {
-        modal.hide();
-      }
-    }
-  }
-
-  openCVModal(id: number) {
-    if (this.cvIdApply) {
-      this.closeApplyModal()
-    }
+  openCVChooseModal(id: number) {
     this.getAllCV();
-    console.log(this.oglasIdApply)
     this.oglasIdApply = id;
-    const modalElement = document.getElementById('confirmCVModal');
-    if (modalElement) {
-      const modal = new bootstrap.Modal(modalElement);
-      modal.show();
-    }
+    this.modalService.openModal('chooseCVModal', 'Choose CV', 'Choose CV you want to apply to job with.', []);
   }
 
-  closeCVModal(): Promise<void> {
-    return new Promise((resolve, reject) => {
-      const modalElement = document.getElementById('confirmCVModal');
-      if (modalElement) {
-        const modal = bootstrap.Modal.getInstance(modalElement);
-        if (modal) {
-          modal.hide();
-          modalElement.addEventListener('hidden.bs.modal', () => {
-            resolve();
-          }, {once: true});
-        } else {
-          resolve();
-        }
-      } else {
-        resolve();
-      }
-    });
+  async closeCVChooseModal() {
+    await this.modalService.closeModal('chooseCVModal');
   }
 
+  async confirmCVChoose() {
+    await this.modalService.closeModal('chooseCVModal');
+    this.openApplyModal();
+  }
+
+  openApplyModal() {
+    this.modalService.openModal('applyModal', 'Confirm Application', "Are you sure you want to apply to this job with CV "+ this.selectedCV?.naziv, []);
+  }
+
+  async closeApplyModal() {
+    await this.modalService.closeModal('applyModal');
+  }
+
+  async confirmApply() {
+    this.apply();
+    await this.modalService.closeModal('applyModal');
+  }
 
   async getAllCV() {
     var request: CVGetRequest = {

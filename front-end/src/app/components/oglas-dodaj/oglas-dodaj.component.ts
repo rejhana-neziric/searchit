@@ -14,20 +14,21 @@ import {AuthService} from "../../services/auth-service";
 import {User} from "../../modals/user";
 import {FooterComponent} from "../footer/footer.component";
 import {CommonModule} from "@angular/common";
-
-declare var bootstrap: any;
+import {ModalComponent} from "../modal/modal.component";
+import {ModalService} from "../../services/modal-service";
 
 @Component({
   selector: 'app-oglas-dodaj',
   standalone: true,
-  imports: [
-    NavbarComponent,
-    FormsModule,
-    RouterLink,
-    NgClass,
-    FooterComponent,
-    CommonModule
-  ],
+    imports: [
+        NavbarComponent,
+        FormsModule,
+        RouterLink,
+        NgClass,
+        FooterComponent,
+        CommonModule,
+        ModalComponent
+    ],
   templateUrl: './oglas-dodaj.component.html',
   styleUrl: './oglas-dodaj.component.css',
   providers: [DatePipe]
@@ -57,11 +58,17 @@ declare var bootstrap: any;
   kompanije: KompanijeGetResponseKomapanija[] = [];
   user: User = { id: "", role: "", jwt: "" };
 
+  publishButtons = [
+    { text: 'Cancel', class: 'btn-cancel', action: () => this.closePublishModal() },
+    { text: 'Publish', class: 'btn-confirm', action: () => this.confirmPublish() }
+  ];
+
   constructor(
     private oglasDodajEndpoint: OglasDodajEndpoint,
     private kompanijeGetEndpoint: KompanijeGetEndpoint,
     private notificationService: NotificationService,
     private authService: AuthService,
+    private modalService: ModalService,
     private router: Router,
     @Inject(PLATFORM_ID) private platformId: any,
     private datePipe: DatePipe
@@ -126,25 +133,16 @@ declare var bootstrap: any;
   }
 
   openPublishModal() {
-    if (isPlatformBrowser(this.platformId)) {
-      const modalElement = document.getElementById('confirmPublish');
-      if (modalElement) {
-        const modal = new bootstrap.Modal(modalElement);
-        modal.show();
-      }
-    }
+    this.modalService.openModal('publishModal', 'Confirm Publish', 'Are you sure you want to publish this job post?', []);
   }
 
-  closePublishModal() {
-    if (isPlatformBrowser(this.platformId)) {
-      const modalElement = document.getElementById('confirmPublish');
-      if (modalElement) {
-        const modal = bootstrap.Modal.getInstance(modalElement);
-        if (modal) {
-          modal.hide();
-        }
-      }
-    }
+  async closePublishModal() {
+    await this.modalService.closeModal('publishModal');
+  }
+
+  async confirmPublish() {
+    this.onSubmit();
+    await this.modalService.closeModal('publishModal');
   }
 
   addLocation() {

@@ -19,24 +19,26 @@ import {StatusPrijaveGetEndpoint} from "../../../endpoints/status-prijave-endpoi
 import {
   KandidatOglasDeleteEndpoint
 } from "../../../endpoints/kandidat-oglas-endpoint/delete/kandidat-oglas-delete-endpoint";
+import {ModalComponent} from "../../modal/modal.component";
+import {ModalService} from "../../../services/modal-service";
 
-declare var bootstrap: any;
 
 @Component({
   selector: 'app-applications',
   standalone: true,
-  imports: [
-    NavbarComponent,
-    DatePipe,
-    NgForOf,
-    NgIf,
-    NgxPaginationModule,
-    NotificationToastComponent,
-    ReactiveFormsModule,
-    FormsModule,
-    RouterLink,
-    FooterComponent
-  ],
+    imports: [
+        NavbarComponent,
+        DatePipe,
+        NgForOf,
+        NgIf,
+        NgxPaginationModule,
+        NotificationToastComponent,
+        ReactiveFormsModule,
+        FormsModule,
+        RouterLink,
+        FooterComponent,
+        ModalComponent
+    ],
   templateUrl: './applications.component.html',
   styleUrl: './applications.component.css'
 })
@@ -57,11 +59,17 @@ export class ApplicationsComponent implements OnInit {
   selectedStatusOglasa: boolean | null = null;
   selectedOglasId: number | null = null;
 
+  withdrawButtons = [
+    { text: 'Cancel', class: 'btn-cancel', action: () => this.closeWithdrawModal() },
+    { text: 'Withdraw', class: 'btn-danger', action: () => this.confirmWithdraw() }
+  ];
+
   constructor(private kandidatOglasGetEndpoint: KandidatOglasGetEndpoint,
               private statusPrijaveGetEndpoint: StatusPrijaveGetEndpoint,
               private kandidatOglasDeleteEndpoint: KandidatOglasDeleteEndpoint,
               private notificationService: NotificationService,
               private authService: AuthService,
+              private modalService: ModalService,
               @Inject(PLATFORM_ID) private platformId: any) {
   }
 
@@ -124,11 +132,10 @@ export class ApplicationsComponent implements OnInit {
     this.renderOglasi();
   }
 
-  confirmWithdraw() {
-
+  withdraw() {
     this.kandidatOglasDeleteEndpoint.obradi(this.selectedOglasId!).subscribe({
       next: any => {
-        this.notificationService.addNotification({message: 'Your CV has been successfully deleted.', type: 'success'});
+        this.notificationService.addNotification({message: 'Your application has been successfully withdrawn.', type: 'success'});
         this.imaRezultataPretrage = this.oglasi?.length != 0;
         this.getAll();
       },
@@ -139,31 +146,20 @@ export class ApplicationsComponent implements OnInit {
         });
       }
     })
-
-    this.closeWithdrawModal()
   }
 
   openWithdrawModal(id: number) {
     this.selectedOglasId = id;
-    if (isPlatformBrowser(this.platformId)) {
-      const modalElement = document.getElementById('confirmWirhdraxModal');
-      if (modalElement) {
-        const modal = new bootstrap.Modal(modalElement);
-        modal.show();
-      }
-    }
+    this.modalService.openModal('withdrawModal', 'Withdraw application', 'Are you sure you want to withdraw this application?', []);
   }
 
-  closeWithdrawModal() {
-    if (isPlatformBrowser(this.platformId)) {
-      const modalElement = document.getElementById('confirmWirhdraxModal');
-      if (modalElement) {
-        const modal = bootstrap.Modal.getInstance(modalElement);
-        if (modal) {
-          modal.hide();
-        }
-      }
-    }
+  async closeWithdrawModal() {
+    await this.modalService.closeModal('withdrawModal');
+  }
+
+  async confirmWithdraw() {
+    this.withdraw();
+    await this.modalService.closeModal('withdrawModal');
   }
 
   async getStatusiPrijave() {

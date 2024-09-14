@@ -30,7 +30,7 @@
         </div>
         <a class="d-flex flex-row nav-link button-section">
           <button  class="btn-danger"
-             (click)="openUnsaveModal(oglas)" type="button">
+             (click)="openUnSaveModal(oglas)" type="button">
             Remove</button>
           <button class="btn-confirm" type="button"
              style="margin-left: 10px" [routerLink]="['/jobs/', oglas?.id]">Details</button>
@@ -71,24 +71,10 @@
 
 <!-- Nema rezultata pretrage  -->
 
-<!-- Modal -->
-<div class="modal fade" id="confirmUnsaveModal" tabindex="-1" aria-labelledby="confirmUnsaveModalLabel"
-     aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="confirmUnsaveModalLabel">Confirm Unsave</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        Are you sure you want to unsave this post?
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="nav-link btn-cancel" data-bs-dismiss="modal">Cancel</button>
-        <button type="button" class="nav-link btn-confirm" (click)="confirmUnsave()">Unsave</button>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- Modal -->
 
+<app-modal
+  modalId="unsaveModal"
+  title="Confirm Unsave"
+  body="Are you sure you want to unsave this post?"
+  [buttons]="unsaveButtons"
+></app-modal>
