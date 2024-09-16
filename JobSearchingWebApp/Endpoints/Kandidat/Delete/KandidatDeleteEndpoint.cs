@@ -39,6 +39,11 @@ namespace JobSearchingWebApp.Endpoints.Kandidat.Delete
                 if (kandidat == null)
                     return BadRequest();
 
+                var kandidatOglas = dbContext.KandidatiOglasi.Where(x => x.KandidatId == id).ToList();
+
+                dbContext.KandidatiOglasi.RemoveRange(kandidatOglas);
+                await dbContext.SaveChangesAsync();
+
                 await userManager.RemoveFromRoleAsync(kandidat, "Kandidat");
                 await userManager.DeleteAsync(kandidat);
 

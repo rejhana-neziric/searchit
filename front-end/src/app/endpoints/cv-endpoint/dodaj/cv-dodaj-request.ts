@@ -5,7 +5,7 @@ export interface CvDodajRequest {
     ime: string;
     prezime: string;
     email:string;
-    brojTelefona: string | null;
+    phoneNumber: string | null;
     drzava: string | null;
     grad: string | null;
     profesionalniSazetak: string | null;

@@ -15,6 +15,6 @@
         public DateTime DatumRodjenja { get; set; }
         public string MjestoPrebivalista { get; set; }
         public string Zvanje { get; set; }
-        public string BrojTelefona { get; set; }
+        public string PhoneNumber { get; set; }
     }
 }

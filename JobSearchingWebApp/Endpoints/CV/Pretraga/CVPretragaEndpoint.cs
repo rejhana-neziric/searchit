@@ -31,7 +31,7 @@ namespace JobSearchingWebApp.Endpoints.CV.Pretraga
                           Ime = x.Ime, 
                           Prezime = x.Prezime,
                           Email = x.Email,
-                          BrojTelefona = x.BrojTelefona,
+                          PhoneNumber = x.PhoneNumber,
                           //OpisProfila = x.OpisProfila,  
                           //Slika = x.Slika,  
                       }).ToListAsync();

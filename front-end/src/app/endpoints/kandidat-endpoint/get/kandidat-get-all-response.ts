@@ -11,5 +11,5 @@ export interface KandidatGetAllResponseKandidat {
   datumRodjenja: string
   mjestoPrebivalista: string
   zvanje: string
-  brojTelefona: string
+  phoneNumber: string
 }

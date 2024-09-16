@@ -45,6 +45,9 @@ export class AccountDetailsCandidateComponent implements OnInit {
   loggedUserId: string = "";
   loggedUser: KandidatGetByIdResponse | null = null;
   updateUser: KandidatUpdateRequest | null = null;
+  confirmNumber: boolean = false;
+  submittedConfirmNumber: boolean = false;
+  confirmPhoneNumberForm: FormGroup = new FormGroup({});
 
   deleteButtons = [
     { text: 'Cancel', class: 'btn-cancel', action: () => this.closeDeleteModal() },
@@ -69,7 +72,8 @@ export class AccountDetailsCandidateComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.initializeForm();
+    this.initializeCandidateForm();
+    this.initializePhoneVerificationForm();
 
     this.authService.user$.pipe(take(1)).subscribe({
       next: (user: User | null) => {
@@ -82,11 +86,17 @@ export class AccountDetailsCandidateComponent implements OnInit {
     this.getUser();
   }
 
-  initializeForm() {
+  initializeCandidateForm() {
     this.candidateForm = this.formBuilder.group({
       title: ['', [Validators.required, Validators.min(3), Validators.max(50)]],
       residence: ['', [Validators.required]],
-      phoneNumber: ['', [Validators.required, Validators.pattern("^\\+[0-9]{3}-[0-9]{3}-[0-9]{3}-[0-9]{3,4}$")]],
+      phoneNumber: ['', [Validators.required]],
+    })
+  }
+
+  initializePhoneVerificationForm(){
+    this.confirmPhoneNumberForm = this.formBuilder.group({
+      token: ['', [Validators.required]],
     })
   }
 
@@ -95,7 +105,7 @@ export class AccountDetailsCandidateComponent implements OnInit {
       next: (response: KandidatGetByIdResponse) => {
         this.loggedUser = response;
         this.candidateForm.patchValue({
-          phoneNumber: this.loggedUser?.brojTelefona,
+          phoneNumber: this.loggedUser?.phoneNumber,
           title: this.loggedUser?.zvanje,
           residence: this.loggedUser?.mjestoPrebivalista
         });
@@ -118,7 +128,7 @@ export class AccountDetailsCandidateComponent implements OnInit {
       this.updateUser = {
         id: this.loggedUserId,
         mjestoPrebivalista: this.candidateForm.get('residence')?.value,
-        brojTelefona: this.candidateForm.get('phoneNumber')?.value,
+        phoneNumber: this.candidateForm.get('phoneNumber')?.value,
         zvanje: this.candidateForm.get('title')?.value
       }
 
@@ -184,8 +194,58 @@ export class AccountDetailsCandidateComponent implements OnInit {
     if (this.candidateForm.valid) {
       this.save();
       await this.modalService.closeModal('saveModal');
+      this.getUser();
+      this.confirmNumber = true;
     } else {
       this.notificationService.addNotification({message: 'Invalid data', type: 'error'});
     }
+  }
+
+  confirmPhoneNumber() {
+    this.submittedConfirmNumber = true;
+
+    if (this.confirmPhoneNumberForm.valid) {
+      const token = this.confirmPhoneNumberForm.get('token')?.value;
+
+      console.log(token.toString());
+      this.authService.verifyPhoneNumber(token).subscribe({
+        next: any => {
+        this.notificationService.showModalNotification(true, 'Phone number verified', 'Your phone number has been successfully verified.');
+          this.confirmNumber = false;
+        },
+        error: error => {
+          if (error.error instanceof Object && error.error.message) {
+            const errorMessage = error.error.message;
+            this.notificationService.addNotification({message: errorMessage, type: 'error'});
+
+          } else {
+            const errorMessage = typeof error.error === 'string' ? error.error : 'An unknown error occurred';
+            this.notificationService.addNotification({message: errorMessage, type: 'error'});
+
+          }
+        }
+      });
+    }
+  }
+
+  sendVerificationCode() {
+    this.confirmNumber = true;
+
+    console.log('sendVerificationCode')
+    this.authService.sendPhoneVerificationCode(this.loggedUserId).subscribe({
+      next: any => {
+          this.notificationService.addNotification({message: 'Verification code has been sent.', type: 'success'});
+      },
+      error: error => {
+        if (error.error instanceof Object && error.error.message) {
+          const errorMessage = error.error.message;
+          this.notificationService.addNotification({message: errorMessage, type: 'error'});
+
+        } else {
+          const errorMessage = typeof error.error === 'string' ? error.error : 'An unknown error occurred';
+          this.notificationService.addNotification({message: errorMessage, type: 'error'});
+        }
+      }
+    });
   }
 }

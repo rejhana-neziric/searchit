@@ -26,7 +26,7 @@ export class SignupKandidatComponent implements OnInit{
     prezime: null,
     datumRodjenja: null,
     mjestoPrebivalista: null,
-    brojTelefona: null,
+    phoneNumber: null,
     zvanje: null
   };
 
@@ -49,7 +49,7 @@ export class SignupKandidatComponent implements OnInit{
     const kandidat = Object.assign({}, this.form, this.korisnik);
 
     this.authService.registerCandidate(kandidat.username, kandidat.password, kandidat.email, kandidat.ime, kandidat.prezime,
-      kandidat.datumRodjenja, kandidat.mjestoPrebivalista, kandidat.zvanje, kandidat.brojTelefona).subscribe({
+      kandidat.datumRodjenja, kandidat.mjestoPrebivalista, kandidat.zvanje, kandidat.phoneNumber).subscribe({
       next: response => {
         this.isSignUpFailed = false;
         this.isSigned = true;

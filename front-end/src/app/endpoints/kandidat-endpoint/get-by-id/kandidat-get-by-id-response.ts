@@ -4,7 +4,8 @@ export interface KandidatGetByIdResponse {
   datumRodjenja: Date,
   mjestoPrebivalista: string,
   zvanje: string,
-  brojTelefona: string,
   userName: string,
   email: string,
+  phoneNumber: string,
+  phoneNumberConfirmed: boolean
 }

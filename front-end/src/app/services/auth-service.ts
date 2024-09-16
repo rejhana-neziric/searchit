@@ -54,6 +54,14 @@ export class AuthService {
     );
   }
 
+  sendPhoneVerificationCode(kandidatId: string) {
+    return this.http.post(MojConfig.lokalna_adresa + `/send-phone-verification-code/${kandidatId}`, {});
+  }
+
+  verifyPhoneNumber(token: string) {
+    return this.http.post(MojConfig.lokalna_adresa + `/verify-phone-number/${token}`, {});
+  }
+
   getLoggedUser() {
 
     let loggedUser: User | null = { id: "", role: "", jwt: ""};
@@ -68,7 +76,7 @@ export class AuthService {
   }
 
   registerCandidate(username: string, password: string, email: string, ime: string, prezime: string,
-                    datumRodjenja: any, mjestoPrebivalista: string, zvanje: string, brojTelefona: string): Observable<any> {
+                    datumRodjenja: any, mjestoPrebivalista: string, zvanje: string, phoneNumber: string): Observable<any> {
     return this.http.post(
       MojConfig.lokalna_adresa + '/register/kandidat',
       {
@@ -80,7 +88,7 @@ export class AuthService {
         datumRodjenja,
         mjestoPrebivalista,
         zvanje,
-        brojTelefona
+        phoneNumber
       },
       httpOptions
     );

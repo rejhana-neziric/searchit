@@ -49,7 +49,7 @@ namespace JobSearchingWebApp.Endpoints.CV.GetAll
                 Prezime = cv.Prezime,
                 Zvanje = cv.Kandidat.Zvanje,
                 Email = cv.Email,
-                BrojTelefona = cv.BrojTelefona,
+                PhoneNumber = cv.PhoneNumber,
                 Grad = cv.Grad,
                 Drzava = cv.Drzava,
                 ProfesionalniSazetak = cv.ProfesionalniSazetak,

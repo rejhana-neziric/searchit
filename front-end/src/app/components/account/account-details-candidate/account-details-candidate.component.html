@@ -81,6 +81,30 @@
                     </span>
           </div>
 
+          <div *ngIf="!loggedUser?.phoneNumberConfirmed" class="mt-2 mb-4">
+            <button *ngIf="!confirmNumber" class="btn-confirm w-auto ms-0" style="height: 30px" (click)="sendVerificationCode()">Confirm phone number</button>
+
+            <div *ngIf="confirmNumber">
+              <form [formGroup]="confirmPhoneNumberForm" class="form-grid" (ngSubmit)="confirmPhoneNumber()" autocomplete="off">
+
+
+                <div class="mt-2 mb-4 my-3">
+                  <label class="required">Enter the verification token send to your phone number.</label>
+                  <input formControlName="token" type="text" class="form-control"
+                         [class.is-invalid]="submittedConfirmNumber && confirmPhoneNumberForm.get('token')?.errors">
+                  <span class="text-danger" *ngIf="submittedConfirmNumber && confirmPhoneNumberForm.get('token')?.hasError('required')">
+                        Verification code is required!
+                    </span>
+                </div>
+
+                <button class="btn-confirm w-auto ms-0" style="height: 30px">Verify phone number</button>
+
+              </form>
+            </div>
+
+
+          </div>
+
         </div>
         <!-- Second column -->
 

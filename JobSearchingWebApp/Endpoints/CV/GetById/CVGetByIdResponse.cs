@@ -20,7 +20,7 @@ namespace JobSearchingWebApp.Endpoints.CV.GetById
 
         public string Email { get; set; }
 
-        public string? BrojTelefona { get; set; }
+        public string? PhoneNumber { get; set; }
 
         public string? Drzava { get; set; }
 

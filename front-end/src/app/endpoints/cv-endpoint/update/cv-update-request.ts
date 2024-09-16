@@ -7,7 +7,6 @@ export class CvUpdateRequest {
     public ime: string | null,
     public prezime: string | null,
     public email: string | null,
-    public brojTelefona: string | null,
     public drzava: string | null,
     public grad: string | null,
     public profesionalniSazetak: string | null,

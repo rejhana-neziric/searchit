@@ -35,8 +35,7 @@ namespace JobSearchingWebApp.Endpoints.Kandidat.Pretraga
                                      Prezime = x.Prezime,    
                                      DatumRodjenja = x.DatumRodjenja, 
                                      MjestoPrebivalista = x.MjestoPrebivalista,
-                                    // Zvanje = x.Zvanje,   
-                                     BrojTelefona = x.BrojTelefona,   
+                                    // Zvanje = x.Zvanje
                                  }).ToListAsync();    
 
             return new KandidatPretragaResponse { Kandidati = kandidati };   

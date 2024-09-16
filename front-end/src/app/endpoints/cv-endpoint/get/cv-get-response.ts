@@ -12,7 +12,7 @@ export interface CVGetResponseCV {
   ime: string
   prezime: string
   email: string
-  brojTelefona: string | null
+  phoneNumber: string | null
   drzava: string | null
   grad: string | null
   zvanje: string

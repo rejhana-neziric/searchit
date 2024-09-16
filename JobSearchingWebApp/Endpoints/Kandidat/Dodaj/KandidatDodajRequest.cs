@@ -20,7 +20,7 @@ namespace JobSearchingWebApp.Endpoints.Kandidat.Dodaj
 
         public string Zvanje { get; set; }
 
-        public string BrojTelefona { get; set; }
+        public string PhoneNumber { get; set; }
     }
 
 

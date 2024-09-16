@@ -35,7 +35,7 @@ namespace JobSearchingWebApp.Endpoints.CV.GetById
                 Ime = cv.Ime,
                 Prezime = cv.Prezime,
                 Email = cv.Email,
-                BrojTelefona = cv.BrojTelefona,
+                PhoneNumber = cv.PhoneNumber,
                 Grad = cv.Grad,
                 Drzava = cv.Drzava,
                 ProfesionalniSazetak = cv.ProfesionalniSazetak, 

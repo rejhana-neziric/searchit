@@ -22,6 +22,7 @@ using Microsoft.AspNetCore.WebUtilities;
 using System.Data;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace JobSearchingWebApp.Endpoints.Auth
 {
@@ -35,15 +36,23 @@ namespace JobSearchingWebApp.Endpoints.Auth
         private readonly IConfiguration config;
         private readonly JWTService jwtService; 
         private readonly EmailService emailService;
+        private readonly SmsService smsService;
 
-        public AuthController(UserManager<Models.Korisnik> userManager, SignInManager<Models.Korisnik> signInManager, IMapper mapper, IConfiguration config, JWTService jwtService, EmailService emailService)
+
+        public AuthController(UserManager<Models.Korisnik> userManager, 
+                              SignInManager<Models.Korisnik> signInManager, 
+                              IMapper mapper, IConfiguration config, 
+                              JWTService jwtService, 
+                              EmailService emailService,
+                              SmsService smsService)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.mapper = mapper;
             this.config = config;
             this.jwtService = jwtService;
-            this.emailService = emailService;   
+            this.emailService = emailService;  
+            this.smsService = smsService;   
         }
 
         [HttpPost("register/admin")]
@@ -276,5 +285,71 @@ namespace JobSearchingWebApp.Endpoints.Auth
         //        user.Email
         //    });
         //}
+
+
+        [Authorize(Roles = "Kandidat")]
+        [HttpPost("send-phone-verification-code/{kandidatId}")]
+        public async Task<IActionResult> SendPhoneVerificationCode(string kandidatId)
+        {
+            var userId = userManager.GetUserId(User);
+            var user = await userManager.FindByIdAsync(userId);
+
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{userManager.GetUserId(User)}'.");
+            }
+
+            if(userId == kandidatId)
+            {
+                var token = await userManager.GenerateChangePhoneNumberTokenAsync(user, user.PhoneNumber);
+
+                var result = await smsService.SendSmsAsync(user.PhoneNumber, token);
+
+                if (result)
+                {
+                    return Ok(new { Message = "Verification code has been sent." });
+                }
+                else
+                {
+                    return BadRequest();
+                }
+
+                return BadRequest();
+            }
+
+            else return Unauthorized(); 
+        }
+
+
+        [Authorize(Roles = "Kandidat")]
+        [HttpPost("verify-phone-number/{token}")]
+        public async Task<IActionResult> VerifyPhoneNumber(string token)
+        {
+            var user = await userManager.GetUserAsync(User);
+            var userId = userManager.GetUserId(User);
+
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{userManager.GetUserId(User)}'.");
+            }
+
+            var PhoneNumber = user.PhoneNumber;
+
+            var result = await userManager.VerifyChangePhoneNumberTokenAsync(user, token, PhoneNumber);
+
+            if (result)
+            {
+                user.PhoneNumberConfirmed = true;
+                await userManager.UpdateAsync(user);
+
+                return Ok(new { Message = "Phone number has been succefully verified."});
+               
+            }
+            else
+            {
+                return BadRequest(new { Message = "Error, please try again." });
+            }
+        }
+
     }
 }

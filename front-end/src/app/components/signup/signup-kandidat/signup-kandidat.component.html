@@ -147,25 +147,21 @@
         </div>
 
         <div class="form-group">
-          <label for="brojTelefona" class="required">Phone Number</label>
+          <label for="phoneNumber" class="required">Phone Number</label>
           <input
             type="tel"
             class="form-control"
-            name="brojTelefona"
-            [(ngModel)]="form.brojTelefona"
+            name="phoneNumber"
+            [(ngModel)]="form.phoneNumber"
             required
-            pattern="^\+[0-9]{3}-[0-9]{2}-[0-9]{3}-[0-9]{3,4}$"
-            placeholder="e.g. +387-12-345-678"
-            #brojTelefona="ngModel"
-            [ngClass]="{ 'is-invalid': f.submitted && brojTelefona.errors }"
+            placeholder="e.g. +38712345678"
+            #phoneNumber="ngModel"
+            [ngClass]="{ 'is-invalid': f.submitted && phoneNumber.errors }"
           />
-          @if (brojTelefona.errors && f.submitted) {
+          @if (phoneNumber.errors && f.submitted) {
             <div class="invalid-feedback">
-              @if (brojTelefona.errors['required']) {
+              @if (phoneNumber.errors['required']) {
                 <div>Phone number is required!</div>
-              }
-              @if (brojTelefona.errors['pattern']) {
-                <div> Invalid phone number format!</div>
               }
 
             </div>

@@ -1,5 +1,6 @@
 ﻿using JobSearchingWebApp.Data;
 using JobSearchingWebApp.Endpoints.Kandidat.Delete;
+using JobSearchingWebApp.Endpoints.Kandidat.GetById;
 using JobSearchingWebApp.Helper;
 using MapsterMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -33,7 +34,12 @@ namespace JobSearchingWebApp.Endpoints.Kandidat.Update
 
             kandidat.MjestoPrebivalista = request.MjestoPrebivalista ?? kandidat.MjestoPrebivalista;
             kandidat.Zvanje = request.Zvanje ?? kandidat.Zvanje;
-            kandidat.BrojTelefona = request.BrojTelefona ?? kandidat.BrojTelefona;
+
+            if(!String.IsNullOrEmpty(request.PhoneNumber))
+            {
+                kandidat.PhoneNumber = request.PhoneNumber;
+                kandidat.PhoneNumberConfirmed = false; 
+            }
 
             await dbContext.SaveChangesAsync();
 

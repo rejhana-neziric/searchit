@@ -44,6 +44,14 @@ builder.Services.AddIdentityCore<Korisnik>()
     .AddUserManager<UserManager<Korisnik>>() 
     .AddDefaultTokenProviders();
 
+
+///////////
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    options.Tokens.AuthenticatorTokenProvider = TokenOptions.DefaultPhoneProvider;
+});
+//////////
+
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -108,6 +116,7 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.Services.AddScoped<JWTService>();
 builder.Services.AddScoped<EmailService>();
+builder.Services.AddScoped<SmsService>();
 builder.Services.AddTransient<MyAuthService>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddMapster();

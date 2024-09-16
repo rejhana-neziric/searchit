@@ -86,7 +86,7 @@
 //            kandidat.Prezime = k.prezime;
 //            kandidat.MjestoPrebivalista = k.mjesto_prebivalista;
 //            kandidat.DatumRodjenja = k.datum_rodjenja;
-//            kandidat.BrojTelefona = k.broj_telefona;
+//            kandidat.PhoneNumber = k.broj_telefona;
 
 //            dbContext.SaveChanges();
 //            return Ok(kandidat);
@@ -109,7 +109,7 @@
 //            kandidat.Prezime = k.prezime;
 //            kandidat.MjestoPrebivalista = k.mjesto_prebivalista;
 //            kandidat.DatumRodjenja = k.datum_rodjenja;
-//            kandidat.BrojTelefona = k.broj_telefona;
+//            kandidat.PhoneNumber = k.broj_telefona;
 
 //            dbContext.SaveChanges();
 //            return Ok(kandidat);

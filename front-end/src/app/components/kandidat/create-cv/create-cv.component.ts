@@ -25,6 +25,8 @@ import {CVGetByIdResponse} from "../../../endpoints/cv-endpoint/get-by-id/cv-get
 import {CVUpdateEndpoint} from "../../../endpoints/cv-endpoint/update/cv-update-endpoint";
 import {ModalComponent} from "../../modal/modal.component";
 import {ModalService} from "../../../services/modal-service";
+import {KandidatGetByIdResponse} from "../../../endpoints/kandidat-endpoint/get-by-id/kandidat-get-by-id-response";
+import {KandidatGetByIdEndpoint} from "../../../endpoints/kandidat-endpoint/get-by-id/kandidat-get-by-id-endpoint";
 
 declare var bootstrap: any;
 
@@ -103,6 +105,12 @@ export class CreateCvComponent implements OnInit {
   cvEditId: string | null = null;
   cvEdit: CVGetByIdResponse | null = null;
   edit: boolean = false;
+  kandidat: KandidatGetByIdResponse | null = null;
+  confirmNumber: boolean = false;
+  submittedConfirmNumber: boolean = false;
+  confirmPhoneNumberForm: FormGroup = new FormGroup({});
+  phoneNumber: string = "";
+  phoneNumberConfirmed: boolean = false;
 
   constructor(private formBuilder: FormBuilder,
               private getVjestineEndpoint: GetVjestineEndpoint,
@@ -111,6 +119,7 @@ export class CreateCvComponent implements OnInit {
               private cvGetEndpoint: CVGetEndpoint,
               private cvGetByIdEndpoint: CVGetByIdEndpoint,
               private cvUpdateEndpoint: CVUpdateEndpoint,
+              private kandidatGetByIdEndpoint: KandidatGetByIdEndpoint,
               private authService: AuthService,
               private notificationService: NotificationService,
               private modalService: ModalService,
@@ -123,6 +132,7 @@ export class CreateCvComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.selectedSectionId = 'section1';
     this.initializeForm();
+    this.initializePhoneVerificationForm();
     await this.getVjestine();
     await this.getTehnickeVjestine();
 
@@ -165,7 +175,7 @@ export class CreateCvComponent implements OnInit {
       this.cvGetByIdEndpoint.obradi(Number(this.cvEditId)).subscribe({
         next: (x) => {
           this.cvEdit = x;
-          console.log('edit' + this.cvEdit);
+          console.log(this.cvEdit.phoneNumber);
           resolve();
         },
         error: (err) => {
@@ -177,7 +187,7 @@ export class CreateCvComponent implements OnInit {
   }
 
   // Get previously created CV data for importing personal details
-  async getPreviousCV() {
+/*  async getPreviousCV() {
     const requset = {
       kandidatId: this.loggedUserId,
       objavljen: null,
@@ -190,6 +200,18 @@ export class CreateCvComponent implements OnInit {
     } catch (error) {
       console.log(error);
     }
+  }*/
+
+  getPreviousCV() {
+    this.kandidatGetByIdEndpoint.obradi(this.loggedUserId).subscribe({
+      next: (response: KandidatGetByIdResponse) => {
+        this.kandidat = response;
+
+      },
+      error: error => {
+
+      }
+    })
   }
 
   initializeForm() {
@@ -198,7 +220,7 @@ export class CreateCvComponent implements OnInit {
       firstName: ['', [Validators.required, Validators.min(3), Validators.max(30)]],
       lastName: ['', [Validators.required, Validators.min(3), Validators.max(30)]],
       email: ['', [Validators.required, Validators.email]],
-      phoneNumber: ['', [Validators.pattern(/^\+\d{1,3}-\d{2}-\d{3}-\d{3,4}$/)]],
+      phoneNumber: [''],
       city: [''],
       country: [''],
     })
@@ -211,9 +233,9 @@ export class CreateCvComponent implements OnInit {
         firstName: cvData?.ime,
         lastName: cvData?.prezime,
         email: cvData?.email,
-        phoneNumber: cvData?.brojTelefona,
         city: cvData?.grad,
         country: cvData?.drzava,
+        phoneNumber: cvData?.phoneNumber
       });
 
       this.professionalSummary = cvData?.profesionalniSazetak;
@@ -223,6 +245,7 @@ export class CreateCvComponent implements OnInit {
       this.selectedSkills = cvData?.vjestine?.$values ?? cvData?.vjestine ?? [];
       this.selectedTechnicalSkills = cvData?.tehnickeVjestine?.$values ?? cvData?.tehnickeVjestine ?? [];
       this.courses = cvData?.kursevi?.$values ?? cvData?.kursevi ?? [];
+      this.phoneNumber = cvData?.phoneNumber;
 
       console.log(this.selectedSkills);
     } catch (error) {
@@ -379,7 +402,7 @@ export class CreateCvComponent implements OnInit {
       ime: this.form.get('firstName')?.value,
       prezime: this.form.get('lastName')?.value,
       email: this.form.get('email')?.value,
-      brojTelefona: this.form.get('phoneNumber')?.value,
+      phoneNumber: this.form.get('phoneNumber')?.value,
       grad: this.form.get('city')?.value,
       drzava: this.form.get('country')?.value,
       profesionalniSazetak: this.professionalSummary!,
@@ -390,6 +413,8 @@ export class CreateCvComponent implements OnInit {
       zaposlenje: zaposlenje,
       url: url
     }
+
+
   }
 
   cvPreview() {
@@ -468,7 +493,6 @@ export class CreateCvComponent implements OnInit {
       ime: this.form.get('firstName')?.value,
       prezime: this.form.get('lastName')?.value,
       email: this.form.get('email')?.value,
-      brojTelefona: this.form.get('phoneNumber')?.value,
       grad: this.form.get('city')?.value,
       drzava: this.form.get('country')?.value,
       profesionalniSazetak: this.professionalSummary!,
@@ -492,20 +516,93 @@ export class CreateCvComponent implements OnInit {
     })
   }
 
+/*
   importDetails() {
     this.form.patchValue({
       naziv: this.previouslyCreatedCv?.naziv,
       firstName: this.previouslyCreatedCv?.ime,
       lastName: this.previouslyCreatedCv?.prezime,
       email: this.previouslyCreatedCv?.email,
-      phoneNumber: this.previouslyCreatedCv?.brojTelefona,
+      phoneNumber: this.previouslyCreatedCv?.phoneNumber,
       city: this.previouslyCreatedCv?.grad,
       country: this.previouslyCreatedCv?.drzava,
     });
+  }
+*/
+
+
+  initializePhoneVerificationForm(){
+    this.confirmPhoneNumberForm = this.formBuilder.group({
+      token: ['', [Validators.required]],
+    })
+  }
+
+  importDetails() {
+
+    this.phoneNumber = this.kandidat?.phoneNumber ?? "";
+
+    this.form.patchValue({
+      naziv: null,
+      firstName: this.kandidat?.ime,
+      lastName: this.kandidat?.prezime,
+      email: this.kandidat?.email,
+      phoneNumber: this.kandidat?.phoneNumber,
+      city: this.kandidat?.mjestoPrebivalista,
+      country: null,
+    });
+  }
+
+  confirmPhoneNumber() {
+    this.submittedConfirmNumber = true;
+
+    if (this.confirmPhoneNumberForm.valid) {
+      const token = this.confirmPhoneNumberForm.get('token')?.value;
+
+      console.log(token.toString());
+      /*this.authService.verifyPhoneNumber(token).subscribe({
+        next: any => {
+          this.notificationService.showModalNotification(true, 'Phone number verified', 'Your phone number has been successfully verified.');
+          this.confirmNumber = false;
+        },
+        error: error => {
+          if (error.error instanceof Object && error.error.message) {
+            const errorMessage = error.error.message;
+            this.notificationService.addNotification({message: errorMessage, type: 'error'});
+
+          } else {
+            const errorMessage = typeof error.error === 'string' ? error.error : 'An unknown error occurred';
+            this.notificationService.addNotification({message: errorMessage, type: 'error'});
+
+          }
+        }
+      });*/
+    }
+  }
+
+  sendVerificationCode() {
+    this.confirmNumber = true;
+
+    console.log('sendVerificationCode')
+   /* this.authService.sendPhoneVerificationCode(this.loggedUserId).subscribe({
+      next: any => {
+        this.notificationService.addNotification({message: 'Verification code has been sent.', type: 'success'});
+      },
+      error: error => {
+        if (error.error instanceof Object && error.error.message) {
+          const errorMessage = error.error.message;
+          this.notificationService.addNotification({message: errorMessage, type: 'error'});
+
+        } else {
+          const errorMessage = typeof error.error === 'string' ? error.error : 'An unknown error occurred';
+          this.notificationService.addNotification({message: errorMessage, type: 'error'});
+        }
+      }
+    });*/
   }
 
   cancel() {
     localStorage.removeItem('cvData');
     this.router.navigateByUrl('/cv');
   }
+
 }

@@ -25,7 +25,7 @@ namespace JobSearchingWebApp.Endpoints.CV.GetAll
 
         public string Zvanje { get; set; }
 
-        public string? BrojTelefona { get; set; }
+        public string? PhoneNumber { get; set; }
 
         public string? Drzava { get; set; }
 

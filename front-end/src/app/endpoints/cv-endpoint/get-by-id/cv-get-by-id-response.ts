@@ -6,7 +6,7 @@ export interface CVGetByIdResponse {
   ime: string;
   prezime: string;
   email:string;
-  brojTelefona: string | null;
+  phoneNumber: string | null;
   drzava: string | null;
   grad: string | null;
   datumModificiranja: Date,

@@ -73,11 +73,6 @@ namespace JobSearchingWebApp.Endpoints.CV.Update
                     cv.Email = request.Email;
                 }
 
-                if (!String.IsNullOrEmpty(request.BrojTelefona))
-                {
-                    cv.BrojTelefona = request.BrojTelefona;
-                }
-
                 if (!String.IsNullOrEmpty(request.Drzava))
                 {
                     cv.Drzava = request.Drzava;

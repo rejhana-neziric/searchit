@@ -45,7 +45,7 @@ namespace JobSearchingWebApp.Endpoints.CV.Dodaj
                     Ime = request.Ime,
                     Prezime = request.Prezime,
                     Email = request.Email,
-                    BrojTelefona = request.BrojTelefona,
+                    PhoneNumber = request.PhoneNumber,
                     Drzava = request.Drzava,
                     Grad = request.Grad,
                     ProfesionalniSazetak = request.ProfesionalniSazetak,
