@@ -8,6 +8,35 @@
   </div>
 
   <div class="container">
+
+    <div class="two-factor-auth ms-2">
+      <button
+        (click)="toggle2FA()"
+        [ngClass]="{'enabled': is2FAEnabled, 'disabled': !is2FAEnabled}"
+      >
+        {{ is2FAEnabled ? 'Disable 2FA' : 'Enable 2FA' }}
+      </button>
+    </div>
+
+    <div *ngIf="confirmCode" class="mt-2 mb-4 ms-2">
+      <form [formGroup]="confirmCodeForm" class="form-grid" (ngSubmit)="confirmVerificationCode()" autocomplete="off">
+
+
+        <div class="mt-2 mb-4 my-3">
+          <label class="required">Enter the verification token send to your email.</label>
+          <input formControlName="token" type="text" class="form-control"
+                 [class.is-invalid]="submittedConfirmCode && confirmCodeForm.get('token')?.errors">
+          <span class="text-danger" *ngIf="submittedConfirmCode && confirmCodeForm.get('token')?.hasError('required')">
+                        Verification code is required!
+                    </span>
+        </div>
+
+        <button class="btn-confirm w-auto ms-0" style="height: 30px">Submit</button>
+
+      </form>
+    </div>
+
+
     <form [formGroup]="companyForm" class="form-grid" (ngSubmit)="save()" autocomplete="off">
 
       <div class="d-flex flex-row" style="width: 80%; padding: 10px">

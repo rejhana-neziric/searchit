@@ -1,4 +1,4 @@
-﻿using JobSearchingWebApp.Models;
+﻿using JobSearchingWebApp.Database;
 using JobSearchingWebApp.ViewModels;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;

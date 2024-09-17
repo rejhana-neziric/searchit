@@ -1,5 +1,5 @@
 ﻿using JobSearchingWebApp.Data;
-using JobSearchingWebApp.Models;
+using JobSearchingWebApp.Database;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 

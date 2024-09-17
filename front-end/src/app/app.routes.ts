@@ -34,6 +34,9 @@ import { CvPublishedComponent } from "./components/company/cv-published/cv-publi
 import { ChatCompanyComponent } from "./components/company/chat-company/chat-company.component";
 import { MyJobsComponent } from "./components/company/my-jobs/my-jobs.component";
 import { OglasUpdateComponent } from "./components/oglas-update/oglas-update.component";
+import {
+  TwoFactorAuthenticationComponent
+} from "./components/two-factor-authentication/two-factor-authentication.component";
 
 
 export const routes: Routes = [
@@ -64,6 +67,7 @@ export const routes: Routes = [
   {path: 'signup', component: SignupComponent},
   {path: 'confirm-email', component: ConfirmEmailComponent},
   {path: 'send-email/:mode', component: SendEmailComponent},
+  {path: '2fa', component: TwoFactorAuthenticationComponent},
   {path: 'home', component: HomeComponent},
   {path: 'favorites', component: FavoritesComponent},
   {path: 'favorites-applicants', component: FavoritesKandidatiComponent},

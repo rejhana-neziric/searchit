@@ -1,7 +1,7 @@
 ﻿using JobSearchingWebApp.Data;
 using JobSearchingWebApp.Endpoints.Oglas.GetAll;
 using JobSearchingWebApp.Helper;
-using JobSearchingWebApp.Models;
+using JobSearchingWebApp.Database;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +13,7 @@ namespace JobSearchingWebApp.Endpoints.KandidatOglas.GetAll
     public class KandidatOglasGetAllEndpoint : MyBaseEndpoint<KandidatOglasGetAllRequest, KandidatOglasGetAllResponse>
     {
         private readonly ApplicationDbContext dbContext;
-        private readonly UserManager<Models.Korisnik> userManager;
+        private readonly UserManager<Database.Korisnik> userManager;
 
         public KandidatOglasGetAllEndpoint(ApplicationDbContext dbContext, UserManager<Korisnik> userManager)
         {

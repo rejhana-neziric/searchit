@@ -3,7 +3,7 @@ using IdentityServer3.Core.Services;
 using JobSearchingWebApp.Data;
 using JobSearchingWebApp.Helper;
 using JobSearchingWebApp.Helper.Services;
-using JobSearchingWebApp.Models;
+using JobSearchingWebApp.Database;
 using JobSearchingWebApp.ViewModels;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;

@@ -50,6 +50,29 @@
   height: 40px;
 }
 
+.two-factor-auth button {
+  padding: 8px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.two-factor-auth button.enabled {
+  background-color: var(--secondary-color); /* Green */
+  color: white;
+}
+
+.two-factor-auth button.disabled {
+  background-color: lightgray; /* Red */
+  color: black;
+}
+
+.two-factor-auth button:hover {
+  opacity: 0.8;
+}
+
 @media (min-width:768px) {
   .content {
     display: grid;

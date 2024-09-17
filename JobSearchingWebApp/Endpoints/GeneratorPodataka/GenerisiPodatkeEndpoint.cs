@@ -2,7 +2,7 @@
 using JobSearchingWebApp.Data;
 using JobSearchingWebApp.Helper;
 
-using JobSearchingWebApp.Models;
+using JobSearchingWebApp.Database;
 using MapsterMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -17,9 +17,9 @@ namespace JobSearchingWebApp.Endpoints.GeneratorPodataka
     public class GenerisiPodatkeEndpoint : ControllerBase
     {
         private readonly ApplicationDbContext dbContext;
-        private readonly UserManager<Models.Korisnik> userManager;
+        private readonly UserManager<Database.Korisnik> userManager;
 
-        public GenerisiPodatkeEndpoint(ApplicationDbContext dbContext, UserManager<Models.Korisnik> userManager)
+        public GenerisiPodatkeEndpoint(ApplicationDbContext dbContext, UserManager<Database.Korisnik> userManager)
         {
             this.dbContext = dbContext;
             this.userManager = userManager; 
@@ -28,12 +28,12 @@ namespace JobSearchingWebApp.Endpoints.GeneratorPodataka
         [HttpPost]
         public async Task<ActionResult> Generisi()
         {
-            var oglasi = new List<Models.Oglas>();
-            var iskustvo = new List<Models.Iskustvo>();
-            var lokacija = new List<Models.Lokacija>();
-            var oglasIskustvo = new List<Models.OglasIskustvo>();
-            var oglasLokacija = new List<Models.OglasLokacija>();
-            var opisOglas = new List<Models.OpisOglas>();
+            var oglasi = new List<Database.Oglas>();
+            var iskustvo = new List<Database.Iskustvo>();
+            var lokacija = new List<Database.Lokacija>();
+            var oglasIskustvo = new List<Database.OglasIskustvo>();
+            var oglasLokacija = new List<Database.OglasLokacija>();
+            var opisOglas = new List<Database.OpisOglas>();
 
 
             //lokacije
@@ -47,9 +47,9 @@ namespace JobSearchingWebApp.Endpoints.GeneratorPodataka
 
 
             //iskustvo
-            iskustvo.Add(new Models.Iskustvo { Naziv = "Junior" });
-            iskustvo.Add(new Models.Iskustvo { Naziv = "Medior" });
-            iskustvo.Add(new Models.Iskustvo { Naziv = "Senior" });
+            iskustvo.Add(new Database.Iskustvo { Naziv = "Junior" });
+            iskustvo.Add(new Database.Iskustvo { Naziv = "Medior" });
+            iskustvo.Add(new Database.Iskustvo { Naziv = "Senior" });
             
             dbContext.Add(iskustvo);
             //iskustvo
@@ -222,7 +222,7 @@ namespace JobSearchingWebApp.Endpoints.GeneratorPodataka
 
             //kompanije
 
-            var kompanijaByteMatrix = new Models.Kompanija()
+            var kompanijaByteMatrix = new Database.Kompanija()
             {
                 Naziv = "ByteMatrix Solutions",
                 GodinaOsnivanja = 2012,

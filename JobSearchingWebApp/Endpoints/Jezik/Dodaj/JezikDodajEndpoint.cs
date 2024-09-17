@@ -19,7 +19,7 @@ namespace JobSearchingWebApp.Endpoints.Jezik.Dodaj
         [HttpPost]
         public override async Task<JezikDodajResponse> MyAction(JezikDodajRequest request, CancellationToken cancellationToken)
         {
-            var jezik = new Models.Jezik
+            var jezik = new Database.Jezik
             {
                 Naziv = request.naziv
             };

@@ -19,7 +19,7 @@ namespace JobSearchingWebApp.Endpoints.OpisKompanije.Dodaj
         [HttpPost]
         public override async Task<OpisKompanijeDodajResponse> MyAction(OpisKompanijeDodajRequest request, CancellationToken cancellationToken)
         {
-            var opis_kompanije = new Models.OpisKompanije()
+            var opis_kompanije = new Database.OpisKompanije()
             {
                 OpisPoslovanja = request.opis_poslovanja, 
                 BrojOtvorenihPozicija = request.broj_otvorenih_pozicija, 

@@ -1,7 +1,7 @@
 ﻿using JobSearchingWebApp.Data;
 using JobSearchingWebApp.Endpoints.Kandidat.Dodaj;
 using JobSearchingWebApp.Helper;
-using JobSearchingWebApp.Models;
+using JobSearchingWebApp.Database;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
@@ -50,7 +50,7 @@ namespace JobSearchingWebApp.Endpoints.KandidatSpaseniOglasi.Dodaj
 
             else
             {
-                var kandidat_oglas = new Models.KandidatSpaseniOglasi()
+                var kandidat_oglas = new Database.KandidatSpaseniOglasi()
                 {
                     KandidatId = request.kandidat_id,
                     OglasId = request.oglas_id,

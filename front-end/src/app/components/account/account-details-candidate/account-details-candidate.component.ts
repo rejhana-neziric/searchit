@@ -3,7 +3,7 @@ import {NavbarComponent} from "../../navbar/navbar.component";
 import {FooterComponent} from "../../footer/footer.component";
 import {DatePipe, isPlatformBrowser, NgClass, NgForOf, NgIf} from "@angular/common";
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
-import {Router, RouterLink} from "@angular/router";
+import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {KandidatGetByIdEndpoint} from "../../../endpoints/kandidat-endpoint/get-by-id/kandidat-get-by-id-endpoint";
 import {take} from "rxjs";
 import {User} from "../../../modals/user";
@@ -17,23 +17,24 @@ import {KandidatDeleteEndpoint} from "../../../endpoints/kandidat-endpoint/delet
 import {ModalComponent} from "../../modal/modal.component";
 import {CVGetResponseCV} from "../../../endpoints/cv-endpoint/get/cv-get-response";
 import {ModalService} from "../../../services/modal-service";
+import {ConfirmEmail} from "../../../modals/confirmEmail";
 
 @Component({
   selector: 'app-account-details-candidate',
   standalone: true,
-    imports: [
-        NavbarComponent,
-        FooterComponent,
-        NgForOf,
-        NgIf,
-        ReactiveFormsModule,
-        RouterLink,
-        FormsModule,
-        NgClass,
-        DatePipe,
-        NotificationToastComponent,
-        ModalComponent
-    ],
+  imports: [
+    NavbarComponent,
+    FooterComponent,
+    NgForOf,
+    NgIf,
+    ReactiveFormsModule,
+    RouterLink,
+    FormsModule,
+    NgClass,
+    DatePipe,
+    NotificationToastComponent,
+    ModalComponent
+  ],
   templateUrl: './account-details-candidate.component.html',
   styleUrl: './account-details-candidate.component.css'
 })
@@ -48,15 +49,20 @@ export class AccountDetailsCandidateComponent implements OnInit {
   confirmNumber: boolean = false;
   submittedConfirmNumber: boolean = false;
   confirmPhoneNumberForm: FormGroup = new FormGroup({});
+  confirmCodeForm: FormGroup = new FormGroup({});
+  submittedConfirmCode: boolean = false;
+  confirmCode: boolean = false;
+  is2FAEnabled: boolean = false;
+  returnUrl: string | null = null;
 
   deleteButtons = [
-    { text: 'Cancel', class: 'btn-cancel', action: () => this.closeDeleteModal() },
-    { text: 'Delete', class: 'btn-danger', action: () => this.confirmDelete() }
+    {text: 'Cancel', class: 'btn-cancel', action: () => this.closeDeleteModal()},
+    {text: 'Delete', class: 'btn-danger', action: () => this.confirmDelete()}
   ];
 
   saveButtons = [
-    { text: 'Cancel', class: 'btn-cancel', action: () => this.closeSaveModal() },
-    { text: 'Save', class: 'btn-confirm', action: () => this.confirmSave() }
+    {text: 'Cancel', class: 'btn-cancel', action: () => this.closeSaveModal()},
+    {text: 'Save', class: 'btn-confirm', action: () => this.confirmSave()}
   ];
 
 
@@ -68,12 +74,14 @@ export class AccountDetailsCandidateComponent implements OnInit {
               private kandidatDeleteEndpoint: KandidatDeleteEndpoint,
               private modalService: ModalService,
               private router: Router,
+              private activatedRoute: ActivatedRoute,
               @Inject(PLATFORM_ID) private platformId: any) {
   }
 
   ngOnInit(): void {
     this.initializeCandidateForm();
     this.initializePhoneVerificationForm();
+    this.initializVerificationCodeForm();
 
     this.authService.user$.pipe(take(1)).subscribe({
       next: (user: User | null) => {
@@ -84,6 +92,14 @@ export class AccountDetailsCandidateComponent implements OnInit {
     })
 
     this.getUser();
+
+    this.activatedRoute.queryParams.subscribe({
+      next: (params: any) => {
+        if (params) {
+          this.returnUrl = params['returnUrl'];
+        }
+      }
+    })
   }
 
   initializeCandidateForm() {
@@ -94,8 +110,14 @@ export class AccountDetailsCandidateComponent implements OnInit {
     })
   }
 
-  initializePhoneVerificationForm(){
+  initializePhoneVerificationForm() {
     this.confirmPhoneNumberForm = this.formBuilder.group({
+      token: ['', [Validators.required]],
+    })
+  }
+
+  initializVerificationCodeForm() {
+    this.confirmCodeForm = this.formBuilder.group({
       token: ['', [Validators.required]],
     })
   }
@@ -104,6 +126,7 @@ export class AccountDetailsCandidateComponent implements OnInit {
     this.kandidatGetByIdEndpoint.obradi(this.loggedUserId).subscribe({
       next: (response: KandidatGetByIdResponse) => {
         this.loggedUser = response;
+        this.is2FAEnabled = response.twoFactorEnabled;
         this.candidateForm.patchValue({
           phoneNumber: this.loggedUser?.phoneNumber,
           title: this.loggedUser?.zvanje,
@@ -210,7 +233,7 @@ export class AccountDetailsCandidateComponent implements OnInit {
       console.log(token.toString());
       this.authService.verifyPhoneNumber(token).subscribe({
         next: any => {
-        this.notificationService.showModalNotification(true, 'Phone number verified', 'Your phone number has been successfully verified.');
+          this.notificationService.showModalNotification(true, 'Phone number verified', 'Your phone number has been successfully verified.');
           this.confirmNumber = false;
         },
         error: error => {
@@ -234,7 +257,7 @@ export class AccountDetailsCandidateComponent implements OnInit {
     console.log('sendVerificationCode')
     this.authService.sendPhoneVerificationCode(this.loggedUserId).subscribe({
       next: any => {
-          this.notificationService.addNotification({message: 'Verification code has been sent.', type: 'success'});
+        this.notificationService.addNotification({message: 'Verification code has been sent.', type: 'success'});
       },
       error: error => {
         if (error.error instanceof Object && error.error.message) {
@@ -247,5 +270,52 @@ export class AccountDetailsCandidateComponent implements OnInit {
         }
       }
     });
+  }
+
+  toggle2FA() {
+    this.authService.manageTwoFactorAuthentication().subscribe({
+      next: response => {
+        this.notificationService.addNotification({message: response.message, type: 'success'});
+        this.confirmCode = true;
+      },
+      error: error => {
+        if (error.error instanceof Object && error.error.message) {
+          const errorMessage = error.error.message;
+          this.notificationService.addNotification({message: errorMessage, type: 'error'});
+
+        } else {
+          const errorMessage = typeof error.error === 'string' ? error.error : 'An unknown error occurred';
+          this.notificationService.addNotification({message: errorMessage, type: 'error'});
+
+        }
+      }
+    });
+  }
+
+  confirmVerificationCode() {
+    this.submittedConfirmCode = true;
+
+    if (this.confirmCodeForm.valid) {
+      const token = this.confirmCodeForm.get('token')?.value;
+      console.log(token)
+      this.authService.changeTwoFactorAuthentication(token.toString()).subscribe({
+        next: response => {
+          this.notificationService.showModalNotification(true, 'Changes saved', response.message);
+          this.is2FAEnabled = !this.is2FAEnabled;
+          this.confirmCode = false;
+        },
+        error: error => {
+          if (error.error instanceof Object && error.error.message) {
+            const errorMessage = error.error.message;
+            this.notificationService.addNotification({message: errorMessage, type: 'error'});
+
+          } else {
+            const errorMessage = typeof error.error === 'string' ? error.error : 'An unknown error occurred';
+            this.notificationService.addNotification({message: errorMessage, type: 'error'});
+
+          }
+        }
+      });
+    }
   }
 }

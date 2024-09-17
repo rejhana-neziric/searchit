@@ -19,7 +19,7 @@ namespace JobSearchingWebApp.Endpoints.CVVjestine.Dodaj
         [HttpPost]
         public override async Task<CVVjestinaDodajResponse> MyAction(CVVjestinaDodajRequest request, CancellationToken cancellationToken)
         {
-            var cv_vjestina = new Models.CVVjestine()
+            var cv_vjestina = new Database.CVVjestine()
             {
                 CVId = request.cv_id,
                 VjestinaId = request.vjestina_id,

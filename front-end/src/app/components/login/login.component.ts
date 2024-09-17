@@ -61,16 +61,21 @@ export class LoginComponent implements OnInit {
 
     this.authService.login(username, password).subscribe({
       next: data => {
-        this.isLoginFailed = false;
-        this.isLoggedIn = true;
+          this.isLoginFailed = false;
+          this.isLoggedIn = true;
 
-        if (this.returnUrl) {
-          this.router.navigateByUrl(this.returnUrl);
-        } else {
-          this.router.navigateByUrl('/home');
-        }
+          if (this.returnUrl) {
+            this.router.navigateByUrl(this.returnUrl);
+          } else {
+            this.router.navigateByUrl('/home');
+          }
       },
       error: error => {
+        if (error.error.message == "RequiresTwoFactor") {
+          // Navigate to 2FA component
+          this.username = username;
+          this.router.navigate(['/2fa'], {queryParams: {username: this.username }})
+        }
         this.errorMessage = error.error.message;
         this.isLoginFailed = true;
       }

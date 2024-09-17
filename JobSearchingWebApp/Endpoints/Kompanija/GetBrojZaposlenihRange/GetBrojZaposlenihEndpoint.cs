@@ -2,6 +2,7 @@
 using JobSearchingWebApp.Endpoints.CV.Dodaj;
 using JobSearchingWebApp.Endpoints.Kompanija.Dodaj;
 using JobSearchingWebApp.Helper;
+using JobSearchingWebApp.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;

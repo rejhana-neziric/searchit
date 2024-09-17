@@ -1,6 +1,6 @@
 ﻿using JobSearchingWebApp.Data;
 using JobSearchingWebApp.Helper;
-using JobSearchingWebApp.Models;
+using JobSearchingWebApp.Database;
 using Mailjet.Client.Resources;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;

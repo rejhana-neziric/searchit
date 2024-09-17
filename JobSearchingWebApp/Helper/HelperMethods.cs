@@ -1,6 +1,6 @@
 ﻿using Azure.Core;
 using JobSearchingWebApp.Endpoints.CV.Update;
-using JobSearchingWebApp.Models;
+using JobSearchingWebApp.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;

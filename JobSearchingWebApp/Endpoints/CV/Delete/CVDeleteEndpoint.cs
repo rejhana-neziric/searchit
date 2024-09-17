@@ -3,6 +3,7 @@ using JobSearchingWebApp.Data;
 using JobSearchingWebApp.Endpoints.Kompanija.Delete;
 using JobSearchingWebApp.Endpoints.Oglas.Delete;
 using JobSearchingWebApp.Helper;
+using JobSearchingWebApp.Database;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Identity;
@@ -17,9 +18,9 @@ namespace JobSearchingWebApp.Endpoints.CV.Delete
     public class CVDeleteEndpoint : MyBaseEndpoint<int, ActionResult<CVDeleteResponse>>
     {
         private readonly ApplicationDbContext dbContext;
-        private readonly UserManager<Models.Korisnik> userManager;
+        private readonly UserManager<Korisnik> userManager;
 
-        public CVDeleteEndpoint(ApplicationDbContext dbContext, UserManager<Models.Korisnik> userManager)
+        public CVDeleteEndpoint(ApplicationDbContext dbContext, UserManager<Korisnik> userManager)
         {
             this.dbContext = dbContext;
             this.userManager = userManager;

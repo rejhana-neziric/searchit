@@ -1,4 +1,4 @@
-﻿using JobSearchingWebApp.Models;
+﻿using JobSearchingWebApp.Database;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace JobSearchingWebApp.ViewModels

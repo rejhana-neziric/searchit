@@ -1,0 +1,21 @@
+<div class="two-factor-container">
+  <div class="two-factor-content">
+    <h2>Two-Factor Authentication</h2>
+    <form (ngSubmit)="verifyCode()">
+      <div class="form-group">
+        <label for="token">Enter 2FA Code</label>
+        <input type="text" id="token" [(ngModel)]="token" name="token" class="form-control mt-2" required />
+      </div>
+
+      <div class="d-flex flex-row justify-content-end">
+        <button type="submit" class="btn-confirm ms-0 mt-3">Verify</button>
+      </div>
+
+    </form>
+
+    <div class="alert alert-danger mt-3" role="alert" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </div>
+
+  </div>
+</div>

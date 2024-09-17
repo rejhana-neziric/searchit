@@ -13,9 +13,9 @@ namespace JobSearchingWebApp.Endpoints.Kompanija.Delete
     public class KompanijaDeleteEndpoint : MyBaseEndpoint<string, ActionResult<KompanijaDeleteResponse>>
     {
         private readonly ApplicationDbContext dbContext;
-        private readonly UserManager<Models.Korisnik> userManager;
+        private readonly UserManager<Database.Korisnik> userManager;
 
-        public KompanijaDeleteEndpoint(ApplicationDbContext dbContext, UserManager<Models.Korisnik> userManager)
+        public KompanijaDeleteEndpoint(ApplicationDbContext dbContext, UserManager<Database.Korisnik> userManager)
         {
             this.dbContext = dbContext;
             this.userManager = userManager;

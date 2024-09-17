@@ -1,4 +1,4 @@
-﻿using JobSearchingWebApp.Helper;
+﻿using JobSearchingWebApp.ViewModels;
 using System.Reflection.Metadata.Ecma335;
 
 namespace JobSearchingWebApp.Endpoints.Kompanija.GetAll

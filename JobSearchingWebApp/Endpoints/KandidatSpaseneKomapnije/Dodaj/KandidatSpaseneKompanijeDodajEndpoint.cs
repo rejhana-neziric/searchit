@@ -49,7 +49,7 @@ namespace JobSearchingWebApp.Endpoints.KandidatSpaseneKomapnije.Dodaj
 
             else
             {
-                var kandidat_kompanija = new Models.KandidatSpaseneKompanije()
+                var kandidat_kompanija = new Database.KandidatSpaseneKompanije()
                 {
                     KandidatId = request.kandidat_id,
                     KompanijaId = request.kompanija_id,

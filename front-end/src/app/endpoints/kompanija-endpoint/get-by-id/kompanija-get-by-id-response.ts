@@ -13,4 +13,6 @@ export interface KompanijaGetByIdResponse {
   brojOtvorenihPozicija: number
   userName: string
   email: string
+  twoFactorEnabled: boolean,
+  emailConfirmed: boolean
 }

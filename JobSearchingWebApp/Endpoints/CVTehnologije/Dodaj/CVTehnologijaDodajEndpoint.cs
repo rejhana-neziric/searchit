@@ -19,7 +19,7 @@ namespace JobSearchingWebApp.Endpoints.CVTehnologije.Dodaj
         [HttpPost]
         public override async Task<CVTehnologijaDodajResponse> MyAction(CVTehnologijaDodajRequest request, CancellationToken cancellationToken)
         {
-            var cv_tehnologija = new Models.CVTehnologije()
+            var cv_tehnologija = new Database.CVTehnologije()
             {
                 CVId = request.cv_id,
                 TehnologijaId = request.tehnologija_id,

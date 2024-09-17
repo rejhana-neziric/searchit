@@ -1,7 +1,7 @@
 ﻿using JobSearchingWebApp.Data;
 using JobSearchingWebApp.Endpoints.Oglas.Dodaj;
 using JobSearchingWebApp.Helper;
-using JobSearchingWebApp.Models;
+using JobSearchingWebApp.Database;
 using MapsterMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
@@ -18,9 +18,9 @@ namespace JobSearchingWebApp.Endpoints.CV.Dodaj
     public class CVDodajEndpoint : MyBaseEndpoint<CVDodajRequest, ActionResult<CVDodajResponse>>
     {
         private readonly ApplicationDbContext dbContext;
-        private readonly UserManager<Models.Korisnik> userManager;
+        private readonly UserManager<Korisnik> userManager;
 
-        public CVDodajEndpoint(ApplicationDbContext dbContext, UserManager<Models.Korisnik> userManager)
+        public CVDodajEndpoint(ApplicationDbContext dbContext, UserManager<Korisnik> userManager)
         {
             this.dbContext = dbContext;
             this.userManager = userManager;
@@ -37,7 +37,7 @@ namespace JobSearchingWebApp.Endpoints.CV.Dodaj
             {
 
                 // Kreiranje CV-a
-                var cv = new Models.CV
+                var cv = new Database.CV
                 {
                     KandidatId = request.KandidatId,
                     Naziv = request.Naziv,

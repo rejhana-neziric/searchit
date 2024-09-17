@@ -1,7 +1,8 @@
 ﻿using JobSearchingWebApp.Data;
 using JobSearchingWebApp.Endpoints.Oglas.Update;
 using JobSearchingWebApp.Helper;
-using JobSearchingWebApp.Models;
+using JobSearchingWebApp.Database;
+using JobSearchingWebApp.Database;
 using MapsterMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
@@ -19,7 +20,7 @@ namespace JobSearchingWebApp.Endpoints.CV.Update
     public class CVUpdateEndpoint : MyBaseEndpoint<CVUpdateRequest, ActionResult<CVUpdateResponse>>
     {
         private readonly ApplicationDbContext dbContext;
-        private readonly UserManager<Models.Korisnik> userManager;
+        private readonly UserManager<Korisnik> userManager;
         private readonly IMapper mapper;
 
         public CVUpdateEndpoint(ApplicationDbContext dbContext, UserManager<Korisnik> userManager, IMapper mapper)

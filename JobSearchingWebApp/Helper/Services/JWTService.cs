@@ -1,6 +1,6 @@
 ﻿using IdentityServer3.Core.Models;
 using JobSearchingWebApp.Data;
-using JobSearchingWebApp.Models;
+using JobSearchingWebApp.Database;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.Data;

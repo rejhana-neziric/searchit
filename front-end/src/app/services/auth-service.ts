@@ -172,4 +172,25 @@ export class AuthService {
       })
     )
   }
+
+
+  manageTwoFactorAuthentication() {
+    return this.http.get<any>(`${environment.appUrl}/manage-two-factor-authentication`);
+  }
+
+  changeTwoFactorAuthentication(token: string) {
+    return this.http.post<any>(`${environment.appUrl}/manage-two-factor-authentication/${token}`, {});
+  }
+
+  verifyTwoFactor(username: string, token: string) {
+    return this.http.post<User | any>(`${environment.appUrl}/verify-two-factor`, { username, token },
+      httpOptions).pipe(
+      map((user: User) => {
+        if (user) {
+          this.setUser(user);
+        }
+      })
+    );
+  }
+
 }

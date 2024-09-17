@@ -2,7 +2,7 @@
 using JobSearchingWebApp.Data;
 using JobSearchingWebApp.Endpoints.Oglas.GetAll;
 using JobSearchingWebApp.Helper;
-using JobSearchingWebApp.Models;
+using JobSearchingWebApp.Database;
 using Mailjet.Client.Resources;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;

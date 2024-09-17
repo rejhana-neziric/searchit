@@ -83,17 +83,17 @@
         </li>
 
         <li class="nav-item" *ngIf="(authService.user$ | async) === null">
-          <a class="nav-link active fw-bold fs-5 text-underline log-in" [routerLink]="'/login'" href="">Log in</a>
+          <a class="nav-link active fs-5 text-underline log-in" [routerLink]="'/login'" href="">Log in</a>
         </li>
 
         <li class="nav-item" *ngIf="(authService.user$ | async) === null">
-          <a class="nav-link active fw-bold fs-5 text-underline sign-up" style="color: white" [routerLink]="'/signup'">Sign
+          <a class="nav-link active fs-5 text-underline sign-up" style="color: white" [routerLink]="'/signup'">Sign
             up</a>
         </li>
 
         <li class="nav-item" *ngIf="(authService.user$ | async) as user">
-          <a class="nav-link active fw-bold fs-5 text-underline sign-up" style="color: white"
-             (click)="logout()">Logout</a>
+          <a class="nav-link active fs-5 text-underline sign-up" style="color: white"
+             (click)="logout()">Log out</a>
         </li>
 
         <li class="nav-item d-flex justify-content-center align-items-end" *ngIf="(authService.user$ | async) as user">

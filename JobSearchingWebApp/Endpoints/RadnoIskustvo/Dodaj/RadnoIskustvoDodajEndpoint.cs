@@ -1,7 +1,7 @@
 ﻿using JobSearchingWebApp.Data;
 using JobSearchingWebApp.Endpoints.Kandidat.Dodaj;
 using JobSearchingWebApp.Helper;
-using JobSearchingWebApp.Models;
+using JobSearchingWebApp.Database;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,7 +21,7 @@ namespace JobSearchingWebApp.Endpoints.RadnoIskustvo.Dodaj
         [HttpPost]
         public override async Task<RadnoIskustvoDodajResponse> MyAction(RadnoIskustvoDodajRequest request, CancellationToken cancellationToken)
         {
-            var radno_iskustvo = new Models.RadnoIskustvo()
+            var radno_iskustvo = new Database.RadnoIskustvo()
             {
                 NazivPozicija = request.naziv_pozicije, 
                 DatumPocetka = request.datum_pocetka, 

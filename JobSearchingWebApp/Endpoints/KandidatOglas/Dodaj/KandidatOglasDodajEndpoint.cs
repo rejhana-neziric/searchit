@@ -1,7 +1,7 @@
 ﻿using JobSearchingWebApp.Data;
 using JobSearchingWebApp.Endpoints.Kandidat.Dodaj;
 using JobSearchingWebApp.Helper;
-using JobSearchingWebApp.Models;
+using JobSearchingWebApp.Database;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Identity;
@@ -17,7 +17,7 @@ namespace JobSearchingWebApp.Endpoints.KandidatOglas.Dodaj
     public class KandidatOglasDodajEndpoint : MyBaseEndpoint<KandidatOglasDodajRequest, ActionResult<KandidatOglasDodajResponse>>
     {
         private readonly ApplicationDbContext dbContext;
-        private readonly UserManager<Models.Korisnik> userManager;
+        private readonly UserManager<Database.Korisnik> userManager;
 
 
         public KandidatOglasDodajEndpoint(ApplicationDbContext dbContext, UserManager<Korisnik> userManager)
@@ -45,7 +45,7 @@ namespace JobSearchingWebApp.Endpoints.KandidatOglas.Dodaj
 
                 var status = StatusPrijaveExtensions.GetAllStatusPrijave().Where(x => x == "No status").FirstOrDefault();
 
-                var kandidat_oglas = new Models.KandidatiOglasi()
+                var kandidat_oglas = new Database.KandidatiOglasi()
                 {
                     KandidatId = request.KandidatId,
                     OglasId = request.OglasId,

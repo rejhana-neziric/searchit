@@ -22,7 +22,7 @@ namespace JobSearchingWebApp.Endpoints.KompanijaKandidat.Dodaj
 
         public override async Task<KompanijaKandidatDodajResponse> MyAction(KompanijaKandidatDodajRequest request, CancellationToken cancellationToken)
         {
-            var kompanija_kandidat = new Models.KompanijeKandidati()
+            var kompanija_kandidat = new Database.KompanijeKandidati()
             {
                 KompanijaId = request.kompanija_id,
                 KandidatId = request.kandidat_id,

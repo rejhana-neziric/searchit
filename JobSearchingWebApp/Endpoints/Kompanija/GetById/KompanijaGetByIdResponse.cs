@@ -1,4 +1,4 @@
-﻿using JobSearchingWebApp.Models;
+﻿using JobSearchingWebApp.Database;
 
 namespace JobSearchingWebApp.Endpoints.Kompanija.GetById
 {

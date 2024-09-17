@@ -7,5 +7,7 @@ export interface KandidatGetByIdResponse {
   userName: string,
   email: string,
   phoneNumber: string,
-  phoneNumberConfirmed: boolean
+  phoneNumberConfirmed: boolean,
+  twoFactorEnabled: boolean,
+  emailConfirmed: boolean
 }

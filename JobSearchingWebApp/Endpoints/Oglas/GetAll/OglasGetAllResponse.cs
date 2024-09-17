@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using JobSearchingWebApp.Models;
+using JobSearchingWebApp.Database;
 
 namespace JobSearchingWebApp.Endpoints.Oglas.GetAll
 {

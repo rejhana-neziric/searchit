@@ -2,7 +2,7 @@
 using JobSearchingWebApp.Endpoints.Kandidat.GetById;
 using JobSearchingWebApp.Endpoints.Oglas.GetById;
 using JobSearchingWebApp.Helper;
-using JobSearchingWebApp.Models;
+using JobSearchingWebApp.Database;
 using MapsterMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -14,11 +14,11 @@ namespace JobSearchingWebApp.Endpoints.Kompanija.GetById
     [Route("kompanija/get-by-id")]
     public class KompanijaGetByIdEndpoint : MyBaseEndpoint<string, ActionResult<KompanijaGetByIdResponse>>
     {
-        private readonly UserManager<Models.Korisnik> userManager;
+        private readonly UserManager<Database.Korisnik> userManager;
         private readonly IMapper mapper;
         private readonly ApplicationDbContext dbContext; 
 
-        public KompanijaGetByIdEndpoint(UserManager<Models.Korisnik> userManager, IMapper mapper, ApplicationDbContext dbContext)
+        public KompanijaGetByIdEndpoint(UserManager<Database.Korisnik> userManager, IMapper mapper, ApplicationDbContext dbContext)
         {
             this.userManager = userManager;
             this.mapper = mapper;
@@ -34,7 +34,7 @@ namespace JobSearchingWebApp.Endpoints.Kompanija.GetById
 
             var response = mapper.Map<KompanijaGetByIdResponse>(user);
 
-            response.Logo = (user as Models.Kompanija)!.Logo != null ? Convert.ToBase64String((user as Models.Kompanija)!.Logo) : null;
+            response.Logo = (user as Database.Kompanija)!.Logo != null ? Convert.ToBase64String((user as Database.Kompanija)!.Logo) : null;
 
             var brojPozicija = 0;
 

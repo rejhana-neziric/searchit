@@ -1,5 +1,5 @@
 import {Component, ElementRef, Inject, OnInit, PLATFORM_ID, ViewChild} from '@angular/core';
-import {DatePipe, isPlatformBrowser, NgForOf, NgIf} from "@angular/common";
+import {DatePipe, isPlatformBrowser, NgClass, NgForOf, NgIf} from "@angular/common";
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {NavbarComponent} from "../../navbar/navbar.component";
 import {NotificationToastComponent} from "../../notifications/notification-toast/notification-toast.component";
@@ -24,16 +24,17 @@ import {ModalService} from "../../../services/modal-service";
 @Component({
   selector: 'app-account-details-company',
   standalone: true,
-    imports: [
-        DatePipe,
-        FormsModule,
-        NavbarComponent,
-        NgIf,
-        NotificationToastComponent,
-        ReactiveFormsModule,
-        NgForOf,
-        ModalComponent
-    ],
+  imports: [
+    DatePipe,
+    FormsModule,
+    NavbarComponent,
+    NgIf,
+    NotificationToastComponent,
+    ReactiveFormsModule,
+    NgForOf,
+    ModalComponent,
+    NgClass
+  ],
   templateUrl: './account-details-company.component.html',
   styleUrl: './account-details-company.component.css'
 })
@@ -45,8 +46,13 @@ export class AccountDetailsCompanyComponent implements OnInit{
   loggedCompany: KompanijaGetByIdResponse | null = null;
   updateCompany: KompanijaUpdateRequest | null = null;
   numberOfEmployeesRange: string[] = [];
+  confirmCodeForm: FormGroup = new FormGroup({});
+  submittedConfirmCode: boolean = false;
+  confirmCode: boolean = false;
+  is2FAEnabled: boolean = false;
   logoPreview: string | ArrayBuffer | null = null;
   selectedFile: File | null = null;
+
   @ViewChild('textareaElement') textareaElement!: ElementRef<HTMLTextAreaElement>;
 
   deleteButtons = [
@@ -73,6 +79,7 @@ export class AccountDetailsCompanyComponent implements OnInit{
 
   ngOnInit(): void {
     this.initializeForm();
+    this.initializVerificationCodeForm();
     this.getNumberOfEmployees();
 
     this.authService.user$.pipe(take(1)).subscribe({
@@ -100,10 +107,17 @@ export class AccountDetailsCompanyComponent implements OnInit{
     })
   }
 
+  initializVerificationCodeForm() {
+    this.confirmCodeForm = this.formBuilder.group({
+      token: ['', [Validators.required]],
+    })
+  }
+
   getCompany() {
      this.kompanijaGetByIdEndpoint.obradi(this.loggedCompanyId).subscribe({
        next: (response: KompanijaGetByIdResponse) => {
          this.loggedCompany = response;
+         this.is2FAEnabled = response.twoFactorEnabled;
          this.companyForm.patchValue({
            companyName: this.loggedCompany?.naziv,
            location: this.loggedCompany?.lokacija,
@@ -262,6 +276,53 @@ export class AccountDetailsCompanyComponent implements OnInit{
     if (this.selectedFile) {
       const formData = new FormData();
       formData.append('file', this.selectedFile);
+    }
+  }
+
+  // Toggle 2FA state
+  toggle2FA() {
+    this.authService.manageTwoFactorAuthentication().subscribe({
+      next: response => {
+        this.notificationService.addNotification({message: response.message, type: 'success'});
+        this.confirmCode = true;
+      },
+      error: error => {
+        if (error.error instanceof Object && error.error.message) {
+          const errorMessage = error.error.message;
+          this.notificationService.addNotification({message: errorMessage, type: 'error'});
+
+        } else {
+          const errorMessage = typeof error.error === 'string' ? error.error : 'An unknown error occurred';
+          this.notificationService.addNotification({message: errorMessage, type: 'error'});
+        }
+      }
+    });
+  }
+
+  confirmVerificationCode() {
+    this.submittedConfirmCode = true;
+
+    if (this.confirmCodeForm.valid) {
+      const token = this.confirmCodeForm.get('token')?.value;
+      console.log(token)
+
+      this.authService.changeTwoFactorAuthentication(token.toString()).subscribe({
+        next: response => {
+          this.notificationService.showModalNotification(true, 'Changes saved', response.message);
+          this.is2FAEnabled = !this.is2FAEnabled;
+          this.confirmCode = false;
+        },
+        error: error => {
+          if (error.error instanceof Object && error.error.message) {
+            const errorMessage = error.error.message;
+            this.notificationService.addNotification({message: errorMessage, type: 'error'});
+
+          } else {
+            const errorMessage = typeof error.error === 'string' ? error.error : 'An unknown error occurred';
+            this.notificationService.addNotification({message: errorMessage, type: 'error'});
+          }
+        }
+      });
     }
   }
 }

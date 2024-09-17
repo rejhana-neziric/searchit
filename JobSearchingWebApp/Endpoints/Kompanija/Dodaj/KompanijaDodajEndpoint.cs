@@ -1,7 +1,7 @@
 ﻿using JobSearchingWebApp.Data;
 using JobSearchingWebApp.Endpoints.Kandidat.Dodaj;
 using JobSearchingWebApp.Helper;
-using JobSearchingWebApp.Models;
+using JobSearchingWebApp.Database;
 using JobSearchingWebApp.ViewModels;
 using MapsterMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -21,9 +21,9 @@ namespace JobSearchingWebApp.Endpoints.Kompanija.Dodaj
     {
         private readonly ApplicationDbContext dbContext;
         private readonly IMapper mapper;
-        private readonly UserManager<Models.Korisnik> userManager;
+        private readonly UserManager<Database.Korisnik> userManager;
 
-        public KompanijaDodajEndpoint(ApplicationDbContext dbContext, IMapper mapper, UserManager<Models.Korisnik> userManager)
+        public KompanijaDodajEndpoint(ApplicationDbContext dbContext, IMapper mapper, UserManager<Database.Korisnik> userManager)
         {
             this.dbContext = dbContext;
             this.mapper = mapper;
@@ -33,7 +33,7 @@ namespace JobSearchingWebApp.Endpoints.Kompanija.Dodaj
         [HttpPost]
         public override async Task<IActionResult> MyAction(KompanijaDodajRequest request, CancellationToken cancellationToken)
         { 
-            var kompanija = mapper.Map<Models.Kompanija>(request);
+            var kompanija = mapper.Map<Database.Kompanija>(request);
             kompanija.PasswordSalt = HelperMethods.GenerateSalt();
             kompanija.UlogaId = 3;
 

@@ -1,7 +1,8 @@
 ﻿using JobSearchingWebApp.Data;
 using JobSearchingWebApp.Endpoints.CV.Update;
 using JobSearchingWebApp.Helper;
-using JobSearchingWebApp.Models;
+using JobSearchingWebApp.Database;
+using JobSearchingWebApp.Database;
 using Mailjet.Client.Resources;
 using MapsterMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -17,7 +18,7 @@ namespace JobSearchingWebApp.Endpoints.CV.UpdateStatus
     public class CVUpdateStatusEndpoint : MyBaseEndpoint<CVUpdateStatusRequest, ActionResult<CVUpdateStatusResponse>>
     {
         private readonly ApplicationDbContext dbContext;
-        private readonly UserManager<Models.Korisnik> userManager;
+        private readonly UserManager<Korisnik> userManager;
         private readonly IMapper mapper;
 
         public CVUpdateStatusEndpoint(ApplicationDbContext dbContext, UserManager<Korisnik> userManager, IMapper mapper)

@@ -1,6 +1,6 @@
 ﻿using JobSearchingWebApp.Data;
 using JobSearchingWebApp.Helper;
-using JobSearchingWebApp.Models;
+using JobSearchingWebApp.Database;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
@@ -21,7 +21,7 @@ namespace JobSearchingWebApp.Endpoints.Oglas.Dodaj
         [HttpPost]
         public override async Task<OglasDodajResponse> MyAction(OglasDodajRequest request, CancellationToken cancellationToken)
         {
-            var oglas = new Models.Oglas()
+            var oglas = new Database.Oglas()
             {
                 KompanijaId = request.kompanija_id,
                 NazivPozicije = request.naziv_pozicije,
@@ -30,7 +30,7 @@ namespace JobSearchingWebApp.Endpoints.Oglas.Dodaj
                 TipPosla = request.tip_posla,
                 RokPrijave = request.rok_prijave,
                 DatumModificiranja = request.datum_modificiranja,
-                OpisOglas = new Models.OpisOglas()
+                OpisOglas = new Database.OpisOglas()
                 {
                     OpisPozicije = request.opis_pozicije,
                     MinimumGodinaIskustva = request?.minimum_godina_iskustva,

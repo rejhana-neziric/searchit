@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Azure;
 using System.Runtime.CompilerServices;
-using JobSearchingWebApp.Models;
+using JobSearchingWebApp.Database;
 using System.Linq;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -126,8 +126,8 @@ namespace JobSearchingWebApp.Endpoints.Oglas.GetAll
                                       .Select(opis => new OglasGetAllResponseOpisOglas
                                       {
                                           Id = opis.Id,
-                                          MinimumGodinaIskustva = (int)opis.MinimumGodinaIskustva,
-                                          PrefiraneGodineIskstva = (int)opis.PrefiraneGodineIskstva
+                                          MinimumGodinaIskustva = opis.MinimumGodinaIskustva ?? 1,
+                                          PrefiraneGodineIskstva = opis.PrefiraneGodineIskstva ?? 1
                                       })
                                       .SingleOrDefault()!,
             }).ToList();

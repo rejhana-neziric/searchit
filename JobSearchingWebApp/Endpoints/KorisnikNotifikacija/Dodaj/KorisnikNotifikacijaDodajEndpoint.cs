@@ -1,6 +1,6 @@
 ﻿using JobSearchingWebApp.Data;
 using JobSearchingWebApp.Helper;
-using JobSearchingWebApp.Models;
+using JobSearchingWebApp.Database;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
@@ -21,7 +21,7 @@ namespace JobSearchingWebApp.Endpoints.KorisnikNotifikacija.Dodaj
         [HttpPost]
         public override async Task<KorisnikNotifikacijaDodajResponse> MyAction(KorisnikNotifikacijaDodajRequest request, CancellationToken cancellationToken)
         {
-            var korisnik_notifikacija = new Models.KorisnikNotifikacije()
+            var korisnik_notifikacija = new Database.KorisnikNotifikacije()
             {
                 KorisnikId = request.korisnik_id,
                 NotifikacijaId = request.notifikacija_id,

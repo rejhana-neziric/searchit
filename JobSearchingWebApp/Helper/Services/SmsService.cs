@@ -14,10 +14,10 @@ namespace JobSearchingWebApp.Helper.Services
 
         public SmsService(IConfiguration configuration)
         {
-            configuration = configuration;
-            AccountSID = configuration["SMSSettings:AccountSID"];
-            AuthToken = configuration["SMSSettings:AuthToken"];
-            FromNumber = configuration["SMSSettings:FromNumber"];
+            this.configuration = configuration;
+            this.AccountSID = configuration["SMSSettings:AccountSID"];
+            this.AuthToken = configuration["SMSSettings:AuthToken"];
+            this.FromNumber = configuration["SMSSettings:FromNumber"];
         }
 
         public Task<bool> SendSmsAsync(string to, string message)

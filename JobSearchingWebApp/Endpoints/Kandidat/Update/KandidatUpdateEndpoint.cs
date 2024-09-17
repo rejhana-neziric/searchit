@@ -15,10 +15,10 @@ namespace JobSearchingWebApp.Endpoints.Kandidat.Update
     public class KandidatUpdateEndpoint : MyBaseEndpoint<KandidatUpdateRequest, ActionResult<KandidatUpdateResponse>>
     {
         private readonly ApplicationDbContext dbContext;
-        private readonly UserManager<Models.Korisnik> userManager;
+        private readonly UserManager<Database.Korisnik> userManager;
         private readonly IMapper mapper;
 
-        public KandidatUpdateEndpoint(ApplicationDbContext dbContext, UserManager<Models.Korisnik> userManager, IMapper mapper)
+        public KandidatUpdateEndpoint(ApplicationDbContext dbContext, UserManager<Database.Korisnik> userManager, IMapper mapper)
         {
             this.dbContext = dbContext;
             this.userManager = userManager;

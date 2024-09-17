@@ -8,6 +8,35 @@
   </div>
 
   <div class="container">
+
+    <div class="two-factor-auth ms-2">
+      <button
+        (click)="toggle2FA()"
+        [ngClass]="{'enabled': is2FAEnabled, 'disabled': !is2FAEnabled}"
+      >
+        {{ is2FAEnabled ? 'Disable 2FA' : 'Enable 2FA' }}
+      </button>
+    </div>
+
+    <div *ngIf="confirmCode && loggedUser?.phoneNumberConfirmed" class="mt-2 mb-4 ms-2">
+      <form [formGroup]="confirmCodeForm" class="form-grid" (ngSubmit)="confirmVerificationCode()" autocomplete="off">
+
+
+        <div class="mt-2 mb-4 my-3">
+          <label class="required">Enter the verification token send to your phone number and email.</label>
+          <input formControlName="token" type="text" class="form-control"
+                 [class.is-invalid]="submittedConfirmCode && confirmCodeForm.get('token')?.errors">
+          <span class="text-danger" *ngIf="submittedConfirmCode && confirmCodeForm.get('token')?.hasError('required')">
+                        Verification code is required!
+                    </span>
+        </div>
+
+        <button class="btn-confirm w-auto ms-0" style="height: 30px">Submit</button>
+
+      </form>
+    </div>
+
+
     <form [formGroup]="candidateForm" class="form-grid" (ngSubmit)="save()" autocomplete="off">
       <div class="content">
         <div class="firstpart">
@@ -82,17 +111,21 @@
           </div>
 
           <div *ngIf="!loggedUser?.phoneNumberConfirmed" class="mt-2 mb-4">
-            <button *ngIf="!confirmNumber" class="btn-confirm w-auto ms-0" style="height: 30px" (click)="sendVerificationCode()">Confirm phone number</button>
+            <button *ngIf="!confirmNumber" class="btn-confirm w-auto ms-0" style="height: 30px"
+                    (click)="sendVerificationCode()">Confirm phone number
+            </button>
 
             <div *ngIf="confirmNumber">
-              <form [formGroup]="confirmPhoneNumberForm" class="form-grid" (ngSubmit)="confirmPhoneNumber()" autocomplete="off">
+              <form [formGroup]="confirmPhoneNumberForm" class="form-grid" (ngSubmit)="confirmPhoneNumber()"
+                    autocomplete="off">
 
 
                 <div class="mt-2 mb-4 my-3">
                   <label class="required">Enter the verification token send to your phone number.</label>
                   <input formControlName="token" type="text" class="form-control"
                          [class.is-invalid]="submittedConfirmNumber && confirmPhoneNumberForm.get('token')?.errors">
-                  <span class="text-danger" *ngIf="submittedConfirmNumber && confirmPhoneNumberForm.get('token')?.hasError('required')">
+                  <span class="text-danger"
+                        *ngIf="submittedConfirmNumber && confirmPhoneNumberForm.get('token')?.hasError('required')">
                         Verification code is required!
                     </span>
                 </div>
@@ -113,7 +146,8 @@
       <div class="form-group d-flex flex-row justify-content-between">
 
         <div>
-          <button type="button" class="btn-danger"  style="width: 130px" (click)="openDeleteModal()">Delete account</button>
+          <button type="button" class="btn-danger" style="width: 130px" (click)="openDeleteModal()">Delete account
+          </button>
         </div>
 
         <div>

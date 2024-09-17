@@ -1,7 +1,7 @@
 ﻿using Azure.Core;
 using JobSearchingWebApp.Helper;
 using JobSearchingWebApp.Helper.Services;
-using JobSearchingWebApp.Models;
+using JobSearchingWebApp.Database;
 using JobSearchingWebApp.ViewModels;
 using MapsterMapper;
 using Microsoft.AspNetCore.Identity;
@@ -30,8 +30,8 @@ namespace JobSearchingWebApp.Endpoints.Auth
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly UserManager<Models.Korisnik> userManager;
-        private readonly SignInManager<Models.Korisnik> signInManager;
+        private readonly UserManager<Korisnik> userManager;
+        private readonly SignInManager<Korisnik> signInManager;
         private readonly IMapper mapper;
         private readonly IConfiguration config;
         private readonly JWTService jwtService; 
@@ -39,8 +39,8 @@ namespace JobSearchingWebApp.Endpoints.Auth
         private readonly SmsService smsService;
 
 
-        public AuthController(UserManager<Models.Korisnik> userManager, 
-                              SignInManager<Models.Korisnik> signInManager, 
+        public AuthController(UserManager<Korisnik> userManager, 
+                              SignInManager<Korisnik> signInManager, 
                               IMapper mapper, IConfiguration config, 
                               JWTService jwtService, 
                               EmailService emailService,
@@ -58,19 +58,19 @@ namespace JobSearchingWebApp.Endpoints.Auth
         [HttpPost("register/admin")]
         public async Task<IActionResult> RegisterAdmin([FromBody] RegistracijaRequest request)
         {
-            return await RegisterUser<Models.Administrator, RegistracijaRequest>(request, "Admin", 1);
+            return await RegisterUser<Administrator, RegistracijaRequest>(request, "Admin", 1);
         }
 
         [HttpPost("register/kandidat")]
         public async Task<IActionResult> RegisterKandidat([FromBody] KandidatDodajRequest request)
         {
-            return await RegisterUser<Models.Kandidat, KandidatDodajRequest>(request, "Kandidat", 2);
+            return await RegisterUser<Database.Kandidat, KandidatDodajRequest>(request, "Kandidat", 2);
         }
 
         [HttpPost("register/kompanija")]
         public async Task<IActionResult> RegisterKompanija([FromBody] KompanijaDodajRequest request)
         {
-            var user = mapper.Map<Models.Kompanija>(request);
+            var user = mapper.Map<Database.Kompanija>(request);
             user.PasswordSalt = HelperMethods.GenerateSalt();
             user.UlogaId = 3;
 
@@ -171,45 +171,48 @@ namespace JobSearchingWebApp.Endpoints.Auth
             return new AuthResponse { JWT = await jwtService.CreateJWT(user), Id = user.Id, Role = roleString};
         }
 
+        [AllowAnonymous]
         [HttpPost("login")]
         public async Task<ActionResult<AuthResponse>> Login([FromBody] LoginRequest model)
         {
             var user = await userManager.FindByNameAsync(model.Username);
+
             if (user == null) return Unauthorized(new { message = "Invalid username or password" });
+            if (user.EmailConfirmed == false) return Unauthorized(new { message = "Please confirm your email." });
 
-            //if (user.EmailConfirmed == false) return Unauthorized(new { message = "Please confirm your email." });
+            if (user.TwoFactorEnabled)
+            {
+                // Handle two-factor authentication case
+                // Generate a 2FA token, send that token to user Email and Phone Number and redirect to the 2FA verification view
+                var TwoFactorAuthenticationToken = await userManager.GenerateTwoFactorTokenAsync(user, "Email");
 
-            var result = await signInManager.CheckPasswordSignInAsync(user, model.Password, false);
+                if (user.PhoneNumberConfirmed && user.UlogaId == 2)
+                { 
+                    //Sending SMS 
+                    await smsService.SendSmsAsync(user.PhoneNumber, $"Your 2FA Token is {TwoFactorAuthenticationToken}");
+                }   
+                
+                //Sending Email
+                var emailSend = new EmailSend(user.Email, "2FA Token", $"Your 2FA Token is {TwoFactorAuthenticationToken}");
+                await emailService.SendEmailAsync(emailSend);
+
+                return BadRequest(new { message = "RequiresTwoFactor" });
+            }
 
             //if (result.IsLockedOut)
             //{
             //    return Unauthorized(string.Format("Your account has been locked. You should wait until {0} (UTC time) to be able to login", user.LockoutEnd));
             //}
 
+            var result = await signInManager.CheckPasswordSignInAsync(user, model.Password, false);
+
             if (!result.Succeeded)
             {
-                //// User has input an invalid password
-                //if (!user.UserName.Equals(SD.AdminUserName))
-                //{
-                //    // Increamenting AccessFailedCount of the AspNetUser by 1
-                //    await _userManager.AccessFailedAsync(user);
-                //}
-
-                //if (user.AccessFailedCount >= SD.MaximumLoginAttempts)
-                //{
-                //    // Lock the user for one day
-                //    await _userManager.SetLockoutEndDateAsync(user, DateTime.UtcNow.AddDays(1));
-                //    return Unauthorized(string.Format("Your account has been locked. You should wait until {0} (UTC time) to be able to login", user.LockoutEnd));
-                //}
-
-
                 return Unauthorized(new { Message = "Invalid username or password" });
             }
 
             await userManager.ResetAccessFailedCountAsync(user);
             await userManager.SetLockoutEndDateAsync(user, null);
-
-            var token = jwtService.CreateJWT(user);
 
             var role = await userManager.GetRolesAsync(user);
             string roleString = string.Join(", ", role);
@@ -219,7 +222,7 @@ namespace JobSearchingWebApp.Endpoints.Auth
         }
 
         private async Task<IActionResult> RegisterUser<TUser, TRequest>(TRequest request, string role, int roleId)
-             where TUser : Models.Korisnik, new()
+             where TUser : Korisnik, new()
              where TRequest : IUserRegistrationRequest
         {
             var user = mapper.Map<TUser>(request);
@@ -313,8 +316,6 @@ namespace JobSearchingWebApp.Endpoints.Auth
                 {
                     return BadRequest();
                 }
-
-                return BadRequest();
             }
 
             else return Unauthorized(); 
@@ -326,7 +327,6 @@ namespace JobSearchingWebApp.Endpoints.Auth
         public async Task<IActionResult> VerifyPhoneNumber(string token)
         {
             var user = await userManager.GetUserAsync(User);
-            var userId = userManager.GetUserId(User);
 
             if (user == null)
             {
@@ -343,7 +343,6 @@ namespace JobSearchingWebApp.Endpoints.Auth
                 await userManager.UpdateAsync(user);
 
                 return Ok(new { Message = "Phone number has been succefully verified."});
-               
             }
             else
             {
@@ -351,5 +350,120 @@ namespace JobSearchingWebApp.Endpoints.Auth
             }
         }
 
+
+        [Authorize]
+        [HttpGet("manage-two-factor-authentication")]
+        public async Task<IActionResult> ManageTwoFactorAuthentication()
+        {
+            var user = await userManager.GetUserAsync(User);
+
+            if (user == null)
+            {
+                return NotFound(new { message = $"Unable to load user with ID '{userManager.GetUserId(User)}'." });
+            }
+
+            if (!user.PhoneNumberConfirmed && user.UlogaId == 2)
+            {
+                return BadRequest(new { message = "Your phone number has not beed confirmed yet." });
+            }
+
+            string Message;
+
+            if (user.TwoFactorEnabled)
+            {
+                Message = "Disable 2FA";
+            }
+            else
+            {
+                Message = "Enable 2FA";
+            }
+
+            //Generate the Two Factor Authentication Token
+            var TwoFactorToken = await userManager.GenerateTwoFactorTokenAsync(user, TokenOptions.DefaultPhoneProvider);
+
+            if (user.PhoneNumberConfirmed && user.UlogaId == 2)
+            {
+                //Sending SMS
+                await smsService.SendSmsAsync(user.PhoneNumber, $"Your Token to {Message} is {TwoFactorToken}");
+            }
+
+            //Sending Email
+            var emailSend = new EmailSend(user.Email, Message, $"Your Token to {Message} is {TwoFactorToken}");
+            await emailService.SendEmailAsync(emailSend);
+
+            return Ok(new { message = "Verification code has been sent." }); 
+        }
+
+
+        [Authorize]
+        [HttpPost("manage-two-factor-authentication/{token}")]
+        public async Task<IActionResult> ManageTwoFactorAuthentication(string token)
+        {
+            var user = await userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound(new { message = $"Unable to load user with ID '{userManager.GetUserId(User)}'." });
+            }
+
+            var result = await userManager.VerifyTwoFactorTokenAsync(user, TokenOptions.DefaultPhoneProvider, token);
+
+            if (result)
+            {
+                var message = ""; 
+
+                // Token is valid
+                if (user.TwoFactorEnabled)
+                {
+                    user.TwoFactorEnabled = false;
+                    message = "You have Sucessfully Disabled Two Factor Authentication";
+                }
+                else
+                {
+                    user.TwoFactorEnabled = true;
+                    message = "You have Sucessfully Enabled Two Factor Authentication";
+                }
+
+                await userManager.UpdateAsync(user);
+
+                return Ok(new { message = message });
+            }
+            else
+            {
+                // Handle invalid token
+                return BadRequest(new { message = "Unable to Enable/Disable Two Factor Authentication" });
+            }
+        }
+
+
+        [AllowAnonymous]
+        [HttpPost("verify-two-factor")]
+        public async Task<ActionResult<AuthResponse>> VerifyTwoFactor(VerifyTwoFactorToken model)
+        {
+            var user = await userManager.FindByNameAsync(model.Username);
+
+            if (user == null)
+            {
+                return NotFound(new { message = $"Unable to load user with username '{model.Username}'." });
+            }
+
+            // Verify the 2FA code
+            var result = await userManager.VerifyTwoFactorTokenAsync(user, "Email", model.Token);
+
+            if (result)
+            {
+
+                // Generate a JWT or other token to return to the user
+                await userManager.ResetAccessFailedCountAsync(user);
+                await userManager.SetLockoutEndDateAsync(user, null);
+
+                var role = await userManager.GetRolesAsync(user);
+                string roleString = string.Join(", ", role);
+
+
+                return new AuthResponse { JWT = await jwtService.CreateJWT(user), Id = user.Id, Role = roleString };
+            }
+
+            return Unauthorized("Invalid 2FA code.");
+        }
     }
 }

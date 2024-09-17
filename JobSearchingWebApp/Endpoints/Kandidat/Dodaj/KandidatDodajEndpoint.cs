@@ -1,7 +1,7 @@
 ﻿using Azure.Core;
 using JobSearchingWebApp.Data;
 using JobSearchingWebApp.Helper;
-using JobSearchingWebApp.Models;
+using JobSearchingWebApp.Database;
 using JobSearchingWebApp.ViewModels;
 using MapsterMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -25,9 +25,9 @@ namespace JobSearchingWebApp.Endpoints.Kandidat.Dodaj
     {
         private readonly ApplicationDbContext dbContext;
         private readonly IMapper mapper;
-        private readonly UserManager<Models.Korisnik> userManager;
+        private readonly UserManager<Korisnik> userManager;
 
-        public KandidatDodajEndpoint(ApplicationDbContext dbContext, IMapper mapper, UserManager<Models.Korisnik> userManager)
+        public KandidatDodajEndpoint(ApplicationDbContext dbContext, IMapper mapper, UserManager<Korisnik> userManager)
         {
             this.dbContext = dbContext;
             this.mapper = mapper;
@@ -37,7 +37,7 @@ namespace JobSearchingWebApp.Endpoints.Kandidat.Dodaj
         [HttpPost]
         public override async Task<IActionResult> MyAction([FromBody] KandidatDodajRequest request, CancellationToken cancellationToken)
         {
-            var kandidat = mapper.Map<Models.Kandidat>(request);
+            var kandidat = mapper.Map<Database.Kandidat>(request);
             kandidat.PasswordSalt = HelperMethods.GenerateSalt();
             kandidat.UlogaId = 2;
 

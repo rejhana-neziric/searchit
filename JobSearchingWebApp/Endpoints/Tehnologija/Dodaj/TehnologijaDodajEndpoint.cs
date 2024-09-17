@@ -18,7 +18,7 @@ namespace JobSearchingWebApp.Endpoints.Tehnologija.Dodaj
         [HttpPost]
         public override async Task<TehnologijaDodajResponse> MyAction(TehnologijaDodajRequest request, CancellationToken cancellationToken)
         {
-            var tehnologija = new Models.Tehnologija
+            var tehnologija = new Database.Tehnologija
             {
                 Naziv = request.naziv
             };

@@ -1,4 +1,4 @@
-﻿using JobSearchingWebApp.Models;
+﻿using JobSearchingWebApp.Database;
 
 namespace JobSearchingWebApp.Endpoints.Kandidat.GetById
 {
@@ -13,7 +13,5 @@ namespace JobSearchingWebApp.Endpoints.Kandidat.GetById
         public string MjestoPrebivalista { get; set; }
 
         public string Zvanje { get; set; }
-
-        public string PhoneNumber { get; set; }
     }
 }

@@ -12,10 +12,10 @@ namespace JobSearchingWebApp.Endpoints.Kandidat.GetById
     [Route("kandidat/get-by-id")]
     public class KandidatGetByIdEndpoint : MyBaseEndpoint<string, ActionResult<KandidatGetByIdResponse>>
     {
-        private readonly UserManager<Models.Korisnik> userManager;
+        private readonly UserManager<Database.Korisnik> userManager;
         private readonly IMapper mapper;
 
-        public KandidatGetByIdEndpoint(UserManager<Models.Korisnik> userManager, IMapper mapper)
+        public KandidatGetByIdEndpoint(UserManager<Database.Korisnik> userManager, IMapper mapper)
         {
             this.userManager = userManager; 
             this.mapper = mapper;

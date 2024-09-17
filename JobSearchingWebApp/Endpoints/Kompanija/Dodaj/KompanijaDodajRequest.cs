@@ -1,5 +1,5 @@
 ﻿using JobSearchingWebApp.Endpoints.Auth;
-using JobSearchingWebApp.Models;
+using JobSearchingWebApp.Database;
 
 namespace JobSearchingWebApp.Endpoints.Kompanija.Dodaj
 {

@@ -3,7 +3,7 @@ using JobSearchingWebApp.Data;
 using JobSearchingWebApp.Endpoints.CV.Delete;
 using JobSearchingWebApp.Endpoints.Kandidat.Delete;
 using JobSearchingWebApp.Helper;
-using JobSearchingWebApp.Models;
+using JobSearchingWebApp.Database;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Identity;
@@ -18,9 +18,9 @@ namespace JobSearchingWebApp.Endpoints.KandidatOglas.Delete
     public class KandidatOglasDeleteEndpoint : MyBaseEndpoint<int, ActionResult<KandidatOglasDeleteResponse>>
     {
         private readonly ApplicationDbContext dbContext;
-        private readonly UserManager<Models.Korisnik> userManager;
+        private readonly UserManager<Database.Korisnik> userManager;
 
-        public KandidatOglasDeleteEndpoint(ApplicationDbContext dbContext, UserManager<Models.Korisnik> userManager)
+        public KandidatOglasDeleteEndpoint(ApplicationDbContext dbContext, UserManager<Database.Korisnik> userManager)
         {
             this.dbContext = dbContext;
             this.userManager = userManager;

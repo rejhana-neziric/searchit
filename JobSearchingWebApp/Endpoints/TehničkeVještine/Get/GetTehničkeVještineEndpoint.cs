@@ -1,5 +1,6 @@
 ﻿using JobSearchingWebApp.Data;
 using JobSearchingWebApp.Helper;
+using JobSearchingWebApp.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JobSearchingWebApp.Endpoints.TehničkeVještine.Get

@@ -18,7 +18,7 @@ namespace JobSearchingWebApp.Endpoints.Recenzije.Dodaj
         [HttpPost]
         public override async Task<RecenzijeDodajResponse> MyAction(RecenzijeDodajRequest request, CancellationToken cancellationToken)
         {
-            var recenzija = new Models.Recenzija()
+            var recenzija = new Database.Recenzija()
             {
                 Tekst = request.tekst,
                 DatumVrijemeRecenzije = request.datum_vrijeme_recenzije,

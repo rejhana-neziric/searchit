@@ -18,7 +18,7 @@ namespace JobSearchingWebApp.Endpoints.Vjestina.Dodaj
         [HttpPost]
         public override async Task<VjestinaDodajResponse> MyAction(VjestinaDodajRequest request, CancellationToken cancellationToken)
         {
-            var vjestina = new Models.Vjestina
+            var vjestina = new Database.Vjestina
             {
                 Naziv = request.naziv
             };

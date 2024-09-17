@@ -21,7 +21,7 @@ namespace JobSearchingWebApp.Endpoints.CVJezik.Dodaj
 
         public override async Task<CVJezikDodajResponse> MyAction(CVJezikDodajRequest request, CancellationToken cancellationToken)
         {
-            var cv_jezik = new Models.CVJezici()
+            var cv_jezik = new Database.CVJezici()
             {
                 CVId = request.cv_id,
                 JezikId = request.jezik_id,
