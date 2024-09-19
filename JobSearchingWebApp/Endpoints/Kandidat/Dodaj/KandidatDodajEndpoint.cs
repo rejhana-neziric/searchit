@@ -16,9 +16,11 @@ using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using Microsoft.AspNetCore.Authorization;
 
 namespace JobSearchingWebApp.Endpoints.Kandidat.Dodaj
 {
+    [AllowAnonymous]
     [Tags("Kandidat")]
     [Route("kandidat-dodaj")]
     public class KandidatDodajEndpoint : MyBaseEndpoint<KandidatDodajRequest, IActionResult>
@@ -40,10 +42,14 @@ namespace JobSearchingWebApp.Endpoints.Kandidat.Dodaj
             var kandidat = mapper.Map<Database.Kandidat>(request);
             kandidat.PasswordSalt = HelperMethods.GenerateSalt();
             kandidat.UlogaId = 2;
+            kandidat.IsObrisan = false; 
 
             var result = await userManager.CreateAsync(kandidat, request.Password);
+
             if (!result.Succeeded)
+            {
                 return BadRequest(result.Errors);
+            }
 
             await userManager.AddToRoleAsync(kandidat, "Kandidat");
 

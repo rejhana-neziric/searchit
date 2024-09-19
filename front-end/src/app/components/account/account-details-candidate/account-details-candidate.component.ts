@@ -175,6 +175,8 @@ export class AccountDetailsCandidateComponent implements OnInit {
   }
 
   delete() {
+
+    console.log(this.loggedUserId)
     this.kandidatDeleteEndpoint.obradi(this.loggedUserId).subscribe({
         next: any => {
           this.authService.logout();

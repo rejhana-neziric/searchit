@@ -27,6 +27,8 @@ namespace JobSearchingWebApp.Endpoints.KompanijaKandidat.Pretraga
                                 .Where(x => (request.kandidat_id == null || x.KandidatId == request.kandidat_id)
                                          && (request.kompanija_id == null || x.KompanijaId == request.kompanija_id)
                                          && (request.datum_razgovora == null || x.DatumRazgovora == request.datum_razgovora))
+                                .Include(x => x.Kompanija)
+                                .Include(x => x.Kandidat)
                                 .Select(x => new KompanijeKandidatiPretragaResponse()
                                 {
                                     KandidatId = x.KandidatId,

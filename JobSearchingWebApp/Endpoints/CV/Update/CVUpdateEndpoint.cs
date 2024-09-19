@@ -2,7 +2,6 @@
 using JobSearchingWebApp.Endpoints.Oglas.Update;
 using JobSearchingWebApp.Helper;
 using JobSearchingWebApp.Database;
-using JobSearchingWebApp.Database;
 using MapsterMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
@@ -33,11 +32,15 @@ namespace JobSearchingWebApp.Endpoints.CV.Update
         [HttpPut]
         public override async Task<ActionResult<CVUpdateResponse>> MyAction(CVUpdateRequest request, CancellationToken cancellationToken)
         {
-
             var userId = userManager.GetUserId(User);
-            var user = await userManager.FindByIdAsync(userId);
+            var user = await userManager.GetUserAsync(User);
 
-            if (request.KandidatId == userId || user.UlogaId == 1)
+            if (user == null || user.IsObrisan == true)
+            {
+                return NotFound($"Unable to load user with ID '{userManager.GetUserId(User)}'.");
+            }
+
+            if (request.KandidatId == userId || user?.UlogaId == 1)
             {
                 var cv = dbContext.CV.Include(cv => cv.Edukacije).ThenInclude(cv => cv.Edukacija)
                                      .Include(cv => cv.Zaposlenja).ThenInclude(cv => cv.Zaposlenje)
@@ -127,7 +130,8 @@ namespace JobSearchingWebApp.Endpoints.CV.Update
 
                                 var edukacija = dbContext.Edukacija.Where(x => x.Id == edukacijaid).FirstOrDefault();
 
-                                dbContext.Remove(edukacija);
+                                if(edukacija != null)  
+                                    dbContext.Remove(edukacija);
 
                                 await dbContext.SaveChangesAsync();
 
@@ -138,12 +142,14 @@ namespace JobSearchingWebApp.Endpoints.CV.Update
                     foreach (var edukacijaRequest in request.Edukacija)
                     {
                         var edukacijacv = cv.Edukacije.FirstOrDefault(edukacijacv => edukacijacv.Id == edukacijaRequest.Id);
-                        var edukacija = dbContext.Edukacija.FirstOrDefault(edukacija => edukacija.Id == edukacijacv.EdukacijaId);
-
-
-                        if (edukacija != null)
+                        if (edukacijacv != null)
                         {
-                            mapper.Map(edukacijaRequest, edukacija);
+                            var edukacija = dbContext.Edukacija.FirstOrDefault(edukacija => edukacija.Id == edukacijacv.EdukacijaId);
+
+                            if (edukacija != null)
+                            {
+                                mapper.Map(edukacijaRequest, edukacija);
+                            }
                         }
                     }
 
@@ -207,7 +213,8 @@ namespace JobSearchingWebApp.Endpoints.CV.Update
 
                                 var zaposlenje = dbContext.Zaposlenje.Where(x => x.Id == zaposlenjeid).FirstOrDefault();
 
-                                dbContext.Remove(zaposlenje);
+                                if (zaposlenje != null) 
+                                    dbContext.Remove(zaposlenje);
 
                                 await dbContext.SaveChangesAsync();
 
@@ -276,7 +283,8 @@ namespace JobSearchingWebApp.Endpoints.CV.Update
 
                                 var url = dbContext.URL.Where(x => x.Id == urlid).FirstOrDefault();
 
-                                dbContext.Remove(url);
+                                if (url != null) 
+                                    dbContext.Remove(url);
 
                                 await dbContext.SaveChangesAsync();
 

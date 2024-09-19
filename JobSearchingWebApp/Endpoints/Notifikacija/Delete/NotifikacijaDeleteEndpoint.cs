@@ -1,31 +1,45 @@
 ﻿using JobSearchingWebApp.Data;
+using JobSearchingWebApp.Database;
 using JobSearchingWebApp.Endpoints.Oglas.Delete;
 using JobSearchingWebApp.Helper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace JobSearchingWebApp.Endpoints.Notifikacija.Delete
 {
+    [Authorize]
     [Tags("Notifikacija")]
     [Route("notifikacija-delete")]
-    public class NotifikacijaDeleteEndpoint : MyBaseEndpoint<NotifikacijaDeleteRequest, NotifikacijaDeleteResponse>
+    public class NotifikacijaDeleteEndpoint : MyBaseEndpoint<NotifikacijaDeleteRequest, ActionResult<NotifikacijaDeleteResponse>>
     {
         private readonly ApplicationDbContext dbContext;
+        private readonly UserManager<Korisnik> userManager;
 
-        public NotifikacijaDeleteEndpoint(ApplicationDbContext dbContext)
+        public NotifikacijaDeleteEndpoint(ApplicationDbContext dbContext, UserManager<Korisnik> userManager)
         {
             this.dbContext = dbContext;
+            this.userManager = userManager;
         }
 
         [HttpDelete]
-        public override async Task<NotifikacijaDeleteResponse> MyAction([FromQuery]NotifikacijaDeleteRequest request, CancellationToken cancellationToken)
+        public override async Task<ActionResult<NotifikacijaDeleteResponse>> MyAction([FromQuery]NotifikacijaDeleteRequest request, CancellationToken cancellationToken)
         {
+            var userId = userManager.GetUserId(User);
+            var user = await userManager.GetUserAsync(User);
+
+            if (user == null || user.IsObrisan == true)
+            {
+                return NotFound($"Unable to load user with ID '{userManager.GetUserId(User)}'.");
+            }
+
             var notifikacija = dbContext.Notifikacije.FirstOrDefault(x => x.Id == request.notifikacija_id);
 
             if (notifikacija == null)
             {
-                throw new Exception("Nije pronađen oglas sa ID " + request.notifikacija_id);
+                return NotFound($"Unable to load notification with ID {request.notifikacija_id}.");
             }
 
             dbContext.Remove(notifikacija);

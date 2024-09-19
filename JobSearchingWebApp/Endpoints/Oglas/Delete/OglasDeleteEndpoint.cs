@@ -1,27 +1,42 @@
 ﻿using JobSearchingWebApp.Data;
+using JobSearchingWebApp.Database;
 using JobSearchingWebApp.Endpoints.Kandidat.Delete;
 using JobSearchingWebApp.Helper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace JobSearchingWebApp.Endpoints.Oglas.Delete
 {
+    [Authorize(Roles = "Admin, Kompanija")]
     [Tags("Oglas")]
     [Route("oglas-delete")]
     public class OglasDeleteEndpoint : MyBaseEndpoint<OglasDeleteRequest, IActionResult>
     {
         private readonly ApplicationDbContext dbContext;
+        private readonly UserManager<Korisnik> userManager;
 
-        public OglasDeleteEndpoint(ApplicationDbContext dbContext)
+        public OglasDeleteEndpoint(ApplicationDbContext dbContext, UserManager<Korisnik> userManager)
         {
             this.dbContext = dbContext;
+            this.userManager = userManager;
         }
 
         [HttpDelete]
         public override async Task<IActionResult> MyAction([FromQuery]OglasDeleteRequest request, CancellationToken cancellationToken)
         {
+
+            var userId = userManager.GetUserId(User);
+            var user = await userManager.GetUserAsync(User);
+
+            if (user == null || user.IsObrisan == true)
+            {
+                return NotFound(new { message = $"Unable to load user with ID {userManager.GetUserId(User)}." });
+            }
+
             try
             {
                 var oglas = dbContext.Oglasi.FirstOrDefault(x => x.Id == request.oglas_id);

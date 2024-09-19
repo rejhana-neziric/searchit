@@ -4,10 +4,11 @@ using JobSearchingWebApp.Helper;
 using JobSearchingWebApp.Database;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace JobSearchingWebApp.Endpoints.CV.GetAll
 {
-
+    [Authorize]
     [Tags("CV")]
     [Route("cv-get")]
     public class CVGetAllEndpoint : MyBaseEndpoint<CVGetAllRequest, CVGetAllResponse>
@@ -22,7 +23,7 @@ namespace JobSearchingWebApp.Endpoints.CV.GetAll
         [HttpGet]
         public override async Task<CVGetAllResponse> MyAction([FromQuery] CVGetAllRequest request, CancellationToken cancellationToken)
         {
-            var cv = dbContext.CV.Include(x => x.Kandidat).AsQueryable();
+            var cv = dbContext.CV.Include(x => x.Kandidat).Where(x => x.Kandidat.IsObrisan == false).AsQueryable();
 
 
             if (!string.IsNullOrEmpty(request.KandidatId))

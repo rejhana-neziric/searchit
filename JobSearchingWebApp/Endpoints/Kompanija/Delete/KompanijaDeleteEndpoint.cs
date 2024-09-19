@@ -1,6 +1,7 @@
 ﻿using JobSearchingWebApp.Data;
 using JobSearchingWebApp.Endpoints.Kandidat.Delete;
 using JobSearchingWebApp.Helper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -8,6 +9,7 @@ using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace JobSearchingWebApp.Endpoints.Kompanija.Delete
 {
+    [Authorize(Roles = "Admin, Kompanija")]
     [Tags("Kompanija")]
     [Route("kompanija-delete")]
     public class KompanijaDeleteEndpoint : MyBaseEndpoint<string, ActionResult<KompanijaDeleteResponse>>
@@ -21,11 +23,16 @@ namespace JobSearchingWebApp.Endpoints.Kompanija.Delete
             this.userManager = userManager;
         }
 
-        [HttpDelete("{id}")]
-        public override async Task<ActionResult<KompanijaDeleteResponse>> MyAction(string id, CancellationToken cancellationToken)
+        [HttpPut]
+        public override async Task<ActionResult<KompanijaDeleteResponse>> MyAction([FromBody]string id, CancellationToken cancellationToken)
         {
             var userId = userManager.GetUserId(User);
-            var user = await userManager.FindByIdAsync(userId);
+            var user = await userManager.GetUserAsync(User);
+
+            if (user == null || user.IsObrisan == true)
+            {
+                return BadRequest(new { message = $"User with ID {id} doesn't exist." });
+            }
 
             if (id == userId || user.UlogaId == 1)
             {
@@ -33,16 +40,16 @@ namespace JobSearchingWebApp.Endpoints.Kompanija.Delete
                 var kompanija = dbContext.Kompanije.FirstOrDefault(x => x.Id == id);
 
                 if (kompanija == null)
-                    return BadRequest();
+                    return BadRequest(new { message = $"User with ID {id} doesn't exist." });
 
-                await userManager.RemoveFromRoleAsync(kompanija, "Kompanija");
-                await userManager.DeleteAsync(kompanija);
+                kompanija.IsObrisan = true; 
+
+                await dbContext.SaveChangesAsync();
 
                 return new KompanijaDeleteResponse() { };
             }
 
-            else
-                return Unauthorized();
+            else return Unauthorized();
         }
     }
 }

@@ -1,43 +1,68 @@
 ﻿using JobSearchingWebApp.Data;
+using JobSearchingWebApp.Database;
 using JobSearchingWebApp.Endpoints.KandidatSpaseniOglasi.Dodaj;
 using JobSearchingWebApp.Helper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace JobSearchingWebApp.Endpoints.KandidatSpaseneKomapnije.Dodaj
 {
+    [Authorize(Roles = "Kandidat")]
     [Tags("Kandidat-Spasene-Kompanije")]
     [Route("kandidat-spasene-kompanije-dodaj")]
-    public class KandidatSpaseneKompanijeDodajEndpoint : MyBaseEndpoint<KandidatSpaseneKompanijeDodajRequest, KandidatSpaseneKompanijeDodajResponse>
+    public class KandidatSpaseneKompanijeDodajEndpoint : MyBaseEndpoint<KandidatSpaseneKompanijeDodajRequest, ActionResult<KandidatSpaseneKompanijeDodajResponse>>
     {
         private readonly ApplicationDbContext dbContext;
+        private readonly UserManager<Korisnik> userManager;
 
-        public KandidatSpaseneKompanijeDodajEndpoint(ApplicationDbContext dbContext)
+        public KandidatSpaseneKompanijeDodajEndpoint(ApplicationDbContext dbContext, UserManager<Korisnik> userManager)
         {
             this.dbContext = dbContext;
+            this.userManager = userManager; 
         }
 
         [HttpPost]
-        public override async Task<KandidatSpaseneKompanijeDodajResponse> MyAction(KandidatSpaseneKompanijeDodajRequest request, CancellationToken cancellationToken)
+        public override async Task<ActionResult<KandidatSpaseneKompanijeDodajResponse>> MyAction(KandidatSpaseneKompanijeDodajRequest request, CancellationToken cancellationToken)
         {
-            var spaseni = dbContext.KandidatSpaseneKompanije.Where(spaseni => spaseni.KandidatId == request.kandidat_id && spaseni.KompanijaId == request.kompanija_id).FirstOrDefault();
-            var kompanija = dbContext.Kompanije.Where(kompanija => kompanija.Id == request.kompanija_id);
-            var kandidat = dbContext.Kandidati.Where(kandidat => kandidat.Id == request.kandidat_id);
+            var userId = userManager.GetUserId(User);
+            var user = await userManager.GetUserAsync(User);
+
+            if (user == null || user.IsObrisan == true)
+            {
+                return NotFound($"Unable to load user with ID '{userManager.GetUserId(User)}'.");
+            }
+
+            var spaseni = dbContext.KandidatSpaseneKompanije.Include(x => x.Kandidat)
+                                                            .Include(x => x.Kompanija)
+                                                            .Where(spaseni => spaseni.KandidatId == request.kandidat_id 
+                                                                && spaseni.Kandidat.IsObrisan == false
+                                                                && spaseni.KompanijaId == request.kompanija_id
+                                                                && spaseni.Kompanija.IsObrisan == false)
+                                                            .FirstOrDefault();
+
+            var kompanija = dbContext.Kompanije.Where(kompanija => kompanija.Id == request.kompanija_id 
+                                                                && kompanija.IsObrisan == false);
+
+            var kandidat = dbContext.Kandidati.Where(kandidat => kandidat.Id == request.kandidat_id 
+                                                              && kandidat.IsObrisan == false);
 
             if (kompanija is null)
             {
-                throw new Exception($"Kompanija sa ID {request.kompanija_id} ne postoji.");
+                return NotFound($"Unable to load company with ID '{request.kompanija_id}'.");
             }
 
             if (kandidat is null)
             {
-                throw new Exception($"Kandidat sa ID {request.kandidat_id} ne postoji.");
+                return NotFound($"Unable to load candidate with ID '{request.kandidat_id}'.");
             }
 
             var id = 0;
 
             if (spaseni != null && spaseni.Spasen == true)
             {
-                throw new Exception($"Kompanija sa ID {request.kompanija_id} je vec spasen.");
+                return BadRequest($"Company with ID {request.kompanija_id} has already been saved.");
             }
 
             else if (spaseni != null && spaseni.Spasen == false)
@@ -45,7 +70,6 @@ namespace JobSearchingWebApp.Endpoints.KandidatSpaseneKomapnije.Dodaj
                 spaseni.Spasen = true;
                 id = spaseni.Id; 
             }
-
 
             else
             {
@@ -60,7 +84,6 @@ namespace JobSearchingWebApp.Endpoints.KandidatSpaseneKomapnije.Dodaj
 
                 id = kandidat_kompanija.Id;
             }
-
 
             await dbContext.SaveChangesAsync();
 

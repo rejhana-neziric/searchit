@@ -30,8 +30,13 @@ namespace JobSearchingWebApp.Endpoints.CV.Dodaj
         public override async Task<ActionResult<CVDodajResponse>> MyAction([FromBody]CVDodajRequest request, CancellationToken cancellationToken)
         {
             var userId = userManager.GetUserId(User);
-            var user = await userManager.FindByIdAsync(userId);
+            var user = await userManager.GetUserAsync(User);
 
+
+            if (user == null || user.IsObrisan == true)
+            {
+                return NotFound($"Unable to load user with ID '{userManager.GetUserId(User)}'.");
+            }
 
             if (request.KandidatId == userId || user.UlogaId == 1)
             {

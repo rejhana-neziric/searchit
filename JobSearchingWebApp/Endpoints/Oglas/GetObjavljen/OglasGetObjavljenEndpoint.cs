@@ -2,6 +2,7 @@
 using JobSearchingWebApp.Data;
 using JobSearchingWebApp.Endpoints.Oglas.GetAll;
 using JobSearchingWebApp.Helper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace JobSearchingWebApp.Endpoints.Oglas.Dodaj.GetObjavljen
 {
+    [AllowAnonymous]
     [Tags("Oglas")]
     [Route("oglas-get-by-objavljen")]
     public class OglasGetObjavljenEndpoint : MyBaseEndpoint<bool, OglasGetObjavljenResponse>
@@ -21,7 +23,7 @@ namespace JobSearchingWebApp.Endpoints.Oglas.Dodaj.GetObjavljen
         [HttpGet("{objavljen}")]
         public override async Task<OglasGetObjavljenResponse> MyAction(bool objavljen, CancellationToken cancellationToken)
         {
-            var oglasi = dbContext.Oglasi.Include(k=> k.Kompanija).AsEnumerable().Where(x=> x.Objavljen == objavljen).ToList();
+            var oglasi = dbContext.Oglasi.Include(k=> k.Kompanija).AsEnumerable().Where(x=> x.Objavljen == objavljen && x.Kompanija.IsObrisan == false).ToList();
 
             var lista = oglasi.Select(oglas => new OglasGetObjavljenResponseOglas
             {

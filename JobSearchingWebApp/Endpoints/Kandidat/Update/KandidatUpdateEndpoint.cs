@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace JobSearchingWebApp.Endpoints.Kandidat.Update
 {
-
+    [Authorize(Roles = "Kandidat")]
     [Tags("Kandidat")]
     [Route("kandidat-update")]
     public class KandidatUpdateEndpoint : MyBaseEndpoint<KandidatUpdateRequest, ActionResult<KandidatUpdateResponse>>
@@ -28,22 +28,39 @@ namespace JobSearchingWebApp.Endpoints.Kandidat.Update
         [HttpPost]
         public override async Task<ActionResult<KandidatUpdateResponse>> MyAction(KandidatUpdateRequest request, CancellationToken cancellationToken)
         {
-            var kandidat = await dbContext.Kandidati.FindAsync(request.Id);
-            if (kandidat == null) return BadRequest(new { message = $"User with ID {request.Id} doesn't exist." });
-            if (kandidat.UlogaId == 1) return BadRequest(new { message = $"User with ID {request.Id} is not candidate." });
+            var userId = userManager.GetUserId(User);
+            var user = await userManager.GetUserAsync(User);
 
-            kandidat.MjestoPrebivalista = request.MjestoPrebivalista ?? kandidat.MjestoPrebivalista;
-            kandidat.Zvanje = request.Zvanje ?? kandidat.Zvanje;
-
-            if(!String.IsNullOrEmpty(request.PhoneNumber))
+            if (user == null || user.IsObrisan == true)
             {
-                kandidat.PhoneNumber = request.PhoneNumber;
-                kandidat.PhoneNumberConfirmed = false; 
+                return NotFound($"Unable to load user with ID '{userManager.GetUserId(User)}'.");
             }
 
-            await dbContext.SaveChangesAsync();
+            if (request.Id == userId)
+            {
+                var kandidat = await dbContext.Kandidati.FindAsync(request.Id);
 
-            return new KandidatUpdateResponse { id = kandidat.Id }; 
+                if (kandidat == null)
+                {
+                    return NotFound("Unable to load user.");
+                }
+
+                kandidat.MjestoPrebivalista = request.MjestoPrebivalista ?? kandidat.MjestoPrebivalista;
+                kandidat.Zvanje = request.Zvanje ?? kandidat.Zvanje;
+
+                if (!String.IsNullOrEmpty(request.PhoneNumber))
+                {
+                    kandidat.PhoneNumber = request.PhoneNumber;
+                    kandidat.PhoneNumberConfirmed = false;
+                }
+
+                await dbContext.SaveChangesAsync();
+
+                return new KandidatUpdateResponse { id = kandidat.Id };
+            }
+
+            return Unauthorized();
+           
         }
     }
 }

@@ -7,9 +7,11 @@ using MapsterMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace JobSearchingWebApp.Endpoints.Kompanija.GetById
 {
+    [AllowAnonymous]
     [Tags("Kompanija")]
     [Route("kompanija/get-by-id")]
     public class KompanijaGetByIdEndpoint : MyBaseEndpoint<string, ActionResult<KompanijaGetByIdResponse>>
@@ -29,7 +31,7 @@ namespace JobSearchingWebApp.Endpoints.Kompanija.GetById
         public override async Task<ActionResult<KompanijaGetByIdResponse>> MyAction(string id, CancellationToken cancellationToken)
         {
             var user = await userManager.FindByIdAsync(id);
-            if (user == null) return BadRequest(new { message = $"User with ID {id} doesn't exist." });
+            if (user == null || user.IsObrisan == true) return BadRequest(new { message = $"User with ID {id} doesn't exist." });
             if (user.UlogaId != 3) return BadRequest(new { message = $"User with ID {id} is not company." });
 
             var response = mapper.Map<KompanijaGetByIdResponse>(user);

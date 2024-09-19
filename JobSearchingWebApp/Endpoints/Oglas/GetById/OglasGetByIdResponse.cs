@@ -35,15 +35,15 @@ namespace JobSearchingWebApp.Endpoints.Oglas.GetById
     {
         public string OpisPozicije { get; set; }
 
-        public int MinimumGodinaIskustva { get; set; }
+        public int? MinimumGodinaIskustva { get; set; }
 
-        public int PrefiraneGodineIskstva { get; set; }
+        public int? PrefiraneGodineIskstva { get; set; }
 
-        public string Kvalifikacija { get; set; }
+        public string? Kvalifikacija { get; set; }
 
-        public string Vjestine { get; set; }
+        public string? Vjestine { get; set; }
 
-        public string Benefiti { get; set; }
+        public string? Benefiti { get; set; }
     }
 
     public class OglasGetByIdResponseOglasLokacija

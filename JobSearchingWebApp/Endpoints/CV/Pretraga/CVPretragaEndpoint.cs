@@ -7,6 +7,8 @@ using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace JobSearchingWebApp.Endpoints.CV.Pretraga
 {
+
+    // moze se izbrisati 
     [Tags("CV")]
     [Route("cv-pretraga")]
     public class CVPretragaEndpoint : MyBaseEndpoint<CVPretragaRequest, CVPretragaResponse>

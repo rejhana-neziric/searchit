@@ -9,9 +9,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Runtime.CompilerServices;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
+using Microsoft.AspNetCore.Authorization;
 
 namespace JobSearchingWebApp.Endpoints.Kompanija.GetAll
 {
+    [AllowAnonymous]
     [Tags("Kompanija")]
     [Route("kompanija-get")]
     public class KompanijaGetAllEndpoint : MyBaseEndpoint<KompanijaGetAllRequest, KompanijaGetAllResponse>
@@ -26,9 +28,16 @@ namespace JobSearchingWebApp.Endpoints.Kompanija.GetAll
         [HttpGet]
         public override async Task<KompanijaGetAllResponse> MyAction([FromQuery] KompanijaGetAllRequest request, CancellationToken cancellationToken)
         {
-            var kompanije = dbContext.Kompanije.AsQueryable();
-            var oglasi = dbContext.Oglasi.Include(kompanija => kompanija.Kompanija).AsQueryable();
-            var spaseni = dbContext.KandidatSpaseneKompanije.Include(spaseni => spaseni.Kompanija).AsQueryable();
+            var kompanije = dbContext.Kompanije.Where(kompanija => kompanija.IsObrisan == false).AsQueryable();
+
+            var oglasi = dbContext.Oglasi.Include(kompanija => kompanija.Kompanija)
+                                         .Where(oglas => oglas.IsObrisan == false).AsQueryable();
+
+            var spaseni = dbContext.KandidatSpaseneKompanije.Include(spaseni => spaseni.Kompanija)
+                                                            .Include(spaseni => spaseni.Kandidat)
+                                                            .Where(spaseni => spaseni.Kompanija.IsObrisan == false
+                                                                           && spaseni.Kandidat.IsObrisan == false)
+                                                            .AsQueryable();
 
             if (!string.IsNullOrEmpty(request.Naziv))
             {

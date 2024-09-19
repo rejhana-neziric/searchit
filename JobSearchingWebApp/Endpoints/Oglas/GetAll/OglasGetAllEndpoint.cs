@@ -2,19 +2,12 @@
 using JobSearchingWebApp.Helper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Azure;
-using System.Runtime.CompilerServices;
-using JobSearchingWebApp.Database;
-using System.Linq;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System.Reflection;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using Microsoft.AspNetCore.Authorization;
 
 
 namespace JobSearchingWebApp.Endpoints.Oglas.GetAll
 {
+    [AllowAnonymous]
     [Tags("Oglas")]
     [Route("oglas-get")]
     public class OglasGetAllEndpoint : MyBaseEndpoint<OglasGetAllRequest, OglasGetAllResponse>
@@ -29,10 +22,20 @@ namespace JobSearchingWebApp.Endpoints.Oglas.GetAll
         [HttpGet]
         public override async Task<OglasGetAllResponse> MyAction([FromQuery] OglasGetAllRequest request, CancellationToken cancellationToken)
         {
-            var oglasi = dbContext.Oglasi.Where(x=> !x.IsObrisan).Include(x => x.Kompanija).AsQueryable();
+            var oglasi = dbContext.Oglasi.Include(x => x.Kompanija)
+                                         .Where(x => x.IsObrisan == false 
+                                                  && x.Kompanija.IsObrisan == false)
+                                         .AsQueryable();
+
             var lokacije = dbContext.OglasLokacija.Include(lokacija => lokacija.Lokacija).AsQueryable();
+
             var iskustva = dbContext.OglasIskustvo.Include(iskustvo => iskustvo.Iskustvo).AsQueryable();
-            var spaseni = dbContext.KandidatSpaseniOglasi.Include(spaseni => spaseni.Oglas).AsQueryable();
+
+            var spaseni = dbContext.KandidatSpaseniOglasi.Include(spaseni => spaseni.Oglas)
+                                                         .Include(spaseni => spaseni.Kandidat)
+                                                         .Where(x => x.Oglas.IsObrisan == false 
+                                                                  && x.Kandidat.IsObrisan == false)
+                                                         .AsQueryable();
 
             if (!string.IsNullOrEmpty(request.Naziv))
             {

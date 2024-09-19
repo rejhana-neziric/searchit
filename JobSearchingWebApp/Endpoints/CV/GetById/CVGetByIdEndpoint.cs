@@ -1,12 +1,13 @@
 ﻿using JobSearchingWebApp.Data;
 using JobSearchingWebApp.Endpoints.Oglas.GetById;
 using JobSearchingWebApp.Helper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace JobSearchingWebApp.Endpoints.CV.GetById
 {
-
+    [Authorize]
     [Tags("CV")]
     [Route("cv/get-by-id")]
     public class CVGetByIdEndpoint : MyBaseEndpoint<int, CVGetByIdResponse>
@@ -21,7 +22,7 @@ namespace JobSearchingWebApp.Endpoints.CV.GetById
         [HttpGet("{id}")]
         public override async Task<CVGetByIdResponse> MyAction(int id, CancellationToken cancellationToken)
         {
-            var cv = dbContext.CV.Where(x => x.Id == id).FirstOrDefault();
+            var cv = dbContext.CV.Include(x => x.Kandidat).Where(x => x.Id == id && x.Kandidat.IsObrisan == false).FirstOrDefault();
 
             if (cv == null)
                 throw new Exception("Ne postoji cv sa ID " + id);

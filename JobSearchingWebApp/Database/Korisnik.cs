@@ -15,5 +15,7 @@ namespace JobSearchingWebApp.Database
         public int UlogaId { get; set; }
 
         public virtual Uloga Uloga { get; set; }
+
+        public bool IsObrisan { get; set; } = false;
     }
 }

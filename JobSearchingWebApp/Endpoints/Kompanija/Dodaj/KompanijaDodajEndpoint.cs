@@ -15,6 +15,7 @@ using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace JobSearchingWebApp.Endpoints.Kompanija.Dodaj
 {
+    [AllowAnonymous]
     [Tags("Kompanija")]
     [Route("kompanija-dodaj")]
     public class KompanijaDodajEndpoint : MyBaseEndpoint<KompanijaDodajRequest, IActionResult>
@@ -36,6 +37,7 @@ namespace JobSearchingWebApp.Endpoints.Kompanija.Dodaj
             var kompanija = mapper.Map<Database.Kompanija>(request);
             kompanija.PasswordSalt = HelperMethods.GenerateSalt();
             kompanija.UlogaId = 3;
+            kompanija.IsObrisan = false; 
 
             var result = await userManager.CreateAsync(kompanija, request.Password);
             if (!result.Succeeded)

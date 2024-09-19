@@ -2,7 +2,6 @@
 using JobSearchingWebApp.Endpoints.CV.Update;
 using JobSearchingWebApp.Helper;
 using JobSearchingWebApp.Database;
-using JobSearchingWebApp.Database;
 using Mailjet.Client.Resources;
 using MapsterMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -31,9 +30,13 @@ namespace JobSearchingWebApp.Endpoints.CV.UpdateStatus
         [HttpPut]
         public override async Task<ActionResult<CVUpdateStatusResponse>> MyAction(CVUpdateStatusRequest request, CancellationToken cancellationToken)
         {
-
             var userId = userManager.GetUserId(User);
-            var user = await userManager.FindByIdAsync(userId);
+            var user = await userManager.GetUserAsync(User);
+
+            if (user == null || user.IsObrisan == true)
+            {
+                return NotFound($"Unable to load user with ID '{userManager.GetUserId(User)}'.");
+            }
 
             if (request.KandidatId == userId || user.UlogaId == 1)
             {

@@ -5,23 +5,37 @@ using JobSearchingWebApp.Database;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace JobSearchingWebApp.Endpoints.Notifikacija.Dodaj
 {
+    [Authorize]
     [Tags("Notifikacija")]
     [Route("notifikacija-dodaj")]
-    public class NotifikacijaDodajEndpoint : MyBaseEndpoint<NotifikacijaDodajRequest, NotifikacijaDodajResponse>
+    public class NotifikacijaDodajEndpoint : MyBaseEndpoint<NotifikacijaDodajRequest, ActionResult<NotifikacijaDodajResponse>>
     {
         private readonly ApplicationDbContext dbContext;
+        private readonly UserManager<Korisnik> userManager;
 
-        public NotifikacijaDodajEndpoint(ApplicationDbContext dbContext)
+
+        public NotifikacijaDodajEndpoint(ApplicationDbContext dbContext, UserManager<Korisnik> userManager)
         {
             this.dbContext = dbContext;
+            this.userManager = userManager;
         }
 
         [HttpPost]
-        public override async Task<NotifikacijaDodajResponse> MyAction(NotifikacijaDodajRequest request, CancellationToken cancellationToken)
+        public override async Task<ActionResult<NotifikacijaDodajResponse>> MyAction(NotifikacijaDodajRequest request, CancellationToken cancellationToken)
         {
+            var userId = userManager.GetUserId(User);
+            var user = await userManager.GetUserAsync(User);
+
+            if (user == null || user.IsObrisan == true)
+            {
+                return NotFound($"Unable to load user with ID '{userManager.GetUserId(User)}'.");
+            }
+
             var notifikacija = new Database.Notifikacija()
             {
                 Naziv = request.naziv,

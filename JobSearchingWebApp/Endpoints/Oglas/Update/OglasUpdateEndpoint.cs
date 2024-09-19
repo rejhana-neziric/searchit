@@ -6,23 +6,36 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace JobSearchingWebApp.Endpoints.Oglas.Update
 {
+    [Authorize(Roles = "Admin, Kandidat")]
     [Tags("Oglas")]
     [Route("oglas-update")]
-    public class OglasUpdateEndpoint : MyBaseEndpoint<OglasUpdateRequest, OglasUpdateResponse>
+    public class OglasUpdateEndpoint : MyBaseEndpoint<OglasUpdateRequest, ActionResult<OglasUpdateResponse>>
     {
         private readonly ApplicationDbContext dbContext;
+        private readonly UserManager<Korisnik> userManager;
 
-        public OglasUpdateEndpoint(ApplicationDbContext dbContext)
+        public OglasUpdateEndpoint(ApplicationDbContext dbContext, UserManager<Korisnik> userManager)
         {
             this.dbContext = dbContext;
+            this.userManager = userManager;
         }
 
         [HttpPost]
-        public override async Task<OglasUpdateResponse> MyAction(OglasUpdateRequest request, CancellationToken cancellationToken)
+        public override async Task<ActionResult<OglasUpdateResponse>> MyAction(OglasUpdateRequest request, CancellationToken cancellationToken)
         {
+            var userId = userManager.GetUserId(User);
+            var user = await userManager.GetUserAsync(User);
+
+            if (user == null || user.IsObrisan == true)
+            {
+                return NotFound($"Unable to load user with ID '{userManager.GetUserId(User)}'.");
+            }
+
             var oglas = dbContext.Oglasi
                 .Include(o => o.OpisOglas)  // Explicitly include OpisOglas
                 .Include(o => o.OglasLokacija)

@@ -1,15 +1,18 @@
 ﻿using JobSearchingWebApp.Data;
 using JobSearchingWebApp.Helper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace JobSearchingWebApp.Endpoints.Oglas.GetById
 {
+    [AllowAnonymous]
     [Tags("Oglas")]
     [Route("oglas/get-by-id")]
-    public class OglasGetByIdEndpoint : MyBaseEndpoint<int, OglasGetByIdResponse>
+    public class OglasGetByIdEndpoint : MyBaseEndpoint<int, ActionResult<OglasGetByIdResponse>>
     {
         private readonly ApplicationDbContext dbContext;
 
@@ -19,13 +22,20 @@ namespace JobSearchingWebApp.Endpoints.Oglas.GetById
         }
 
         [HttpGet("{id}")]
-        public override async Task<OglasGetByIdResponse> MyAction(int id, CancellationToken cancellationToken)
+        public override async Task<ActionResult<OglasGetByIdResponse>> MyAction(int id, CancellationToken cancellationToken)
         {
-            var oglas = dbContext.Oglasi.Where(x => x.Id == id).Include(kompanija => kompanija.Kompanija).FirstOrDefault();  
+            var oglas = dbContext.Oglasi.Include(kompanija => kompanija.Kompanija)
+                                        .Where(x => x.Id == id
+                                                 && x.Kompanija.IsObrisan == false
+                                                 && x.IsObrisan == false)
+                                        .FirstOrDefault();  
+
             var opis = dbContext.OpisOglas.Where(x => x.OglasId == id).FirstOrDefault();  
 
-            if (oglas == null) 
-                throw new Exception("Ne postoji oglas sa ID " + id);
+            if (oglas == null || oglas.IsObrisan == true)
+            {
+                return NotFound($"Unable to load job post with ID {id}.");
+            }
 
             var oglasOpis = new OglasGetByIdResponse
             {
@@ -51,12 +61,12 @@ namespace JobSearchingWebApp.Endpoints.Oglas.GetById
                 }).ToList(),
                 OpisOglasa = new OglasGetByIdResponseOpisOglasa
                 {
-                    OpisPozicije = opis is null ?  " ": opis.OpisPozicije,
-                    Kvalifikacija = opis is null ? " " : opis.Kvalifikacija,
-                    Vjestine = opis is null ? " " : opis.Vjestine,
-                    Benefiti = opis is null ? " " : opis.Benefiti,
-                    MinimumGodinaIskustva = (int)(opis is null ? 1 :  opis.MinimumGodinaIskustva),
-                    PrefiraneGodineIskstva = (int)(opis is null ? 1 : opis.PrefiraneGodineIskstva)
+                    OpisPozicije = opis == null ? " " : opis.OpisPozicije,
+                    Kvalifikacija = opis?.Kvalifikacija,
+                    Vjestine = opis?.Vjestine,
+                    Benefiti = opis?.Benefiti,
+                    MinimumGodinaIskustva = opis?.MinimumGodinaIskustva,
+                    PrefiraneGodineIskstva = opis?.PrefiraneGodineIskstva
                 }
             };
 

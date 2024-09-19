@@ -10,6 +10,7 @@ using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace JobSearchingWebApp.Endpoints.Kompanija.GetBrojZaposlenihRange
 {
+    [AllowAnonymous]
     [Tags("Kompanija")]
     [Route("broj-zaposlenih")]
     public class GetBrojZaposlenihEndpoint : MyBaseEndpoint<NoRequest, GetBrojZaposlenihResponse>

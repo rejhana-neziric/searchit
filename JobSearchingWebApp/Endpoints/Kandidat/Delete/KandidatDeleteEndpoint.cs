@@ -1,4 +1,5 @@
 ﻿using JobSearchingWebApp.Data;
+using JobSearchingWebApp.Database;
 using JobSearchingWebApp.Helper;
 using Mailjet.Client.Resources;
 using Microsoft.AspNetCore.Authorization;
@@ -24,34 +25,34 @@ namespace JobSearchingWebApp.Endpoints.Kandidat.Delete
             this.userManager = userManager; 
         }
 
-        [HttpDelete("{id}")]
-        public override async Task<ActionResult<KandidatDeleteResponse>> MyAction(string id, CancellationToken cancellationToken)
+        [HttpPut]
+        public override async Task<ActionResult<KandidatDeleteResponse>> MyAction([FromBody]string id, CancellationToken cancellationToken)
         {
-
             var userId = userManager.GetUserId(User);
-            var user = await userManager.FindByIdAsync(userId);
+            var user = await userManager.GetUserAsync(User);
+
+            if (user == null || user.IsObrisan == true)
+            {
+                return BadRequest(new { message = $"User with ID {id} doesn't exist." });
+            }
 
             if (id == userId || user.UlogaId == 1)
             {
+                user.IsObrisan = true; 
 
-                var kandidat = dbContext.Kandidati.FirstOrDefault(x => x.Id == id);
+                //var kandidat = dbContext.Kandidati.FirstOrDefault(x => x.Id == id);
 
-                if (kandidat == null)
-                    return BadRequest();
+                //if (kandidat == null)
+                //    return BadRequest(new { message = $"User with ID {id} doesn't exist." });
 
-                var kandidatOglas = dbContext.KandidatiOglasi.Where(x => x.KandidatId == id).ToList();
+                //kandidat.IsObrisan = true;  
 
-                dbContext.KandidatiOglasi.RemoveRange(kandidatOglas);
-                await dbContext.SaveChangesAsync();
-
-                await userManager.RemoveFromRoleAsync(kandidat, "Kandidat");
-                await userManager.DeleteAsync(kandidat);
+                await dbContext.SaveChangesAsync();   
 
                 return new KandidatDeleteResponse() { };
             }
 
-            else
-                return Unauthorized();
+            else return Unauthorized();
         }
     }
 }

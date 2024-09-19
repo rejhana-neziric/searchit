@@ -110,7 +110,7 @@ namespace JobSearchingWebApp.Endpoints.Auth
         {
             var user = await userManager.FindByEmailAsync(model.Email);
 
-            if (user == null) 
+            if (user == null || user.IsObrisan == true) 
                 return Unauthorized(new { message = "This email address has not been registered yet" } );
 
             if (user.EmailConfirmed == true) 
@@ -141,7 +141,7 @@ namespace JobSearchingWebApp.Endpoints.Auth
             if (string.IsNullOrEmpty(email)) return BadRequest("Invalid email");
             var user = await userManager.FindByEmailAsync(email);
 
-            if (user == null) return Unauthorized("This email address has not been registerd yet");
+            if (user == null || user.IsObrisan) return Unauthorized("This email address has not been registerd yet");
             if (user.EmailConfirmed == true) return BadRequest("Your email address was confirmed before. Please login to your account");
 
             try
@@ -177,8 +177,8 @@ namespace JobSearchingWebApp.Endpoints.Auth
         {
             var user = await userManager.FindByNameAsync(model.Username);
 
-            if (user == null) return Unauthorized(new { message = "Invalid username or password" });
-            if (user.EmailConfirmed == false) return Unauthorized(new { message = "Please confirm your email." });
+            if (user == null || user.IsObrisan == true) return Unauthorized(new { message = "Invalid username or password" });
+            //if (user.EmailConfirmed == false) return Unauthorized(new { message = "Please confirm your email." });
 
             if (user.TwoFactorEnabled)
             {
@@ -189,7 +189,7 @@ namespace JobSearchingWebApp.Endpoints.Auth
                 if (user.PhoneNumberConfirmed && user.UlogaId == 2)
                 { 
                     //Sending SMS 
-                    await smsService.SendSmsAsync(user.PhoneNumber, $"Your 2FA Token is {TwoFactorAuthenticationToken}");
+                    //await smsService.SendSmsAsync(user.PhoneNumber, $"Your 2FA Token is {TwoFactorAuthenticationToken}");
                 }   
                 
                 //Sending Email
@@ -297,12 +297,12 @@ namespace JobSearchingWebApp.Endpoints.Auth
             var userId = userManager.GetUserId(User);
             var user = await userManager.FindByIdAsync(userId);
 
-            if (user == null)
+            if (user == null || user.IsObrisan == true)
             {
                 return NotFound($"Unable to load user with ID '{userManager.GetUserId(User)}'.");
             }
 
-            if(userId == kandidatId)
+            if(userId == kandidatId && user.PhoneNumber != null)
             {
                 var token = await userManager.GenerateChangePhoneNumberTokenAsync(user, user.PhoneNumber);
 
@@ -328,7 +328,7 @@ namespace JobSearchingWebApp.Endpoints.Auth
         {
             var user = await userManager.GetUserAsync(User);
 
-            if (user == null)
+            if (user == null || user.IsObrisan == true)
             {
                 return NotFound($"Unable to load user with ID '{userManager.GetUserId(User)}'.");
             }
@@ -357,7 +357,7 @@ namespace JobSearchingWebApp.Endpoints.Auth
         {
             var user = await userManager.GetUserAsync(User);
 
-            if (user == null)
+            if (user == null || user.IsObrisan == true)
             {
                 return NotFound(new { message = $"Unable to load user with ID '{userManager.GetUserId(User)}'." });
             }
@@ -381,15 +381,19 @@ namespace JobSearchingWebApp.Endpoints.Auth
             //Generate the Two Factor Authentication Token
             var TwoFactorToken = await userManager.GenerateTwoFactorTokenAsync(user, TokenOptions.DefaultPhoneProvider);
 
-            if (user.PhoneNumberConfirmed && user.UlogaId == 2)
+            if (user.PhoneNumberConfirmed && user.UlogaId == 2 && user.PhoneNumber != null)
             {
                 //Sending SMS
-                await smsService.SendSmsAsync(user.PhoneNumber, $"Your Token to {Message} is {TwoFactorToken}");
+                //await smsService.SendSmsAsync(user.PhoneNumber, $"Your Token to {Message} is {TwoFactorToken}");
             }
 
-            //Sending Email
-            var emailSend = new EmailSend(user.Email, Message, $"Your Token to {Message} is {TwoFactorToken}");
-            await emailService.SendEmailAsync(emailSend);
+            if (user.Email != null)
+            {
+                //Sending Email
+                var emailSend = new EmailSend(user.Email, Message, $"Your Token to {Message} is {TwoFactorToken}");
+                await emailService.SendEmailAsync(emailSend);
+
+            }
 
             return Ok(new { message = "Verification code has been sent." }); 
         }
@@ -400,7 +404,8 @@ namespace JobSearchingWebApp.Endpoints.Auth
         public async Task<IActionResult> ManageTwoFactorAuthentication(string token)
         {
             var user = await userManager.GetUserAsync(User);
-            if (user == null)
+
+            if (user == null || user.IsObrisan == true)
             {
                 return NotFound(new { message = $"Unable to load user with ID '{userManager.GetUserId(User)}'." });
             }
@@ -441,7 +446,7 @@ namespace JobSearchingWebApp.Endpoints.Auth
         {
             var user = await userManager.FindByNameAsync(model.Username);
 
-            if (user == null)
+            if (user == null || user.IsObrisan == true)
             {
                 return NotFound(new { message = $"Unable to load user with username '{model.Username}'." });
             }

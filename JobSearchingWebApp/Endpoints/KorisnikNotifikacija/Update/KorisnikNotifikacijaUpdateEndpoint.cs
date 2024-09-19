@@ -1,30 +1,49 @@
 ﻿using JobSearchingWebApp.Data;
+using JobSearchingWebApp.Database;
 using JobSearchingWebApp.Helper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace JobSearchingWebApp.Endpoints.KorisnikNotifikacija.Update
 {
+    [Authorize]
     [Tags("Korisnik-Notifikacija")]
     [Route("korisnik-notifikacija-update")]
-    public class KorisnikNotifikacijaUpdateEndpoint : MyBaseEndpoint<KorisnikNotifikacijaUpdateRequest, KorisnikNotifikacijaUpdateResponse>
+    public class KorisnikNotifikacijaUpdateEndpoint : MyBaseEndpoint<KorisnikNotifikacijaUpdateRequest, ActionResult<KorisnikNotifikacijaUpdateResponse>>
     {
         private readonly ApplicationDbContext dbContext;
+        private readonly UserManager<Korisnik> userManager;
 
-        public KorisnikNotifikacijaUpdateEndpoint(ApplicationDbContext dbContext)
+
+        public KorisnikNotifikacijaUpdateEndpoint(ApplicationDbContext dbContext, UserManager<Korisnik> userManager)
         {
             this.dbContext = dbContext;
+            this.userManager = userManager;
         }
 
-        [HttpPost]
-        public override async Task<KorisnikNotifikacijaUpdateResponse> MyAction(KorisnikNotifikacijaUpdateRequest request, CancellationToken cancellationToken)
+        [HttpPut]
+        public override async Task<ActionResult<KorisnikNotifikacijaUpdateResponse>> MyAction(KorisnikNotifikacijaUpdateRequest request, CancellationToken cancellationToken)
         {
-            var korisnik_notifikacija = dbContext.KorisnikNotifikacije.FirstOrDefault(x => x.Id == request.korisnik_notifikacija_id);
+            var userId = userManager.GetUserId(User);
+            var user = await userManager.GetUserAsync(User);
+
+            if (user == null || user.IsObrisan == true)
+            {
+                return NotFound($"Unable to load user with ID {userManager.GetUserId(User)}.");
+            }
+
+            var korisnik_notifikacija = dbContext.KorisnikNotifikacije.Include(x => x.Korisnik)
+                                                                      .Where(x => x.Id == request.korisnik_notifikacija_id
+                                                                               && x.Korisnik.IsObrisan == false ) 
+                                                                      .FirstOrDefault();
 
             if (korisnik_notifikacija == null)
             {
-                throw new Exception("Nije pronađen korisnik_notifikacija sa ID " + request.korisnik_notifikacija_id);
+                return NotFound($"Unable to load notification with ID {request.korisnik_notifikacija_id}.");
             }
 
             korisnik_notifikacija.Pogledano = request.pogledano;

@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {NavbarComponent} from "../navbar/navbar.component";
 import {DatePipe, NgForOf, NgIf} from "@angular/common";
-import {ActivatedRoute, RouterLink} from "@angular/router";
+import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {OglasGetByIdEndpoint} from "../../endpoints/oglas-endpoint/get-by-id/oglas-get-by-id-endpoint";
 import {OglasGetByIdResponse} from "../../endpoints/oglas-endpoint/get-by-id/oglas-get-by-id-response";
 import {FooterComponent} from "../footer/footer.component";
@@ -56,6 +56,7 @@ export class OglasDetaljiComponent implements OnInit {
   ]
 
   constructor(private activatedRoute: ActivatedRoute,
+              private router: Router,
               private authService: AuthService,
               private notificationService: NotificationService,
               private modalService: ModalService,
@@ -120,8 +121,12 @@ export class OglasDetaljiComponent implements OnInit {
   }
 
   openCVChooseModal() {
-    this.getAllCV();
-    this.modalService.openModal('chooseCVModal', 'Choose CV', 'Choose CV you want to apply to job with.', []);
+    if (this.user == null) {
+      this.router.navigateByUrl('/login');
+    } else {
+      this.getAllCV();
+      this.modalService.openModal('chooseCVModal', 'Choose CV', 'Choose CV you want to apply to job with.', []);
+    }
   }
 
   async closeCVChooseModal() {

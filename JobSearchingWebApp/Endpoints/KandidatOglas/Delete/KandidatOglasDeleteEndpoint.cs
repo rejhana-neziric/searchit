@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
+using Microsoft.EntityFrameworkCore;
 
 namespace JobSearchingWebApp.Endpoints.KandidatOglas.Delete
 {
@@ -29,11 +30,15 @@ namespace JobSearchingWebApp.Endpoints.KandidatOglas.Delete
         [HttpDelete("{id}")]
         public override async Task<ActionResult<KandidatOglasDeleteResponse>> MyAction(int id, CancellationToken cancellationToken)
         {
-
             var userId = userManager.GetUserId(User);
-            var user = await userManager.FindByIdAsync(userId);
+            var user = await userManager.GetUserAsync(User);
 
-            var kandidatOglas = dbContext.KandidatiOglasi.FirstOrDefault(x => x.Id == id);
+            if (user == null || user.IsObrisan == true)
+            {
+                return NotFound($"Unable to load user with ID '{userManager.GetUserId(User)}'.");
+            }
+
+            var kandidatOglas = dbContext.KandidatiOglasi.Include(x => x.Kandidat).FirstOrDefault(x => x.Id == id && x.Kandidat.IsObrisan == false);
 
             if (kandidatOglas == null)
             {
@@ -42,12 +47,10 @@ namespace JobSearchingWebApp.Endpoints.KandidatOglas.Delete
 
             if (kandidatOglas.KandidatId == userId || user.UlogaId == 1)
             {
-
                 dbContext.Remove(kandidatOglas);
                 await dbContext.SaveChangesAsync();
 
                 return new KandidatOglasDeleteResponse() { };
-
             }
 
             else return Unauthorized();

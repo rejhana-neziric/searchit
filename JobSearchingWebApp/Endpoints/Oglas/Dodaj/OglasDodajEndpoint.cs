@@ -4,18 +4,23 @@ using JobSearchingWebApp.Database;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace JobSearchingWebApp.Endpoints.Oglas.Dodaj
 {
+    [Authorize(Roles = "Admin, Kompanija")]
     [Tags("Oglas")]
     [Route("oglas-dodaj")]
     public class OglasDodajEndpoint : MyBaseEndpoint<OglasDodajRequest, OglasDodajResponse>
     {
         private readonly ApplicationDbContext dbContext;
+        private readonly UserManager<Korisnik> userManager;
 
-        public OglasDodajEndpoint(ApplicationDbContext dbContext)
+        public OglasDodajEndpoint(ApplicationDbContext dbContext, UserManager<Korisnik> userManager)
         {
             this.dbContext = dbContext;
+            this.userManager = userManager;
         }
 
         [HttpPost]
