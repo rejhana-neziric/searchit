@@ -21,7 +21,7 @@ namespace JobSearchingWebApp.Endpoints.OpisKompanije.Update
             this.userManager = userManager;
         }
 
-        [HttpPost]
+        [HttpPut]
         public override async Task<ActionResult<OpisKompanijeUpdateResponse>> MyAction(OpisKompanijeUpdateRequest request, CancellationToken cancellationToken)
         {
             var userId = userManager.GetUserId(User);

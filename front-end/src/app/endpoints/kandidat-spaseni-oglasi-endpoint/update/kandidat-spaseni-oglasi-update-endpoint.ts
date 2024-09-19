@@ -14,7 +14,7 @@ export class KandidatSpaseniOglasiUpdateEndpoint implements MyBaseEndpoint<Kanid
   obradi(request: KanidatSpaseniOglasiUpdateRequest): Observable<number> {
     let url = MojConfig.lokalna_adresa + `/kandidat-spaseni-oglas-update`;
 
-    return this.httpClient.put<number>(url, request);
+    return this.httpClient.patch<number>(url, request);
   }
 
 }

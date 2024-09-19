@@ -27,7 +27,7 @@ namespace JobSearchingWebApp.Endpoints.CV.UpdateStatus
             this.mapper = mapper;
         }
 
-        [HttpPut]
+        [HttpPatch]
         public override async Task<ActionResult<CVUpdateStatusResponse>> MyAction(CVUpdateStatusRequest request, CancellationToken cancellationToken)
         {
             var userId = userManager.GetUserId(User);

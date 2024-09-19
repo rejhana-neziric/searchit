@@ -26,7 +26,7 @@ namespace JobSearchingWebApp.Endpoints.KandidatSpaseniOglasi.Update
             this.userManager = userManager;
         }
 
-        [HttpPut]
+        [HttpPatch]
         public override async Task<ActionResult<KandidatSpaseniOglasiUpdateResponse>> MyAction(KandidatSpaseniOglasiUpdateRequest request, CancellationToken cancellationToken)
         { 
             var userId = userManager.GetUserId(User);

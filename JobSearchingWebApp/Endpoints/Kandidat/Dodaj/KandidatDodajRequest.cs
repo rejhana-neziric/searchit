@@ -1,4 +1,4 @@
-﻿using JobSearchingWebApp.Endpoints.Auth;
+﻿using JobSearchingWebApp.Endpoints.Autentifikacija;
 
 namespace JobSearchingWebApp.Endpoints.Kandidat.Dodaj
 {

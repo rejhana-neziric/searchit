@@ -19,7 +19,7 @@ export class KompanijaDeleteEndpoint implements MyBaseEndpoint<string, any> {
 
     let url = MojConfig.lokalna_adresa + `/kompanija-delete`;
 
-    return this.httpClient.put<any>(url, JSON.stringify(id), httpOptions).pipe(
+    return this.httpClient.patch<any>(url, JSON.stringify(id), httpOptions).pipe(
       catchError((error: HttpErrorResponse) => {
         console.error('Error occurred:', error);
         if (error.error) {

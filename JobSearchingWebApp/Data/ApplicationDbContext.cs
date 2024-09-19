@@ -25,20 +25,6 @@ namespace JobSearchingWebApp.Data
 
         public DbSet<KorisnikNotifikacije> KorisnikNotifikacije { get; set; }
 
-        public DbSet<RadnoIskustvo> RadnoIskustvo { get; set; }
-
-        public DbSet<Jezik> Jezici {  get; set; }
-
-        public DbSet<CVJezici> CVJezici { get; set; }
-
-        public DbSet<Tehnologija> Tehnologije { get; set; }
-
-        public DbSet<CVTehnologije> CVTehnologije { get; set; }
-
-        public DbSet<Vjestina> Vjestine { get; set; }
-
-        public DbSet<CVVjestine> CVVjestine { get; set; }
-
         public DbSet<CVEdukacija> CVEdukacija { get; set; }
 
         public DbSet<Edukacija> Edukacija { get; set; }
@@ -53,8 +39,6 @@ namespace JobSearchingWebApp.Data
 
         public DbSet<OpisKompanije> OpisiKompanija { get; set; }
 
-        public DbSet<AutentifikacijaToken> AutentifikacijaToken { get; set; }
-
         public DbSet<Lokacija> Lokacija { get; set; }
 
         public DbSet<Iskustvo> Iskustvo { get; set; }
@@ -64,8 +48,6 @@ namespace JobSearchingWebApp.Data
         public DbSet<OglasLokacija> OglasLokacija { get; set; }
 
         public DbSet<OpisOglas> OpisOglas { get; set; }
-
-        public DbSet<Tema> Teme { get; set; }
 
         public DbSet<Recenzija> Recenzije { get; set; }
 

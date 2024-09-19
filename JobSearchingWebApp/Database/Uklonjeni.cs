@@ -12,9 +12,6 @@ namespace JobSearchingWebApp.Database
         public int OznakaId { get; set; }
 
         public Oznaka Oznaka { get; set; }
-        //[ForeignKey(nameof(Uklonjeni))]
-        //public int UklonjeniId { get; set; }
-        //public Uklonjeni Uklonjeni { get; set; }
 
         [Required]
         public DateTime DatumUklanjanja { get; set; }

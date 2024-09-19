@@ -26,8 +26,10 @@ namespace JobSearchingWebApp.Endpoints.KandidatOglas.Update
         public override async Task<ActionResult<KandidatOglasUpdateResponse>> MyAction(KandidatOglasUpdateRequest request, CancellationToken cancellationToken)
         {
             var kandidat_oglas = dbContext.KandidatiOglasi.Where(x => x.Id == request.Id 
-                                                                   && x.KandidatId == request.KandidatId && x.Kandidat.IsObrisan == false
-                                                                   && x.Oglas.KompanijaId == request.KompanijaId && x.Oglas.Kompanija.IsObrisan == false
+                                                                   && x.KandidatId == request.KandidatId 
+                                                                   && x.Kandidat.IsObrisan == false
+                                                                   && x.Oglas.KompanijaId == request.KompanijaId 
+                                                                   && x.Oglas.Kompanija.IsObrisan == false
                                                                    && x.Oglas.IsObrisan == false)
                                                           .Include(x => x.Oglas)
                                                           .ThenInclude(x => x.Kompanija) 
@@ -43,7 +45,6 @@ namespace JobSearchingWebApp.Endpoints.KandidatOglas.Update
             {
                 kandidat_oglas.Status = request.Status;
             }
-
 
             if (request.Spasen != null)
             {

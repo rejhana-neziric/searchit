@@ -20,7 +20,7 @@ namespace JobSearchingWebApp.Endpoints.KandidatSpaseneKomapnije.Update
             this.dbContext = dbContext;
         }
 
-        [HttpPut]
+        [HttpPatch]
         public override async Task<ActionResult<KandidatSpaseneKompanijeUpdateResponse>> MyAction(KandidatSpaseneKompanijeUpdateRequest request, CancellationToken cancellationToken)
         {
             var spaseni = dbContext.KandidatSpaseneKompanije.Include(x => x.Kandidat)

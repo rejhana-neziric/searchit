@@ -25,7 +25,7 @@ namespace JobSearchingWebApp.Endpoints.Kandidat.Delete
             this.userManager = userManager; 
         }
 
-        [HttpPut]
+        [HttpPatch]
         public override async Task<ActionResult<KandidatDeleteResponse>> MyAction([FromBody]string id, CancellationToken cancellationToken)
         {
             var userId = userManager.GetUserId(User);
@@ -38,14 +38,13 @@ namespace JobSearchingWebApp.Endpoints.Kandidat.Delete
 
             if (id == userId || user.UlogaId == 1)
             {
-                user.IsObrisan = true; 
 
-                //var kandidat = dbContext.Kandidati.FirstOrDefault(x => x.Id == id);
+                var kandidat = dbContext.Kandidati.FirstOrDefault(x => x.Id == id);
 
-                //if (kandidat == null)
-                //    return BadRequest(new { message = $"User with ID {id} doesn't exist." });
+                if (kandidat == null)
+                    return BadRequest(new { message = $"User with ID {id} doesn't exist." });
 
-                //kandidat.IsObrisan = true;  
+                kandidat.IsObrisan = true;
 
                 await dbContext.SaveChangesAsync();   
 

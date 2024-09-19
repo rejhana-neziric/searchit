@@ -14,7 +14,7 @@ export class KandidatUpdateEndpoint implements MyBaseEndpoint<KandidatUpdateRequ
   obradi(request: KandidatUpdateRequest): Observable<any> {
     let url = MojConfig.lokalna_adresa + `/kandidat-update`;
 
-    return this.httpClient.post<any>(url, request);
+    return this.httpClient.put<any>(url, request);
   }
 
 }

@@ -117,7 +117,6 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddScoped<JWTService>();
 builder.Services.AddScoped<EmailService>();
 builder.Services.AddScoped<SmsService>();
-builder.Services.AddTransient<MyAuthService>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddMapster();
 

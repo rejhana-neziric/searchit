@@ -23,7 +23,7 @@ namespace JobSearchingWebApp.Endpoints.Kompanija.Delete
             this.userManager = userManager;
         }
 
-        [HttpPut]
+        [HttpPatch]
         public override async Task<ActionResult<KompanijaDeleteResponse>> MyAction([FromBody]string id, CancellationToken cancellationToken)
         {
             var userId = userManager.GetUserId(User);

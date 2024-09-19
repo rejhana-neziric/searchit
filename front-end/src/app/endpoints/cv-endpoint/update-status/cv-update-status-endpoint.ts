@@ -14,6 +14,6 @@ export class CvUpdateStatusEndpoint implements MyBaseEndpoint<CvUpdateStatusRequ
   obradi(request: CvUpdateStatusRequest): Observable<number> {
     let url = MojConfig.lokalna_adresa + `/cv-update-status`;
 
-    return this.httpClient.put<number>(url, request);
+    return this.httpClient.patch<number>(url, request);
   }
 }

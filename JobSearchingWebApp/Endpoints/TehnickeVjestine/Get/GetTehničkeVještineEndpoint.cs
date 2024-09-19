@@ -1,30 +1,29 @@
 ﻿using JobSearchingWebApp.Data;
 using JobSearchingWebApp.Database;
-using JobSearchingWebApp.Endpoints.Kompanija.GetBrojZaposlenihRange;
 using JobSearchingWebApp.Helper;
 using JobSearchingWebApp.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
-namespace JobSearchingWebApp.Endpoints.Vjestina.Get
+namespace JobSearchingWebApp.Endpoints.TehničkeVještine.Get
 {
     [Authorize(Roles = "Admin, Kandidat")]
-    [Tags("Vjestine")]
-    [Route("vjestine-get")]
-    public class GetVještineEndpoint : MyBaseEndpoint<NoRequest, ActionResult<GetVještineResponse>>
+    [Tags("TehnickeVjestine")]
+    [Route("tehnicke-vjestine-get")]
+    public class GetTehničkeVještineEndpoint : MyBaseEndpoint<NoRequest, ActionResult<GetTehničkeVještineResponse>>
     {
         private readonly ApplicationDbContext dbContext;
         private readonly UserManager<Korisnik> userManager;
 
-        public GetVještineEndpoint(ApplicationDbContext dbContext, UserManager<Korisnik> userManager)
+        public GetTehničkeVještineEndpoint(ApplicationDbContext dbContext, UserManager<Korisnik> userManager)
         {
             this.dbContext = dbContext;
             this.userManager = userManager;
         }
 
         [HttpGet]
-        public override async Task<ActionResult<GetVještineResponse>> MyAction([FromQuery] NoRequest noRequest, CancellationToken cancellationToken)
+        public override async Task<ActionResult<GetTehničkeVještineResponse>> MyAction([FromQuery] NoRequest noRequest, CancellationToken cancellationToken)
         {
             var userId = userManager.GetUserId(User);
             var user = await userManager.GetUserAsync(User);
@@ -34,9 +33,9 @@ namespace JobSearchingWebApp.Endpoints.Vjestina.Get
                 return NotFound($"Unable to load user with ID '{userManager.GetUserId(User)}'.");
             }
 
-            var ranges = VještineExtensions.GetAllVještine();
+            var ranges = TehničkeVještineExtensions.GetAllTehničkeVještine();
 
-            return new GetVještineResponse() { lista = ranges };
+            return new GetTehničkeVještineResponse() { lista = ranges };
         }
     }
 }

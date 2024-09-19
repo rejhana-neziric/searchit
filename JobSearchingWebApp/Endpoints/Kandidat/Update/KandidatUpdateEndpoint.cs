@@ -25,7 +25,7 @@ namespace JobSearchingWebApp.Endpoints.Kandidat.Update
             this.mapper = mapper;
         }
 
-        [HttpPost]
+        [HttpPut]
         public override async Task<ActionResult<KandidatUpdateResponse>> MyAction(KandidatUpdateRequest request, CancellationToken cancellationToken)
         {
             var userId = userManager.GetUserId(User);

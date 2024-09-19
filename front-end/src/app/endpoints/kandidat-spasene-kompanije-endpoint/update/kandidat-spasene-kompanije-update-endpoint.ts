@@ -13,6 +13,6 @@ export class KandidatSpaseneKompanijeUpdateEndpoint implements MyBaseEndpoint<Ka
   obradi(request: KandidatSpaseneKompanijeUpdateRequest): Observable<number> {
     let url = MojConfig.lokalna_adresa + `/kandidat-spasene-kompanije-update`;
 
-    return this.httpClient.put<number>(url, request);
+    return this.httpClient.patch<number>(url, request);
   }
 }

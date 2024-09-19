@@ -25,7 +25,7 @@ namespace JobSearchingWebApp.Endpoints.KorisnikNotifikacija.Update
             this.userManager = userManager;
         }
 
-        [HttpPut]
+        [HttpPatch]
         public override async Task<ActionResult<KorisnikNotifikacijaUpdateResponse>> MyAction(KorisnikNotifikacijaUpdateRequest request, CancellationToken cancellationToken)
         {
             var userId = userManager.GetUserId(User);
