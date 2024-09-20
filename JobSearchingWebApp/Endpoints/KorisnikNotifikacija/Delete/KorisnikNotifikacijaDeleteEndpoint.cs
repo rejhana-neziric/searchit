@@ -1,6 +1,7 @@
 ﻿using JobSearchingWebApp.Data;
 using JobSearchingWebApp.Database;
 using JobSearchingWebApp.Helper;
+using JobSearchingWebApp.ViewModels;
 using MapsterMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
@@ -14,7 +15,7 @@ namespace JobSearchingWebApp.Endpoints.KorisnikNotifikacija.Delete
     [Authorize]
     [Tags("Korisnik-Notifikacija")]
     [Route("korisnik-notifikacija-delete")]
-    public class KorisnikNotifikacijaDeleteEndpoint : MyBaseEndpoint<KorisnikNotifikacijaDeleteRequest, ActionResult<KorisnikNotifikacijaDeleteResponse>>
+    public class KorisnikNotifikacijaDeleteEndpoint : MyBaseEndpoint<KorisnikNotifikacijaDeleteRequest, ActionResult<NoResponse>>
     {
         private readonly ApplicationDbContext dbContext;
         private readonly UserManager<Korisnik> userManager;
@@ -26,7 +27,7 @@ namespace JobSearchingWebApp.Endpoints.KorisnikNotifikacija.Delete
         }
 
         [HttpDelete]
-        public override async Task<ActionResult<KorisnikNotifikacijaDeleteResponse>> MyAction([FromQuery] KorisnikNotifikacijaDeleteRequest request, CancellationToken cancellationToken)
+        public override async Task<ActionResult<NoResponse>> MyAction([FromQuery] KorisnikNotifikacijaDeleteRequest request, CancellationToken cancellationToken)
         {
             var userId = userManager.GetUserId(User);
             var user = await userManager.GetUserAsync(User);
@@ -49,7 +50,7 @@ namespace JobSearchingWebApp.Endpoints.KorisnikNotifikacija.Delete
             dbContext.Remove(korisnik_notifikacija);
             await dbContext.SaveChangesAsync();
 
-            return new KorisnikNotifikacijaDeleteResponse() { };
+            return new NoResponse() { };
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using JobSearchingWebApp.Data;
 using JobSearchingWebApp.Endpoints.KandidatOglas.Delete;
 using JobSearchingWebApp.Helper;
+using JobSearchingWebApp.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
@@ -11,7 +12,7 @@ namespace JobSearchingWebApp.Endpoints.KompanijaKandidat.Delete
     [Authorize]
     [Tags("Kompanija-Kandidat")]
     [Route("kompanija-kandidat-delete")]
-    public class KompanijaKandidatDeleteEndpoint : MyBaseEndpoint<KompanijaKandidatDeleteRequest, KompanijaKandidatDeleteReponse>
+    public class KompanijaKandidatDeleteEndpoint : MyBaseEndpoint<KompanijaKandidatDeleteRequest, NoResponse>
     {
         private readonly ApplicationDbContext dbContext;
 
@@ -21,7 +22,7 @@ namespace JobSearchingWebApp.Endpoints.KompanijaKandidat.Delete
         }
 
         [HttpDelete]
-        public override async Task<KompanijaKandidatDeleteReponse> MyAction([FromQuery]KompanijaKandidatDeleteRequest request, CancellationToken cancellationToken)
+        public override async Task<NoResponse> MyAction([FromQuery]KompanijaKandidatDeleteRequest request, CancellationToken cancellationToken)
         {
             var kompanija_kandidat = dbContext.KompanijeKandidati.FirstOrDefault(x => x.Id == request.kompanija_kandidat_id);
 
@@ -33,7 +34,7 @@ namespace JobSearchingWebApp.Endpoints.KompanijaKandidat.Delete
             dbContext.Remove(kompanija_kandidat);
             await dbContext.SaveChangesAsync();
 
-            return new KompanijaKandidatDeleteReponse() { };
+            return new NoResponse() { };
         }
     }
 }

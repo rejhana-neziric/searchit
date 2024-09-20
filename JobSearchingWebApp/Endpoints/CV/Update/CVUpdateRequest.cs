@@ -6,8 +6,10 @@ namespace JobSearchingWebApp.Endpoints.CV.Update
 {
     public class CVUpdateRequest
     {
+        [Required]
         public int Id { get; set; }
 
+        [Required]
         public string KandidatId { get; set; }
 
         public string? Naziv { get; set; }
@@ -18,8 +20,6 @@ namespace JobSearchingWebApp.Endpoints.CV.Update
 
         public string? Prezime { get; set; }
 
-        //[AllowNull]
-        //[EmailAddress]
         public string? Email { get; set; }
 
         public string? Drzava { get; set; }

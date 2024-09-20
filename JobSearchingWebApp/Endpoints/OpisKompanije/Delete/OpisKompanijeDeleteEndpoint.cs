@@ -1,6 +1,7 @@
 ﻿using JobSearchingWebApp.Data;
 using JobSearchingWebApp.Database;
 using JobSearchingWebApp.Helper;
+using JobSearchingWebApp.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Identity;
@@ -12,7 +13,7 @@ namespace JobSearchingWebApp.Endpoints.OpisKompanije.Delete
     [Authorize(Roles = "Admin, Kompanija")]
     [Tags("OpisKomanije")]
     [Route("opis-kompanije-delete")]
-    public class OpisKompanijeDeleteEndpoint : MyBaseEndpoint<OpisKompanijeDeleteRequest, ActionResult<OpisKompanijeDeleteResponse>>
+    public class OpisKompanijeDeleteEndpoint : MyBaseEndpoint<OpisKompanijeDeleteRequest, ActionResult<NoResponse>>
     {
         private readonly ApplicationDbContext dbContext;
         private readonly UserManager<Korisnik> userManager;
@@ -24,7 +25,7 @@ namespace JobSearchingWebApp.Endpoints.OpisKompanije.Delete
         }
 
         [HttpDelete]
-        public override async Task<ActionResult<OpisKompanijeDeleteResponse>> MyAction([FromQuery] OpisKompanijeDeleteRequest request, CancellationToken cancellationToken)
+        public override async Task<ActionResult<NoResponse>> MyAction([FromQuery] OpisKompanijeDeleteRequest request, CancellationToken cancellationToken)
         {
             var userId = userManager.GetUserId(User);
             var user = await userManager.GetUserAsync(User);
@@ -44,7 +45,7 @@ namespace JobSearchingWebApp.Endpoints.OpisKompanije.Delete
             dbContext.Remove(opis_kompanije);
             await dbContext.SaveChangesAsync();
 
-            return new OpisKompanijeDeleteResponse() { };
+            return new NoResponse() { };
         }
     }
 }

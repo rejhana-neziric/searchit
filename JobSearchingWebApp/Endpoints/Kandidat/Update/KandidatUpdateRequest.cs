@@ -1,7 +1,10 @@
-﻿namespace JobSearchingWebApp.Endpoints.Kandidat.Update
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace JobSearchingWebApp.Endpoints.Kandidat.Update
 {
     public class KandidatUpdateRequest
     {
+        [Required]
         public string Id { get; set; }
 
         public string? MjestoPrebivalista { get; set; }

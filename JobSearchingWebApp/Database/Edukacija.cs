@@ -7,6 +7,7 @@ namespace JobSearchingWebApp.Database
         [Key]
         public int Id { get; set; }
 
+        [Required]
         public string NazivSkole { get; set; }
 
         public DateOnly? DatumPocetka { get; set; }

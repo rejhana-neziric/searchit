@@ -10,13 +10,14 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 using Microsoft.EntityFrameworkCore;
+using JobSearchingWebApp.ViewModels;
 
 namespace JobSearchingWebApp.Endpoints.KandidatOglas.Delete
 {
     [Authorize(Roles = "Admin, Kandidat")]
     [Tags("Kandidat-Oglas")]
     [Route("kandidat-oglas-delete")]
-    public class KandidatOglasDeleteEndpoint : MyBaseEndpoint<int, ActionResult<KandidatOglasDeleteResponse>>
+    public class KandidatOglasDeleteEndpoint : MyBaseEndpoint<int, ActionResult<NoResponse>>
     {
         private readonly ApplicationDbContext dbContext;
         private readonly UserManager<Database.Korisnik> userManager;
@@ -28,7 +29,7 @@ namespace JobSearchingWebApp.Endpoints.KandidatOglas.Delete
         }
 
         [HttpDelete("{id}")]
-        public override async Task<ActionResult<KandidatOglasDeleteResponse>> MyAction(int id, CancellationToken cancellationToken)
+        public override async Task<ActionResult<NoResponse>> MyAction(int id, CancellationToken cancellationToken)
         {
             var userId = userManager.GetUserId(User);
             var user = await userManager.GetUserAsync(User);
@@ -50,7 +51,7 @@ namespace JobSearchingWebApp.Endpoints.KandidatOglas.Delete
                 dbContext.Remove(kandidatOglas);
                 await dbContext.SaveChangesAsync();
 
-                return new KandidatOglasDeleteResponse() { };
+                return new NoResponse() { };
             }
 
             else return Unauthorized();

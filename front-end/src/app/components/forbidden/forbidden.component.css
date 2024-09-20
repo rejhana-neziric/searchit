@@ -1,0 +1,36 @@
+.forbidden-container {
+  text-align: center;
+  padding: 40px;
+}
+
+.forbidden-container h1 {
+  font-size: 2.5em;
+  margin-bottom: 20px;
+  color: var(--bs-danger);
+}
+
+.forbidden-container p {
+  font-size: 1.2em;
+}
+
+.forbidden-container ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.forbidden-container ul li {
+  font-size: 1.1em;
+  margin-bottom: 10px;
+}
+
+.forbidden-container a {
+  color: var(--secondary-color);
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.forbidden-image {
+  margin-top: 30px;
+  width: 300px;
+}
+

@@ -15,6 +15,8 @@ namespace JobSearchingWebApp.Database
         public Kompanija Kompanija { get; set; }
 
         [Required]
+        [MinLength(3, ErrorMessage = "Job Title must be at least 3 characters!")]
+        [MaxLength(30, ErrorMessage = "Job Title must be less than 30 characters!")]
         public string NazivPozicije { get; set; }
 
         [Required]

@@ -37,50 +37,166 @@ import { OglasUpdateComponent } from "./components/oglas-update/oglas-update.com
 import {
   TwoFactorAuthenticationComponent
 } from "./components/two-factor-authentication/two-factor-authentication.component";
+import {ForbiddenComponent} from "./components/forbidden/forbidden.component";
 
 
 export const routes: Routes = [
-  {path: '', component: HomeComponent},
   {
-    path: '',
-    runGuardsAndResolvers: 'always',
-    canActivate: [AuthorizationGuard],
-    children: [
-      //dodati rute koje zahtijevaju login
-      //dodati koja rola ima pravo otvoriti koju rutu
-      {path: 'account-candidate', component: AccountDetailsCandidateComponent},
-      {path: 'account-company', component: AccountDetailsCompanyComponent},
-      {path: 'cv', component: CvComponent},
-      {path: 'cv-create', component: CreateCvComponent},
-      {path: 'cv-create/:id', component: CreateCvComponent},
-      {path: 'cv-preview', component: CvPreviewComponent},
-      {path: 'cv-preview/:id', component: CvPreviewComponent},
-      {path: 'cv-details/:id', component: CvDetailsComponent},
-      {path: 'applications', component: ApplicationsComponent},
-      {path: 'applicants', component: ApplicantsComponent},
-      {path: 'cvs', component: CvPublishedComponent},
-      {path: 'chat', component: ChatCompanyComponent},
-    ]
+    path: 'home',
+    component: HomeComponent
   },
-
-  {path: 'login', component: LoginComponent},
-  {path: 'signup', component: SignupComponent},
-  {path: 'confirm-email', component: ConfirmEmailComponent},
-  {path: 'send-email/:mode', component: SendEmailComponent},
-  {path: '2fa', component: TwoFactorAuthenticationComponent},
-  {path: 'home', component: HomeComponent},
-  {path: 'favorites', component: FavoritesComponent},
-  {path: 'favorites-applicants', component: FavoritesKandidatiComponent},
-  {path: 'my-jobs', component: MyJobsComponent},
-  {path: 'jobs', component: OglasiComponent},
-  {path: 'jobs/:id', component: OglasDetaljiComponent},
-  {path: 'jobs-add', component: OglasDodajComponent},
-  {path: 'companies', component: KompanijeComponent},
-  {path: 'companies/:id', component: KompanijaDetaljiComponent},
-  {path: 'job-drafts', component: OglasiDraftComponent},
-  {path: 'edit-job/:id', component: OglasUpdateComponent},
-  {path: 'not-found', component: NotFoundComponent},
-  {path: '**', component: NotFoundComponent, pathMatch: 'full'},
+  { path: '',
+    component: HomeComponent
+  },
+  {
+    path: 'forbidden',
+    component: ForbiddenComponent
+  },
+  {
+    path: 'login',
+    component: LoginComponent
+  },
+  {
+    path: 'signup',
+    component: SignupComponent
+  },
+  {
+    path: 'confirm-email',
+    component: ConfirmEmailComponent
+  },
+  {
+    path: 'send-email/:mode',
+    component: SendEmailComponent
+  },
+  {
+    path: '2fa',
+    component: TwoFactorAuthenticationComponent
+  },
+  {
+    path: 'my-jobs',
+    component: MyJobsComponent,
+    canActivate: [AuthorizationGuard],
+    data: { roles: ['Kompanija'] }
+  },
+  { path: 'jobs',
+    component: OglasiComponent
+  },
+  {
+    path: 'jobs/:id',
+    component: OglasDetaljiComponent
+  },
+  { path: 'jobs-add',
+    component: OglasDodajComponent,
+    canActivate: [AuthorizationGuard],
+    data: { roles: ['Admin','Kompanija'] }
+  },
+  {
+    path: 'companies',
+    component: KompanijeComponent
+  },
+  {
+    path: 'companies/:id',
+    component: KompanijaDetaljiComponent
+  },
+  {
+    path: 'job-drafts',
+    component: OglasiDraftComponent
+  },
+  {
+    path: 'edit-job/:id',
+    component: OglasUpdateComponent,
+    canActivate: [AuthorizationGuard],
+    data: { roles: ['Admin','Kompanija'] }
+  },
+  {
+    path: 'account-candidate',
+    component: AccountDetailsCandidateComponent,
+    canActivate: [AuthorizationGuard],
+    data: { roles: ['Kandidat'] }
+  },
+  {
+    path: 'account-company',
+    component: AccountDetailsCompanyComponent,
+    canActivate: [AuthorizationGuard],
+    data: { roles: ['Kompanija'] }
+  },
+  {
+    path: 'cv',
+    component: CvComponent,
+    canActivate: [AuthorizationGuard],
+    data: { roles: ['Admin', 'Kandidat'] }
+  },
+  {
+    path: 'cv-create',
+    component: CreateCvComponent,
+    canActivate: [AuthorizationGuard],
+    data: { roles: ['Admin', 'Kandidat'] }
+  },
+  {
+    path: 'cv-create/:id',
+    component: CreateCvComponent,
+    canActivate: [AuthorizationGuard],
+    data: { roles: ['Admin', 'Kandidat'] }
+  },
+  { path: 'cv-preview',
+    component: CvPreviewComponent,
+    canActivate: [AuthorizationGuard],
+    data: { roles: ['Admin', 'Kandidat'] }
+  },
+  {
+    path: 'cv-preview/:id',
+    component: CvPreviewComponent,
+    canActivate: [AuthorizationGuard],
+    data: { roles: ['Admin', 'Kandidat'] }
+  },
+  {
+    path: 'cv-details/:id',
+    component: CvDetailsComponent,
+    canActivate: [AuthorizationGuard],
+    data: { roles: ['Admin', 'Kandidat', 'Kompanija'] }
+  },
+  {
+    path: 'cvs',
+    component: CvPublishedComponent,
+    canActivate: [AuthorizationGuard],
+    data: { roles: ['Admin', 'Kompanija'] }
+  },
+  {
+    path: 'applications',
+    component: ApplicationsComponent,
+    canActivate: [AuthorizationGuard],
+    data: { roles: ['Kandidat'] }
+  },
+  {
+    path: 'applicants',
+    component: ApplicantsComponent,
+    canActivate: [AuthorizationGuard],
+    data: { roles: ['Kompanija'] }
+  },
+  {
+    path: 'favorites',
+    component: FavoritesComponent,
+    canActivate: [AuthorizationGuard],
+    data: { roles: ['Kandidat'] }
+  },
+  {
+    path: 'favorites-applicants',
+    component: FavoritesKandidatiComponent,
+    canActivate: [AuthorizationGuard],
+    data: { roles: ['Kompanija'] }
+  },
+  {
+    path: 'chat',
+    component: ChatCompanyComponent,
+    canActivate: [AuthorizationGuard],
+    data: { roles: ['Admin', 'Kompanija', 'Kandidat'] }
+  },
+  { path: 'not-found',
+    component: NotFoundComponent
+  },
+  { path: '**',
+    component: NotFoundComponent,
+  },
 ];
 
 @NgModule({

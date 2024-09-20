@@ -1,6 +1,7 @@
 ﻿using JobSearchingWebApp.Data;
 using JobSearchingWebApp.Endpoints.Kandidat.Delete;
 using JobSearchingWebApp.Helper;
+using JobSearchingWebApp.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Identity;
@@ -12,7 +13,7 @@ namespace JobSearchingWebApp.Endpoints.Kompanija.Delete
     [Authorize(Roles = "Admin, Kompanija")]
     [Tags("Kompanija")]
     [Route("kompanija-delete")]
-    public class KompanijaDeleteEndpoint : MyBaseEndpoint<string, ActionResult<KompanijaDeleteResponse>>
+    public class KompanijaDeleteEndpoint : MyBaseEndpoint<string, ActionResult<NoResponse>>
     {
         private readonly ApplicationDbContext dbContext;
         private readonly UserManager<Database.Korisnik> userManager;
@@ -24,7 +25,7 @@ namespace JobSearchingWebApp.Endpoints.Kompanija.Delete
         }
 
         [HttpPatch]
-        public override async Task<ActionResult<KompanijaDeleteResponse>> MyAction([FromBody]string id, CancellationToken cancellationToken)
+        public override async Task<ActionResult<NoResponse>> MyAction([FromBody]string id, CancellationToken cancellationToken)
         {
             var userId = userManager.GetUserId(User);
             var user = await userManager.GetUserAsync(User);
@@ -46,7 +47,7 @@ namespace JobSearchingWebApp.Endpoints.Kompanija.Delete
 
                 await dbContext.SaveChangesAsync();
 
-                return new KompanijaDeleteResponse() { };
+                return new NoResponse() { };
             }
 
             else return Unauthorized();

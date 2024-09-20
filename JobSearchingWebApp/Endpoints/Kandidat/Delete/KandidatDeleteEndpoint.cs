@@ -1,6 +1,7 @@
 ﻿using JobSearchingWebApp.Data;
 using JobSearchingWebApp.Database;
 using JobSearchingWebApp.Helper;
+using JobSearchingWebApp.ViewModels;
 using Mailjet.Client.Resources;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
@@ -14,7 +15,7 @@ namespace JobSearchingWebApp.Endpoints.Kandidat.Delete
     [Authorize(Roles = "Admin, Kandidat")]
     [Tags("Kandidat")]
     [Route("kandidat-delete")]
-    public class KandidatDeleteEndpoint : MyBaseEndpoint<string, ActionResult<KandidatDeleteResponse>>
+    public class KandidatDeleteEndpoint : MyBaseEndpoint<string, ActionResult<NoResponse>>
     {
         private readonly ApplicationDbContext dbContext;
         private readonly UserManager<Database.Korisnik> userManager;
@@ -26,7 +27,7 @@ namespace JobSearchingWebApp.Endpoints.Kandidat.Delete
         }
 
         [HttpPatch]
-        public override async Task<ActionResult<KandidatDeleteResponse>> MyAction([FromBody]string id, CancellationToken cancellationToken)
+        public override async Task<ActionResult<NoResponse>> MyAction([FromBody]string id, CancellationToken cancellationToken)
         {
             var userId = userManager.GetUserId(User);
             var user = await userManager.GetUserAsync(User);
@@ -48,7 +49,7 @@ namespace JobSearchingWebApp.Endpoints.Kandidat.Delete
 
                 await dbContext.SaveChangesAsync();   
 
-                return new KandidatDeleteResponse() { };
+                return new NoResponse() { };
             }
 
             else return Unauthorized();

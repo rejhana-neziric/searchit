@@ -9,13 +9,14 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
+using JobSearchingWebApp.ViewModels;
 
 namespace JobSearchingWebApp.Endpoints.CV.Delete
 {
     [Authorize(Roles = "Admin, Kandidat")]
     [Tags("CV")]
     [Route("cv-delete")]
-    public class CVDeleteEndpoint : MyBaseEndpoint<int, ActionResult<CVDeleteResponse>>
+    public class CVDeleteEndpoint : MyBaseEndpoint<int, ActionResult<NoResponse>>
     {
         private readonly ApplicationDbContext dbContext;
         private readonly UserManager<Korisnik> userManager;
@@ -27,7 +28,7 @@ namespace JobSearchingWebApp.Endpoints.CV.Delete
         }
 
         [HttpDelete("{id}")]
-        public override async Task<ActionResult<CVDeleteResponse>> MyAction(int id, CancellationToken cancellationToken)
+        public override async Task<ActionResult<NoResponse>> MyAction(int id, CancellationToken cancellationToken)
         {
             var userId = userManager.GetUserId(User);
             var user = await userManager.FindByIdAsync(userId);
@@ -65,7 +66,7 @@ namespace JobSearchingWebApp.Endpoints.CV.Delete
                     dbContext.Remove(cv);
                     await dbContext.SaveChangesAsync();
 
-                    return new CVDeleteResponse() { };
+                    return new NoResponse() { };
 
                 }
             }
