@@ -37,10 +37,10 @@ namespace JobSearchingWebApp.Endpoints.GeneratorPodataka
 
 
             //lokacije
-            lokacija.Add(new Lokacija { Naziv = "Sarajevo" });
-            lokacija.Add(new Lokacija { Naziv = "Mostar" });
-            lokacija.Add(new Lokacija { Naziv = "Jablanica" });
-            lokacija.Add(new Lokacija { Naziv = "Remote" });
+            lokacija.Add(new Database.Lokacija { Naziv = "Sarajevo" });
+            lokacija.Add(new Database.Lokacija { Naziv = "Mostar" });
+            lokacija.Add(new Database.Lokacija { Naziv = "Jablanica" });
+            lokacija.Add(new Database.Lokacija { Naziv = "Remote" });
 
             dbContext.Add(lokacija);
             //lokacije

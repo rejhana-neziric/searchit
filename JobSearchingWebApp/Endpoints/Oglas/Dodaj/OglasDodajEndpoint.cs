@@ -55,7 +55,7 @@ namespace JobSearchingWebApp.Endpoints.Oglas.Dodaj
                 // If it doesn't exist, add a new one
                 if (existingLokacija == null)
                 {
-                    existingLokacija = new Lokacija() { Naziv = nazivLokacije };
+                    existingLokacija = new Database.Lokacija() { Naziv = nazivLokacije };
                     dbContext.Lokacija.Add(existingLokacija);
                     await dbContext.SaveChangesAsync();  // Save the new experience to avoid duplicates
                 }
@@ -72,7 +72,7 @@ namespace JobSearchingWebApp.Endpoints.Oglas.Dodaj
                 // If it doesn't exist, add a new one
                 if (existingIskustvo == null)
                 {
-                    existingIskustvo = new Iskustvo() { Naziv = nazivIskustva };
+                    existingIskustvo = new Database.Iskustvo() { Naziv = nazivIskustva };
                     dbContext.Iskustvo.Add(existingIskustvo);
                     await dbContext.SaveChangesAsync();  // Save the new experience to avoid duplicates
                 }

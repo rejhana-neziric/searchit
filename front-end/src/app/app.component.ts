@@ -2,7 +2,7 @@ import {Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {NavigationEnd, Router, RouterLink, RouterOutlet} from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { OglasiComponent } from "./components/oglasi/oglasi.component";
+import { OglasiComponent } from "./components/jobs/oglasi/oglasi.component";
 import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from "@angular/common/http";
 import { JeziciComponent } from "./jezici/jezici.component";
 import { httpInterceptorProviders } from './Helpers/HttpRequestInterceptor';
@@ -11,8 +11,8 @@ import {AuthService} from "./services/auth-service";
 import {JwtInterceptor} from "./interceptors/jwt.interceptor";
 import {NotificationModalComponent} from "./components/notifications/notification-modal/notification-modal.component";
 import {HomeComponent} from "./components/home/home.component";
-import {OglasDodajComponent} from "./components/oglas-dodaj/oglas-dodaj.component";
-import {OglasiDraftComponent} from "./components/oglasi-draft/oglasi-draft.component";
+import {OglasDodajComponent} from "./components/jobs/oglas-dodaj/oglas-dodaj.component";
+import {OglasiDraftComponent} from "./components/jobs/oglasi-draft/oglasi-draft.component";
 
 @Component({
   selector: 'app-root',

@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {NavbarComponent} from "../navbar/navbar.component";
+import {NavbarComponent} from "../layout/navbar/navbar.component";
 import {RouterLink} from "@angular/router";
 import {NotificationService} from "../../services/notification-service";
-import {FooterComponent} from "../footer/footer.component";
+import {FooterComponent} from "../layout/footer/footer.component";
 
 @Component({
   selector: 'app-home',
@@ -17,8 +17,8 @@ import {FooterComponent} from "../footer/footer.component";
 })
 export class HomeComponent implements OnInit{
 
-
   ngOnInit(): void {
-    }
+
+  }
 
 }

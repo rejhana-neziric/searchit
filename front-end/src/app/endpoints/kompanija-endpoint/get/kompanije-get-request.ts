@@ -1,4 +1,4 @@
-import {SortParametar} from "../../SortParametar";
+import {SortParametar} from "../../../modals/SortParametar";
 
 export class KompanijeGetRequest{
   constructor(

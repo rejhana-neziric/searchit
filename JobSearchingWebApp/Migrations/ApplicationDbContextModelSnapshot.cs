@@ -515,7 +515,8 @@ namespace JobSearchingWebApp.Migrations
 
                     b.Property<string>("NazivPozicije")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<bool?>("Objavljen")
                         .HasColumnType("bit");
@@ -629,7 +630,8 @@ namespace JobSearchingWebApp.Migrations
 
                     b.Property<string>("OpisPozicije")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<int?>("PrefiraneGodineIskstva")
                         .HasColumnType("int");
@@ -643,39 +645,6 @@ namespace JobSearchingWebApp.Migrations
                         .IsUnique();
 
                     b.ToTable("OpisOglas");
-                });
-
-            modelBuilder.Entity("JobSearchingWebApp.Database.Recenzija", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("BrojZvijezdica")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("DatumVrijemeRecenzije")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("KorisnikId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Pozicija")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Tekst")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("KorisnikId");
-
-                    b.ToTable("Recenzije");
                 });
 
             modelBuilder.Entity("JobSearchingWebApp.Database.URL", b =>
@@ -1211,17 +1180,6 @@ namespace JobSearchingWebApp.Migrations
                         .IsRequired();
 
                     b.Navigation("Oglas");
-                });
-
-            modelBuilder.Entity("JobSearchingWebApp.Database.Recenzija", b =>
-                {
-                    b.HasOne("JobSearchingWebApp.Database.Korisnik", "Korisnik")
-                        .WithMany()
-                        .HasForeignKey("KorisnikId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Korisnik");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

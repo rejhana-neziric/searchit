@@ -17,9 +17,6 @@ export class AuthorizationGuard {
     return this.authService.user$.pipe(
       map((user: User | null) => {
         const requiredRoles = route.data['roles'] as Array<string>;
-
-        console.log(requiredRoles)
-        console.log(user?.role)
         if (user && requiredRoles && requiredRoles.includes(user.role)) {
           return true;
         } else if (user) {

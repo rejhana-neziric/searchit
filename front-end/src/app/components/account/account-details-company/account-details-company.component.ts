@@ -1,7 +1,7 @@
 import {Component, ElementRef, Inject, OnInit, PLATFORM_ID, ViewChild} from '@angular/core';
 import {DatePipe, isPlatformBrowser, NgClass, NgForOf, NgIf} from "@angular/common";
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
-import {NavbarComponent} from "../../navbar/navbar.component";
+import {NavbarComponent} from "../../layout/navbar/navbar.component";
 import {NotificationToastComponent} from "../../notifications/notification-toast/notification-toast.component";
 import {KandidatGetByIdResponse} from "../../../endpoints/kandidat-endpoint/get-by-id/kandidat-get-by-id-response";
 import {KandidatUpdateRequest} from "../../../endpoints/kandidat-endpoint/update/kandidat-update-request";
@@ -18,8 +18,9 @@ import {
   GetBrojZaposlenihEndpoint
 } from "../../../endpoints/kompanija-endpoint/get-broj-zaposlenih-range/get-broj-zaposlenih-endpoint";
 import {KompanijaDeleteEndpoint} from "../../../endpoints/kompanija-endpoint/delete/kompanija-delete-endpoint";
-import {ModalComponent} from "../../modal/modal.component";
+import {ModalComponent} from "../../notifications/modal/modal.component";
 import {ModalService} from "../../../services/modal-service";
+import {SharedService} from "../../../services/shared.service";
 
 @Component({
   selector: 'app-account-details-company',
@@ -72,6 +73,7 @@ export class AccountDetailsCompanyComponent implements OnInit{
               private getBrojZaposlenihEndpoint : GetBrojZaposlenihEndpoint,
               private kompanijaDeleteEndpoint: KompanijaDeleteEndpoint,
               private notificationService: NotificationService,
+              private sharedService: SharedService,
               private router: Router,
               private modalService: ModalService,
               @Inject(PLATFORM_ID) private platformId: any) {
@@ -263,64 +265,27 @@ export class AccountDetailsCompanyComponent implements OnInit{
     }
   }
 
-  previewLogo(file: File) {
-    const reader = new FileReader();
-    reader.onload = () => {
-      const imageUrl = reader.result as string;
-      // Use imageUrl to display the image preview in your template
-    };
-    reader.readAsDataURL(file);
-  }
-
-  uploadNewLogo() {
-    if (this.selectedFile) {
-      const formData = new FormData();
-      formData.append('file', this.selectedFile);
-    }
-  }
-
   // Toggle 2FA state
   toggle2FA() {
-    this.authService.manageTwoFactorAuthentication().subscribe({
-      next: response => {
-        this.notificationService.addNotification({message: response.message, type: 'success'});
-        this.confirmCode = true;
-      },
-      error: error => {
-        if (error.error instanceof Object && error.error.message) {
-          const errorMessage = error.error.message;
-          this.notificationService.addNotification({message: errorMessage, type: 'error'});
-
-        } else {
-          const errorMessage = typeof error.error === 'string' ? error.error : 'An unknown error occurred';
-          this.notificationService.addNotification({message: errorMessage, type: 'error'});
-        }
+    this.sharedService.toggle2FA().subscribe({
+      next: success => {
+        this.confirmCode = true;  // Update UI state on success
       }
     });
   }
 
+
+  // Function to confirm the 2FA verification code
   confirmVerificationCode() {
     this.submittedConfirmCode = true;
 
     if (this.confirmCodeForm.valid) {
       const token = this.confirmCodeForm.get('token')?.value;
-      console.log(token)
 
-      this.authService.changeTwoFactorAuthentication(token.toString()).subscribe({
-        next: response => {
-          this.notificationService.showModalNotification(true, 'Changes saved', response.message);
-          this.is2FAEnabled = !this.is2FAEnabled;
-          this.confirmCode = false;
-        },
-        error: error => {
-          if (error.error instanceof Object && error.error.message) {
-            const errorMessage = error.error.message;
-            this.notificationService.addNotification({message: errorMessage, type: 'error'});
-
-          } else {
-            const errorMessage = typeof error.error === 'string' ? error.error : 'An unknown error occurred';
-            this.notificationService.addNotification({message: errorMessage, type: 'error'});
-          }
+      this.sharedService.confirmVerificationCode(token.toString()).subscribe({
+        next: success => {
+          this.is2FAEnabled = !this.is2FAEnabled;  // Update the UI state
+          this.confirmCode = false;  // Reset the form state
         }
       });
     }

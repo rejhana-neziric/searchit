@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit, PLATFORM_ID} from '@angular/core';
-import {NavbarComponent} from "../../navbar/navbar.component";
-import {FooterComponent} from "../../footer/footer.component";
+import {NavbarComponent} from "../../layout/navbar/navbar.component";
+import {FooterComponent} from "../../layout/footer/footer.component";
 import {DatePipe, isPlatformBrowser, NgClass, NgForOf, NgIf} from "@angular/common";
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {ActivatedRoute, Router, RouterLink} from "@angular/router";
@@ -14,10 +14,11 @@ import {KandidatUpdateEndpoint} from "../../../endpoints/kandidat-endpoint/updat
 import {NotificationService} from "../../../services/notification-service";
 import {NotificationToastComponent} from "../../notifications/notification-toast/notification-toast.component";
 import {KandidatDeleteEndpoint} from "../../../endpoints/kandidat-endpoint/delete/kandidat-delete-endpoint";
-import {ModalComponent} from "../../modal/modal.component";
+import {ModalComponent} from "../../notifications/modal/modal.component";
 import {CVGetResponseCV} from "../../../endpoints/cv-endpoint/get/cv-get-response";
 import {ModalService} from "../../../services/modal-service";
 import {ConfirmEmail} from "../../../modals/confirmEmail";
+import {SharedService} from "../../../services/shared.service";
 
 @Component({
   selector: 'app-account-details-candidate',
@@ -69,10 +70,11 @@ export class AccountDetailsCandidateComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
               private kandidatGetByIdEndpoint: KandidatGetByIdEndpoint,
               private kandidatUpdateEndpoint: KandidatUpdateEndpoint,
+              private kandidatDeleteEndpoint: KandidatDeleteEndpoint,
               private authService: AuthService,
               private notificationService: NotificationService,
-              private kandidatDeleteEndpoint: KandidatDeleteEndpoint,
               private modalService: ModalService,
+              private sharedService: SharedService,
               private router: Router,
               private activatedRoute: ActivatedRoute,
               @Inject(PLATFORM_ID) private platformId: any) {
@@ -274,48 +276,26 @@ export class AccountDetailsCandidateComponent implements OnInit {
     });
   }
 
+  // Toggle 2FA state
   toggle2FA() {
-    this.authService.manageTwoFactorAuthentication().subscribe({
-      next: response => {
-        this.notificationService.addNotification({message: response.message, type: 'success'});
+    this.sharedService.toggle2FA().subscribe({
+      next: success => {
         this.confirmCode = true;
-      },
-      error: error => {
-        if (error.error instanceof Object && error.error.message) {
-          const errorMessage = error.error.message;
-          this.notificationService.addNotification({message: errorMessage, type: 'error'});
-
-        } else {
-          const errorMessage = typeof error.error === 'string' ? error.error : 'An unknown error occurred';
-          this.notificationService.addNotification({message: errorMessage, type: 'error'});
-
-        }
       }
     });
   }
 
+  // Function to confirm the 2FA verification code
   confirmVerificationCode() {
     this.submittedConfirmCode = true;
 
     if (this.confirmCodeForm.valid) {
       const token = this.confirmCodeForm.get('token')?.value;
-      console.log(token)
-      this.authService.changeTwoFactorAuthentication(token.toString()).subscribe({
-        next: response => {
-          this.notificationService.showModalNotification(true, 'Changes saved', response.message);
+
+      this.sharedService.confirmVerificationCode(token.toString()).subscribe({
+        next: success => {
           this.is2FAEnabled = !this.is2FAEnabled;
           this.confirmCode = false;
-        },
-        error: error => {
-          if (error.error instanceof Object && error.error.message) {
-            const errorMessage = error.error.message;
-            this.notificationService.addNotification({message: errorMessage, type: 'error'});
-
-          } else {
-            const errorMessage = typeof error.error === 'string' ? error.error : 'An unknown error occurred';
-            this.notificationService.addNotification({message: errorMessage, type: 'error'});
-
-          }
         }
       });
     }

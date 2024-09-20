@@ -72,7 +72,7 @@ namespace JobSearchingWebApp.Endpoints.Oglas.Update
                 if (existingLokacija == null)
                 {
                     // Handle the case where Lokacija does not exist
-                    existingLokacija = new Lokacija
+                    existingLokacija = new Database.Lokacija
                     {
                         Id = lokacijaRequest.id,
                         Naziv = lokacijaRequest.naziv
@@ -98,7 +98,7 @@ namespace JobSearchingWebApp.Endpoints.Oglas.Update
 
                 if(existingIskustvo == null)
                 {
-                    existingIskustvo = new Iskustvo
+                    existingIskustvo = new Database.Iskustvo
                     {
                         Id = iskustvoRequest.id,
                         Naziv = iskustvoRequest.naziv

@@ -33,7 +33,7 @@ namespace JobSearchingWebApp.Endpoints.KandidatSpaseniOglasi.Dodaj
 
             if (user == null || user.IsObrisan == true)
             {
-                return NotFound($"Unable to load user with ID '{userManager.GetUserId(User)}'.");
+                return NotFound(new { message = $"Unable to load user with ID {userManager.GetUserId(User)}." });
             }
 
             var spaseni = dbContext.KandidatSpaseniOglasi.Include(x => x.Oglas)
@@ -52,19 +52,20 @@ namespace JobSearchingWebApp.Endpoints.KandidatSpaseniOglasi.Dodaj
 
             if (oglas is null)
             {
-                return NotFound($"Unable to load job post with ID {request.oglas_id}.");
+                return NotFound(new { message = $"Unable to load job post with ID {request.oglas_id}." });
             }
 
             if (kandidat is null)
             {
-                return NotFound($"Unable to load candidate with ID {request.kandidat_id}.");
+                return NotFound(new { message = $"Unable to load candidate with ID {request.kandidat_id}." });
             }
 
             var id = 0;
 
             if (spaseni != null && spaseni.Spasen == true)
             {
-                throw new Exception($"Oglas sa ID {request.oglas_id} je vec spasen.");
+                throw new Exception($"Job post has already been saved.");
+                //return BadRequest(new { message = $"Job post "}); 
             }
 
             else if (spaseni != null && spaseni.Spasen == false)
