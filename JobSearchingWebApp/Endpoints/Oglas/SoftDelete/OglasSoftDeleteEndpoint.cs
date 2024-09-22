@@ -14,9 +14,9 @@ namespace JobSearchingWebApp.Endpoints.Oglas.SoftDelete
     public class OglasSoftDeleteEndpoint:MyBaseEndpoint<OglasSoftDeleteRequest, ActionResult<OglasSoftDeleteResponse>>
     {
         private readonly ApplicationDbContext dbContext;
-        private readonly UserManager<Korisnik> userManager;
+        private readonly UserManager<Database.Korisnik> userManager;
 
-        public OglasSoftDeleteEndpoint(ApplicationDbContext dbContext, UserManager<Korisnik> userManager)
+        public OglasSoftDeleteEndpoint(ApplicationDbContext dbContext, UserManager<Database.Korisnik> userManager)
         {
             this.dbContext = dbContext;
             this.userManager = userManager;

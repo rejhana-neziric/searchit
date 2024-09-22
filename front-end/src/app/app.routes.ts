@@ -38,6 +38,8 @@ import {
   TwoFactorAuthenticationComponent
 } from "./components/auth/two-factor-authentication/two-factor-authentication.component";
 import {ForbiddenComponent} from "./components/forbidden/forbidden.component";
+import {DashboardComponent} from "./components/admin-panel/dashboard/dashboard.component";
+import {UsersComponent} from "./components/admin-panel/users/users.component";
 
 
 export const routes: Routes = [
@@ -71,6 +73,18 @@ export const routes: Routes = [
   {
     path: '2fa',
     component: TwoFactorAuthenticationComponent
+  },
+  {
+    path: 'dashboard',
+    component: DashboardComponent,
+    canActivate: [AuthorizationGuard],
+    data: { roles: ['Admin'] }
+  },
+  {
+    path: 'users',
+    component: UsersComponent,
+    canActivate: [AuthorizationGuard],
+    data: { roles: ['Admin'] }
   },
   {
     path: 'my-jobs',

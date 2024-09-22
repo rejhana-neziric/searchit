@@ -12,7 +12,7 @@
   <div class="pregled-kompanija">
     <div class="d-flex flex-column">
       <div class="d-flex flex-row">
-        <!--<img class="img-logo" src="../../../../assets/img/kompanija-logo.png" alt="image" loading="lazy">-->
+
         <div *ngIf="imageUrl">
           <img [src]="imageUrl" class="img-logo" alt="Company Logo"/>
         </div>
@@ -75,20 +75,16 @@
     </div>
   </div>
 
-
-  <!-- Treba promijeniti da se prikazuje samo ukoliko ima otvorenih oglasa, u suprotnom neki drugi div -->
-
-
   <span class="fw-bold fs-2" style="color: #84B59F; margin: 50px auto;">Open Positions</span>
 
   <div>
 
     <!-- Oglasi -->
-    <div class=" oglasi">
+    <div *ngIf="oglasi.length > 0" class=" oglasi">
       <div class="oglas"
            *ngFor="let oglas of oglasi">
         <div class="oglas-content d-flex flex-row">
-          <img  [src]="ucitajLogo(oglas?.logo!)" class="img-logo"  alt="image" loading="lazy">
+          <img  [src]="ucitajLogo(oglas?.logo!)" class="img-logo"  alt="image" loading="eager">
           <div class="my-1">
             <span class="fw-bold fs-3" style="color: #84B59F">{{ oglas.nazivPozicije }}</span>
             <span class="fw-bold deadline pd-4 fs-6"><img src="../../../../assets/img/datum.png" style="height: 35px"
@@ -108,8 +104,16 @@
           <app-notification-toast></app-notification-toast>
         </div>
       </div>
-      <!-- Oglasi -->
     </div>
+    <!-- Oglasi -->
+
+    <div *ngIf="oglasi.length == 0"
+         class="p-4 border border-2 shadow bg-body-tertiary no-result-section">
+      <span class="fs-5 ">Sorry, there are not currently opened positions. </span> <br>
+    </div>
+
+
+
   </div>
 
   <!-- Pregled kompanije  -->

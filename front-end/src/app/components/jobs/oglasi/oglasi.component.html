@@ -200,7 +200,7 @@
              *ngFor="let oglas of filtriraniOglasi() | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: total }"
              (click)="prikazDetalja(oglas)">
           <div class="oglas-content d-flex flex-row" [class.selected]="oglas === oglasZaPrikaz">
-            <img [src]="ucitajLogo(oglas?.logo!)" class="img-logo" alt="image" loading="lazy">
+            <img [src]="ucitajLogo(oglas?.logo!)" class="img-logo" alt="image" loading="eager">
             <div class="my-1">
               <span class="fw-bold fs-3" style="color: #84B59F">{{ oglas.nazivPozicije }}</span>
               <span class="fw-bold deadline pd-4 fs-6"><img src="../../../../assets/img/datum.png" style="height: 35px"
@@ -241,7 +241,7 @@
         <div class="pregled-content shadow p-3 mb-4 mt-0">
           <div class="d-flex flex-column">
             <div class="d-flex flex-row">
-              <img [src]="ucitajLogo(odabraniOglas?.logo!)" class="img-logo" alt="image" loading="lazy">
+              <img [src]="ucitajLogo(odabraniOglas?.logo!)" class="img-logo" alt="image" loading="eager">
               <div class="d-flex flex-column py-4">
                 <span class="fw-bold fs-3 " style="color: #84B59F">{{ odabraniOglas?.nazivPozicije }}</span>
                 <span class="fw-normal fs-5 py-2">{{ odabraniOglas?.kompanijaNaziv }}</span>

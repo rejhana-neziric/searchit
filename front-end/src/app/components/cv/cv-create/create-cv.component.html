@@ -35,7 +35,7 @@
           <hr class="m-0">
         </div>
 
-        <button  class="btn-confirm" style="width: 180px" (click)="importDetails()">
+        <button class="btn-confirm" style="width: 180px" (click)="importDetails()">
           Import Personal Details
         </button>
       </div>
@@ -112,26 +112,32 @@
                   <input type="text" [value]=phoneNumber class="form-control" disabled>
                 </div>
 
-             <!--   <label>Phone Number</label>
-                <input formControlName="phoneNumber" type="text" class="form-control" [(ngModel)]="phoneNumber"
-                       [class.is-invalid]="submitted && form.get('phoneNumber')?.errors">
-                <span class="text-danger" *ngIf="submitted && form.get('phoneNumber')?.hasError('pattern')">
-                      Invalid phone number format!
-                    </span>-->
+                <!--   <label>Phone Number</label>
+                   <input formControlName="phoneNumber" type="text" class="form-control" [(ngModel)]="phoneNumber"
+                          [class.is-invalid]="submitted && form.get('phoneNumber')?.errors">
+                   <span class="text-danger" *ngIf="submitted && form.get('phoneNumber')?.hasError('pattern')">
+                         Invalid phone number format!
+                       </span>-->
 
 
-                <div *ngIf="(!kandidat?.phoneNumberConfirmed || phoneNumber != kandidat?.phoneNumber) && phoneNumber != ''" class="mt-2 mb-4">
-                  <button *ngIf="!confirmNumber" class="btn-confirm w-auto ms-0" style="height: 30px" (click)="sendVerificationCode()">Confirm phone number</button>
+                <!--<div
+                  *ngIf="(!kandidat?.phoneNumberConfirmed || phoneNumber != kandidat?.phoneNumber) && phoneNumber != ''"
+                  class="mt-2 mb-4">
+                  <button *ngIf="!confirmNumber" class="btn-confirm w-auto ms-0" style="height: 30px"
+                          (click)="sendVerificationCode()">Confirm phone number
+                  </button>
 
                   <div *ngIf="confirmNumber">
-                    <form [formGroup]="confirmPhoneNumberForm" class="form-grid" (ngSubmit)="confirmPhoneNumber()" autocomplete="off">
+                    <form [formGroup]="confirmPhoneNumberForm" class="form-grid" (ngSubmit)="confirmPhoneNumber()"
+                          autocomplete="off">
 
 
                       <div class="mt-2 mb-4 my-3">
                         <label class="required">Enter the verification token send to your phone number.</label>
                         <input formControlName="token" type="text" class="form-control"
                                [class.is-invalid]="submittedConfirmNumber && confirmPhoneNumberForm.get('token')?.errors">
-                        <span class="text-danger" *ngIf="submittedConfirmNumber && confirmPhoneNumberForm.get('token')?.hasError('required')">
+                        <span class="text-danger"
+                              *ngIf="submittedConfirmNumber && confirmPhoneNumberForm.get('token')?.hasError('required')">
                         Verification code is required!
                     </span>
                       </div>
@@ -141,6 +147,15 @@
                     </form>
                   </div>
 
+
+                </div>-->
+
+                <div
+                  *ngIf="(!kandidat?.phoneNumberConfirmed && isImportDetails)"
+                  class="mt-2 mb-4">
+                  <div  class=" w-auto ms-0" style="height: 30px; color: red"
+                          >Please confirm phone number in your account settings
+                  </div>
 
                 </div>
 
@@ -279,14 +294,14 @@
                   </div>
                   <div class="col-12 col-md-6">
                     <div class="mb-3">
-                      <label for="startDate{{i}}" class="form-label">Start Date:</label>
+                      <label for="startDate{{i}}" class="form-label required">Start Date:</label>
                       <input type="date" class="form-control" id="startDate{{i}}" [(ngModel)]="education.datumPocetka"
                              name="startDate{{i}}">
                     </div>
                   </div>
                   <div class="col-12 col-md-6">
                     <div class="mb-3">
-                      <label for="endDate{{i}}" class="form-label">End Date:</label>
+                      <label for="endDate{{i}}" class="form-label required">End Date:</label>
                       <input type="date" class="form-control" id="endDate{{i}}" [(ngModel)]="education.datumZavrsetka"
                              name="endDate{{i}}">
                     </div>
@@ -392,7 +407,7 @@
                   </div>
                   <div class="col-12 col-md-6">
                     <div class="mb-3">
-                      <label for="datumZavrsetka{{i}}" class="form-label">End Date:</label>
+                      <label for="datumZavrsetka{{i}}" class="form-label required">End Date:</label>
                       <input type="date" class="form-control" id="datumZavrsetka{{i}}"
                              [(ngModel)]="employment.datumZavrsetka"
                              name="datumZavrsetka{{i}}">
@@ -668,7 +683,8 @@
           </button>
 
 
-          <button *ngIf="this.cv" type="button" class="btn-confirm d-flex justify-content-center align-middle ms-2"
+          <button *ngIf="this.cvEditId == null" type="button"
+                  class="btn-confirm d-flex justify-content-center align-middle ms-2"
                   (click)="openCreateCVModal()">Create CV
           </button>
 

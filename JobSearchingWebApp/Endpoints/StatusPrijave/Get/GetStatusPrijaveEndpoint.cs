@@ -14,9 +14,9 @@ namespace JobSearchingWebApp.Endpoints.StatusPrijave.Get
     public class GetStatusPrijaveEndpoint : MyBaseEndpoint<NoRequest, ActionResult<GetStatusPrijaveResponse>>
     {
         private readonly ApplicationDbContext dbContext;
-        private readonly UserManager<Korisnik> userManager;
+        private readonly UserManager<Database.Korisnik> userManager;
 
-        public GetStatusPrijaveEndpoint(ApplicationDbContext dbContext, UserManager<Korisnik> userManager)
+        public GetStatusPrijaveEndpoint(ApplicationDbContext dbContext, UserManager<Database.Korisnik> userManager)
         {
             this.dbContext = dbContext;
             this.userManager = userManager;

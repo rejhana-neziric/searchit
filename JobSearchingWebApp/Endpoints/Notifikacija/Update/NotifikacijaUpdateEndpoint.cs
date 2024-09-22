@@ -16,9 +16,9 @@ namespace JobSearchingWebApp.Endpoints.Notifikacija.Update
     public class NotifikacijaUpdateEndpoint : MyBaseEndpoint<NotifikacijaUpdateRequest, ActionResult<NotifikacijaUpdateResponse>>
     {
         private readonly ApplicationDbContext dbContext;
-        private readonly UserManager<Korisnik> userManager;
+        private readonly UserManager<Database.Korisnik> userManager;
 
-        public NotifikacijaUpdateEndpoint(ApplicationDbContext dbContext, UserManager<Korisnik> userManager)
+        public NotifikacijaUpdateEndpoint(ApplicationDbContext dbContext, UserManager<Database.Korisnik> userManager)
         {
             this.dbContext = dbContext;
             this.userManager = userManager;

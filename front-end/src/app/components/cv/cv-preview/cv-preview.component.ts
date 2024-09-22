@@ -85,7 +85,6 @@ export class CvPreviewComponent implements OnInit {
     this.cvGetByIdEndpoint.obradi(this.cvId!).subscribe({
       next: x => {
         this.cv = x;
-        console.log("cv id = " + this.cv.id);
       }
     })
   }

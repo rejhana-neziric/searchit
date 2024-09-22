@@ -17,9 +17,9 @@ namespace JobSearchingWebApp.Endpoints.Notifikacija.Delete
     public class NotifikacijaDeleteEndpoint : MyBaseEndpoint<NotifikacijaDeleteRequest, ActionResult<NoResponse>>
     {
         private readonly ApplicationDbContext dbContext;
-        private readonly UserManager<Korisnik> userManager;
+        private readonly UserManager<Database.Korisnik> userManager;
 
-        public NotifikacijaDeleteEndpoint(ApplicationDbContext dbContext, UserManager<Korisnik> userManager)
+        public NotifikacijaDeleteEndpoint(ApplicationDbContext dbContext, UserManager<Database.Korisnik> userManager)
         {
             this.dbContext = dbContext;
             this.userManager = userManager;

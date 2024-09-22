@@ -18,9 +18,9 @@ namespace JobSearchingWebApp.Endpoints.CV.Dodaj
     public class CVDodajEndpoint : MyBaseEndpoint<CVDodajRequest, ActionResult<CVDodajResponse>>
     {
         private readonly ApplicationDbContext dbContext;
-        private readonly UserManager<Korisnik> userManager;
+        private readonly UserManager<Database.Korisnik> userManager;
 
-        public CVDodajEndpoint(ApplicationDbContext dbContext, UserManager<Korisnik> userManager)
+        public CVDodajEndpoint(ApplicationDbContext dbContext, UserManager<Database.Korisnik> userManager)
         {
             this.dbContext = dbContext;
             this.userManager = userManager;

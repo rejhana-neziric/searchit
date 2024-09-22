@@ -222,20 +222,20 @@ namespace JobSearchingWebApp.Endpoints.GeneratorPodataka
 
             //kompanije
 
-            var kompanijaByteMatrix = new Database.Kompanija()
-            {
-                Naziv = "ByteMatrix Solutions",
-                GodinaOsnivanja = 2012,
-                Lokacija = "Sarajevo",
-                Email = "ByteMatrix.Solutions@gmail.com",
-                UserName = "bytematrix",
-            };
-            kompanijaByteMatrix.PasswordSalt = HelperMethods.GenerateSalt();
-            kompanijaByteMatrix.UlogaId = 3;
+            //var kompanijaByteMatrix = new Database.Kompanija()
+            //{
+            //    Naziv = "ByteMatrix Solutions",
+            //    GodinaOsnivanja = 2012,
+            //    Lokacija = "Sarajevo",
+            //    Email = "ByteMatrix.Solutions@gmail.com",
+            //    UserName = "bytematrix",
+            //};
+            //kompanijaByteMatrix.PasswordSalt = HelperMethods.GenerateSalt();
+            //kompanijaByteMatrix.UlogaId = 3;
 
-            var result = await userManager.CreateAsync(kompanijaByteMatrix, "");
+            //var result = await userManager.CreateAsync(kompanijaByteMatrix, "");
 
-            await userManager.AddToRoleAsync(kompanijaByteMatrix, "Kompanija");
+            //await userManager.AddToRoleAsync(kompanijaByteMatrix, "Kompanija");
 
 
 

@@ -24,6 +24,7 @@ export interface OglasGetResponseOglasi {
   razlikaDana: number
   spasen: boolean
   objavljen: boolean
+  isObrisan: boolean
 }
 
 export interface OglasGetResponseOglasIskustvo {

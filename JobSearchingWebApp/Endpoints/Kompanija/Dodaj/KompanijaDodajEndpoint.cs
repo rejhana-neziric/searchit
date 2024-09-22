@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System.Runtime.CompilerServices;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
+using Mailjet.Client.Resources;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace JobSearchingWebApp.Endpoints.Kompanija.Dodaj
@@ -37,7 +39,33 @@ namespace JobSearchingWebApp.Endpoints.Kompanija.Dodaj
             var kompanija = mapper.Map<Database.Kompanija>(request);
             kompanija.PasswordSalt = HelperMethods.GenerateSalt();
             kompanija.UlogaId = 3;
-            kompanija.IsObrisan = false; 
+            kompanija.IsObrisan = false;
+
+            var lokacija = dbContext.Lokacija.Where(x => x.Naziv == request.Lokacija).FirstOrDefault();
+
+            if (lokacija != null)
+            {
+                kompanija.Lokacija = lokacija;
+            }
+
+            else
+            {
+                var novaLokacija = new Database.Lokacija()
+                {
+                    Naziv = request.Lokacija
+                };
+
+                await dbContext.Lokacija.AddAsync(novaLokacija);
+                await dbContext.SaveChangesAsync();
+
+                var nova = await dbContext.Lokacija.Where(x => x.Naziv == request.Lokacija).FirstOrDefaultAsync();
+
+                if (nova != null)
+                {
+                    kompanija.Lokacija = nova;
+                }
+            }
+
 
             var result = await userManager.CreateAsync(kompanija, request.Password);
             if (!result.Succeeded)

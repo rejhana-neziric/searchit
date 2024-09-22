@@ -17,7 +17,7 @@ namespace JobSearchingWebApp.Endpoints.KandidatOglas.GetAll
         private readonly ApplicationDbContext dbContext;
         private readonly UserManager<Database.Korisnik> userManager;
 
-        public KandidatOglasGetAllEndpoint(ApplicationDbContext dbContext, UserManager<Korisnik> userManager)
+        public KandidatOglasGetAllEndpoint(ApplicationDbContext dbContext, UserManager<Database.Korisnik> userManager)
         {
             this.dbContext = dbContext;
             this.userManager = userManager;

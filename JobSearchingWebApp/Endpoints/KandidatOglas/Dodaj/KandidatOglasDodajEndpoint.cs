@@ -18,9 +18,9 @@ namespace JobSearchingWebApp.Endpoints.KandidatOglas.Dodaj
     public class KandidatOglasDodajEndpoint : MyBaseEndpoint<KandidatOglasDodajRequest, ActionResult<KandidatOglasDodajResponse>>
     {
         private readonly ApplicationDbContext dbContext;
-        private readonly UserManager<Korisnik> userManager;
+        private readonly UserManager<Database.Korisnik> userManager;
 
-        public KandidatOglasDodajEndpoint(ApplicationDbContext dbContext, UserManager<Korisnik> userManager)
+        public KandidatOglasDodajEndpoint(ApplicationDbContext dbContext, UserManager<Database.Korisnik> userManager)
         {
             this.dbContext = dbContext;
             this.userManager = userManager;

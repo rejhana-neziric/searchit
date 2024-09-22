@@ -16,10 +16,10 @@ namespace JobSearchingWebApp.Endpoints.KorisnikNotifikacija.Update
     public class KorisnikNotifikacijaUpdateEndpoint : MyBaseEndpoint<KorisnikNotifikacijaUpdateRequest, ActionResult<KorisnikNotifikacijaUpdateResponse>>
     {
         private readonly ApplicationDbContext dbContext;
-        private readonly UserManager<Korisnik> userManager;
+        private readonly UserManager<Database.Korisnik> userManager;
 
 
-        public KorisnikNotifikacijaUpdateEndpoint(ApplicationDbContext dbContext, UserManager<Korisnik> userManager)
+        public KorisnikNotifikacijaUpdateEndpoint(ApplicationDbContext dbContext, UserManager<Database.Korisnik> userManager)
         {
             this.dbContext = dbContext;
             this.userManager = userManager;

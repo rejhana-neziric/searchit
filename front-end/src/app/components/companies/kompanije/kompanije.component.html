@@ -23,34 +23,15 @@
           <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse"
                aria-labelledby="panelsStayOpen-headingOne">
             <div class="accordion-body">
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" (change)="locationFilter('Mostar')"
-                       id="flexCheckDefault-Mostar">
-                <label class="form-check-label" for="flexCheckDefault-Mostar">
-                  Mostar
+
+              <div *ngFor="let lokacija of lokacije; let i = index" class="form-check">
+                <input class="form-check-input" type="checkbox" [id]="'flexCheckLocation-' + i"
+                       (change)="locationFilter(lokacija.naziv)">
+                <label class="form-check-label" [for]="'flexCheckLocation-' + i">
+                  {{ lokacija.naziv }}
                 </label>
               </div>
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" (change)="locationFilter('Sarajevo')"
-                       id="flexCheckChecked-Sarajevo">
-                <label class="form-check-label" for="flexCheckChecked-Sarajevo">
-                  Sarajevo
-                </label>
-              </div>
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" (change)="locationFilter('Jablanica')"
-                       id="flexCheckChecked-Jablanica">
-                <label class="form-check-label" for="flexCheckChecked-Jablanica">
-                  Jablanica
-                </label>
-              </div>
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" (change)="locationFilter('Remote')"
-                       id="flexCheckChecked-Remote">
-                <label class="form-check-label" for="flexCheckChecked-Remote">
-                  Remote
-                </label>
-              </div>
+
             </div>
           </div>
         </div>
@@ -195,8 +176,6 @@
              *ngFor="let kompanija of filtriraneKompanije() | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: total }"
              (click)="prikazDetalja(kompanija)">
           <div class="kompanija-content d-flex flex-row" [class.selected]="kompanija === kompanijaZaPrikaz">
-            <!--<img style="order: 1; flex:0.5" class="img-logo" src="../../../../assets/img/kompanija-logo.png" alt="image"
-                 loading="lazy">-->
 
             <div>
               <img [src]="ucitajLogo(kompanija.logo)" class="img-logo" alt="Company Logo"/>
@@ -255,7 +234,7 @@
         <div class="pregled-content shadow p-3 mb-4 mt-0">
           <div class="d-flex flex-column">
             <div class="d-flex flex-row">
-              <!--<img class="img-logo" src="../../../../assets/img/kompanija-logo.png" alt="image" loading="lazy">-->
+
               <div *ngIf="imageUrl">
                 <img [src]="ucitajLogo(odabranaKompanija?.logo!)" class="img-logo" alt="Company Logo"/>
               </div>

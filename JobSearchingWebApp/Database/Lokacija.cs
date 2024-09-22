@@ -13,7 +13,5 @@ namespace JobSearchingWebApp.Database
         public string Naziv { get; set; }
 
         public virtual ICollection<OglasLokacija> OglasLokacija { get; set; } = new List<OglasLokacija>();
-
-        public virtual ICollection<KompanijaLokacija> KompanijaLokacija { get; set; } = new List<KompanijaLokacija>();
     }
 }

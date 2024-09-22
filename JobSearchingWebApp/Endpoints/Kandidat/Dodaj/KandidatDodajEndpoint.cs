@@ -27,9 +27,9 @@ namespace JobSearchingWebApp.Endpoints.Kandidat.Dodaj
     {
         private readonly ApplicationDbContext dbContext;
         private readonly IMapper mapper;
-        private readonly UserManager<Korisnik> userManager;
+        private readonly UserManager<Database.Korisnik> userManager;
 
-        public KandidatDodajEndpoint(ApplicationDbContext dbContext, IMapper mapper, UserManager<Korisnik> userManager)
+        public KandidatDodajEndpoint(ApplicationDbContext dbContext, IMapper mapper, UserManager<Database.Korisnik> userManager)
         {
             this.dbContext = dbContext;
             this.mapper = mapper;

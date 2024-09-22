@@ -111,6 +111,7 @@ export class CreateCvComponent implements OnInit {
   confirmPhoneNumberForm: FormGroup = new FormGroup({});
   phoneNumber: string = "";
   phoneNumberConfirmed: boolean = false;
+  isImportDetails: boolean = false;
 
   constructor(private formBuilder: FormBuilder,
               private getVjestineEndpoint: GetVjestineEndpoint,
@@ -304,6 +305,7 @@ export class CreateCvComponent implements OnInit {
   }
 
   selectSection(sectionId: string): void {
+    this.checkCompletedSections();
     if (this.selectedSectionId == 'section1') {
       this.savePersonalDetails(sectionId);
     } else if (this.selectedSectionId == 'section2') {
@@ -311,6 +313,8 @@ export class CreateCvComponent implements OnInit {
     } else {
       this.selectedSectionId = sectionId;
     }
+
+
   }
 
   completeSection(sectionId: string): void {
@@ -508,10 +512,11 @@ export class CreateCvComponent implements OnInit {
       next: any => {
         this.notificationService.addNotification({message: 'Your CV has been successfully edited.', type: 'success'});
         this.closeSaveModal()
+        localStorage.removeItem('cvData');
         this.router.navigateByUrl('/cv');
       },
       error: error => {
-        this.notificationService.addNotification({message: error.message, type: 'error'});
+        this.notificationService.addNotification({message: 'Please ensure that all required fields are filled in before proceeding. ', type: 'error'});
       }
     })
   }
@@ -538,8 +543,8 @@ export class CreateCvComponent implements OnInit {
   }
 
   importDetails() {
-
-    this.phoneNumber = this.kandidat?.phoneNumber ?? "";
+    this.isImportDetails = true;
+    this.phoneNumber = (this.kandidat?.phoneNumber && this.kandidat?.phoneNumberConfirmed) ? this.kandidat?.phoneNumber : "";
 
     this.form.patchValue({
       naziv: null,

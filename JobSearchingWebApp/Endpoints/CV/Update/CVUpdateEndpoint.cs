@@ -19,10 +19,10 @@ namespace JobSearchingWebApp.Endpoints.CV.Update
     public class CVUpdateEndpoint : MyBaseEndpoint<CVUpdateRequest, ActionResult<CVUpdateResponse>>
     {
         private readonly ApplicationDbContext dbContext;
-        private readonly UserManager<Korisnik> userManager;
+        private readonly UserManager<Database.Korisnik> userManager;
         private readonly IMapper mapper;
 
-        public CVUpdateEndpoint(ApplicationDbContext dbContext, UserManager<Korisnik> userManager, IMapper mapper)
+        public CVUpdateEndpoint(ApplicationDbContext dbContext, UserManager<Database.Korisnik> userManager, IMapper mapper)
         {
             this.dbContext = dbContext;
             this.userManager = userManager;

@@ -40,11 +40,16 @@ namespace JobSearchingWebApp.Endpoints.Kompanija.GetById
 
             var brojPozicija = 0;
 
-            var kompanija = dbContext.Kompanije.Where(x => x.Id == id).Include(x => x.Oglasi).FirstOrDefault();
+            var kompanija = dbContext.Kompanije.Where(x => x.Id == id)
+                                               .Include(x => x.Oglasi)
+                                               .Include(x => x.Lokacija)
+                                               .FirstOrDefault();
 
             brojPozicija = kompanija.Oglasi.Count(x => x.KompanijaId == kompanija.Id && x.RokPrijave > DateTime.Now);
 
-            response.BrojOtvorenihPozicija = brojPozicija; 
+            response.BrojOtvorenihPozicija = brojPozicija;
+
+            response.Lokacija = kompanija.Lokacija.Naziv; 
 
             return response;
         }

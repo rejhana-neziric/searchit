@@ -18,9 +18,9 @@ namespace JobSearchingWebApp.Endpoints.KompanijaKandidat.Dodaj
     public class KompanijaKandidatDodajEndpoint : MyBaseEndpoint<KompanijaKandidatDodajRequest, ActionResult<KompanijaKandidatDodajResponse>>
     {
         private readonly ApplicationDbContext dbContext;
-        private readonly UserManager<Korisnik> userManager;
+        private readonly UserManager<Database.Korisnik> userManager;
 
-        public KompanijaKandidatDodajEndpoint(ApplicationDbContext dbContext, UserManager<Korisnik> userManager, IMapper mapper)
+        public KompanijaKandidatDodajEndpoint(ApplicationDbContext dbContext, UserManager<Database.Korisnik> userManager, IMapper mapper)
         {
             this.dbContext = dbContext;
             this.userManager = userManager;

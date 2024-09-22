@@ -16,9 +16,9 @@ namespace JobSearchingWebApp.Endpoints.KompanijaKandidat.GetAll
     public class KompanijaKandidatGetAllEndpoint : MyBaseEndpoint<KompanijaKandidatGetAllRequest, ActionResult<KompanijaKandidatGetAllResponse>>
     {
         private readonly ApplicationDbContext dbContext;
-        private readonly UserManager<Korisnik> userManager;
+        private readonly UserManager<Database.Korisnik> userManager;
 
-        public KompanijaKandidatGetAllEndpoint(ApplicationDbContext dbContext, UserManager<Korisnik> userManager)
+        public KompanijaKandidatGetAllEndpoint(ApplicationDbContext dbContext, UserManager<Database.Korisnik> userManager)
         {
             this.dbContext = dbContext;
             this.userManager = userManager;

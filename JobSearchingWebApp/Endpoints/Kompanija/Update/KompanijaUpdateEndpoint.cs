@@ -9,6 +9,7 @@ using System.Text.RegularExpressions;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 using Microsoft.AspNetCore.Identity;
 using MapsterMapper;
+using Microsoft.EntityFrameworkCore;
 
 namespace JobSearchingWebApp.Endpoints.Kompanija.Update
 {
@@ -18,9 +19,9 @@ namespace JobSearchingWebApp.Endpoints.Kompanija.Update
     public class KompanijaUpdateEndpoint : MyBaseEndpoint<KompanijaUpdateRequest, ActionResult<KompanijaUpdateResponse>>
     {
         private readonly ApplicationDbContext dbContext;
-        private readonly UserManager<Korisnik> userManager;
+        private readonly UserManager<Database.Korisnik> userManager;
 
-        public KompanijaUpdateEndpoint(ApplicationDbContext dbContext, UserManager<Korisnik> userManager, IMapper mapper)
+        public KompanijaUpdateEndpoint(ApplicationDbContext dbContext, UserManager<Database.Korisnik> userManager, IMapper mapper)
         {
             this.dbContext = dbContext;
             this.userManager = userManager; 
@@ -52,9 +53,37 @@ namespace JobSearchingWebApp.Endpoints.Kompanija.Update
                 kompanija.Website = request.Website ?? kompanija.Website;
                 kompanija.LinkedIn = request.LinkedIn ?? kompanija.LinkedIn;
                 kompanija.Twitter = request.Twitter ?? kompanija.Twitter;
-                kompanija.Lokacija = request.Lokacija ?? kompanija.Lokacija;
                 kompanija.Opis = request.Opis ?? kompanija.Opis;
                 kompanija.KratkiOpis = request.KratkiOpis ?? kompanija.KratkiOpis;
+
+                if (request.Lokacija != null)
+                {
+                    var lokacija = dbContext.Lokacija.Where(x => x.Naziv == request.Lokacija).FirstOrDefault();
+
+                    if (lokacija != null)
+                    {
+                        kompanija.Lokacija = lokacija;
+                    }
+
+                    else
+                    {
+                        var novaLokacija = new Database.Lokacija()
+                        {
+                            Naziv = request.Lokacija
+                        };
+
+                        await dbContext.Lokacija.AddAsync(novaLokacija);
+                        await dbContext.SaveChangesAsync();
+
+                        var nova = await dbContext.Lokacija.Where(x => x.Naziv == request.Lokacija).FirstOrDefaultAsync();
+
+                        if (nova != null)
+                        {
+                            kompanija.Lokacija = nova;
+                        }
+                    }
+
+                }
 
                 byte[] logoBytes = null;
 

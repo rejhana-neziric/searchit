@@ -14,9 +14,9 @@ namespace JobSearchingWebApp.Endpoints.TehničkeVještine.Get
     public class GetTehničkeVještineEndpoint : MyBaseEndpoint<NoRequest, ActionResult<GetTehničkeVještineResponse>>
     {
         private readonly ApplicationDbContext dbContext;
-        private readonly UserManager<Korisnik> userManager;
+        private readonly UserManager<Database.Korisnik> userManager;
 
-        public GetTehničkeVještineEndpoint(ApplicationDbContext dbContext, UserManager<Korisnik> userManager)
+        public GetTehničkeVještineEndpoint(ApplicationDbContext dbContext, UserManager<Database.Korisnik> userManager)
         {
             this.dbContext = dbContext;
             this.userManager = userManager;

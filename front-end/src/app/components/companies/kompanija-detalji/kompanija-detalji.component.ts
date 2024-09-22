@@ -43,7 +43,6 @@ export class KompanijaDetaljiComponent implements OnInit{
 
   async ngOnInit(): Promise<void> {
     this.kompanijaId = this.activatedRoute.snapshot.params["id"];
-    console.log(this.kompanijaId)
     this.getKompanija();
     await this.getOglasi();
   }

@@ -95,3 +95,13 @@ body {
 .location{
   margin-right: 10px;
 }
+
+.no-result-section {
+  border-color: var(--secondary-color);
+  border-width: 10px;
+  background-color: #fff;
+  border-radius: 15px;
+  width: 95%;
+  margin-left: auto;
+  margin-right: auto;
+}

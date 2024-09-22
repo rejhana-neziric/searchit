@@ -15,8 +15,10 @@ namespace JobSearchingWebApp.Database
         [Required]
         public int GodinaOsnivanja { get; set; }
 
-        [Required]
-        public string Lokacija { get; set; }
+        [ForeignKey(nameof(Lokacija))]
+        public int LokacijaId { get; set; }
+
+        public Lokacija Lokacija { get; set; }
 
         public byte[]? Logo { get; set; }
 
@@ -40,8 +42,6 @@ namespace JobSearchingWebApp.Database
 
         [Url]
         public string? Twitter { get; set; }
-
-        public virtual ICollection<KompanijaLokacija> KompanijaLokacija { get; set; } = new List<KompanijaLokacija>();
 
         public virtual ICollection<Oglas> Oglasi { get; set; } = new List<Oglas>();
 

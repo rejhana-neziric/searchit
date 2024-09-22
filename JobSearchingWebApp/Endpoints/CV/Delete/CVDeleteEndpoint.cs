@@ -19,9 +19,9 @@ namespace JobSearchingWebApp.Endpoints.CV.Delete
     public class CVDeleteEndpoint : MyBaseEndpoint<int, ActionResult<NoResponse>>
     {
         private readonly ApplicationDbContext dbContext;
-        private readonly UserManager<Korisnik> userManager;
+        private readonly UserManager<Database.Korisnik> userManager;
 
-        public CVDeleteEndpoint(ApplicationDbContext dbContext, UserManager<Korisnik> userManager)
+        public CVDeleteEndpoint(ApplicationDbContext dbContext, UserManager<Database.Korisnik> userManager)
         {
             this.dbContext = dbContext;
             this.userManager = userManager;

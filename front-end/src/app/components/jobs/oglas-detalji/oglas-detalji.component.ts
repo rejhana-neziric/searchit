@@ -77,7 +77,6 @@ export class OglasDetaljiComponent implements OnInit {
     this.oglasGetByIdEndpoint.obradi(this.oglasiId!).subscribe({
       next: x => {
         this.oglas = x;
-        console.log("oglas id = " + this.oglas.nazivPozicije);
       }
     })
   }
@@ -109,7 +108,7 @@ export class OglasDetaljiComponent implements OnInit {
   }
 
   openCVChooseModal() {
-    if (this.user == null) {
+    if (this.user == null || this.user.role == 'Admin') {
       this.router.navigateByUrl('/login');
     } else {
       this.getAllCV();

@@ -16,9 +16,9 @@ namespace JobSearchingWebApp.Endpoints.KorisnikNotifikacija.Dodaj
     public class KorisnikNotifikacijaDodajEndpoint : MyBaseEndpoint<KorisnikNotifikacijaDodajRequest, ActionResult<KorisnikNotifikacijaDodajResponse>>
     {
         private readonly ApplicationDbContext dbContext;
-        private readonly UserManager<Korisnik> userManager;
+        private readonly UserManager<Database.Korisnik> userManager;
 
-        public KorisnikNotifikacijaDodajEndpoint(ApplicationDbContext dbContext, UserManager<Korisnik> userManager, IMapper mapper)
+        public KorisnikNotifikacijaDodajEndpoint(ApplicationDbContext dbContext, UserManager<Database.Korisnik> userManager, IMapper mapper)
         {
             this.dbContext = dbContext;
             this.userManager = userManager;

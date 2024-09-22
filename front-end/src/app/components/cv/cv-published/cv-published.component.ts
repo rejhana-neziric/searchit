@@ -99,26 +99,6 @@ export class CvPublishedComponent implements OnInit {
     }
   }
 
-/*  async getAll() {
-    this.searchObject = {
-      kandidatId: null,
-      objavljen: true,
-      naziv: null
-    };
-
-    try {
-      const response = await firstValueFrom(this.cvGetEndpoint.obradi(this.searchObject));
-      this.cv = response.cv.$values;
-      this.imaRezultataPretrage = this.cv?.length != 0;
-      this.noCV = this.cv?.length == 0;
-    } catch (error) {
-      console.log(error);
-      this.cv = [];
-    }
-
-    this.selektujPrviCV()
-  }*/
-
   async getAll() {
     this.searchObject = {
       kandidatId: null,

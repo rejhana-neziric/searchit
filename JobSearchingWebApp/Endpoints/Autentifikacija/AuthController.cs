@@ -23,6 +23,7 @@ using System.Data;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using JobSearchingWebApp.Data;
 
 namespace JobSearchingWebApp.Endpoints.Autentifikacija
 {
@@ -30,29 +31,31 @@ namespace JobSearchingWebApp.Endpoints.Autentifikacija
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly UserManager<Korisnik> userManager;
-        private readonly SignInManager<Korisnik> signInManager;
+        private readonly UserManager<Database.Korisnik> userManager;
+        private readonly SignInManager<Database.Korisnik> signInManager;
         private readonly IMapper mapper;
         private readonly IConfiguration config;
         private readonly JWTService jwtService; 
         private readonly EmailService emailService;
         private readonly SmsService smsService;
+        private readonly ApplicationDbContext dbContext;
 
-
-        public AuthController(UserManager<Korisnik> userManager, 
-                              SignInManager<Korisnik> signInManager, 
-                              IMapper mapper, IConfiguration config, 
-                              JWTService jwtService, 
+        public AuthController(UserManager<Database.Korisnik> userManager,
+                              SignInManager<Database.Korisnik> signInManager,
+                              IMapper mapper, IConfiguration config,
+                              JWTService jwtService,
                               EmailService emailService,
-                              SmsService smsService)
+                              SmsService smsService, 
+                              ApplicationDbContext dbContext)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.mapper = mapper;
             this.config = config;
             this.jwtService = jwtService;
-            this.emailService = emailService;  
-            this.smsService = smsService;   
+            this.emailService = emailService;
+            this.smsService = smsService;
+            this.dbContext = dbContext;
         }
 
         [HttpPost("register/admin")]
@@ -82,7 +85,32 @@ namespace JobSearchingWebApp.Endpoints.Autentifikacija
                 logoBytes = Convert.FromBase64String(base64Data);
             }
 
-            user.Logo = logoBytes; 
+            user.Logo = logoBytes;
+
+            var lokacija = dbContext.Lokacija.Where(x => x.Naziv == request.Lokacija).FirstOrDefault();
+
+            if (lokacija != null)
+            {
+                user.Lokacija = lokacija;
+            }
+
+            else
+            {
+                var novaLokacija = new Database.Lokacija()
+                {
+                    Naziv = request.Lokacija
+                };
+
+                await dbContext.Lokacija.AddAsync(novaLokacija);
+                await dbContext.SaveChangesAsync();
+
+                var nova = await dbContext.Lokacija.Where(x => x.Naziv == request.Lokacija).FirstOrDefaultAsync();
+
+                if (nova != null)
+                {
+                    user.Lokacija = nova;
+                }
+            }
 
             var result = await userManager.CreateAsync(user, request.Password);
             if (!result.Succeeded)
@@ -199,11 +227,6 @@ namespace JobSearchingWebApp.Endpoints.Autentifikacija
                 return BadRequest(new { message = "RequiresTwoFactor" });
             }
 
-            //if (result.IsLockedOut)
-            //{
-            //    return Unauthorized(string.Format("Your account has been locked. You should wait until {0} (UTC time) to be able to login", user.LockoutEnd));
-            //}
-
             var result = await signInManager.CheckPasswordSignInAsync(user, model.Password, false);
 
             if (!result.Succeeded)
@@ -222,7 +245,7 @@ namespace JobSearchingWebApp.Endpoints.Autentifikacija
         }
 
         private async Task<IActionResult> RegisterUser<TUser, TRequest>(TRequest request, string role, int roleId)
-             where TUser : Korisnik, new()
+             where TUser : Database.Korisnik, new()
              where TRequest : IUserRegistrationRequest
         {
             var user = mapper.Map<TUser>(request);
@@ -250,7 +273,7 @@ namespace JobSearchingWebApp.Endpoints.Autentifikacija
             }
         }
 
-        private async Task<bool> SendConfirmEMailAsync(Korisnik user)
+        private async Task<bool> SendConfirmEMailAsync(Database.Korisnik user)
         {
             var token = await userManager.GenerateEmailConfirmationTokenAsync(user);
             token = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));

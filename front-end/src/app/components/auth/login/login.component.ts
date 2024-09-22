@@ -78,6 +78,7 @@ export class LoginComponent implements OnInit {
         }
         this.errorMessage = error.error.message;
         this.isLoginFailed = true;
+
       }
     });
   }

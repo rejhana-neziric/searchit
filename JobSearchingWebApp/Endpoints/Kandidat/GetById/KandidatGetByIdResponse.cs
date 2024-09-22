@@ -2,7 +2,7 @@
 
 namespace JobSearchingWebApp.Endpoints.Kandidat.GetById
 {
-    public class KandidatGetByIdResponse : Korisnik
+    public class KandidatGetByIdResponse : Database.Korisnik
     {
         public string Ime { get; set; }
 

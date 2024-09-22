@@ -34,6 +34,8 @@ import {User} from "../../../modals/user";
 import {FooterComponent} from "../../layout/footer/footer.component";
 import {SharedService} from "../../../services/shared.service";
 import {KompanijaService} from "../../../services/kompanija.service";
+import {LokacijaGetResponseLokacija} from "../../../endpoints/lokacija-endpoint/get/lokacija-get-response";
+import {LokacijaGetEndpoint} from "../../../endpoints/lokacija-endpoint/get/lokacija-get-endpoint";
 
 @Component({
   selector: 'app-kompanije',
@@ -80,12 +82,14 @@ export class KompanijeComponent implements OnInit {
   selectedCompany: any;
   kandidat: User = {id: "", role: "", jwt: ""}
   imageUrl: string | ArrayBuffer | null = '';
+  lokacije: LokacijaGetResponseLokacija[] = [];
 
   constructor(private getBrojZaposlenihEndpoint: GetBrojZaposlenihEndpoint,
               private kompanijeGetEndpoint: KompanijeGetEndpoint,
               private kompanijaGetByIdEndpoint: KompanijaGetByIdEndpoint,
               private kandidatSpaseneKompanijeDodajEndpoint: KandidatSpaseneKompanijeDodajEndpoint,
               private kandidatSpaseneKompanijeUpdateEndpoint: KandidatSpaseneKompanijeUpdateEndpoint,
+              private lokacijaGetEndpoint: LokacijaGetEndpoint,
               private notificationService: NotificationService,
               private sharedService: SharedService,
               private kompanijaService: KompanijaService,
@@ -98,6 +102,7 @@ export class KompanijeComponent implements OnInit {
     this.sortParametri = [];
     this.kandidat = this.authService.getLoggedUser();
     await this.getAll();
+    await this.getAllLokacije();
     this.setTotal();
   }
 
@@ -139,6 +144,16 @@ export class KompanijeComponent implements OnInit {
 
     this.selektujPrvuKompaniju();
   }
+
+  async getAllLokacije() {
+    try {
+      const response = await firstValueFrom(this.lokacijaGetEndpoint.obradi());
+      this.lokacije =  response.lokacije.$values;
+    } catch (error) {
+      this.lokacije = [];
+    }
+  }
+
 
   filtriraneKompanije() {
     this.imaRezultataPretrage = this.kompanije?.length != 0;
@@ -261,8 +276,6 @@ export class KompanijeComponent implements OnInit {
   openPositionsFilter(isTherePosition: string) {
     this.imaOtvorenePozicijeLista = this.dodajFilter(this.imaOtvorenePozicijeLista, isTherePosition);
 
-    console.log(this.imaOtvorenePozicijeLista);
-
     if (this.imaOtvorenePozicijeLista.length > 1 || this.imaOtvorenePozicijeLista.length == 0)
       this.imaOtvorenePozicije = undefined;
 
@@ -271,8 +284,6 @@ export class KompanijeComponent implements OnInit {
 
     else if (this.imaOtvorenePozicijeLista[0] == 'No open positions')
       this.imaOtvorenePozicije = 'No open positions';
-
-    console.log(this.imaOtvorenePozicije);
 
     this.getAll();
   }
@@ -304,9 +315,11 @@ export class KompanijeComponent implements OnInit {
     if (this.isNumberOfOpenPositions) {
       this.isNumberOfOpenPositions = false;
       this.isNumberOfOpenPositionsAscending = false;
+      this.imaOtvorenePozicije = undefined;
     } else {
       this.isNumberOfOpenPositions = true;
       this.isNumberOfOpenPositionsAscending = true;
+      this.imaOtvorenePozicije = 'Positions available';
     }
 
     this.dodajSortiranjePoOtvorenimPozicijama();

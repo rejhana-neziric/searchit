@@ -37,8 +37,6 @@ namespace JobSearchingWebApp.Data
 
         public DbSet<Zaposlenje> Zaposlenje { get; set; }
 
-        public DbSet<OpisKompanije> OpisiKompanija { get; set; }
-
         public DbSet<Lokacija> Lokacija { get; set; }
 
         public DbSet<Iskustvo> Iskustvo { get; set; }
@@ -51,12 +49,9 @@ namespace JobSearchingWebApp.Data
 
         public DbSet<KandidatSpaseniOglasi> KandidatSpaseniOglasi { get; set; }
 
-        public DbSet<KompanijaLokacija> KompanijaLokacija { get; set; }
-
         public DbSet<KandidatSpaseneKompanije> KandidatSpaseneKompanije { get; set; }
 
         public DbSet<Uloga> Uloge { get; set; }
-
 
         public ApplicationDbContext(
             DbContextOptions<ApplicationDbContext> options) : base(options)

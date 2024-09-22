@@ -1,0 +1,56 @@
+<app-navbar></app-navbar>
+
+<div class="dashboard-container">
+
+
+
+  <div class="d-flex flex-row justify-content-center align-items-center" style="margin-bottom: 50px; margin-top: 10px">
+    <span class="fw-bold fs-2" style="color: #84B59F; margin-left: auto; margin-right: auto; ">Dashboard</span>
+    <button class="btn-confirm w-auto" [routerLink]="'/users'">Manage users</button>
+  </div>
+
+  <div class="dashboard-content">
+
+
+      <div class="card">
+        <h3 >Active Users</h3>
+        <p>Total: {{ activeUsers }}</p>
+        <p>Candidates: {{ candidates }}</p>
+        <p>Companies: {{ companies }}</p>
+      </div>
+
+      <div class="card">
+        <h3>Deleted Users</h3>
+        <p>Total: {{ inactiveUsers }}</p>
+        <p>Candidates: {{ inactiveCandidates }}</p>
+        <p>Companies: {{ inactiveCompanies }}</p>
+      </div>
+
+
+    <div class="card">
+      <h3>Job Posts</h3>
+      <p>Total: {{ totalJobs }}</p>
+      <p>Open: {{ openJobs }}</p>
+      <p>Closed: {{ closedJobs }}</p>
+    </div>
+
+    <div class="card">
+      <h3>CVs</h3>
+      <p>Total: {{ totalCVs }}</p>
+      <p>Published: {{ publishedCVs }}</p>
+      <p>Unpublished: {{ unpublishedCVs }}</p>
+    </div>
+
+    <div class="card">
+      <h3>Applicants</h3>
+      <p>Total: {{ totalApplicants }}</p>
+      <p>Accepted: {{ acceptedApplicants }}</p>
+    </div>
+
+  </div>
+
+  <app-notification-toast></app-notification-toast>
+</div>
+
+
+<app-footer></app-footer>

@@ -36,6 +36,8 @@ namespace JobSearchingWebApp.Endpoints.Oglas.GetAll
         public bool Spasen { get; set; }
 
         public bool? Objavljen { get; set; }
+
+        public bool IsObrisan { get; set; }
     }
 
     public class OglasGetAllResponseOglasLokacija

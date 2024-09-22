@@ -2,7 +2,7 @@
 
 namespace JobSearchingWebApp.Endpoints.Kompanija.GetById
 {
-    public class KompanijaGetByIdResponse : Korisnik
+    public class KompanijaGetByIdResponse : Database.Korisnik
     {
         public string Naziv { get; set; }
 

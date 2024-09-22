@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Runtime.CompilerServices;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 using Microsoft.AspNetCore.Authorization;
+using System.Linq;
 
 namespace JobSearchingWebApp.Endpoints.Kompanija.GetAll
 {
@@ -46,7 +47,7 @@ namespace JobSearchingWebApp.Endpoints.Kompanija.GetAll
 
             if (request?.Lokacija?.Count > 0)
             {
-                kompanije = kompanije.Where(kompanija => request.Lokacija.Contains(kompanija.Lokacija));
+                kompanije = kompanije.Where(kompanija => request.Lokacija.Contains(kompanija.Lokacija.Naziv));
             }
 
             if (request?.BrojZaposlenih?.Count > 0)
@@ -78,7 +79,7 @@ namespace JobSearchingWebApp.Endpoints.Kompanija.GetAll
             {
                 Id = kompanija.Id,
                 Naziv = kompanija.Naziv,
-                Lokacija = kompanija.Lokacija,
+                Lokacija = kompanija.Lokacija.Naziv,
                 GodinaOsnivanja = kompanija.GodinaOsnivanja,
                 Logo = kompanija!.Logo != null ? Convert.ToBase64String(kompanija!.Logo) : null,
                 BrojZaposlenih = kompanija.BrojZaposlenih,

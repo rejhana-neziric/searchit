@@ -262,7 +262,7 @@ export class OglasiComponent implements OnInit {
 
   dodajSortiranjeDana() {
     var vrstaRedoslijeda = "";
-    this.isDaysAscending ? vrstaRedoslijeda = "asc" : vrstaRedoslijeda = "desc";
+    this.isDaysAscending ? vrstaRedoslijeda = "desc" : vrstaRedoslijeda = "asc";
     this.dodajSortiranje("RazlikaDana", vrstaRedoslijeda);
   }
 

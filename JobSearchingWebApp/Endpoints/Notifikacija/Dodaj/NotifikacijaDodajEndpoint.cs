@@ -16,10 +16,10 @@ namespace JobSearchingWebApp.Endpoints.Notifikacija.Dodaj
     public class NotifikacijaDodajEndpoint : MyBaseEndpoint<NotifikacijaDodajRequest, ActionResult<NotifikacijaDodajResponse>>
     {
         private readonly ApplicationDbContext dbContext;
-        private readonly UserManager<Korisnik> userManager;
+        private readonly UserManager<Database.Korisnik> userManager;
 
 
-        public NotifikacijaDodajEndpoint(ApplicationDbContext dbContext, UserManager<Korisnik> userManager)
+        public NotifikacijaDodajEndpoint(ApplicationDbContext dbContext, UserManager<Database.Korisnik> userManager)
         {
             this.dbContext = dbContext;
             this.userManager = userManager;

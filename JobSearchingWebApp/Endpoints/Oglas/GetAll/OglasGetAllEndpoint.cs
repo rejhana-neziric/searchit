@@ -106,6 +106,7 @@ namespace JobSearchingWebApp.Endpoints.Oglas.GetAll
                 TipPosla = oglas.TipPosla,
                 RokPrijave = oglas.RokPrijave,
                 Objavljen = oglas.Objavljen,    
+                IsObrisan = oglas.IsObrisan, 
                 Spasen = oglas.KandidatSpaseniOglasi.Any(x => x.KandidatId == request.KandidatId && x.OglasId == oglas.Id && x.Spasen),
                 Iskustvo = dbContext.OglasIskustvo
                                     .Where(iskustvo => iskustvo.OglasId == oglas.Id)

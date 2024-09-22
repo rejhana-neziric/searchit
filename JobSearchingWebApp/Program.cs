@@ -16,16 +16,20 @@ using Mapster;
 using JobSearchingWebApp.Endpoints.Kompanija.Dodaj;
 using JobSearchingWebApp.Endpoints.Kompanija.GetById;
 using System.Text.Json.Serialization;
+using JobSearchingWebApp.Endpoints.Kompanija.Update;
 
 var config = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json", false)
     .Build();
 
 TypeAdapterConfig<KompanijaDodajRequest, Kompanija>.NewConfig()
-    .Ignore(dest => dest.Logo);
+    .Ignore(dest => dest.Logo)
+    .Ignore(kompanija => kompanija.Lokacija); 
 
 TypeAdapterConfig<KompanijaGetByIdResponse, Kompanija>.NewConfig()
     .Ignore(dest => dest.Logo);
+
+    
 
 var builder = WebApplication.CreateBuilder(args);
 

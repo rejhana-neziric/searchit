@@ -17,9 +17,9 @@ namespace JobSearchingWebApp.Endpoints.KorisnikNotifikacija.GetAll
     public class KorisnikNotifikacijaGetAllEndpoint : MyBaseEndpoint<KorisnikNotifikacijaGetAllRequest, ActionResult<KorisnikNotifikacijaGetAllResponse>>
     {
         private readonly ApplicationDbContext dbContext;
-        private readonly UserManager<Korisnik> userManager;
+        private readonly UserManager<Database.Korisnik> userManager;
 
-        public KorisnikNotifikacijaGetAllEndpoint(ApplicationDbContext dbContext, UserManager<Korisnik> userManager, IMapper mapper)
+        public KorisnikNotifikacijaGetAllEndpoint(ApplicationDbContext dbContext, UserManager<Database.Korisnik> userManager, IMapper mapper)
         {
             this.dbContext = dbContext;
             this.userManager = userManager;

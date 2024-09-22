@@ -18,9 +18,9 @@ namespace JobSearchingWebApp.Endpoints.KandidatSpaseniOglasi.Update
     public class KandidatSpaseniOglasiUpdateEndpoint : MyBaseEndpoint<KandidatSpaseniOglasiUpdateRequest, ActionResult<KandidatSpaseniOglasiUpdateResponse>>
     {
         private readonly ApplicationDbContext dbContext;
-        private readonly UserManager<Korisnik> userManager;
+        private readonly UserManager<Database.Korisnik> userManager;
 
-        public KandidatSpaseniOglasiUpdateEndpoint(ApplicationDbContext dbContext, UserManager<Korisnik> userManager)
+        public KandidatSpaseniOglasiUpdateEndpoint(ApplicationDbContext dbContext, UserManager<Database.Korisnik> userManager)
         {
             this.dbContext = dbContext;
             this.userManager = userManager;
