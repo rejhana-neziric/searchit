@@ -45,7 +45,6 @@ export class SignupKompanijaComponent implements OnInit{
   brojZaposlenihRange: string[] = [];
   isRegisterDetails: boolean = false;
   kompanija: any
-  selectedFile: File | null = null;
   companyForm: FormGroup;
 
   constructor(private getBrojZaposlenihEndpoint : GetBrojZaposlenihEndpoint,

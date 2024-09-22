@@ -13,7 +13,6 @@ export class ModalService {
     }
   }
 
-  // Updated closeModal method that returns a Promise
   closeModal(modalId: string): Promise<void> {
     return new Promise((resolve, reject) => {
       const modalElement = document.getElementById(modalId);
@@ -22,13 +21,13 @@ export class ModalService {
         if (modalInstance) {
           modalInstance.hide();
           modalElement.addEventListener('hidden.bs.modal', () => {
-            resolve(); // Resolve the promise once the modal is fully hidden
+            resolve();
           }, { once: true });
         } else {
-          resolve(); // Resolve immediately if no modal instance is found
+          resolve();
         }
       } else {
-        resolve(); // Resolve immediately if no modal element is found
+        resolve();
       }
     });
   }

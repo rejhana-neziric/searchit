@@ -3,10 +3,8 @@ import {KandidatOglasUpdateRequest} from "../endpoints/kandidat-oglas-endpoint/u
 import {firstValueFrom, Observable} from "rxjs";
 import {KandidatOglasUpdateEndpoint} from "../endpoints/kandidat-oglas-endpoint/update/kandidat-oglas-update-endpoint";
 import {NotificationService} from "./notification-service";
-import {OglasGetRequest} from "../endpoints/oglas-endpoint/get/oglas-get-request";
 import {KompanijeGetRequest} from "../endpoints/kompanija-endpoint/get/kompanije-get-request";
 import {KompanijeGetEndpoint} from "../endpoints/kompanija-endpoint/get/kompanije-get-endpoint";
-import {KompanijeGetResponseKomapanija} from "../endpoints/kompanija-endpoint/get/kompanije-get-response";
 import {
   KandidatSpaseneKompanijeDodajRequest
 } from "../endpoints/kandidat-spasene-kompanije-endpoint/dodaj/kandidat-spasene-kompanije-dodaj-request";
@@ -14,9 +12,6 @@ import {
   KandidatSpaseneKompanijeDodajEndpoint
 } from "../endpoints/kandidat-spasene-kompanije-endpoint/dodaj/kandidat-spasene-kompanije-dodaj-endpoint";
 import {HttpErrorResponse} from "@angular/common/http";
-import {
-  KandidatSpaseneKompanijeUpdateRequest
-} from "../endpoints/kandidat-spasene-kompanije-endpoint/update/kandidat-spasene-kompanije-update-request";
 import {
   KandidatSpaseneKompanijeUpdateEndpoint
 } from "../endpoints/kandidat-spasene-kompanije-endpoint/update/kandidat-spasene-kompanije-update-endpoint";
@@ -46,7 +41,7 @@ export class KompanijaService {
       this.kandidatOglasUpdateEndpoint.obradi(request).subscribe({
         next: () => {
           this.notificationService.showModalNotification(true, 'Applicant accepted', 'Applicant has been successfully accepted.');
-          observer.next(true);  // Notify success
+          observer.next(true);
           observer.complete();
         },
         error: (error) => {
@@ -54,12 +49,11 @@ export class KompanijaService {
             message: 'Sorry, there was a mistake. Please try again.',
             type: 'error'
           });
-          observer.error(error);  // Notify failure
+          observer.error(error);
         }
       });
     });
   }
-
 
   save(request: KandidatSpaseneKompanijeDodajRequest): Observable<boolean> {
 
@@ -67,15 +61,13 @@ export class KompanijaService {
       this.kandidatSpaseneKompanijeDodajEndpoint.obradi(request).subscribe({
         next: () => {
           this.notificationService.addNotification({ message: 'Company saved.', type: 'success' });
-          observer.next(true); // Notify success
+          observer.next(true);
         },
         error: (error: HttpErrorResponse) => {
           if (error.status === 500) {
-            // Handle any special case here if needed
-            // You can implement unsaveKompanija logic if necessary
           }
           this.notificationService.addNotification({ message: `Error: ${error.message}`, type: 'error' });
-          observer.next(false); // Notify failure
+          observer.next(false);
         }
       });
     });

@@ -231,7 +231,7 @@
 
       <!-- Komapnije pregled -->
       <div *ngIf="imaRezultataPretrage" class="kompanija-pregled">
-        <div class="pregled-content shadow p-3 mb-4 mt-0">
+        <div class="pregled-oglas-kompanija-content shadow p-3 mb-4 mt-0">
           <div class="d-flex flex-column">
             <div class="d-flex flex-row">
 
@@ -271,10 +271,10 @@
             </div>
           </div>
           <div class="d-flex flex-row me-auto ms-auto mt-3 justify-content-center">
-            <a class="nav-link text-dark d-flex justify-content-center pregled-btn " type="button"
-               [routerLink]="['/chat/']">Contact</a>
-            <a class="nav-link text-dark d-flex justify-content-center pregled-btn" type="button"
-               [routerLink]="['/companies/', odabranaKompanija?.id]">Details</a>
+            <button class="btn-confirm"
+               [routerLink]="['/chat/']">Contact</button>
+            <button class="btn-confirm"
+               [routerLink]="['/companies/', odabranaKompanija?.id]">Details</button>
           </div>
           <div class="d-flex flex-row mt-4 mb-4">
             <div *ngIf="!noPreviousElement" class="img-left-arrow d-flex justify-content-center" style="">
@@ -307,7 +307,6 @@
         </ul>
       </div>
     </div>
-
 
     <div *ngIf="!imaRezultataPretrage && pretragaNaziv == ''"
          class="p-4 border border-2 shadow bg-body-tertiary no-result-section">

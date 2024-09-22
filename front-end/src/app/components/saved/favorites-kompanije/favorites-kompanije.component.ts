@@ -1,4 +1,4 @@
-import {Component, Inject, PLATFORM_ID} from '@angular/core';
+import {Component, Inject, OnInit, PLATFORM_ID} from '@angular/core';
 import {DatePipe, NgForOf, NgIf} from "@angular/common";
 import {NgxPaginationModule} from "ngx-pagination";
 import {NotificationToastComponent} from "../../notifications/notification-toast/notification-toast.component";
@@ -50,7 +50,7 @@ import {KompanijaService} from "../../../services/kompanija.service";
   templateUrl: './favorites-kompanije.component.html',
   styleUrl: './favorites-kompanije.component.css'
 })
-export class FavoritesKompanijeComponent {
+export class FavoritesKompanijeComponent implements OnInit{
   kompanije: KompanijeGetResponseKomapanija [] = [];
   itemsPerPage: number = 5;
   currentPage: number = 1;

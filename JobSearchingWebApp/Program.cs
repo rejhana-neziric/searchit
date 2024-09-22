@@ -29,8 +29,7 @@ TypeAdapterConfig<KompanijaDodajRequest, Kompanija>.NewConfig()
 TypeAdapterConfig<KompanijaGetByIdResponse, Kompanija>.NewConfig()
     .Ignore(dest => dest.Logo);
 
-    
-
+   
 var builder = WebApplication.CreateBuilder(args);
 
 
@@ -38,7 +37,6 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(config.GetConnectionString("db_local")), ServiceLifetime.Scoped);
 
 // Add services to the container.
-
 
 builder.Services.AddIdentityCore<Korisnik>()
     .AddRoles<IdentityRole>()
@@ -48,13 +46,11 @@ builder.Services.AddIdentityCore<Korisnik>()
     .AddUserManager<UserManager<Korisnik>>() 
     .AddDefaultTokenProviders();
 
-
-///////////
 builder.Services.Configure<IdentityOptions>(options =>
 {
     options.Tokens.AuthenticatorTokenProvider = TokenOptions.DefaultPhoneProvider;
 });
-//////////
+
 
 builder.Services.AddAuthentication(options =>
 {
@@ -82,7 +78,7 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
     });
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen(c =>

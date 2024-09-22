@@ -77,7 +77,6 @@ export class KompanijaDetaljiComponent implements OnInit{
       console.log(error);
       this.oglasi = [];
     }
-
   }
 
   ucitajLogo(logo: string | ArrayBuffer | null){

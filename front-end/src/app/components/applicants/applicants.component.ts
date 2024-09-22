@@ -31,8 +31,6 @@ import {OglasGetResponseOglasi} from "../../endpoints/oglas-endpoint/get/oglas-g
 import {ModalComponent} from "../notifications/modal/modal.component";
 import {ModalService} from "../../services/modal-service";
 
-declare var bootstrap: any;
-
 @Component({
   selector: 'app-applicants',
   standalone: true,
@@ -55,10 +53,8 @@ declare var bootstrap: any;
 export class ApplicantsComponent implements OnInit{
 
   kandidati: KandidatOglasGetResponseKandidatOglas [] = [];
-
   filterList: any[] = []
   selectedFilter: number = 0;
-
   pretragaNaziv: string = "";
   imaRezultataPretrage: boolean = true;
   itemsPerPage: number = 5;
@@ -71,12 +67,9 @@ export class ApplicantsComponent implements OnInit{
   sortParametri: SortParametar[] | undefined = undefined
   noNextElement: boolean = false;
   noPreviousElement: boolean = true;
-  selectedCompany: any;
   user: User = {id: "", role: "", jwt: ""}
-  imageUrl: string | ArrayBuffer | null = '';
   status: string | null = null;
   filter: string [] = [];
-
 
   currentElementIndex = 0;
   nextElement = this.getNextElement(this.currentElementIndex);
@@ -137,7 +130,6 @@ export class ApplicantsComponent implements OnInit{
     }
     this.scrollToTop();
   }
-
 
   getCurrentPageItems(): any[] {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;

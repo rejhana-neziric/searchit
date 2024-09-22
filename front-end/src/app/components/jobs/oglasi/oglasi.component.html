@@ -24,8 +24,6 @@
           <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse"
                aria-labelledby="panelsStayOpen-headingOne">
             <div class="accordion-body">
-
-              <!-- Dynamically generate the location checkboxes -->
               <div *ngFor="let lokacija of lokacije; let i = index" class="form-check">
                 <input class="form-check-input" type="checkbox" [id]="'flexCheckLocation-' + i"
                        (change)="locationFilter(lokacija.naziv)">
@@ -51,8 +49,6 @@
           <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse"
                aria-labelledby="panelsStayOpen-headingThree">
             <div class="accordion-body">
-
-              <!-- Dynamically generate job type checkboxes -->
               <div *ngFor="let tip of tipPosla; let i = index" class="form-check">
                 <input class="form-check-input" type="checkbox" [id]="'flexCheckJobType-' + i"
                        (change)="jobTypeFilter(tip)">
@@ -77,8 +73,6 @@
           <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse"
                aria-labelledby="panelsStayOpen-headingTwo">
             <div class="accordion-body">
-
-              <!-- Dynamically generate the experience checkboxes -->
               <div *ngFor="let iskustvo of iskustva; let i = index" class="form-check">
                 <input class="form-check-input" type="checkbox" [id]="'flexCheckExperience-' + i"
                        (change)="experienceFilter(iskustvo.naziv)">
@@ -238,7 +232,7 @@
 
       <!-- Pregled oglasa  -->
       <div *ngIf="imaRezultataPretrage" class="pregled ms-4 mt-0">
-        <div class="pregled-content shadow p-3 mb-4 mt-0">
+        <div class="pregled-oglas-kompanija-content shadow p-3 mb-4 mt-0">
           <div class="d-flex flex-column">
             <div class="d-flex flex-row">
               <img [src]="ucitajLogo(odabraniOglas?.logo!)" class="img-logo" alt="image" loading="eager">
@@ -292,12 +286,12 @@
               <p class="pregled-naslovi fw-bold fs-6">Skills:</p>
               <span>{{ odabraniOglas?.opisOglasa!.vjestine }}</span>
             </div>
-            <div class="d-flex flex-row me-auto ms-auto mt-3">
-              <a *ngIf="user?.role == 'Kandidat'" class="nav-link text-dark d-flex justify-content-center pregled-btn "
+            <div class="d-flex flex-row me-auto ms-auto">
+              <button *ngIf="user?.role == 'Kandidat'" class="btn-confirm"
                  type="button"
-                 (click)="openCVChooseModal(odabraniOglas?.id!)">Apply</a>
-              <a class="nav-link text-dark d-flex justify-content-center pregled-btn" type="button"
-                 [routerLink]="['/jobs/', odabraniOglas?.id]">Details</a>
+                 (click)="openCVChooseModal(odabraniOglas?.id!)">Apply</button>
+              <button class="btn-confirm" type="button"
+                 [routerLink]="['/jobs/', odabraniOglas?.id]">Details</button>
             </div>
             <div class="d-flex flex-row mt-4 mb-4">
               <div *ngIf="!noPreviousElement" class="img-left-arrow d-flex justify-content-center">

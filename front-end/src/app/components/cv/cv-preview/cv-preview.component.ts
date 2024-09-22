@@ -1,6 +1,5 @@
 import {Component, Inject, Input, OnInit, PLATFORM_ID} from '@angular/core';
 import {NavbarComponent} from "../../layout/navbar/navbar.component";
-import {CvDodajRequest} from "../../../endpoints/cv-endpoint/dodaj/cv-dodaj-request";
 import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {DatePipe, isPlatformBrowser, NgForOf, NgIf} from "@angular/common";
 import {NgxPaginationModule} from "ngx-pagination";
@@ -11,8 +10,6 @@ import {FooterComponent} from "../../layout/footer/footer.component";
 import {CVUpdateEndpoint} from "../../../endpoints/cv-endpoint/update/cv-update-endpoint";
 import {ModalComponent} from "../../notifications/modal/modal.component";
 import {ModalService} from "../../../services/modal-service";
-
-declare var bootstrap: any;
 
 @Component({
   selector: 'app-cv-preview',
@@ -57,7 +54,6 @@ export class CvPreviewComponent implements OnInit {
 
   ngOnInit() {
     this.cv = history.state.data;
-    console.log(this.cv); // Use the received data as nee
 
     if (this.cv == undefined) {
       this.cvPreview = false;

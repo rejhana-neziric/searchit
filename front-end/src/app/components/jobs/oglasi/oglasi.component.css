@@ -25,7 +25,6 @@
   font-family: Cambria;
 }
 
-
 .naslov-underline{
   margin-top: -20px;
   margin-left: 18px;
@@ -168,35 +167,8 @@
   margin-right: 10px;
 }
 
-.pregled-content {
-  background: #FFF;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-  width: 567px;
-  height: max-content;
-  min-height: 600px;
-  border-radius: 25px;
-  margin-top: 120px;
-  margin-right: 20px;
-}
-
 .pregled-naslovi {
   color: var(--secondary-color);
-}
-
-.pregled-btn {
-  background-color: var(--primary-color);
-  border-radius: 7px;
-  margin: 10px;
-  padding: 10px;
-  color: #3d3b3b;
-  font-size: 16px;
-  width: 100px;
-}
-
-.pregled-btn:hover {
-  background-color: var(--hover-button-color);
-  border-radius: 7px;
-  margin: 10px;
 }
 
 .years-input {
@@ -237,20 +209,6 @@
 .oglas-content.selected {
   border-color: var(--secondary-color);
   border-style: solid;
-}
-
-.img-right-arrow {
-  width: 50px;
-  height: 50px;
-  order: 2;
-  flex: 1;
-}
-
-.img-left-arrow {
-  width: 50px;
-  height: 50px;
-  order: 1;
-  flex: 1;
 }
 
 .cvs {

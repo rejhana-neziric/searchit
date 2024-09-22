@@ -14,9 +14,6 @@ import {
 } from "../endpoints/kandidat-spaseni-oglasi-endpoint/dodaj/kandidat-spaseni-oglasi-dodaj-endpoint";
 import {HttpErrorResponse} from "@angular/common/http";
 import {
-  KanidatSpaseniOglasiUpdateRequest
-} from "../endpoints/kandidat-spaseni-oglasi-endpoint/update/kanidat-spaseni-oglasi-update-request";
-import {
   KandidatSpaseniOglasiUpdateEndpoint
 } from "../endpoints/kandidat-spaseni-oglasi-endpoint/update/kandidat-spaseni-oglasi-update-endpoint";
 import {OglasGetRequest} from "../endpoints/oglas-endpoint/get/oglas-get-request";
@@ -44,7 +41,6 @@ export class OglasiService {
     }
   }
 
-
   apply(request: KandidatOglasDodajRequest): void {
     this.kandidatOglasDodajEndpoint.obradi(request).subscribe({
       next: response => {
@@ -62,66 +58,25 @@ export class OglasiService {
     });
   }
 
-
   save(oglas: OglasGetResponseOglasi): Observable<boolean> {
-    const user = this.authService.getLoggedUser(); // Get current user
+    const user = this.authService.getLoggedUser();
 
     const request: KanidatSpaseniOglasiDodajRequest = {
       oglas_id: oglas.id,
-      kandidat_id: user.id // Use the currently logged-in user's ID
+      kandidat_id: user.id
     };
 
     return new Observable(observer => {
       this.kandidatSpaseniOglasiDodajEndpoint.obradi(request).subscribe(
         () => {
           this.notificationService.addNotification({message: 'Post saved.', type: 'success'});
-          observer.next(true);  // Notify that the operation was successful
-          observer.complete();   // Complete the observable
+          observer.next(true);
+          observer.complete();
         },
         (error: HttpErrorResponse) => {
-          if (error.status === 500) {
-            const unsaveResult = this.unsaveOglas(oglas); // Handle unsaving logic if needed
-            if (!unsaveResult) {
-              observer.error('Post could not be saved or unsaved.');
-            }
-          } else {
-            this.notificationService.addNotification({message: `Error: ${error.message}`, type: 'error'});
-            observer.error(error.message);  // Notify that the operation failed
-          }
+            observer.error(error.message);
         }
       );
     });
   }
-
-  async unsaveOglas(oglas: OglasGetResponseOglasi): Promise<void> {
-    // Implement your unsaveOglas logic here as before
-  }
-
- /* async unsaveOglas(oglas: OglasGetResponseOglasi): Promise<boolean> {
-   /!* return new Observable<boolean>(observer => {
-      const user = this.authService.getLoggedUser(); // Get current user
-
-      const request: KanidatSpaseniOglasiUpdateRequest = {
-        oglas_id: oglas.id,
-        kandidat_id: user.id // Use the currently logged-in user's ID
-      };
-
-      this.kandidatSpaseniOglasiUpdateEndpoint.obradi(request).subscribe({
-        next: () => {
-          this.notificationService.addNotification({message: 'Post removed.', type: 'success'});
-          observer.next(true);  // Notify success
-          observer.complete();  // Complete the observable
-        },
-        error: (error) => {
-          if (error instanceof HttpErrorResponse) {
-            this.notificationService.addNotification({message: `Error: ${error.message}`, type: 'error'});
-          } else {
-            this.notificationService.addNotification({message: 'An unexpected error occurred.', type: 'error'});
-          }
-          observer.next(false); // Notify failure
-          observer.complete();  // Complete the observable
-        }
-      });
-    });*!/
-  }*/
 }

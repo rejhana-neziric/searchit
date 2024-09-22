@@ -4,8 +4,7 @@ import {NavigationEnd, Router, RouterLink, RouterOutlet} from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { OglasiComponent } from "./components/jobs/oglasi/oglasi.component";
 import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from "@angular/common/http";
-import { JeziciComponent } from "./jezici/jezici.component";
-import { httpInterceptorProviders } from './Helpers/HttpRequestInterceptor';
+//import { httpInterceptorProviders } from './Helpers/HttpRequestInterceptor';
 import { isPlatformBrowser } from '@angular/common';
 import {AuthService} from "./services/auth-service";
 import {JwtInterceptor} from "./interceptors/jwt.interceptor";
@@ -25,7 +24,6 @@ import {OglasiDraftComponent} from "./components/jobs/oglasi-draft/oglasi-draft.
     RouterLink,
     HttpClientModule,
     OglasiComponent,
-    JeziciComponent,
     NotificationModalComponent,
     OglasDodajComponent,
     OglasiDraftComponent

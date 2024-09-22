@@ -15,29 +15,29 @@
     <button class="btn-confirm" [routerLink]="'/jobs'">Explore jobs</button>
   </div>
 
-<div class="d-flex flex-row">
-  <div class="me-2">
-    <label for="filterDropdown" class="fs-6 me-2">Application status:</label>
-    <select id="filterDropdown" [(ngModel)]="selectedStatus" (ngModelChange)="onStatusChange($event)">
-      <option value="">All</option>
-      <option *ngFor="let option of statusiPrijave" [value]="option">
-        <p> {{ option }}
-        </p>
-      </option>
-    </select>
-  </div>
+  <div class="d-flex flex-row">
+    <div class="me-2">
+      <label for="filterDropdown" class="fs-6 me-2">Application status:</label>
+      <select id="filterDropdown" [(ngModel)]="selectedStatus" (ngModelChange)="onStatusChange($event)">
+        <option value="">All</option>
+        <option *ngFor="let option of statusiPrijave" [value]="option">
+          <p> {{ option }}
+          </p>
+        </option>
+      </select>
+    </div>
 
-  <div class="me-4 ms-5">
-    <label for="filterDropdown2" class="fs-6 me-2">Job post status:</label>
-    <select id="filterDropdown2" [(ngModel)]="selectedStatusOglasa" (ngModelChange)="onStatusOglasaChange($event)">
-      <option value="">All</option>
-      <option *ngFor="let option of statusiOglasa" [value]="option">
-        <span *ngIf="option; else closed">Opened</span>
-        <ng-template #closed>Closed</ng-template>
-      </option>
-    </select>
+    <div class="me-4 ms-5">
+      <label for="filterDropdown2" class="fs-6 me-2">Job post status:</label>
+      <select id="filterDropdown2" [(ngModel)]="selectedStatusOglasa" (ngModelChange)="onStatusOglasaChange($event)">
+        <option value="">All</option>
+        <option *ngFor="let option of statusiOglasa" [value]="option">
+          <span *ngIf="option; else closed">Opened</span>
+          <ng-template #closed>Closed</ng-template>
+        </option>
+      </select>
+    </div>
   </div>
-</div>
 
 
   <!-- Search -->
@@ -123,13 +123,14 @@
   </div>
 </div>
 
-<div *ngIf="!imaRezultataPretrage && selectedStatus != null" class="p-4 border border-2 shadow bg-body-tertiary"
+<div *ngIf="!imaRezultataPretrage && (selectedStatus != null || selectedStatusOglasa != null)" class="p-4 border border-2 shadow bg-body-tertiary"
      style="border-color: #84B59F; border-width: 10px; background-color: #fff; border-radius: 15px; width: 65%;margin: 50px auto 300px;">
   <span class="fs-5 mb-4">We're sorry. We were not able to find a match.</span> <br>
 </div>
 
 
-<div *ngIf="oglasi.length == 0 && selectedStatus == null && pretragaNaziv == ''" class="p-4 border border-2 shadow bg-body-tertiary"
+<div *ngIf="oglasi.length == 0 && selectedStatus == null && selectedStatusOglasa == null && pretragaNaziv == ''"
+     class="p-4 border border-2 shadow bg-body-tertiary"
      style="border-color: #84B59F; border-width: 10px; background-color: #fff; border-radius: 15px; width: 65%; margin: 50px auto 300px;">
   <span class="fs-5 mb-4">You haven't applied to any jobs yet.</span> <br>
   <br>

@@ -3,8 +3,6 @@ import {DatePipe, isPlatformBrowser, NgClass, NgForOf, NgIf} from "@angular/comm
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {NavbarComponent} from "../../layout/navbar/navbar.component";
 import {NotificationToastComponent} from "../../notifications/notification-toast/notification-toast.component";
-import {KandidatGetByIdResponse} from "../../../endpoints/kandidat-endpoint/get-by-id/kandidat-get-by-id-response";
-import {KandidatUpdateRequest} from "../../../endpoints/kandidat-endpoint/update/kandidat-update-request";
 import {AuthService} from "../../../services/auth-service";
 import {NotificationService} from "../../../services/notification-service";
 import {Router} from "@angular/router";
@@ -245,7 +243,7 @@ export class AccountDetailsCompanyComponent implements OnInit{
 
   adjustTextareaHeight(textarea: HTMLTextAreaElement): void {
     textarea.style.height = 'auto'; // Reset the height
-    textarea.style.height = `${textarea.scrollHeight}px`; // Set the height based on the content
+    textarea.style.height = `${textarea.scrollHeight}px`;
   }
 
   onLogoChange(event: Event): void {
@@ -257,7 +255,7 @@ export class AccountDetailsCompanyComponent implements OnInit{
       reader.onload = () => {
         this.logoPreview = reader.result;
         this.companyForm.patchValue({
-          logo: file // Update form control with the new file
+          logo: file
         });
       };
 
@@ -269,11 +267,10 @@ export class AccountDetailsCompanyComponent implements OnInit{
   toggle2FA() {
     this.sharedService.toggle2FA().subscribe({
       next: success => {
-        this.confirmCode = true;  // Update UI state on success
+        this.confirmCode = true;
       }
     });
   }
-
 
   // Function to confirm the 2FA verification code
   confirmVerificationCode() {

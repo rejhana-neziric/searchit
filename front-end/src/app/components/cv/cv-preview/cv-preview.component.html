@@ -17,27 +17,22 @@
   <div class="fw-bold tekst mb-4">CV Preview - {{ this.cv.naziv }}</div>
 
   <!--Personal Details-->
-
   <div class="fs-5 me-auto ms-auto mb-2"> {{ this.cv.ime }} {{ this.cv.prezime }}</div>
   <div class="me-auto ms-auto">{{ this.cv.grad }} {{ this.cv.drzava }}</div>
   <div class="ms-auto">{{ this.cv.email }}</div>
   <div class="me-auto">{{ this.cv.phoneNumber }}</div>
-
   <!--Personal Details-->
 
 
   <!--Professional Summary-->
-
   <div *ngIf="this.cv.profesionalniSazetak" class="section">
     <div class="fw-bold tekst mb-4 fs-5 mt-2 mb-2 d-flex justify-content-center">Professional Summary</div>
     <div>{{ this.cv.profesionalniSazetak }}</div>
   </div>
-
   <!--Professional Summary-->
 
 
   <!--Education-->
-
   <div *ngIf="this.cv.edukacija.length > 0" class="section">
     <div class="fw-bold tekst mb-4 fs-5 mt-2 mb-2 d-flex justify-content-center">Education</div>
     <div class="edukacije"
@@ -63,12 +58,10 @@
       </div>
     </div>
   </div>
-
   <!--Education-->
 
 
   <!--Employment History-->
-
   <div *ngIf="this.cv.zaposlenje.length > 0" class="section">
     <div class="fw-bold tekst mb-4 fs-5 mt-2 mb-2 d-flex justify-content-center">Employment History</div>
     <div class="zaposlenje"
@@ -92,7 +85,6 @@
       </div>
     </div>
   </div>
-
   <!--Employment History-->
 
 
@@ -100,7 +92,6 @@
 
 
     <!--Skills-->
-
     <div *ngIf="this.cv.vjestine" class="section">
       <div class="fw-bold tekst mb-4 fs-5 mt-2 mb-2 d-flex justify-content-center">Skills</div>
       <div class="vjestine"
@@ -109,11 +100,10 @@
         {{ vjestina }}
       </div>
     </div>
-
     <!--Skills-->
 
-    <!--Technical Skills-->
 
+    <!--Technical Skills-->
     <div *ngIf="this.cv.tehnickeVjestine" class="section">
       <div class="fw-bold tekst mb-4 fs-5 mt-2 mb-2 d-flex justify-content-center">Technical Skills</div>
       <div class="tehnickeVjestine"
@@ -122,14 +112,12 @@
         {{ vjestina }}
       </div>
     </div>
-
     <!--Technical Skills-->
 
   </div>
 
 
   <!--Courses-->
-
   <div *ngIf="this.cv.kursevi.length > 0" class="section">
     <div class="fw-bold tekst mb-4 fs-5 mt-2 mb-2 d-flex justify-content-center">Courses</div>
     <div class="kursevi"
@@ -138,12 +126,10 @@
       {{ kurs }}
     </div>
   </div>
-
   <!--Courses-->
 
 
   <!--Websites & Links-->
-
   <div *ngIf="this.cv.url.length > 0" class="section">
     <div class="fw-bold tekst mb-4 fs-5 mt-2 mb-2 d-flex justify-content-center">Websites & Links</div>
     <div class="linkovi "
@@ -152,7 +138,6 @@
       {{ link.naziv }}: {{ link.putanja }}
     </div>
   </div>
-
   <!--Websites & Links-->
 
 
@@ -162,18 +147,18 @@
               (click)="cancel()">Cancel
       </button>
 
-      <button *ngIf="!edit" type="button" class="btn-confirm d-flex justify-content-center align-middle"
+      <button *ngIf="!edit" type="button" class="btn-confirm"
               (click)="openCreateCVModal()">Create CV
       </button>
-      <button *ngIf="edit" type="button" class="btn-confirm d-flex justify-content-center align-middle"
+      <button *ngIf="edit" type="button" class="btn-confirm"
               (click)="save()">Save
       </button>
-      <button  *ngIf="edit" type="button" class="btn-confirm d-flex justify-content-center align-middle"
-              [routerLink]="['/cv-create/', Number(this.cvEditId)]"    >Edit
+      <button *ngIf="edit" type="button" class="btn-confirm"
+              [routerLink]="['/cv-create/', Number(this.cvEditId)]">Edit
       </button>
 
-      <button *ngIf="!edit" type="button" class="btn-confirm d-flex justify-content-center align-middle"
-              [routerLink]="['/cv-create/']"    >Edit
+      <button *ngIf="!edit" type="button" class="btn-confirm"
+              [routerLink]="['/cv-create/']">Edit
       </button>
     </div>
   </div>

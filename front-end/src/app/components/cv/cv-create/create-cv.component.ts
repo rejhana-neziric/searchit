@@ -28,8 +28,6 @@ import {ModalService} from "../../../services/modal-service";
 import {KandidatGetByIdResponse} from "../../../endpoints/kandidat-endpoint/get-by-id/kandidat-get-by-id-response";
 import {KandidatGetByIdEndpoint} from "../../../endpoints/kandidat-endpoint/get-by-id/kandidat-get-by-id-endpoint";
 
-declare var bootstrap: any;
-
 interface Section {
   id: string;
   name: string;
@@ -101,16 +99,11 @@ export class CreateCvComponent implements OnInit {
   employments: any[] = [];
   educations: any[] = [];
   urls: { naziv: string; putanja: string }[] = [];
-  previouslyCreatedCv: CVGetResponseCV | null = null;
   cvEditId: string | null = null;
   cvEdit: CVGetByIdResponse | null = null;
   edit: boolean = false;
   kandidat: KandidatGetByIdResponse | null = null;
-  confirmNumber: boolean = false;
-  submittedConfirmNumber: boolean = false;
-  confirmPhoneNumberForm: FormGroup = new FormGroup({});
   phoneNumber: string = "";
-  phoneNumberConfirmed: boolean = false;
   isImportDetails: boolean = false;
 
   constructor(private formBuilder: FormBuilder,
@@ -133,7 +126,6 @@ export class CreateCvComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.selectedSectionId = 'section1';
     this.initializeForm();
-    this.initializePhoneVerificationForm();
     await this.getVjestine();
     await this.getTehnickeVjestine();
 
@@ -166,8 +158,7 @@ export class CreateCvComponent implements OnInit {
       }
     })
 
-
-    await this.getPreviousCV();
+    this.getPersonalDetails();
   }
 
   // Get CV for editing
@@ -176,7 +167,6 @@ export class CreateCvComponent implements OnInit {
       this.cvGetByIdEndpoint.obradi(Number(this.cvEditId)).subscribe({
         next: (x) => {
           this.cvEdit = x;
-          console.log(this.cvEdit.phoneNumber);
           resolve();
         },
         error: (err) => {
@@ -187,30 +177,10 @@ export class CreateCvComponent implements OnInit {
     });
   }
 
-  // Get previously created CV data for importing personal details
-/*  async getPreviousCV() {
-    const requset = {
-      kandidatId: this.loggedUserId,
-      objavljen: null,
-      naziv: null
-    };
-
-    try {
-      const response = await firstValueFrom(this.cvGetEndpoint.obradi(requset));
-      this.previouslyCreatedCv = response.cv.$values[0];
-    } catch (error) {
-      console.log(error);
-    }
-  }*/
-
-  getPreviousCV() {
+  getPersonalDetails() {
     this.kandidatGetByIdEndpoint.obradi(this.loggedUserId).subscribe({
       next: (response: KandidatGetByIdResponse) => {
         this.kandidat = response;
-
-      },
-      error: error => {
-
       }
     })
   }
@@ -248,7 +218,6 @@ export class CreateCvComponent implements OnInit {
       this.courses = cvData?.kursevi?.$values ?? cvData?.kursevi ?? [];
       this.phoneNumber = cvData?.phoneNumber;
 
-      console.log(this.selectedSkills);
     } catch (error) {
       console.error('Error while setting form data:', error);
     }
@@ -280,14 +249,12 @@ export class CreateCvComponent implements OnInit {
     } else {
       selectedSkills = selectedSkills.filter(s => s !== skill);
     }
-    console.log(selectedSkills);
   }
 
   addCourse() {
     this.courses.push('');
   }
 
-  // Remove a course by index
   removeCourse(index: number) {
     this.courses.splice(index, 1);
   }
@@ -313,8 +280,6 @@ export class CreateCvComponent implements OnInit {
     } else {
       this.selectedSectionId = sectionId;
     }
-
-
   }
 
   completeSection(sectionId: string): void {
@@ -417,8 +382,6 @@ export class CreateCvComponent implements OnInit {
       zaposlenje: zaposlenje,
       url: url
     }
-
-
   }
 
   cvPreview() {
@@ -449,7 +412,6 @@ export class CreateCvComponent implements OnInit {
         this.notificationService.clearModalNotification();
       },
       error: error => {
-        //this.closeModal();
         this.notificationService.addNotification({message: `Error: ${error.message}`, type: 'error'});
       }
     })
@@ -521,27 +483,6 @@ export class CreateCvComponent implements OnInit {
     })
   }
 
-/*
-  importDetails() {
-    this.form.patchValue({
-      naziv: this.previouslyCreatedCv?.naziv,
-      firstName: this.previouslyCreatedCv?.ime,
-      lastName: this.previouslyCreatedCv?.prezime,
-      email: this.previouslyCreatedCv?.email,
-      phoneNumber: this.previouslyCreatedCv?.phoneNumber,
-      city: this.previouslyCreatedCv?.grad,
-      country: this.previouslyCreatedCv?.drzava,
-    });
-  }
-*/
-
-
-  initializePhoneVerificationForm(){
-    this.confirmPhoneNumberForm = this.formBuilder.group({
-      token: ['', [Validators.required]],
-    })
-  }
-
   importDetails() {
     this.isImportDetails = true;
     this.phoneNumber = (this.kandidat?.phoneNumber && this.kandidat?.phoneNumberConfirmed) ? this.kandidat?.phoneNumber : "";
@@ -557,57 +498,8 @@ export class CreateCvComponent implements OnInit {
     });
   }
 
-  confirmPhoneNumber() {
-    this.submittedConfirmNumber = true;
-
-    if (this.confirmPhoneNumberForm.valid) {
-      const token = this.confirmPhoneNumberForm.get('token')?.value;
-
-      console.log(token.toString());
-      /*this.authService.verifyPhoneNumber(token).subscribe({
-        next: any => {
-          this.notificationService.showModalNotification(true, 'Phone number verified', 'Your phone number has been successfully verified.');
-          this.confirmNumber = false;
-        },
-        error: error => {
-          if (error.error instanceof Object && error.error.message) {
-            const errorMessage = error.error.message;
-            this.notificationService.addNotification({message: errorMessage, type: 'error'});
-
-          } else {
-            const errorMessage = typeof error.error === 'string' ? error.error : 'An unknown error occurred';
-            this.notificationService.addNotification({message: errorMessage, type: 'error'});
-
-          }
-        }
-      });*/
-    }
-  }
-
-  sendVerificationCode() {
-    this.confirmNumber = true;
-
-    console.log('sendVerificationCode')
-   /* this.authService.sendPhoneVerificationCode(this.loggedUserId).subscribe({
-      next: any => {
-        this.notificationService.addNotification({message: 'Verification code has been sent.', type: 'success'});
-      },
-      error: error => {
-        if (error.error instanceof Object && error.error.message) {
-          const errorMessage = error.error.message;
-          this.notificationService.addNotification({message: errorMessage, type: 'error'});
-
-        } else {
-          const errorMessage = typeof error.error === 'string' ? error.error : 'An unknown error occurred';
-          this.notificationService.addNotification({message: errorMessage, type: 'error'});
-        }
-      }
-    });*/
-  }
-
   cancel() {
     localStorage.removeItem('cvData');
     this.router.navigateByUrl('/cv');
   }
-
 }

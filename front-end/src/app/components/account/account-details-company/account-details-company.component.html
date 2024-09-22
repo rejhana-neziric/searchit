@@ -2,13 +2,14 @@
 
 <div class="main">
 
-  <div class="headline">
+  <div class="section-headline">
     <h3 class="fw-bold">Account details </h3>
     <hr class="text-underline">
   </div>
 
   <div class="container">
 
+    <!-- Two-factor authentication manage -->
     <div class="two-factor-auth ms-2">
       <button
         (click)="toggle2FA()"
@@ -35,8 +36,9 @@
 
       </form>
     </div>
+    <!-- Two-factor authentication manage -->
 
-
+    <!-- Account details -->
     <form [formGroup]="companyForm" class="form-grid" (ngSubmit)="save()" autocomplete="off">
 
       <div class="d-flex flex-row" style="width: 80%; padding: 10px">
@@ -44,7 +46,7 @@
         <div class="mt-2 mb-4 ">
           <img *ngIf="logoPreview" [src]="logoPreview" alt="Company Logo" style="width: 150px; height: auto;">
 
-          <label for="logo" class=" btn btn-confirm mt-2">
+          <label for="logo" class="btn btn-confirm mt-2 w-auto">
             <input id="logo" type="file" (change)="onLogoChange($event)">
             Change Logo
           </label>
@@ -175,7 +177,7 @@
 
         <div class="d-flex flex-row">
           <button type="button" class="btn-cancel" (click)="cancel()">Cancel</button>
-          <button type="button" class="btn-confirm ms-2" (click)="openSaveModal()">Save change</button>
+          <button type="button" class="btn-confirm ms-2 w-auto" (click)="openSaveModal()">Save change</button>
         </div>
 
       </div>
@@ -183,6 +185,8 @@
       <app-notification-toast></app-notification-toast>
 
     </form>
+    <!-- Account details -->
+
   </div>
 </div>
 

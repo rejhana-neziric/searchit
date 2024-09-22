@@ -1,4 +1,4 @@
-import {Component, Inject, PLATFORM_ID} from '@angular/core';
+import {Component, Inject, OnInit, PLATFORM_ID} from '@angular/core';
 import {NavbarComponent} from "../../layout/navbar/navbar.component";
 import {FavoritesKompanijeComponent} from "../favorites-kompanije/favorites-kompanije.component";
 import {FavoritesOglasiComponent} from "../favorites-oglasi/favorites-oglasi.component";
@@ -61,7 +61,7 @@ import {ModalService} from "../../../services/modal-service";
   templateUrl: './favorites-kandidati.component.html',
   styleUrl: './favorites-kandidati.component.css'
 })
-export class FavoritesKandidatiComponent {
+export class FavoritesKandidatiComponent implements OnInit{
   kandidati: KandidatOglasGetResponseKandidatOglas [] = [];
   itemsPerPage: number = 5;
   currentPage: number = 1;
@@ -82,8 +82,7 @@ export class FavoritesKandidatiComponent {
               private kandidatOglasUpdateEndpoint: KandidatOglasUpdateEndpoint,
               private notificationService: NotificationService,
               private authService: AuthService,
-              private modalService: ModalService,
-              @Inject(PLATFORM_ID) private platformId: any) {
+              private modalService: ModalService) {
   }
 
   async ngOnInit(): Promise<void> {

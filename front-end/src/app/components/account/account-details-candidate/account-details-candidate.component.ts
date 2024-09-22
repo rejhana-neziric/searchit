@@ -15,9 +15,7 @@ import {NotificationService} from "../../../services/notification-service";
 import {NotificationToastComponent} from "../../notifications/notification-toast/notification-toast.component";
 import {KandidatDeleteEndpoint} from "../../../endpoints/kandidat-endpoint/delete/kandidat-delete-endpoint";
 import {ModalComponent} from "../../notifications/modal/modal.component";
-import {CVGetResponseCV} from "../../../endpoints/cv-endpoint/get/cv-get-response";
 import {ModalService} from "../../../services/modal-service";
-import {ConfirmEmail} from "../../../modals/confirmEmail";
 import {SharedService} from "../../../services/shared.service";
 
 @Component({
@@ -66,7 +64,6 @@ export class AccountDetailsCandidateComponent implements OnInit {
     {text: 'Save', class: 'btn-confirm', action: () => this.confirmSave()}
   ];
 
-
   constructor(private formBuilder: FormBuilder,
               private kandidatGetByIdEndpoint: KandidatGetByIdEndpoint,
               private kandidatUpdateEndpoint: KandidatUpdateEndpoint,
@@ -76,8 +73,7 @@ export class AccountDetailsCandidateComponent implements OnInit {
               private modalService: ModalService,
               private sharedService: SharedService,
               private router: Router,
-              private activatedRoute: ActivatedRoute,
-              @Inject(PLATFORM_ID) private platformId: any) {
+              private activatedRoute: ActivatedRoute,) {
   }
 
   ngOnInit(): void {
@@ -149,7 +145,6 @@ export class AccountDetailsCandidateComponent implements OnInit {
     this.submitted = true;
 
     if (this.candidateForm.valid) {
-      console.log('pozvana save')
       this.updateUser = {
         id: this.loggedUserId,
         mjestoPrebivalista: this.candidateForm.get('residence')?.value,
@@ -177,8 +172,6 @@ export class AccountDetailsCandidateComponent implements OnInit {
   }
 
   delete() {
-
-    console.log(this.loggedUserId)
     this.kandidatDeleteEndpoint.obradi(this.loggedUserId).subscribe({
         next: any => {
           this.authService.logout();
@@ -233,8 +226,6 @@ export class AccountDetailsCandidateComponent implements OnInit {
 
     if (this.confirmPhoneNumberForm.valid) {
       const token = this.confirmPhoneNumberForm.get('token')?.value;
-
-      console.log(token.toString());
       this.authService.verifyPhoneNumber(token).subscribe({
         next: any => {
           this.notificationService.showModalNotification(true, 'Phone number verified', 'Your phone number has been successfully verified.');
@@ -276,7 +267,6 @@ export class AccountDetailsCandidateComponent implements OnInit {
     });
   }
 
-  // Toggle 2FA state
   toggle2FA() {
     this.sharedService.toggle2FA().subscribe({
       next: success => {
@@ -291,7 +281,6 @@ export class AccountDetailsCandidateComponent implements OnInit {
 
     if (this.confirmCodeForm.valid) {
       const token = this.confirmCodeForm.get('token')?.value;
-
       this.sharedService.confirmVerificationCode(token.toString()).subscribe({
         next: success => {
           this.is2FAEnabled = !this.is2FAEnabled;

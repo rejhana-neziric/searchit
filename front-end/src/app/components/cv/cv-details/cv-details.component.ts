@@ -5,15 +5,12 @@ import {CVGetByIdEndpoint} from "../../../endpoints/cv-endpoint/get-by-id/cv-get
 import {CVGetByIdResponse} from "../../../endpoints/cv-endpoint/get-by-id/cv-get-by-id-response";
 import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {NotificationService} from "../../../services/notification-service";
-import {CVUpdateEndpoint} from "../../../endpoints/cv-endpoint/update/cv-update-endpoint";
-import {CvUpdateRequest} from "../../../endpoints/cv-endpoint/update/cv-update-request";
 import {firstValueFrom, take} from "rxjs";
 import {User} from "../../../modals/user";
 import {AuthService} from "../../../services/auth-service";
 import {
   KandidatOglasUpdateRequest
 } from "../../../endpoints/kandidat-oglas-endpoint/update/kandidat-oglas-update-request";
-import {HttpErrorResponse} from "@angular/common/http";
 import {
   KandidatOglasUpdateEndpoint
 } from "../../../endpoints/kandidat-oglas-endpoint/update/kandidat-oglas-update-endpoint";
@@ -23,7 +20,6 @@ import {CvUpdateStatusEndpoint} from "../../../endpoints/cv-endpoint/update-stat
 import {NotificationToastComponent} from "../../notifications/notification-toast/notification-toast.component";
 import {CvDeleteEndpoint} from "../../../endpoints/cv-endpoint/delete/cv-delete-endpoint";
 import {ModalComponent} from "../../notifications/modal/modal.component";
-import {CVGetResponseCV} from "../../../endpoints/cv-endpoint/get/cv-get-response";
 import {ModalService} from "../../../services/modal-service";
 import {CvService} from "../../../services/cv.service";
 import {KompanijaService} from "../../../services/kompanija.service";
@@ -181,31 +177,6 @@ export class CvDetailsComponent implements OnInit {
       }
     });
   }
-
- /* accept() {
-    var request: KandidatOglasUpdateRequest = {
-      id: this.kandidatOglas.id,
-      kompanijaId: this.kandidatOglas.kompanijaId,
-      kandidatId: this.kandidatOglas.kandidatId,
-      status: 'Accepted',
-      spasen: this.kandidatOglas.spasen
-    };
-
-
-    this.kandidatOglasUpdateEndpoint.obradi(request).subscribe({
-      next: any => {
-        this.notificationService.showModalNotification(true, 'Applicant accepted', 'Applicant has been successfully accepted.');
-        this.router.navigateByUrl('/applicants');
-
-      },
-      error: error => {
-        this.notificationService.addNotification({
-          message: 'Sorry, there was mistake. Please try again..',
-          type: 'error'
-        });
-      }
-    })
-  }*/
 
   accept() {
     const request: KandidatOglasUpdateRequest = {

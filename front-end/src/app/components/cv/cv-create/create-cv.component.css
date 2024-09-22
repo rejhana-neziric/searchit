@@ -34,7 +34,6 @@
 }
 
 hr{
-
   width: 43px;
   height: 5px;
   color: var(--secondary-color);
@@ -62,25 +61,8 @@ hr{
   margin-bottom: 20px;
 }
 
-.btn-confirm {
-  background-color: var(--primary-color);
-  border-radius: 7px;
-  text-decoration: none;
-  color: #3d3b3b;
-  font-size: 16px;
-  width: 130px;
-  border: none;
-  align-items: center;
-  justify-content: center;
-  height: 40px;
-}
-
 .btn-cancel {
   width: 130px;
-}
-
-.btn-confirm:hover {
-  background-color: rgba(221, 216, 196, 0.74);
 }
 
 .button-section {
@@ -163,9 +145,8 @@ hr{
   padding: 0;
 }
 
-.required::after {
-  content: ' *';
-  color: red;
+.btn-confirm {
+  width: 130px;
 }
 
 .skills-content {

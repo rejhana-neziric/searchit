@@ -24,11 +24,6 @@
   margin-top: 15px;
 }
 
-.required::after {
-  content: ' *';
-  color: red;
-}
-
 .naslov{
   color: var(--secondary-color);
   margin-top: 10px;

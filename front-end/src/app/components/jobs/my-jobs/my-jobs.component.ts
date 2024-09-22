@@ -91,9 +91,7 @@ export class MyJobsComponent implements OnInit{
   onSearchChange(pretraga: string) {
     this.pretragaNaziv = pretraga;
     //this.getAll();
-    //this.renderCV();
   }
-
 
   async getAll() {
     this.searchObject = {
@@ -138,8 +136,6 @@ export class MyJobsComponent implements OnInit{
         oglas.iskustvo.$values.some(x => x.naziv.toLowerCase().includes (this.pretragaNaziv.toLowerCase()))
       );
     }
-
-
 
 
     /*return this.oglasi.filter(oglas =>

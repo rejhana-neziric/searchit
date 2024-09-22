@@ -22,8 +22,6 @@
   padding:1rem;
 }
 
-
-
 .register-container-details {
   width: 80%;
   background-color: #FFFFFF;
@@ -49,21 +47,6 @@
   background-color: var(--secondary-color);
 }
 
-.btn-confirm {
-  background-color: var(--primary-color);
-  border-radius: 7px;
-  text-decoration: none;
-  color: #3d3b3b;
-  font-size: 16px;
-  width: 80px;
-  border: none;
-  height: 40px;
-}
-
-.btn-confirm:hover {
-  background-color: rgba(221, 216, 196, 0.74);
-}
-
 .form-group {
   margin-top: 15px;
 }
@@ -77,11 +60,6 @@
 
 .btn-danger {
   margin-top: 10px;
-}
-
-.required::after {
-  content: ' *';
-  color: red;
 }
 
 @media (min-width:768px) {

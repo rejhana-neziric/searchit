@@ -32,7 +32,6 @@ export class SignupKompanijaOpisComponent{
   isSigned = false;
   isSignUpFailed = false;
   errorMessage = '';
-  roles: string[] = [];
   username: string = '';
   role: string = "";
 
@@ -53,7 +52,6 @@ export class SignupKompanijaOpisComponent{
         this.router.navigateByUrl('/login');
       },
       error: err => {
-
         if (err.status === 401) {
           this.errorMessage = err.error || 'Invalid username or password';
         }

@@ -15,17 +15,14 @@ export class SharedService {
 
   }
 
-  // Method to set the total based on the array length
   setTotal(oglasi: any[]): number {
     return oglasi.length;
   }
 
-  // Method to handle page changes and update the current page
   pageChangeEvent($event: number, currentPage: number): number {
-    return $event;  // Set the current page based on the event
+    return $event;
   }
 
-  // Method to smoothly scroll to the top
   scrollToTop() {
     if (isPlatformBrowser(this.platformId)) {
       window.scrollTo({
@@ -35,13 +32,12 @@ export class SharedService {
     }
   }
 
-
   toggle2FA(): Observable<any> {
     return new Observable(observer => {
       this.authService.manageTwoFactorAuthentication().subscribe({
         next: response => {
           this.notificationService.addNotification({message: response.message, type: 'success'});
-          observer.next(true);  // Notify that the operation was successful
+          observer.next(true);
         },
         error: error => {
           let errorMessage = 'An unknown error occurred';
@@ -51,7 +47,7 @@ export class SharedService {
             errorMessage = error.error;
           }
           this.notificationService.addNotification({message: errorMessage, type: 'error'});
-          observer.error(errorMessage);  // Notify that the operation failed
+          observer.error(errorMessage);
         }
       });
     });
@@ -63,7 +59,7 @@ export class SharedService {
       this.authService.changeTwoFactorAuthentication(token).subscribe({
         next: response => {
           this.notificationService.showModalNotification(true, 'Changes saved', response.message);
-          observer.next(true);  // Operation successful
+          observer.next(true);
         },
         error: error => {
           let errorMessage = 'An unknown error occurred';
@@ -73,7 +69,7 @@ export class SharedService {
             errorMessage = error.error;
           }
           this.notificationService.addNotification({message: errorMessage, type: 'error'});
-          observer.error(errorMessage);  // Operation failed
+          observer.error(errorMessage);
         }
       });
     });

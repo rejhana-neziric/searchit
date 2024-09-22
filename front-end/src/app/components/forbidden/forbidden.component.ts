@@ -16,7 +16,6 @@ export class ForbiddenComponent {
   }
 
   contactSupport() {
-    // Logic to contact support, maybe open an email client or direct to a contact form
     window.location.href = 'mailto:searchit.fit.contact@gmail.com';
   }
 }

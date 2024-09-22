@@ -11,8 +11,6 @@ import {SignupKandidatComponent} from "../signup-kandidat/signup-kandidat.compon
 import {SignupKompanijaOpisComponent} from "../signup-kompanija-opis/signup-kompanija-opis.component";
 import {PasswordPatternDirective} from "../../../../directives/password-pattern.directive";
 import {take} from "rxjs";
-
-
 @Component({
   selector: 'app-signup-general',
   standalone: true,

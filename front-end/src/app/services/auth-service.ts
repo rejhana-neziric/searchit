@@ -21,7 +21,6 @@ export class AuthService {
   private isBrowser: boolean;
   private userSource: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null);
   public user$: Observable<User | null> = this.userSource.asObservable();
-  public userId: string | null = null;
 
   constructor(private http: HttpClient,
               private router: Router,
@@ -172,7 +171,6 @@ export class AuthService {
       })
     )
   }
-
 
   manageTwoFactorAuthentication() {
     return this.http.get<any>(`${environment.appUrl}/manage-two-factor-authentication`);

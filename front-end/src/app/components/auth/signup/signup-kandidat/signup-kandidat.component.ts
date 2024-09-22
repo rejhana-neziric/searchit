@@ -33,7 +33,6 @@ export class SignupKandidatComponent implements OnInit{
   isSigned = false;
   isSignUpFailed = false;
   errorMessage = '';
-  roles: string[] = [];
   username: string = '';
 
   constructor(private authService: AuthService,
@@ -58,7 +57,6 @@ export class SignupKandidatComponent implements OnInit{
         this.router.navigateByUrl('/login');
       },
       error: err => {
-
         if (err.status === 401) {
           this.errorMessage = err.error || 'Invalid username or password';
         }

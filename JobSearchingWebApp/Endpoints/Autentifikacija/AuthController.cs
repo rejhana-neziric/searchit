@@ -206,18 +206,16 @@ namespace JobSearchingWebApp.Endpoints.Autentifikacija
             var user = await userManager.FindByNameAsync(model.Username);
 
             if (user == null || user.IsObrisan == true) return Unauthorized(new { message = "Invalid username or password" });
-            //if (user.EmailConfirmed == false) return Unauthorized(new { message = "Please confirm your email." });
+            if (user.EmailConfirmed == false) return Unauthorized(new { message = "Please confirm your email." });
 
             if (user.TwoFactorEnabled)
             {
-                // Handle two-factor authentication case
-                // Generate a 2FA token, send that token to user Email and Phone Number and redirect to the 2FA verification view
                 var TwoFactorAuthenticationToken = await userManager.GenerateTwoFactorTokenAsync(user, "Email");
 
                 if (user.PhoneNumberConfirmed && user.UlogaId == 2)
                 { 
                     //Sending SMS 
-                    //await smsService.SendSmsAsync(user.PhoneNumber, $"Your 2FA Token is {TwoFactorAuthenticationToken}");
+                    await smsService.SendSmsAsync(user.PhoneNumber, $"Your 2FA Token is {TwoFactorAuthenticationToken}");
                 }   
                 
                 //Sending Email
@@ -289,29 +287,6 @@ namespace JobSearchingWebApp.Endpoints.Autentifikacija
 
             return await emailService.SendEmailAsync(emailSend);
         }
-
-        //private async Task<IActionResult> GetCurrentUser()
-        //{
-        //    // Get the user's ID from the claims
-        //    var userId = userManager.GetUserId(User);
-
-        //    // Find the user by their ID
-        //    var user = await userManager.FindByIdAsync(userId);
-
-        //    if (user == null)
-        //    {
-        //        return NotFound("User not found.");
-        //    }
-
-        //    // Return user information (you can adjust what information you return)
-        //    return Ok(new
-        //    {
-        //        user.Id,
-        //        user.UserName,
-        //        user.Email
-        //    });
-        //}
-
 
         [Authorize(Roles = "Kandidat")]
         [HttpPost("send-phone-verification-code/{kandidatId}")]
@@ -407,7 +382,7 @@ namespace JobSearchingWebApp.Endpoints.Autentifikacija
             if (user.PhoneNumberConfirmed && user.UlogaId == 2 && user.PhoneNumber != null)
             {
                 //Sending SMS
-                //await smsService.SendSmsAsync(user.PhoneNumber, $"Your Token to {Message} is {TwoFactorToken}");
+                await smsService.SendSmsAsync(user.PhoneNumber, $"Your Token to {Message} is {TwoFactorToken}");
             }
 
             if (user.Email != null)
@@ -439,7 +414,6 @@ namespace JobSearchingWebApp.Endpoints.Autentifikacija
             {
                 var message = ""; 
 
-                // Token is valid
                 if (user.TwoFactorEnabled)
                 {
                     user.TwoFactorEnabled = false;
@@ -456,8 +430,7 @@ namespace JobSearchingWebApp.Endpoints.Autentifikacija
                 return Ok(new { message = message });
             }
             else
-            {
-                // Handle invalid token
+            { 
                 return BadRequest(new { message = "Unable to Enable/Disable Two Factor Authentication" });
             }
         }
@@ -474,13 +447,10 @@ namespace JobSearchingWebApp.Endpoints.Autentifikacija
                 return NotFound(new { message = $"Unable to load user with username '{model.Username}'." });
             }
 
-            // Verify the 2FA code
             var result = await userManager.VerifyTwoFactorTokenAsync(user, "Email", model.Token);
 
             if (result)
             {
-
-                // Generate a JWT or other token to return to the user
                 await userManager.ResetAccessFailedCountAsync(user);
                 await userManager.SetLockoutEndDateAsync(user, null);
 

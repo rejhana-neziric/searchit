@@ -2,7 +2,6 @@
 
 <div class="main d-flex flex-row">
 
-
   <div class="sections">
     <div class="d-flex flex-row ps-4 pt-5">
       <img class="mt-1" style="width: 25px; height: 30px;" src="../../../../assets/img/sections.png" alt="">
@@ -112,44 +111,6 @@
                   <input type="text" [value]=phoneNumber class="form-control" disabled>
                 </div>
 
-                <!--   <label>Phone Number</label>
-                   <input formControlName="phoneNumber" type="text" class="form-control" [(ngModel)]="phoneNumber"
-                          [class.is-invalid]="submitted && form.get('phoneNumber')?.errors">
-                   <span class="text-danger" *ngIf="submitted && form.get('phoneNumber')?.hasError('pattern')">
-                         Invalid phone number format!
-                       </span>-->
-
-
-                <!--<div
-                  *ngIf="(!kandidat?.phoneNumberConfirmed || phoneNumber != kandidat?.phoneNumber) && phoneNumber != ''"
-                  class="mt-2 mb-4">
-                  <button *ngIf="!confirmNumber" class="btn-confirm w-auto ms-0" style="height: 30px"
-                          (click)="sendVerificationCode()">Confirm phone number
-                  </button>
-
-                  <div *ngIf="confirmNumber">
-                    <form [formGroup]="confirmPhoneNumberForm" class="form-grid" (ngSubmit)="confirmPhoneNumber()"
-                          autocomplete="off">
-
-
-                      <div class="mt-2 mb-4 my-3">
-                        <label class="required">Enter the verification token send to your phone number.</label>
-                        <input formControlName="token" type="text" class="form-control"
-                               [class.is-invalid]="submittedConfirmNumber && confirmPhoneNumberForm.get('token')?.errors">
-                        <span class="text-danger"
-                              *ngIf="submittedConfirmNumber && confirmPhoneNumberForm.get('token')?.hasError('required')">
-                        Verification code is required!
-                    </span>
-                      </div>
-
-                      <button class="btn-confirm w-auto ms-0" style="height: 30px">Verify phone number</button>
-
-                    </form>
-                  </div>
-
-
-                </div>-->
-
                 <div
                   *ngIf="(!kandidat?.phoneNumberConfirmed && isImportDetails)"
                   class="mt-2 mb-4">
@@ -183,7 +144,7 @@
           </div>
 
           <div class="button-section">
-            <button type="submit" class="btn-confirm d-flex justify-content-center align-middle"
+            <button type="submit" class="btn-confirm"
             >Next section
             </button>
             <br>
@@ -193,7 +154,7 @@
                       (click)="cancel()">Cancel
               </button>
 
-              <button type="button" class="btn-confirm d-flex justify-content-center align-middle"
+              <button type="button" class="btn-confirm"
                       (click)="cvPreview()" [routerLink]="'/cv-preview'">CV Preview
               </button>
             </div>
@@ -222,10 +183,10 @@
       <div class="button-section">
 
         <div class="d-flex flex-row mt-2">
-          <button type="button" class="btn-confirm d-flex justify-content-center align-middle"
+          <button type="button" class="btn-confirm"
                   (click)="selectedSectionId = 'section1'">Previous section
           </button>
-          <button type="button" class="btn-confirm d-flex justify-content-center align-middle ms-2"
+          <button type="button" class="btn-confirm ms-2"
                   (click)="completedProfessinalSummary()">Next section
           </button>
         </div>
@@ -237,7 +198,7 @@
                   (click)="cancel()">Cancel
           </button>
 
-          <button type="button" class="btn-confirm d-flex justify-content-center align-middle"
+          <button type="button" class="btn-confirm"
                   (click)="cvPreview()" [routerLink]="'/cv-preview'">CV Preview
           </button>
         </div>
@@ -325,10 +286,10 @@
       <div class="button-section">
 
         <div class="d-flex flex-row mt-2">
-          <button type="button" class="btn-confirm d-flex justify-content-center align-middle"
+          <button type="button" class="btn-confirm"
                   (click)="selectedSectionId = 'section2'">Previous section
           </button>
-          <button type="button" class="btn-confirm d-flex justify-content-center align-middle ms-2"
+          <button type="button" class="btn-confirm ms-2"
                   (click)="completedSectionWithList('section3', 'section4', this.educations)">Next section
           </button>
         </div>
@@ -340,7 +301,7 @@
                   (click)="cancel()">Cancel
           </button>
 
-          <button type="button" class="btn-confirm d-flex justify-content-center align-middle"
+          <button type="button" class="btn-confirm"
                   (click)="cvPreview()" [routerLink]="'/cv-preview'">CV Preview
           </button>
         </div>
@@ -432,10 +393,10 @@
       <div class="button-section">
 
         <div class="d-flex flex-row mt-2">
-          <button type="button" class="btn-confirm d-flex justify-content-center align-middle"
+          <button type="button" class="btn-confirm"
                   (click)="selectedSectionId = 'section3'">Previous section
           </button>
-          <button type="button" class="btn-confirm d-flex justify-content-center align-middle ms-2"
+          <button type="button" class="btn-confirm ms-2"
                   (click)="completedSectionWithList('section4', 'section5', this.employments)">Next section
           </button>
         </div>
@@ -447,7 +408,7 @@
                   (click)="cancel()">Cancel
           </button>
 
-          <button type="button" class="btn-confirm d-flex justify-content-center align-middle"
+          <button type="button" class="btn-confirm"
                   (click)="cvPreview()" [routerLink]="'/cv-preview'">CV Preview
           </button>
         </div>
@@ -484,10 +445,10 @@
         <div class="button-section">
 
           <div class="d-flex flex-row mt-2">
-            <button type="button" class="btn-confirm d-flex justify-content-center align-middle"
+            <button type="button" class="btn-confirm"
                     (click)="selectedSectionId = 'section4'">Previous section
             </button>
-            <button type="button" class="btn-confirm d-flex justify-content-center align-middle ms-2"
+            <button type="button" class="btn-confirm ms-2"
                     (click)="completedSectionWithList('section5', 'section6', this.selectedSkills)">Next section
             </button>
           </div>
@@ -499,7 +460,7 @@
                     (click)="cancel()">Cancel
             </button>
 
-            <button type="button" class="btn-confirm d-flex justify-content-center align-middle"
+            <button type="button" class="btn-confirm"
                     (click)="cvPreview()" [routerLink]="'/cv-preview'">CV Preview
             </button>
           </div>
@@ -538,10 +499,10 @@
         <div class="button-section">
 
           <div class="d-flex flex-row mt-2">
-            <button type="button" class="btn-confirm d-flex justify-content-center align-middle"
+            <button type="button" class="btn-confirm"
                     (click)="selectedSectionId = 'section5'">Previous section
             </button>
-            <button type="button" class="btn-confirm d-flex justify-content-center align-middle ms-2"
+            <button type="button" class="btn-confirm ms-2"
                     (click)="completedSectionWithList('section6', 'section7', this.selectedTechnicalSkills)">Next
               section
             </button>
@@ -554,7 +515,7 @@
                     (click)="cancel()">Cancel
             </button>
 
-            <button type="button" class="btn-confirm d-flex justify-content-center align-middle"
+            <button type="button" class="btn-confirm"
                     (click)="cvPreview()" [routerLink]="'/cv-preview'">CV Preview
             </button>
           </div>
@@ -600,10 +561,10 @@
       <div class="button-section">
 
         <div class="d-flex flex-row mt-2">
-          <button type="button" class="btn-confirm d-flex justify-content-center align-middle"
+          <button type="button" class="btn-confirm"
                   (click)="selectedSectionId = 'section6'">Previous section
           </button>
-          <button type="button" class="btn-confirm d-flex justify-content-center align-middle ms-2"
+          <button type="button" class="btn-confirm ms-2"
                   (click)="completedSectionWithList('section7', 'section8', this.courses)">Next section
           </button>
         </div>
@@ -615,7 +576,7 @@
                   (click)="cancel()">Cancel
           </button>
 
-          <button type="button" class="btn-confirm d-flex justify-content-center align-middle"
+          <button type="button" class="btn-confirm"
                   (click)="cvPreview()" [routerLink]="'/cv-preview'">CV Preview
           </button>
         </div>
@@ -678,17 +639,17 @@
         <div class="d-flex flex-row mt-2">
 
 
-          <button type="button" class="btn-confirm d-flex justify-content-center align-middle"
+          <button type="button" class="btn-confirm"
                   (click)="selectedSectionId = 'section7'">Previous section
           </button>
 
 
           <button *ngIf="this.cvEditId == null" type="button"
-                  class="btn-confirm d-flex justify-content-center align-middle ms-2"
+                  class="btn-confirm ms-2"
                   (click)="openCreateCVModal()">Create CV
           </button>
 
-          <button *ngIf="this.cvEdit" type="button" class="btn-confirm d-flex justify-content-center align-middle ms-2"
+          <button *ngIf="this.cvEdit" type="button" class="btn-confirm"
                   (click)="openSaveModal()">Save
           </button>
         </div>
@@ -701,7 +662,7 @@
                   (click)="cancel()">Cancel
           </button>
 
-          <button type="button" class="btn-confirm d-flex justify-content-center align-middle"
+          <button type="button" class="btn-confirm"
                   (click)="cvPreview()" [routerLink]="'/cv-preview'">CV Preview
           </button>
         </div>

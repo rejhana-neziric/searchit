@@ -79,7 +79,6 @@ export class KompanijeComponent implements OnInit {
   sortParametri: SortParametar[] | undefined = undefined
   noNextElement: boolean = false;
   noPreviousElement: boolean = true;
-  selectedCompany: any;
   kandidat: User = {id: "", role: "", jwt: ""}
   imageUrl: string | ArrayBuffer | null = '';
   lokacije: LokacijaGetResponseLokacija[] = [];
@@ -153,7 +152,6 @@ export class KompanijeComponent implements OnInit {
       this.lokacije = [];
     }
   }
-
 
   filtriraneKompanije() {
     this.imaRezultataPretrage = this.kompanije?.length != 0;
@@ -344,7 +342,6 @@ export class KompanijeComponent implements OnInit {
   }
 
   saveKompanija(kompanija: KompanijeGetResponseKomapanija){
-
     var request: KandidatSpaseneKompanijeDodajRequest = {
       kompanija_id: kompanija.id,
       kandidat_id: this.kandidat.id
@@ -377,10 +374,8 @@ export class KompanijeComponent implements OnInit {
     }
 
     await this.getAll();
-
     this.filtriraneKompanije();
   }
-
 
   promijeniStatus(kompanija: KompanijeGetResponseKomapanija) {
     if (kompanija.spasen == false) {

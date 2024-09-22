@@ -187,7 +187,6 @@ export class OglasiComponent implements OnInit {
     this.selektujPrviOglas();
   }
 
-
   async getAllLokacije() {
       try {
         const response = await firstValueFrom(this.lokacijaGetEndpoint.obradi());
@@ -278,7 +277,6 @@ export class OglasiComponent implements OnInit {
     let dani = Math.floor((datum.getTime() - danasnjiDatum.getTime()) / 1000 / 60 / 60 / 24);
     return dani;
   }
-
 
   getOdabraniOglas() {
     this.oglasGetByIdEndpoint.obradi(this.odabaraniOglasId).subscribe({

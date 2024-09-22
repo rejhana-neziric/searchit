@@ -3,7 +3,6 @@
 
 <div class="content d-flex flex-column">
 
-
   <!-- Breadcrumbs -->
   <div class="d-flex flex-row nav-link pregled-breadcrumbs text-dark">
     <a type="button nav-link" style="color: #84B59F;; font-size: larger;  text-decoration: none;"
@@ -19,7 +18,6 @@
 
 
   <!-- Filter  -->
-
   <div>
     <label for="filterDropdown" class="fs-6 me-2">Choose job:</label>
     <select id="filterDropdown" [(ngModel)]="selectedFilter">
@@ -164,9 +162,9 @@
           </div>
         </div>
         <div class="d-flex flex-row me-auto ms-auto mt-5 justify-content-center">
-          <a class="nav-link text-dark d-flex justify-content-center pregled-btn " type="button">Contact</a>
-          <a class="nav-link text-dark d-flex justify-content-center pregled-btn" type="button"
-             [routerLink]="['/cv-details/', odabraniZaPrikazCVId]" (click)="cvDetails()">Details</a>
+          <button class="btn-confirm" type="button">Contact</button>
+          <button class="btn-confirm" type="button"
+             [routerLink]="['/cv-details/', odabraniZaPrikazCVId]" (click)="cvDetails()">Details</button>
         </div>
         <div class="d-flex flex-row mt-4 mb-4">
           <div *ngIf="!noPreviousElement" class="img-left-arrow d-flex justify-content-center" style="">
@@ -206,11 +204,9 @@
     <span class="fs-5 mb-4">We're sorry. We were not able to find a match.</span> <br>
   </div>
 
-
   <!-- Right Section -->
   <div>
   </div>
 </div>
-
 
 <app-footer></app-footer>
