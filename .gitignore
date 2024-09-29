@@ -512,3 +512,6 @@ aio/content/examples/.DS_Store
 
 # Built Visual Studio Code Extensions
 *.vsix
+
+# Ignore .env file
+.env
