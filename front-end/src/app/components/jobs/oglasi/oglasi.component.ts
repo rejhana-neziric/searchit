@@ -501,4 +501,6 @@ export class OglasiComponent implements OnInit {
     this.imageUrl = `data:image/jpeg;base64,${logo}`;
     return this.imageUrl;
   }
+
+
 }

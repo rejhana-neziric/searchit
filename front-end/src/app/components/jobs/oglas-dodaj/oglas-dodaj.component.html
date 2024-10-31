@@ -80,7 +80,7 @@
 
     <div class="form-group">
       <label for="lokacija" class="required fw-bold fs-5 naslov">Location</label>
-      <div *ngFor="let lok of form.lokacija; let i = index">
+      <div *ngFor="let lok of form.lokacija; let i = index; trackBy: trackByFn">
         <input
           type="text"
           class="form-control input-field lokacije-input"

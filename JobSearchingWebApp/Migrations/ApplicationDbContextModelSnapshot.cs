@@ -81,7 +81,7 @@ namespace JobSearchingWebApp.Migrations
 
                     b.HasIndex("KandidatId");
 
-                    b.ToTable("CV");
+                    b.ToTable("CV", (string)null);
                 });
 
             modelBuilder.Entity("JobSearchingWebApp.Database.CVEdukacija", b =>
@@ -104,7 +104,7 @@ namespace JobSearchingWebApp.Migrations
 
                     b.HasIndex("EdukacijaId");
 
-                    b.ToTable("CVEdukacija");
+                    b.ToTable("CVEdukacija", (string)null);
                 });
 
             modelBuilder.Entity("JobSearchingWebApp.Database.CVURL", b =>
@@ -127,7 +127,7 @@ namespace JobSearchingWebApp.Migrations
 
                     b.HasIndex("URLId");
 
-                    b.ToTable("CVURL");
+                    b.ToTable("CVURL", (string)null);
                 });
 
             modelBuilder.Entity("JobSearchingWebApp.Database.CVZaposlenje", b =>
@@ -150,7 +150,7 @@ namespace JobSearchingWebApp.Migrations
 
                     b.HasIndex("ZaposlenjeId");
 
-                    b.ToTable("CVZaposlenje");
+                    b.ToTable("CVZaposlenje", (string)null);
                 });
 
             modelBuilder.Entity("JobSearchingWebApp.Database.Edukacija", b =>
@@ -179,7 +179,7 @@ namespace JobSearchingWebApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Edukacija");
+                    b.ToTable("Edukacija", (string)null);
                 });
 
             modelBuilder.Entity("JobSearchingWebApp.Database.Iskustvo", b =>
@@ -196,7 +196,7 @@ namespace JobSearchingWebApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Iskustvo");
+                    b.ToTable("Iskustvo", (string)null);
                 });
 
             modelBuilder.Entity("JobSearchingWebApp.Database.KandidatSpaseneKompanije", b =>
@@ -224,7 +224,7 @@ namespace JobSearchingWebApp.Migrations
 
                     b.HasIndex("KompanijaId");
 
-                    b.ToTable("KandidatSpaseneKompanije");
+                    b.ToTable("KandidatSpaseneKompanije", (string)null);
                 });
 
             modelBuilder.Entity("JobSearchingWebApp.Database.KandidatSpaseniOglasi", b =>
@@ -251,7 +251,7 @@ namespace JobSearchingWebApp.Migrations
 
                     b.HasIndex("OglasId");
 
-                    b.ToTable("KandidatSpaseniOglasi");
+                    b.ToTable("KandidatSpaseniOglasi", (string)null);
                 });
 
             modelBuilder.Entity("JobSearchingWebApp.Database.KandidatiOglasi", b =>
@@ -290,7 +290,7 @@ namespace JobSearchingWebApp.Migrations
 
                     b.HasIndex("OglasId");
 
-                    b.ToTable("KandidatiOglasi");
+                    b.ToTable("KandidatiOglasi", (string)null);
                 });
 
             modelBuilder.Entity("JobSearchingWebApp.Database.KompanijeKandidati", b =>
@@ -318,7 +318,7 @@ namespace JobSearchingWebApp.Migrations
 
                     b.HasIndex("KompanijaId");
 
-                    b.ToTable("KompanijeKandidati");
+                    b.ToTable("KompanijeKandidati", (string)null);
                 });
 
             modelBuilder.Entity("JobSearchingWebApp.Database.Korisnik", b =>
@@ -427,7 +427,7 @@ namespace JobSearchingWebApp.Migrations
 
                     b.HasIndex("NotifikacijaId");
 
-                    b.ToTable("KorisnikNotifikacije");
+                    b.ToTable("KorisnikNotifikacije", (string)null);
                 });
 
             modelBuilder.Entity("JobSearchingWebApp.Database.Lokacija", b =>
@@ -444,7 +444,7 @@ namespace JobSearchingWebApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Lokacija");
+                    b.ToTable("Lokacija", (string)null);
                 });
 
             modelBuilder.Entity("JobSearchingWebApp.Database.Notifikacija", b =>
@@ -465,7 +465,7 @@ namespace JobSearchingWebApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Notifikacije");
+                    b.ToTable("Notifikacije", (string)null);
                 });
 
             modelBuilder.Entity("JobSearchingWebApp.Database.Oglas", b =>
@@ -512,7 +512,7 @@ namespace JobSearchingWebApp.Migrations
 
                     b.HasIndex("KompanijaId");
 
-                    b.ToTable("Oglasi");
+                    b.ToTable("Oglasi", (string)null);
                 });
 
             modelBuilder.Entity("JobSearchingWebApp.Database.OglasIskustvo", b =>
@@ -535,7 +535,7 @@ namespace JobSearchingWebApp.Migrations
 
                     b.HasIndex("OglasId");
 
-                    b.ToTable("OglasIskustvo");
+                    b.ToTable("OglasIskustvo", (string)null);
                 });
 
             modelBuilder.Entity("JobSearchingWebApp.Database.OglasLokacija", b =>
@@ -558,7 +558,7 @@ namespace JobSearchingWebApp.Migrations
 
                     b.HasIndex("OglasId");
 
-                    b.ToTable("OglasLokacija");
+                    b.ToTable("OglasLokacija", (string)null);
                 });
 
             modelBuilder.Entity("JobSearchingWebApp.Database.OpisOglas", b =>
@@ -597,7 +597,7 @@ namespace JobSearchingWebApp.Migrations
                     b.HasIndex("OglasId")
                         .IsUnique();
 
-                    b.ToTable("OpisOglas");
+                    b.ToTable("OpisOglas", (string)null);
                 });
 
             modelBuilder.Entity("JobSearchingWebApp.Database.URL", b =>
@@ -618,7 +618,7 @@ namespace JobSearchingWebApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("URL");
+                    b.ToTable("URL", (string)null);
                 });
 
             modelBuilder.Entity("JobSearchingWebApp.Database.Uloga", b =>
@@ -635,7 +635,7 @@ namespace JobSearchingWebApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Uloge");
+                    b.ToTable("Uloge", (string)null);
                 });
 
             modelBuilder.Entity("JobSearchingWebApp.Database.Zaposlenje", b =>
@@ -665,7 +665,7 @@ namespace JobSearchingWebApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Zaposlenje");
+                    b.ToTable("Zaposlenje", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -827,7 +827,7 @@ namespace JobSearchingWebApp.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.ToTable("Kandidati");
+                    b.ToTable("Kandidati", (string)null);
                 });
 
             modelBuilder.Entity("JobSearchingWebApp.Database.Kompanija", b =>
@@ -872,7 +872,7 @@ namespace JobSearchingWebApp.Migrations
 
                     b.HasIndex("LokacijaId");
 
-                    b.ToTable("Kompanije");
+                    b.ToTable("Kompanije", (string)null);
                 });
 
             modelBuilder.Entity("JobSearchingWebApp.Database.CV", b =>

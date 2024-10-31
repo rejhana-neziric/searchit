@@ -40,6 +40,7 @@ import {
 import {ForbiddenComponent} from "./components/forbidden/forbidden.component";
 import {DashboardComponent} from "./components/admin-panel/dashboard/dashboard.component";
 import {UsersComponent} from "./components/admin-panel/users/users.component";
+import {AutofillMonitor} from "@angular/cdk/text-field";
 
 
 export const routes: Routes = [
@@ -105,16 +106,18 @@ export const routes: Routes = [
     data: { roles: ['Admin','Kompanija'] }
   },
   {
+    path: 'my-drafts',
+    component: OglasiDraftComponent,
+    canActivate: [AuthorizationGuard],
+    data: {roles: ['Admin', 'Kompanija']}
+  },
+  {
     path: 'companies',
     component: KompanijeComponent
   },
   {
     path: 'companies/:id',
     component: KompanijaDetaljiComponent
-  },
-  {
-    path: 'job-drafts',
-    component: OglasiDraftComponent
   },
   {
     path: 'edit-job/:id',

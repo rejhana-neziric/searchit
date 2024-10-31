@@ -95,7 +95,7 @@ import {ModalService} from "../../../services/modal-service";
     const now = new Date();
     this.form.datum_modificiranja = this.datePipe.transform(now, 'yyyy-MM-dd');
     this.form.datum_objave = this.form.datum_modificiranja;
-    this.form.kompanija_id = this.kompanije[0].id;
+    this.form.kompanija_id = this.user.id;
     this.form.objavljen = false;
     console.log("draft function");
     this.oglasDodajEndpoint.obradi(this.form).subscribe(response => {
@@ -146,7 +146,11 @@ import {ModalService} from "../../../services/modal-service";
   }
 
   addLocation() {
-    this.form.lokacija.push(''); // Adds a new empty location input
+    this.form.lokacija.push('');
+  }
+
+  trackByFn(index: number, item: string) {
+    return index;
   }
 }
 
