@@ -1,15 +1,24 @@
-<!--
-<app-navbar user='kompanija'></app-navbar>
+<app-navbar></app-navbar>
 
-<div class="container p-5">
-  <div>
-    <h3 class="fw-bold">Post new job</h3>
-    <hr class="text-underline">
+<div class="container">
+
+
+  <!-- Breadcrumbs -->
+  <div class="d-flex flex-row nav-link pregled-breadcrumbs text-dark">
+    <a type="button nav-link" style="color: #84B59F;; font-size: larger;  text-decoration: none;"
+       [routerLink]="['/home/']">Home > </a>
+    <p style="color: #84B59F; font-size: larger;" [routerLink]="['/my-drafts/']"> > My drafts >
+    <p style="color: #84B59F; font-size: larger;"> > Edit job draft
+  </div>
+  <!-- Breadcrumbs -->
+
+  <div class="d-flex flex-row justify-content-center align-items-center" style=" margin-bottom: 40px; margin-top: 30px">
+    <span class="fw-bold fs-2" style="color: #84B59F; margin-left: auto; margin-right: auto; ">Edit job draft</span>
+    <button class="btn-confirm" [routerLink]="'/jobs-add'">My drafts</button>
   </div>
 
-  <form name="form" #f="ngForm" novalidate>
-
-    <div class="form-group">
+  <form name="form" #f = "ngForm">
+    <div class="formGroup">
       <label for="naziv_pozicije" class="required fw-bold fs-5 naslov">Job Title</label>
       <input
         type="text"
@@ -44,7 +53,7 @@
         type="text"
         class="form-control input-field job-desc"
         name="opis_pozicije"
-        [(ngModel)]="form.opis_pozicije"
+        [(ngModel)]="form.opis_oglasa.opis_pozicije"
         required
         minlength="10"
         maxlength="255"
@@ -67,34 +76,32 @@
       }
     </div>
 
-
     <div class="form-group">
       <label for="lokacija" class="required fw-bold fs-5 naslov">Location</label>
-      <input
-        type="text"
-        class="form-control input-field"
-        name="naziv_pozicije"
-        [(ngModel)]="form.lokacija"
-        required
-        minlength="4"
-        maxlength="15"
-        placeholder="Specify the location of the job, whether it's on-site, remote, or a combination."
-        #lokacija="ngModel"
-        [ngClass]="{ 'is-invalid': f.submitted && lokacija.errors }"
-      />
-      @if (lokacija.errors && f.submitted) {
-        <div class="invalid-feedback">
-          @if (lokacija.errors['required']) {
-            <div>Location is required!</div>
-          }
-          @if (lokacija.errors['minlength']) {
-            <div>Location must be at least 4 characters!</div>
-          }
-          @if (lokacija.errors['maxlength']) {
-            <div>Location must be less than 1 characters!</div>
-          }
+      <div *ngFor="let lok of form.lokacija; let i = index">
+        <input
+          type="text"
+          class="form-control input-field lokacije-input"
+          name="naziv_pozicije{{i}}"
+          [(ngModel)]="form.lokacija[i].naziv"
+          required
+          minlength="4"
+          maxlength="15"
+          placeholder="Specify the location of the job, whether it's on-site, remote, or a combination."
+          #lokacija="ngModel"
+          [ngClass]="{ 'is-invalid': f.submitted && lokacija.errors }"
+        />
+
+        <!-- Error messages -->
+        <div *ngIf="lokacija.errors && f.submitted" class="invalid-feedback">
+          <div *ngIf="lokacija.errors['required']">Location is required!</div>
+          <div *ngIf="lokacija.errors['minlength']">Location must be at least 4 characters!</div>
+          <div *ngIf="lokacija.errors['maxlength']">Location must be less than 15 characters!</div>
         </div>
-      }
+      </div>
+
+      <!-- Button to add a new location -->
+      <button type="button" class="mt-3 btn-add">+ Add New Location</button>
     </div>
 
     <div class="form-group">
@@ -132,41 +139,44 @@
       <label for="iskustvo" class="required fw-bold fs-5 naslov">Experience</label>
       <div class="row check-container">
         <div class="col-sm-2 form-check">
-          <input class="form-check-input" type="checkbox" id="chbSenior"
-                 (change)="onCheckboxChange($event, 'Senior')"
-                 [checked]="form.iskustvo.some(item => item.naziv === 'Senior')">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            id="chbSenior"
+            (change)="onCheckboxChange($event, 'Senior')"
+            [checked]="hasExperience('Senior')"
+          />
           <label class="form-check-label" for="chbSenior">Senior</label>
         </div>
         <div class="col-sm-2 form-check">
           <input class="form-check-input" type="checkbox" id="chbMedior"
                  (change)="onCheckboxChange($event, 'Medior')"
-                 [checked]="form.iskustvo.some(item => item.naziv === 'Medior')">
+                 [checked]="hasExperience('Medior')">
           <label class="form-check-label" for="chbMedior">Medior</label>
         </div>
         <div class="col-sm-2 form-check">
           <input class="form-check-input" type="checkbox" id="chbJunior"
                  (change)="onCheckboxChange($event, 'Junior')"
-                 [checked]="form.iskustvo.some(item => item.naziv === 'Junior')">
+                 [checked]="hasExperience('Junior')">
           <label class="form-check-label" for="chbJunior">Junior</label>
         </div>
       </div>
-    </div>
 
-
-
-<div>
-    <span class="p-2 fs-6">Minimum years of experience is: </span>
-      <input type="number" id="minExperience" name="minExperience" min="0" max="10" step="1" value="1" class="numSpinner"
-             [(ngModel)]="form.minimum_godina_iskustva"
-             #minimum_godina_iskustva = "ngModel"
+      <span class="p-2 fs-6">Minimum years of experience is: </span>
+      <input type="number" id="minExperience" name="minExperience" min="0" max="10" step="1" value="1"
+             class="numSpinner"
+             [(ngModel)]="form.opis_oglasa.minimum_godina_iskustva"
+             #minimum_godina_iskustva="ngModel"
              [ngClass]="{ 'is-invalid': f.submitted && minimum_godina_iskustva.errors }">
       <span class="p-2">and preferred years of experience are: </span>
-      <input type="number" id="maxExperience" name="maxExperience" min="1" max="40" step="1" value="1" class="numSpinner"
-             [(ngModel)]="form.preferirane_godine_iskustva"
-             #preferirane_godine_iskustva = "ngModel"
+      <input type="number" id="maxExperience" name="maxExperience" min="1" max="40" step="1" value="1"
+             class="numSpinner"
+             [(ngModel)]="form.opis_oglasa.preferirane_godine_iskustva"
+             #preferirane_godine_iskustva="ngModel"
              [ngClass]="{ 'is-invalid': f.submitted && preferirane_godine_iskustva.errors }">
 
     </div>
+
 
     <div class="form-group">
       <label for="plata" class="required fw-bold fs-5 naslov">Salary</label>
@@ -195,7 +205,7 @@
         type="text"
         class="form-control input-field job-desc"
         name="kvalifikacija"
-        [(ngModel)]="form.kvalifikacija"
+        [(ngModel)]="form.opis_oglasa.kvalifikacije"
         placeholder="Outline the required qualifications, including education, certifications, and relevant experience."
         #kvalifikacija="ngModel"
         [ngClass]="{ 'is-invalid': f.submitted && kvalifikacija.errors }"
@@ -209,13 +219,12 @@
         type="text"
         class="form-control input-field job-desc"
         name="vjestine"
-        [(ngModel)]="form.vjestine"
+        [(ngModel)]="form.opis_oglasa.vjestine"
         placeholder="List the technical and soft skills required for the position. This could include programming languages, software proficiency, communication skills, etc."
         #vjestine="ngModel"
         [ngClass]="{ 'is-invalid': f.submitted && vjestine.errors }"
       ></textarea>
     </div>
-
 
 
     <div class="form-group">
@@ -224,12 +233,13 @@
         type="text"
         class="form-control input-field job-desc"
         name="benefiti"
-        [(ngModel)]="form.benefiti"
+        [(ngModel)]="form.opis_oglasa.benefiti"
         placeholder="Highlight any additional perks, benefits, or unique aspects of your company culture."
         #benefiti="ngModel"
         [ngClass]="{ 'is-invalid': f.submitted && benefiti.errors }"
       ></textarea>
     </div>
+
 
     <div class="form-group">
       <label for="rok_prijave" class="required naslov fw-bold fs-5">Application Deadline</label>
@@ -250,32 +260,50 @@
         </div>
       }
     </div>
--->
-<!--
+
+    <div style="color: red; margin-top: 20px">
+      Note: If you publish the post, it will be visible to all candidates, allowing them to send applications.
+      Alternatively, if you save it as a draft, you can edit and publish the job post later.
+    </div>
     <div class="form-group d-flex justify-content-between">
       <button class="btn-confirm">Back</button>
       <div>
+        <!-- Publish Button -->
         <button
           class="btn-confirm"
           type="button"
-           (click)="onSubmit()"
-          [disabled]="!f.form.valid"
+          (click)="openPublishModal()"
+
         >
           Publish
         </button>
 
+        <!-- Save Draft Button -->
         <button
           class="btn-confirm"
           type="button"
-
+          (click)="onSubmitDraft($event)"
         >
           Save draft
         </button>
       </div>
 
     </div>
-
   </form>
+
 </div>
 
--->
+
+<app-modal
+  modalId="publishModal"
+  title="Confirm Publish"
+  body="Are you sure you want to publish this job post?"
+  [buttons]="publishButtons"
+>
+  <div style="color: red">
+    Note: If you publish the post, it will be visible to all candidates, allowing them to send applications.
+  </div>
+</app-modal>
+
+
+<app-footer></app-footer>

@@ -53,6 +53,8 @@ namespace JobSearchingWebApp.Data
 
         public DbSet<Uloga> Uloge { get; set; }
 
+        public DbSet<Poruka> Poruke { get; set; }
+
         public ApplicationDbContext(
             DbContextOptions<ApplicationDbContext> options) : base(options)
         {

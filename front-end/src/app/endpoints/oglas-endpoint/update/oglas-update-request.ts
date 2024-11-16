@@ -12,7 +12,7 @@ export interface OglasUpdateRequest {
 }
 
 export interface OglasUpdateOpisOglasa  {
-  opis_pozicije: string | null;
+  opis_pozicije: string;
   minimum_godina_iskustva: number | null;
   preferirane_godine_iskustva: number | null;
   benefiti: string | null;

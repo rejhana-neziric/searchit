@@ -4,7 +4,7 @@ import {ActivatedRoute, RouterLink} from "@angular/router";
 import {OglasGetByIdEndpoint} from "../../../endpoints/oglas-endpoint/get-by-id/oglas-get-by-id-endpoint";
 import {FormsModule} from "@angular/forms";
 import {NavbarComponent} from "../../layout/navbar/navbar.component";
-import {NgClass} from "@angular/common";
+import {DatePipe, NgClass, NgForOf, NgIf} from "@angular/common";
 import {OglasUpdateEndpoint} from "../../../endpoints/oglas-endpoint/update/oglas-update-endpoint";
 import {
   OglasUpdateOglasIskustvo,
@@ -12,6 +12,9 @@ import {
   OglasUpdateRequest,
   OglasUpdateOpisOglasa
 } from "../../../endpoints/oglas-endpoint/update/oglas-update-request";
+import {ModalService} from "../../../services/modal-service";
+import {FooterComponent} from "../../layout/footer/footer.component";
+import {ModalComponent} from "../../notifications/modal/modal.component";
 
 @Component({
   selector: 'app-oglas-update',
@@ -23,9 +26,14 @@ import {
     FormsModule,
     RouterLink,
     NgClass,
+    NgForOf,
+    NgIf,
+    FooterComponent,
+    ModalComponent,
   ],
   templateUrl: './oglas-update.component.html',
-  styleUrl: './oglas-update.component.css'
+  styleUrl: './oglas-update.component.css',
+  providers: [DatePipe]
 })
 export class OglasUpdateComponent {
   @Output() customEvent = new EventEmitter<string>();
@@ -45,7 +53,15 @@ export class OglasUpdateComponent {
     opis_oglasa: {} as OglasUpdateOpisOglasa
   };
 
-  constructor(private route: ActivatedRoute, private oglasBetById: OglasGetByIdEndpoint, private oglasUpdateEndpoint: OglasUpdateEndpoint) {
+  publishButtons = [
+    { text: 'Cancel', class: 'btn-cancel', action: () => this.closePublishModal() },
+    { text: 'Publish', class: 'btn-confirm', action: () => this.confirmPublish() }
+  ];
+  constructor(private route: ActivatedRoute,
+              private oglasBetById: OglasGetByIdEndpoint,
+              private oglasUpdateEndpoint: OglasUpdateEndpoint,
+              private datePipe: DatePipe,
+              private modalService: ModalService) {
   }
 
   getOglasById(id: number) {
@@ -56,7 +72,8 @@ export class OglasUpdateComponent {
       this.form.lokacija = x.lokacija.$values;
       this.form.rok_prijave = String(x.rokPrijave).split('T')[0];
       this.form.tip_posla = x.tipPosla;
-
+      this.form.oglas_id =this.oglas_id;
+      this.form.objavljen = false;
       if (x.opisOglasa != null) {
         this.form.opis_oglasa.opis_pozicije = x.opisOglasa?.opisPozicije ?? null;
         this.form.opis_oglasa.benefiti = x.opisOglasa?.benefiti ?? null;
@@ -76,10 +93,31 @@ export class OglasUpdateComponent {
     console.log(this.form)
   }
 
+  removeIds(obj: any): any {
+    if (Array.isArray(obj)) {
+      return obj.map(item => this.removeIds(item));
+    } else if (typeof obj === 'object' && obj !== null) {
+      const newObj: { [key: string]: any } = {};  // Explicitly define the type of newObj
+      for (let key in obj) {
+        if (key !== '$id') {
+          newObj[key] = this.removeIds(obj[key]);
+        }
+      }
+      return newObj;
+    }
+    return obj;
+  }
+
+
   onSubmit(): void {
+    this.form.oglas_id = this.oglas_id;
     this.form.objavljen = true;
-    console.log("glavna funk")
-    this.oglasUpdateEndpoint.obradi(this.form).subscribe(response => {
+    this.form.datum_modificiranja = new Date().toISOString();
+    console.log('glavna funk', JSON.stringify(this.form));
+    const sanitizedFormValue = this.removeIds(this.form);
+    console.log('Sanitized form data:', JSON.stringify(sanitizedFormValue));
+
+    this.oglasUpdateEndpoint.obradi(sanitizedFormValue).subscribe(response => {
       console.log("Oglas uspjesno dodan", response);
     });
   }
@@ -129,6 +167,39 @@ export class OglasUpdateComponent {
 
     // Explicitly check if the key exists in the map
     return iskustvoMap[naziv] !== undefined ? iskustvoMap[naziv] : 0;
+  }
+  // addLocation() {
+  //   this.form.lokacija.push('');
+  // }
+  hasExperience(naziv: string): boolean {
+    return this.form.iskustvo.some(item => item.naziv === naziv);
+  }
+  trackByFn(index: number, item: string) {
+    return index;
+  }
+
+  onSubmitDraft(event: Event) {
+    event.preventDefault();
+    const now = new Date();
+    this.form.datum_modificiranja = this.datePipe.transform(now, 'yyyy-MM-dd');
+    this.form.objavljen = true;
+    console.log("draft function");
+    this.oglasUpdateEndpoint.obradi(this.form).subscribe(response => {
+      console.log("Oglas successfully updated", response);
+    });
+  }
+
+  openPublishModal() {
+    this.modalService.openModal('publishModal', 'Confirm Publish', 'Are you sure you want to publish this job post?', []);
+  }
+
+  async closePublishModal() {
+    await this.modalService.closeModal('publishModal');
+  }
+
+  async confirmPublish() {
+    this.onSubmit();
+    await this.modalService.closeModal('publishModal');
   }
 
 }
