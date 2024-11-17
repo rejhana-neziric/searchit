@@ -41,6 +41,7 @@ import {ForbiddenComponent} from "./components/forbidden/forbidden.component";
 import {DashboardComponent} from "./components/admin-panel/dashboard/dashboard.component";
 import {UsersComponent} from "./components/admin-panel/users/users.component";
 import {AutofillMonitor} from "@angular/cdk/text-field";
+import {ChatCandidateComponent} from "./components/chat/chat-candidate/chat-candidate.component";
 
 
 export const routes: Routes = [
@@ -207,6 +208,12 @@ export const routes: Routes = [
     component: ChatCompanyComponent,
     canActivate: [AuthorizationGuard],
     data: { roles: ['Admin', 'Kompanija', 'Kandidat'] }
+  },
+  {
+    path: 'messages',
+    component: ChatCandidateComponent,
+    canActivate: [AuthorizationGuard],
+    data: {roles: ['Admin', 'Kandidat']}
   },
   { path: 'not-found',
     component: NotFoundComponent

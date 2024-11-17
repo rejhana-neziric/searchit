@@ -4,6 +4,7 @@ using JobSearchingWebApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JobSearchingWebApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241117121015_r")]
+    partial class r
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -380,10 +383,8 @@ namespace JobSearchingWebApp.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("UserName")
-                        .IsRequired()
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)")
-                        .HasColumnName("UserName");
+                        .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
 
@@ -623,39 +624,6 @@ namespace JobSearchingWebApp.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Poruke");
-                });
-
-            modelBuilder.Entity("JobSearchingWebApp.Database.PorukaKorisnik", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("KorisnikId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("PorukaId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("PosiljalacId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<bool>("isPrimljena")
-                        .HasColumnType("bit");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("KorisnikId");
-
-                    b.HasIndex("PorukaId");
-
-                    b.HasIndex("PosiljalacId");
-
-                    b.ToTable("PorukeKorisnici");
                 });
 
             modelBuilder.Entity("JobSearchingWebApp.Database.URL", b =>
@@ -1173,33 +1141,6 @@ namespace JobSearchingWebApp.Migrations
                         .IsRequired();
 
                     b.Navigation("Oglas");
-                });
-
-            modelBuilder.Entity("JobSearchingWebApp.Database.PorukaKorisnik", b =>
-                {
-                    b.HasOne("JobSearchingWebApp.Database.Korisnik", "Korisnik")
-                        .WithMany()
-                        .HasForeignKey("KorisnikId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("JobSearchingWebApp.Database.Poruka", "Poruka")
-                        .WithMany()
-                        .HasForeignKey("PorukaId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("JobSearchingWebApp.Database.Korisnik", "Posiljalac")
-                        .WithMany()
-                        .HasForeignKey("PosiljalacId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Korisnik");
-
-                    b.Navigation("Poruka");
-
-                    b.Navigation("Posiljalac");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

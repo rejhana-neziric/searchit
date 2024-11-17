@@ -1,1 +1,16 @@
-<p>chat-candidate works!</p>
+<div class="poruke-container">
+  <h2>Poruke</h2>
+
+  <!-- Display a message if there are no poruke -->
+  <div *ngIf="poruke.length === 0">
+    <p>Nema poruka za prikaz.</p>
+  </div>
+
+  <!-- Display the list of poruke -->
+  <div *ngFor="let poruka of poruke" class="poruka-item">
+    <p><strong>Pošiljalac:</strong> {{ poruka.posiljalacIme || 'Nepoznat' }}</p>
+    <p><strong>Sadržaj:</strong> {{ poruka.sadrzaj }}</p>
+    <p><strong>Vrijeme slanja:</strong> {{ poruka.vrijeme_slanja }}</p>
+    <p><strong>Pošiljalac ID:</strong> {{ poruka.posiljalac_id }}</p>
+  </div>
+</div>

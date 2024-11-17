@@ -4,6 +4,7 @@ using JobSearchingWebApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JobSearchingWebApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241117154858_UserName")]
+    partial class UserName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -640,10 +643,6 @@ namespace JobSearchingWebApp.Migrations
                     b.Property<int>("PorukaId")
                         .HasColumnType("int");
 
-                    b.Property<string>("PosiljalacId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<bool>("isPrimljena")
                         .HasColumnType("bit");
 
@@ -652,8 +651,6 @@ namespace JobSearchingWebApp.Migrations
                     b.HasIndex("KorisnikId");
 
                     b.HasIndex("PorukaId");
-
-                    b.HasIndex("PosiljalacId");
 
                     b.ToTable("PorukeKorisnici");
                 });
@@ -1189,17 +1186,9 @@ namespace JobSearchingWebApp.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("JobSearchingWebApp.Database.Korisnik", "Posiljalac")
-                        .WithMany()
-                        .HasForeignKey("PosiljalacId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
                     b.Navigation("Korisnik");
 
                     b.Navigation("Poruka");
-
-                    b.Navigation("Posiljalac");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

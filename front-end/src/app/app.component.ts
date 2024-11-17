@@ -12,6 +12,7 @@ import {NotificationModalComponent} from "./components/notifications/notificatio
 import {HomeComponent} from "./components/home/home.component";
 import {OglasDodajComponent} from "./components/jobs/oglas-dodaj/oglas-dodaj.component";
 import {OglasiDraftComponent} from "./components/jobs/oglasi-draft/oglasi-draft.component";
+import {ChatCandidateComponent} from "./components/chat/chat-candidate/chat-candidate.component";
 
 @Component({
   selector: 'app-root',
@@ -26,7 +27,8 @@ import {OglasiDraftComponent} from "./components/jobs/oglasi-draft/oglasi-draft.
     OglasiComponent,
     NotificationModalComponent,
     OglasDodajComponent,
-    OglasiDraftComponent
+    OglasiDraftComponent,
+    ChatCandidateComponent
   ],
   providers: [],
   templateUrl: './app.component.html',

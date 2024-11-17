@@ -1,12 +1,92 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {PorukaGetResponsePoruka} from '../../../endpoints/chat-endpoint/get-by-korisnik-id/get-by-korisnik-id-response'
+import {PorukeGetByKandidatIdEndpoint} from '../../../endpoints/chat-endpoint/get-by-korisnik-id/get-by-korisnik-id-endpoint'
+import {User} from '../../../modals/user'
+import {AuthService} from "../../../services/auth-service";
+import {NgFor, NgIf} from "@angular/common";
+import {KandidatGetByIdResponse} from "../../../endpoints/kandidat-endpoint/get-by-id/kandidat-get-by-id-response";
+import {KandidatGetByIdEndpoint} from "../../../endpoints/kandidat-endpoint/get-by-id/kandidat-get-by-id-endpoint";
+import {response} from "express";
+import {KompanijaGetByIdResponse} from "../../../endpoints/kompanija-endpoint/get-by-id/kompanija-get-by-id-response";
+import {KompanijaGetByIdEndpoint} from "../../../endpoints/kompanija-endpoint/get-by-id/kompanija-get-by-id-endpoint";
 
 @Component({
   selector: 'app-chat-candidate',
   standalone: true,
-  imports: [],
+  imports: [
+    NgIf,
+    NgFor
+  ],
   templateUrl: './chat-candidate.component.html',
   styleUrl: './chat-candidate.component.css'
 })
-export class ChatCandidateComponent {
+export class ChatCandidateComponent implements OnInit{
 
+  poruke: PorukaGetResponsePoruka[] = []
+  korisnikId: string = ''
+  user: User = {id: "", role: "", jwt: ""}
+  kandidat:  KandidatGetByIdResponse | null = null;
+
+
+  constructor(private endpoint: PorukeGetByKandidatIdEndpoint,
+              private authService:AuthService,
+              private kandidatEndpoint: KandidatGetByIdEndpoint,
+              private kompanijaEndpoint : KompanijaGetByIdEndpoint) {
+  }
+  ngOnInit() {
+    this.user = this.authService.getLoggedUser();
+    this.korisnikId = this.user.id;
+    this.getPoruke();
+    //this.poruke.forEach(poruka => console.log(poruka.sadrzaj));
+    this.getKandidat();
+  }
+
+  // getPoruke(): void {
+  //   this.endpoint.obradi(this.korisnikId).subscribe(
+  //     (response) => {
+  //       this.poruke = (response.poruke as any).$values;
+  //     },
+  //     (error) => {
+  //       console.log('Error fetching messages: ', error);
+  //     }
+  //   );
+  // }
+  getPoruke(): void {
+    this.endpoint.obradi(this.korisnikId).subscribe(
+      (response) => {
+          this.poruke = (response as any).$values.map((poruka: any) => {
+            return {
+              ...poruka,
+              posiljalacIme: '' // Placeholder for sender's name
+            };
+          });
+
+          // Fetch sender names for each message
+          this.poruke.forEach((poruka) => {
+            this.kompanijaEndpoint.obradi(poruka.posiljalac_id).subscribe(
+              (korisnik) => {
+                poruka.posiljalacIme = korisnik.userName;
+              },
+              (error) => {
+                console.log('Error fetching sender:', error);
+              }
+            );
+          });
+      },
+      (error) => {
+        console.log('Error fetching messages: ', error);
+      }
+    );
+  }
+
+  getKandidat(): void{
+    this.kandidatEndpoint.obradi(this.korisnikId).subscribe(
+      (response)=>{
+        this.kandidat = response
+      },
+      (error) =>{
+        console.log("Error fetching kandidat: ", error);
+      }
+    )
+  }
 }

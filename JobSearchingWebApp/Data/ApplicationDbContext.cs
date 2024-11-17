@@ -55,6 +55,8 @@ namespace JobSearchingWebApp.Data
 
         public DbSet<Poruka> Poruke { get; set; }
 
+        public DbSet<PorukaKorisnik> PorukeKorisnici { get; set; }
+
         public ApplicationDbContext(
             DbContextOptions<ApplicationDbContext> options) : base(options)
         {
@@ -68,6 +70,13 @@ namespace JobSearchingWebApp.Data
             {
                 relationship.DeleteBehavior = DeleteBehavior.NoAction;
             }
+
+            modelBuilder.Entity<Korisnik>()
+            .Property(k => k.UserName)
+            .HasColumnName("UserName")
+            .HasMaxLength(256)
+            .IsRequired();
+
             modelBuilder.Entity<Oglas>()
             .HasMany(o => o.OglasIskustvo)
             .WithOne(oi => oi.Oglas)
