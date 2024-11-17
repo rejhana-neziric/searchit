@@ -3,13 +3,25 @@ export interface PorukaGetResponse {
 }
 
 export interface PorukaGetResponsePoruka {
-  id: number;
-  korisnik_id: string;
-  poruka_id: string;
-  is_primljena: boolean;
-  ime_posiljatelja: string;
-  sadrzaj: string;
-  vrijeme_slanja: string;
-  posiljalac_id:string;
-  posiljalacIme:string;
+    id: number;
+    korisnik_id: string;
+    poruka_id: string;
+    is_primljena: boolean;
+    posiljatelj_id: string;
+    ime_posiljatelja: string;
+    vrijeme_slanja: string;
+    is_seen:boolean;
+    sadrzaj: string;
+}
+
+export interface GroupedMessage {
+  posiljalacIme: string;
+  posiljalacId: string | null;
+  messages: {
+    id: number;
+    korisnik_id: string;
+    sadrzaj: string;
+    vrijeme_slanja: string;
+    is_seen: boolean;
+  }[];
 }

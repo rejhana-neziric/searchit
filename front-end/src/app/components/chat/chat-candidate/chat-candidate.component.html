@@ -8,9 +8,14 @@
 
   <!-- Display the list of poruke -->
   <div *ngFor="let poruka of poruke" class="poruka-item">
-    <p><strong>Pošiljalac:</strong> {{ poruka.posiljalacIme || 'Nepoznat' }}</p>
+    <p><strong>ID poruke:</strong> {{ poruka.id }}</p>
+    <p><strong>Korisnik ID:</strong> {{ poruka.korisnik_id || 'Nepoznat' }}</p>
+    <p><strong>Pošiljalac:</strong> {{ poruka.ime_posiljatelja || 'Nepoznat' }}</p>
+    <p><strong>Pošiljalac ID:</strong> {{ poruka.posiljatelj_id || 'Nepoznat' }}</p>
     <p><strong>Sadržaj:</strong> {{ poruka.sadrzaj }}</p>
-    <p><strong>Vrijeme slanja:</strong> {{ poruka.vrijeme_slanja }}</p>
-    <p><strong>Pošiljalac ID:</strong> {{ poruka.posiljalac_id }}</p>
+    <p><strong>Vrijeme slanja:</strong> {{ poruka.vrijeme_slanja || 'Nepoznato' }}</p>
+    <p><strong>Poruka ID:</strong> {{ poruka.poruka_id }}</p>
+    <p><strong>Primljena:</strong> {{ poruka.is_primljena ? 'Da' : 'Ne' }}</p>
+    <p><strong>Pročitana:</strong> {{ poruka.is_seen ? 'Da' : 'Ne' }}</p>
   </div>
 </div>
