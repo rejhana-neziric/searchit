@@ -3,19 +3,29 @@ import {PorukaGetResponsePoruka, GroupedMessage} from '../../../endpoints/chat-e
 import {PorukeGetByKandidatIdEndpoint} from '../../../endpoints/chat-endpoint/get-by-korisnik-id/get-by-korisnik-id-endpoint'
 import {User} from '../../../modals/user'
 import {AuthService} from "../../../services/auth-service";
-import {NgFor, NgIf} from "@angular/common";
+import {NgClass, NgFor, NgIf, SlicePipe} from "@angular/common";
 import {KandidatGetByIdResponse} from "../../../endpoints/kandidat-endpoint/get-by-id/kandidat-get-by-id-response";
 import {KandidatGetByIdEndpoint} from "../../../endpoints/kandidat-endpoint/get-by-id/kandidat-get-by-id-endpoint";
 import {response} from "express";
 import {KompanijaGetByIdResponse} from "../../../endpoints/kompanija-endpoint/get-by-id/kompanija-get-by-id-response";
 import {KompanijaGetByIdEndpoint} from "../../../endpoints/kompanija-endpoint/get-by-id/kompanija-get-by-id-endpoint";
+import {NavbarComponent} from "../../layout/navbar/navbar.component";
+import {RouterLink} from "@angular/router";
+import {FormsModule} from "@angular/forms";
+import {FooterComponent} from "../../layout/footer/footer.component";
 
 @Component({
   selector: 'app-chat-candidate',
   standalone: true,
   imports: [
     NgIf,
-    NgFor
+    NgFor,
+    NavbarComponent,
+    RouterLink,
+    FormsModule,
+    SlicePipe,
+    NgClass,
+    FooterComponent
   ],
   templateUrl: './chat-candidate.component.html',
   styleUrl: './chat-candidate.component.css'
@@ -27,7 +37,10 @@ export class ChatCandidateComponent implements OnInit{
   korisnikId: string = ''
   user: User = {id: "", role: "", jwt: ""}
   kandidat:  KandidatGetByIdResponse | null = null;
-  //groupedMessages: any[] = []
+  groupedMessages: GroupedMessage[] = []
+  pretragaNaziv: string = ""
+  newChat: any;
+  selectedChat: GroupedMessage | null = null;
 
   constructor(private endpoint: PorukeGetByKandidatIdEndpoint,
               private authService:AuthService,
@@ -38,10 +51,9 @@ export class ChatCandidateComponent implements OnInit{
     this.user = this.authService.getLoggedUser();
     this.korisnikId = this.user.id;
     this.getPoruke();
-    this.poruke.forEach(poruka => console.log(poruka.sadrzaj));
+    //this.poruke.forEach(poruka => console.log(poruka.sadrzaj));
     this.getKandidat();
-    //this.groupedMessages = this.groupMessagesBySender(this.poruke);
-    //console.log(this.groupedMessages);
+    //console.log(this.groupedMessages.length);
     //console.log(this.poruke);
   }
 
@@ -49,6 +61,8 @@ export class ChatCandidateComponent implements OnInit{
     this.endpoint.obradi(this.korisnikId).subscribe(
       (response) => {
         this.poruke = (response.poruke as any).$values;
+
+        this.groupMessagesBySender(this.poruke);
       },
       (error) => {
         console.log('Error fetching messages: ', error);
@@ -84,28 +98,29 @@ export class ChatCandidateComponent implements OnInit{
   // }
 
 
-// groupMessagesBySender(messages: PorukaGetResponsePoruka[]): GroupedMessage[] {
-//   const grouped = messages.reduce<Record<string, GroupedMessage>>((acc, message) => {
-//     const senderKey = message.posiljatelj_id || message.ime_posiljatelja || 'Nepoznat';
-//     if (!acc[senderKey]) {
-//       acc[senderKey] = {
-//         posiljalacIme: message.ime_posiljatelja || 'Nepoznat',
-//         posiljalacId: message.posiljatelj_id,
-//         messages: []
-//       };
-//     }
-//     acc[senderKey].messages.push({
-//       id: message.id,
-//       korisnik_id: message.korisnik_id,
-//       sadrzaj: message.sadrzaj,
-//       vrijeme_slanja: message.vrijeme_slanja,
-//       is_seen: message.is_seen
-//     });
-//     return acc;
-//   }, {});
-//
-//   return Object.values(grouped);
-// }
+groupMessagesBySender(messages: PorukaGetResponsePoruka[]) {
+  const grouped = messages.reduce<Record<string, GroupedMessage>>((acc, message) => {
+    const senderKey = message.posiljatelj_id || message.ime_posiljatelja || 'Nepoznat';
+    console.log('Sender key: ',senderKey);
+    if (!acc[senderKey]) {
+      acc[senderKey] = {
+        posiljalacIme: message.ime_posiljatelja || 'Nepoznat',
+        posiljalacId: message.posiljatelj_id,
+        messages: []
+      };
+    }
+    acc[senderKey].messages.push({
+      id: message.id,
+      korisnik_id: message.korisnik_id,
+      sadrzaj: message.sadrzaj,
+      vrijeme_slanja: message.vrijeme_slanja,
+      is_seen: message.is_seen
+    });
+    return acc;
+  }, {});
+  this.groupedMessages = Object.values(grouped);
+  console.log(this.groupedMessages);
+}
 
 
   getKandidat(): void{
@@ -117,5 +132,30 @@ export class ChatCandidateComponent implements OnInit{
         console.log("Error fetching kandidat: ", error);
       }
     )
+  }
+
+  onSearchChange(pretraga: string)
+  {
+    this.pretragaNaziv = pretraga;
+  }
+
+  formatTime(date: Date): string {
+    const messageTime = new Date(date);
+
+    const formattedDate = messageTime.toISOString().split('T')[0];
+    const formattedTime = messageTime.toISOString().split('T')[1].slice(0,5);
+    console.log(formattedTime);
+    console.log(formattedDate);
+    const formattedTimeDate = `${formattedDate} - ${formattedTime}`;
+
+    return formattedTimeDate;
+  }
+
+  selectChat(groupedMessage: GroupedMessage):void{
+    this.selectedChat = groupedMessage;
+  }
+
+  sendMessage(): void{
+
   }
 }
