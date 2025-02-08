@@ -30,6 +30,7 @@ import {OglasGetRequest} from "../../endpoints/oglas-endpoint/get/oglas-get-requ
 import {OglasGetResponseOglasi} from "../../endpoints/oglas-endpoint/get/oglas-get-response";
 import {ModalComponent} from "../notifications/modal/modal.component";
 import {ModalService} from "../../services/modal-service";
+import {application} from "express";
 
 @Component({
   selector: 'app-applicants',
@@ -55,6 +56,7 @@ export class ApplicantsComponent implements OnInit{
   kandidati: KandidatOglasGetResponseKandidatOglas [] = [];
   filterList: any[] = []
   selectedFilter: number = 0;
+  selectedSort: any = "0";
   pretragaNaziv: string = "";
   imaRezultataPretrage: boolean = true;
   itemsPerPage: number = 5;
@@ -108,14 +110,40 @@ export class ApplicantsComponent implements OnInit{
   }
 
   get filteredApplicants() {
-    if (!this.selectedFilter) {
-      return this.kandidati;
+    let filtered = this.kandidati;
+
+    if (this.selectedFilter) {
+      filtered = filtered.filter(applicant =>
+        applicant.oglasId === this.selectedFilter
+      );
     }
 
-    return this.kandidati.filter(applicant =>
-      applicant.oglasId === this.selectedFilter
-    );
+    if (this.selectedSort) {
+      filtered = [...filtered];
+      switch (this.selectedSort) {
+        case "1":
+          return filtered.sort((a, b) =>
+            new Date(b.datumPrijave).getTime() - new Date(a.datumPrijave).getTime()
+          );
+        case "2":
+          return filtered.sort((a, b) =>
+            b.ime.localeCompare(a.ime)
+          );
+        default:
+          return filtered;
+      }
+    }
+    return filtered;
   }
+
+    // if (!this.selectedFilter) {
+    //   return this.kandidati;
+    // }
+    //
+    // return this.kandidati.filter(applicant =>
+    //   applicant.oglasId === this.selectedFilter
+    // );
+  //}
 
 
   private setTotal() {
@@ -162,6 +190,10 @@ export class ApplicantsComponent implements OnInit{
     try {
       const response = await firstValueFrom(this.kandidatOglasGetEndpoint.obradi(this.searchObject));
       this.kandidati = response.kandidatOglasi.$values;
+
+      if(this.selectedSort)
+        this.sortApplicants();
+
       this.imaRezultataPretrage = this.kandidati?.length != 0;
 
       /*this.filterList = this.kandidati.map(applicant => {
@@ -179,6 +211,26 @@ export class ApplicantsComponent implements OnInit{
     this.selektujPrviKandidatCV();
   }
 
+  sortApplicants(){
+    switch (this.selectedSort){
+      case "1":
+        this.kandidati.sort((a,b)=>{
+          return new Date(b.datumPrijave).getTime() - new Date(a.datumPrijave).getTime()
+        });
+        break;
+      case "2":
+        this.kandidati.sort((a,b)=>{
+          return (a.ime.localeCompare(b.ime));
+        });
+        break;
+    }
+  }
+
+  onSortChange(){
+    this.sortApplicants();
+    this.setTotal();
+    this.selektujPrviKandidatCV();
+  }
 
   async getFilterList(){
 

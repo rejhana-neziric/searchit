@@ -51,7 +51,9 @@ export class CvPublishedComponent implements OnInit {
   user: User = {id: "", role: "", jwt: ""}
   noNextElement: boolean = false;
   noPreviousElement: boolean = true;
-
+  filterList: any[] = []
+  selectedFilter: number = 0;
+  selectedSort: any = "0";
   constructor(private notificationService: NotificationService,
               private authService: AuthService,
               private cvService: CvService,
@@ -212,4 +214,37 @@ export class CvPublishedComponent implements OnInit {
       state: {chat: data}
     });
   }
+  sortAscending: boolean = true; // Default sorting order
+
+  sortCVs() {
+    this.cv.sort((a, b) => {
+      let comparison = 0;
+
+      switch (this.selectedSort) {
+        case "1":
+          comparison = new Date(a.datumModificiranja).getTime() - new Date(b.datumModificiranja).getTime();
+          break;
+        case "2":
+          comparison = a.ime.localeCompare(b.ime);
+          break;
+        case "3":
+          comparison = (a.grad || '').localeCompare(b.grad || '');
+          break;
+      }
+
+      return this.sortAscending ? comparison : -comparison;
+    });
+  }
+
+  toggleSortOrder() {
+    this.sortAscending = !this.sortAscending;
+    this.onSortChange();
+  }
+
+  onSortChange() {
+    this.sortCVs();
+    this.setTotal();
+    this.selektujPrviCV();
+  }
+
 }

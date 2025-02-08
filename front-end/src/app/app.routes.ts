@@ -42,6 +42,7 @@ import {DashboardComponent} from "./components/admin-panel/dashboard/dashboard.c
 import {UsersComponent} from "./components/admin-panel/users/users.component";
 import {AutofillMonitor} from "@angular/cdk/text-field";
 import {ChatCandidateComponent} from "./components/chat/chat-candidate/chat-candidate.component";
+import {ChatAllComponent} from "./components/chat/chat-all/chat-all.component";
 
 
 export const routes: Routes = [
@@ -205,15 +206,15 @@ export const routes: Routes = [
   },
   {
     path: 'chat',
-    component: ChatCompanyComponent,
+    component: ChatAllComponent,
     canActivate: [AuthorizationGuard],
     data: { roles: ['Admin', 'Kompanija', 'Kandidat'] }
   },
   {
     path: 'messages',
-    component: ChatCandidateComponent,
+    component: ChatAllComponent,
     canActivate: [AuthorizationGuard],
-    data: {roles: ['Admin', 'Kandidat']}
+    data: {roles: ['Admin', 'Kandidat', 'Kompanija']}
   },
   { path: 'not-found',
     component: NotFoundComponent

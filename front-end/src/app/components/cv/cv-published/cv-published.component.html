@@ -15,6 +15,20 @@
     <!--<button class="btn-confirm" [routerLink]="'/cv-create'">Create new CV</button>-->
   </div>
 
+  <!-- Filter  -->
+  <div class="d-flex align-items-center gap-3 sortBox">
+    <label for="sort" class="mb-0">Sort by:</label>
+    <select id="sort" [(ngModel)]="selectedSort" (change)="onSortChange()" class="form-select w-25">
+      <option value="1">Date Modified</option>
+      <option value="2">Name</option>
+      <option value="3">City</option>
+    </select>
+
+    <button class="btn" (click)="toggleSortOrder()">
+      {{ sortAscending ? 'Ascending ⬆' : 'Descending ⬇' }}
+    </button>
+  </div>
+
   <!-- Seach box  -->
   <div class="search-box mt-4">
     <form class="search-form">

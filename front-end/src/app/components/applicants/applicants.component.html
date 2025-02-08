@@ -29,9 +29,15 @@
         </p>
       </option>
     </select>
+    <label for="sortDropdown" class="fs-6 me-2">Sort by:</label>
+    <select id="sortDropdown" [(ngModel)]="selectedSort" (ngModelChange)="onSortChange()">
+      <option value="0"></option>
+      <option value="1">Applying date</option>
+      <option value="2"> First Name</option>
+    </select>
   </div>
 
-  <!-- Seach box  -->
+  <!-- Search box  -->
   <div class="search-box mt-4">
     <form class="search-form">
       <input class="form-control" type="text" [(ngModel)]="pretragaNaziv" [ngModelOptions]="{standalone: true}"
@@ -40,7 +46,7 @@
       <i class="fa-solid fa-magnifying-glass"></i>
     </form>
   </div>
-  <!-- Seach box  -->
+  <!-- Search box  -->
 
 
   <!-- Canidates Section -->

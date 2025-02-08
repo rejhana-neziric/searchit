@@ -403,7 +403,7 @@ export class CreateCvComponent implements OnInit {
   createCV(objavljen: boolean) {
     this.saveCvData(objavljen);
     this.closeCreateCVModal();
-
+    console.log(this.cv)
     this.cvDodajEndpoint.obradi(this.cv!).subscribe({
       next: response => {
         this.notificationService.showModalNotification(true, 'CV created', 'Your CV has been successfully created.');
@@ -469,7 +469,7 @@ export class CreateCvComponent implements OnInit {
       zaposlenje: zaposlenje,
       url: url
     }
-
+    console.log(this.cv);
     this.cvUpdateEndpoint.obradi(updateRequest).subscribe({
       next: any => {
         this.notificationService.addNotification({message: 'Your CV has been successfully edited.', type: 'success'});
