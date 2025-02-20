@@ -16,6 +16,7 @@ import {AuthService} from "../../../../services/auth-service";
 import {KandidatGetAllEndpoint} from "../../../../endpoints/kandidat-endpoint/get/kandidat-get-all-endpoint";
 import {NotificationService} from "../../../../services/notification-service";
 import {FormsModule} from "@angular/forms";
+import {KandidatDeleteEndpoint} from "../../../../endpoints/kandidat-endpoint/delete/kandidat-delete-endpoint";
 
 @Component({
   selector: 'app-users-candidates',
@@ -48,7 +49,8 @@ export class UsersCandidatesComponent implements OnInit{
 
   constructor(private authService:AuthService,
               private kandidatGetAllEndpoint:KandidatGetAllEndpoint,
-              private notficationService:NotificationService,
+              private kandidatDeleteEndpoint: KandidatDeleteEndpoint,
+              private notificationService:NotificationService,
               private router:Router) {
   }
     ngOnInit(): void {
@@ -73,4 +75,17 @@ export class UsersCandidatesComponent implements OnInit{
     private setTotal(){
      this.total = this.kandidati.length;
     }
+
+  delete(id: string){
+    this.kandidatDeleteEndpoint.obradi(id).subscribe({
+      next:(x)=>{
+        this.notificationService.addNotification({message:'Company deleted', type:'success'});
+        console.log("Korisnik uspjesno obrisan!");
+        this.getAll();
+      },
+      error:(error)=>{
+        this.notificationService.addNotification({message:'Company not deleted', type:'error'});
+      }
+    });
+  }
 }

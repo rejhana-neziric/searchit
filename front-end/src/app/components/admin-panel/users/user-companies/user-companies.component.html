@@ -14,7 +14,7 @@
             <span class="fw-normal fs-5" style="color: #3d3b3b"> {{ korisnik.website }} </span>
           </div>
           <div class="d-flex flex-row align-items-center mt-1 ms-auto delete">
-            <button class="btn btn-danger">Delete</button>
+            <button class="btn btn-danger" (click)="delete(korisnik.id)">Delete</button>
           </div>
         </div>
       </div>

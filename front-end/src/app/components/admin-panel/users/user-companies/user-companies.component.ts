@@ -14,6 +14,7 @@ import {AuthService} from "../../../../services/auth-service";
 import {KompanijeGetEndpoint} from "../../../../endpoints/kompanija-endpoint/get/kompanije-get-endpoint";
 import {NotificationService} from "../../../../services/notification-service";
 import {KompanijeGetRequest} from "../../../../endpoints/kompanija-endpoint/get/kompanije-get-request";
+import {KompanijaDeleteEndpoint} from "../../../../endpoints/kompanija-endpoint/delete/kompanija-delete-endpoint";
 
 @Component({
   selector: 'app-user-companies',
@@ -45,6 +46,7 @@ export class UserCompaniesComponent implements OnInit{
 
   constructor(private authService: AuthService,
               private kompanijaGetEndpoint: KompanijeGetEndpoint,
+              private kompanijaDeleteEndpoint: KompanijaDeleteEndpoint,
               private notificationService: NotificationService,
               private router: Router) {
   }
@@ -52,6 +54,7 @@ export class UserCompaniesComponent implements OnInit{
   ngOnInit() {
     this.user = this.authService.getLoggedUser();
     this.getAll();
+    this.setTotal();
   }
 
   async getAll(){
@@ -65,6 +68,23 @@ export class UserCompaniesComponent implements OnInit{
         this.kompanije = [];
         console.error("Error fetching companies", error);
       }
+    });
+  }
+
+  private setTotal(){
+    this.total = this.kompanije.length;
+  }
+
+  delete(id: string){
+    this.kompanijaDeleteEndpoint.obradi(id).subscribe({
+      next:(x)=>{
+        this.notificationService.addNotification({message:'Company deleted', type:'success'});
+        console.log("Korisnik uspjesno obrisan!");
+        this.getAll();
+      },
+      error:(error)=>{
+        this.notificationService.addNotification({message:'Company not deleted', type:'error'});
+    }
     });
   }
 }
