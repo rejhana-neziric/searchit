@@ -31,6 +31,9 @@ import {OglasGetResponseOglasi} from "../../endpoints/oglas-endpoint/get/oglas-g
 import {ModalComponent} from "../notifications/modal/modal.component";
 import {ModalService} from "../../services/modal-service";
 import {application} from "express";
+import {FavoritesKompanijeComponent} from "../saved/favorites-kompanije/favorites-kompanije.component";
+import {FavoritesOglasiComponent} from "../saved/favorites-oglasi/favorites-oglasi.component";
+import {MatButtonToggle, MatButtonToggleGroup} from "@angular/material/button-toggle";
 
 @Component({
   selector: 'app-applicants',
@@ -46,7 +49,11 @@ import {application} from "express";
     RouterLink,
     DatePipe,
     FooterComponent,
-    ModalComponent
+    ModalComponent,
+    FavoritesKompanijeComponent,
+    FavoritesOglasiComponent,
+    MatButtonToggle,
+    MatButtonToggleGroup
   ],
   templateUrl: './applicants.component.html',
   styleUrl: './applicants.component.css'

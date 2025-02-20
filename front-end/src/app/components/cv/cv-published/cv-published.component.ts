@@ -16,6 +16,17 @@ import {CVGetByIdEndpoint} from "../../../endpoints/cv-endpoint/get-by-id/cv-get
 import {CVGetByIdResponse} from "../../../endpoints/cv-endpoint/get-by-id/cv-get-by-id-response";
 import {FooterComponent} from "../../layout/footer/footer.component";
 import {CvService} from "../../../services/cv.service";
+import {KandidatGetByIdResponse} from "../../../endpoints/kandidat-endpoint/get-by-id/kandidat-get-by-id-response";
+import {
+  KandidatOglasGetResponseKandidatOglas
+} from "../../../endpoints/kandidat-oglas-endpoint/get/kandidat-oglas-get-response";
+import {
+  KandidatOglasUpdateRequest
+} from "../../../endpoints/kandidat-oglas-endpoint/update/kandidat-oglas-update-request";
+import {firstValueFrom} from "rxjs";
+import {HttpErrorResponse} from "@angular/common/http";
+import {KandidatGetByIdEndpoint} from "../../../endpoints/kandidat-endpoint/get-by-id/kandidat-get-by-id-endpoint";
+import {KandidatOglasGetEndpoint} from "../../../endpoints/kandidat-oglas-endpoint/get/kandidat-oglas-get-endpoint";
 
 @Component({
   selector: 'app-cv-published',
@@ -54,12 +65,16 @@ export class CvPublishedComponent implements OnInit {
   filterList: any[] = []
   selectedFilter: number = 0;
   selectedSort: any = "0";
+  kandidat:KandidatGetByIdResponse | null = null;
+  kandidatOglas: KandidatOglasGetResponseKandidatOglas | null = null;
   constructor(private notificationService: NotificationService,
               private authService: AuthService,
               private cvService: CvService,
               private cvGetEndpoint: CVGetEndpoint,
               private cvGetByIdEndpoint: CVGetByIdEndpoint,
               private cvUpdateEndpoint: CVUpdateEndpoint,
+              private kandidatGetByIdEndpoint: KandidatGetByIdEndpoint,
+              private kandidatOglasGetEndpoint: KandidatOglasGetEndpoint,
               private router: Router,
               @Inject(PLATFORM_ID) private platformId: any) {
   }
@@ -247,4 +262,51 @@ export class CvPublishedComponent implements OnInit {
     this.selektujPrviCV();
   }
 
+  // async save(kandidatOglas: KandidatOglasGetResponseKandidatOglas, spasen: boolean) {
+  //   var request: KandidatOglasUpdateRequest = {
+  //     id: kandidatOglas.id,
+  //     kompanijaId: this.user.id,
+  //     kandidatId: kandidatOglas.kandidatId,
+  //     status: null,
+  //     spasen: spasen
+  //   };
+  //
+  //   try {
+  //     const data = await firstValueFrom(this.kandidatOglasUpdateEndpoint.obradi(request));
+  //     if(spasen) {
+  //       this.notificationService.addNotification({message: 'Applicant saved.', type: 'success'});
+  //     } else {
+  //       this.notificationService.addNotification({message: 'Applicant removed.', type: 'success'});
+  //     }
+  //
+  //   } catch (error) {
+  //     if (error instanceof HttpErrorResponse) {
+  //       this.notificationService.addNotification({message: `Error: ${error.message}`, type: 'error'});
+  //     } else {
+  //       this.notificationService.addNotification({message: 'An unexpected error occurred.', type: 'error'});
+  //     }
+  //   }
+  //
+  //   await this.getAll();
+  //
+  //   this.sortCVs();
+  // }
+  promijeniSpasen(cv: CVGetResponseCV) {
+    console.log(cv.korisnikId);
+    console.log(cv.id);
+    this.kandidatGetByIdEndpoint.obradi(cv.id.toString()).subscribe({
+      next:x =>{
+        this.kandidat = x;
+        console.log(x);
+      }
+    });
+
+   // KandidatGetByIdResponse
+   //  if (!cv.spasen) {
+   //    this.save(cv, true);
+   //  }
+   //  else {
+   //    this.save(cv, false);
+   //  }
+  }
 }

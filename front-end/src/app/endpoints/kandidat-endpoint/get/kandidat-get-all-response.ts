@@ -1,5 +1,8 @@
 export interface KandidatGetAllResponse {
-  kandidati:KandidatGetAllResponseKandidat[]
+  kandidati:{
+    $values: KandidatGetAllResponseKandidat[];
+    $id: number;
+  }
 }
 
 export interface KandidatGetAllResponseKandidat {

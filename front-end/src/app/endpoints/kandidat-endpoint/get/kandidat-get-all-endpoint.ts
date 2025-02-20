@@ -11,7 +11,7 @@ export class KandidatGetAllEndpoint implements MyBaseEndpoint<void, KandidatGetA
   }
 
   obradi(request: void): Observable<KandidatGetAllResponse> {
-    let url = MojConfig.lokalna_adresa + `/kandidat-pretraga`;
+    let url = MojConfig.lokalna_adresa + `/kandidat-get`;
 
     return this.httpClient.get<KandidatGetAllResponse>(url);
   }
