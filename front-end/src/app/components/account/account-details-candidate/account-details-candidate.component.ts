@@ -145,13 +145,20 @@ export class AccountDetailsCandidateComponent implements OnInit {
     this.submitted = true;
 
     if (this.candidateForm.valid) {
+      // @ts-ignore
       this.updateUser = {
         id: this.loggedUserId,
         mjestoPrebivalista: this.candidateForm.get('residence')?.value,
         phoneNumber: this.candidateForm.get('phoneNumber')?.value,
-        zvanje: this.candidateForm.get('title')?.value
+        zvanje: this.candidateForm.get('title')?.value,
+        // @ts-ignore
+        username: this.loggedUser?.userName,
+        // @ts-ignore
+        ime: this.loggedUser?.ime,
+        // @ts-ignore
+        prezime:this.loggedUser?.prezime
       }
-
+      // @ts-ignore
       this.kandidatUpdateEndpoint.obradi(this.updateUser).subscribe({
         next: any => {
           this.notificationService.addNotification({message: 'Data successfully updated.', type: 'success'});

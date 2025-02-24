@@ -50,6 +50,8 @@ export class UsersComponent implements OnInit{
   total:number = 0;
   currentPage :number= 1;
   itemsPerPage: number = 10;
+
+
   constructor(private authService:AuthService,
               private korisnikGetAllEndpoint: KorisnikGetAllEndpoint,
               private notificationService:NotificationService,

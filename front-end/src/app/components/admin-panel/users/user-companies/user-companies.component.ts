@@ -15,6 +15,8 @@ import {KompanijeGetEndpoint} from "../../../../endpoints/kompanija-endpoint/get
 import {NotificationService} from "../../../../services/notification-service";
 import {KompanijeGetRequest} from "../../../../endpoints/kompanija-endpoint/get/kompanije-get-request";
 import {KompanijaDeleteEndpoint} from "../../../../endpoints/kompanija-endpoint/delete/kompanija-delete-endpoint";
+import {ModalService} from "../../../../services/modal-service";
+import {ModalComponent} from "../../../notifications/modal/modal.component";
 
 @Component({
   selector: 'app-user-companies',
@@ -30,7 +32,8 @@ import {KompanijaDeleteEndpoint} from "../../../../endpoints/kompanija-endpoint/
     DatePipe,
     MatButtonToggle,
     MatButtonToggleGroup,
-    FormsModule
+    FormsModule,
+    ModalComponent
   ],
   templateUrl: './user-companies.component.html',
   styleUrl: './user-companies.component.css'
@@ -43,12 +46,17 @@ export class UserCompaniesComponent implements OnInit{
   total:number = 0;
   currentPage: number = 1;
   itemsPerPage: number = 10;
-
+  selectedCompanyId: string = '';
+  deleteButtons = [
+    { text: 'Cancel', class: 'btn-cancel', action: () => this.closeDeleteModal() },
+    { text: 'Delete', class: 'btn-confirm', action: () => this.delete(this.selectedCompanyId) }
+  ];
   constructor(private authService: AuthService,
               private kompanijaGetEndpoint: KompanijeGetEndpoint,
               private kompanijaDeleteEndpoint: KompanijaDeleteEndpoint,
               private notificationService: NotificationService,
-              private router: Router) {
+              private router: Router,
+              private modalService: ModalService) {
   }
 
   ngOnInit() {
@@ -74,7 +82,10 @@ export class UserCompaniesComponent implements OnInit{
   private setTotal(){
     this.total = this.kompanije.length;
   }
-
+  openDeleteModal(id: string) {
+    this.selectedCompanyId = id;
+    this.openModal();
+  }
   delete(id: string){
     this.kompanijaDeleteEndpoint.obradi(id).subscribe({
       next:(x)=>{
@@ -86,5 +97,14 @@ export class UserCompaniesComponent implements OnInit{
         this.notificationService.addNotification({message:'Company not deleted', type:'error'});
     }
     });
+  }
+
+  async closeDeleteModal() {
+    await this.modalService.closeModal('deleteModal');
+  }
+
+  private openModal() {
+    this.modalService.openModal('deleteModal', 'Confirm Delete', 'Are you sure you want to delete this user?', []);
+
   }
 }

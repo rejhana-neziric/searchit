@@ -1,0 +1,55 @@
+<app-navbar></app-navbar>
+
+<div class="content d-flex flex-column container mt-5">
+
+  <!-- Breadcrumbs -->
+  <div class="d-flex flex-row nav-link pregled-breadcrumbs text-dark">
+    <a type="button nav-link" style="color: #84B59F;; font-size: larger;  text-decoration: none;"
+       [routerLink]="['/home/']">Home > </a>
+    <a type="button nav-link" style="color: #84B59F;; font-size: larger;  text-decoration: none;"
+       [routerLink]="['/users/']"> > Users > </a>
+    <p style="color: #84B59F; font-size: larger;"> > Edit user</p>
+  </div>
+  <!-- Breadcrumbs -->
+</div>
+
+<div class="container d-flex content flex-column">
+  <form class="container d-flex">
+    <div class="col-6">
+    <div class="mb-5 m-5">
+      <label for="username" class="fw-bold fs-5 naslov">Username:</label>
+      <input type="text" name="username" id="username" [(ngModel)]="form.username"
+             class="form-control input-field">
+    </div>
+
+    <div class="mb-5 m-5">
+      <label for="prezime" class="fw-bold fs-5 naslov">Prezime:</label>
+      <input type="text" name="prezime" id="prezime" [(ngModel)]="form.prezime"
+             class="form-control input-field">
+    </div>
+    <div class="mb-5 m-5">
+      <label for="zvanje" class="fw-bold fs-5 naslov">Zvanje:</label>
+      <input type="text" name="zvanje" id="zvanje" [(ngModel)]="form.zvanje"
+             class="form-control input-field">
+    </div>
+    </div>
+    <div class="col-6">
+      <div class="mb-5 m-5">
+        <label for="ime" class="fw-bold fs-5 naslov">Ime:</label>
+        <input type="text" name="ime" id="ime" [(ngModel)]="form.ime"
+               class="form-control input-field">
+      </div>
+      <div class="mb-5 m-5">
+        <label for="mjestoPrebivalista" class="fw-bold fs-5 naslov">Mjesto prebivališta:</label>
+        <input type="text" name="mjestoPrebivalista" id="mjestoPrebivalista" [(ngModel)]="form.mjestoPrebivalista"
+               class="form-control input-field">
+      </div>
+      <div class="mb-5 m-5">
+        <label for="phoneNumber" class="fw-bold fs-5 naslov">Broj telefona:</label>
+        <input type="text" name="phoneNumber" id="phoneNumber" [(ngModel)]="form.phoneNumber"
+               class="form-control input-field">
+      </div>
+    </div>
+  </form>
+  <button class="btn" (click)="edit()">Save</button>
+</div>

@@ -17,6 +17,8 @@ import {KandidatGetAllEndpoint} from "../../../../endpoints/kandidat-endpoint/ge
 import {NotificationService} from "../../../../services/notification-service";
 import {FormsModule} from "@angular/forms";
 import {KandidatDeleteEndpoint} from "../../../../endpoints/kandidat-endpoint/delete/kandidat-delete-endpoint";
+import {ModalService} from "../../../../services/modal-service";
+import {ModalComponent} from "../../../notifications/modal/modal.component";
 
 @Component({
   selector: 'app-users-candidates',
@@ -33,7 +35,8 @@ import {KandidatDeleteEndpoint} from "../../../../endpoints/kandidat-endpoint/de
     UserCompaniesComponent,
     MatButtonToggle,
     MatButtonToggleGroup,
-    FormsModule
+    FormsModule,
+    ModalComponent
   ],
   templateUrl: './users-candidates.component.html',
   styleUrl: './users-candidates.component.css'
@@ -46,12 +49,17 @@ export class UsersCandidatesComponent implements OnInit{
   total: number = 0;
   currentPage : number = 1;
   itemsPerPage : number = 10;
-
+  selectedCandidateId: string = '';
+  deleteButtons = [
+    { text: 'Cancel', class: 'btn-cancel', action: () => this.closeDeleteModal() },
+    { text: 'Delete', class: 'btn-confirm', action: () => this.delete(this.selectedCandidateId) }
+  ];
   constructor(private authService:AuthService,
               private kandidatGetAllEndpoint:KandidatGetAllEndpoint,
               private kandidatDeleteEndpoint: KandidatDeleteEndpoint,
               private notificationService:NotificationService,
-              private router:Router) {
+              private router:Router,
+              private modalService: ModalService) {
   }
     ngOnInit(): void {
         this.user = this.authService.getLoggedUser();
@@ -79,13 +87,24 @@ export class UsersCandidatesComponent implements OnInit{
   delete(id: string){
     this.kandidatDeleteEndpoint.obradi(id).subscribe({
       next:(x)=>{
-        this.notificationService.addNotification({message:'Company deleted', type:'success'});
-        console.log("Korisnik uspjesno obrisan!");
+        this.notificationService.addNotification({message:'Candidate deleted', type:'success'});
         this.getAll();
       },
       error:(error)=>{
-        this.notificationService.addNotification({message:'Company not deleted', type:'error'});
+        this.notificationService.addNotification({message:'Candidate not deleted', type:'error'});
       }
     });
+  }
+  openDeleteModal(id: string) {
+    this.selectedCandidateId = id;
+    this.openModal();
+  }
+  async closeDeleteModal() {
+    await this.modalService.closeModal('deleteModal');
+  }
+
+  private openModal() {
+    this.modalService.openModal('deleteModal', 'Confirm Delete', 'Are you sure you want to delete this user?', []);
+
   }
 }

@@ -138,3 +138,13 @@
 .delete{
   margin-right: 20px;
 }
+
+.btn-edit{
+  background-color: var(--secondary-color);
+  margin-left: 10px;
+  width: 100px;
+}
+
+.btn-edit:hover{
+  background-color: rgba(132, 181, 159, 0.81);
+}

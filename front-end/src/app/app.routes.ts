@@ -43,6 +43,9 @@ import {UsersComponent} from "./components/admin-panel/users/users.component";
 import {AutofillMonitor} from "@angular/cdk/text-field";
 import {ChatCandidateComponent} from "./components/chat/chat-candidate/chat-candidate.component";
 import {ChatAllComponent} from "./components/chat/chat-all/chat-all.component";
+import {
+  UserCandidatesEditComponent
+} from "./components/admin-panel/users/user-candidates-edit/user-candidates-edit.component";
 
 
 export const routes: Routes = [
@@ -215,6 +218,12 @@ export const routes: Routes = [
     component: ChatAllComponent,
     canActivate: [AuthorizationGuard],
     data: {roles: ['Admin', 'Kandidat', 'Kompanija']}
+  },
+  {
+    path:'candidates-edit/:id',
+    component: UserCandidatesEditComponent,
+    canActivate: [AuthorizationGuard],
+    data: {roles: ['Admin']}
   },
   { path: 'not-found',
     component: NotFoundComponent
