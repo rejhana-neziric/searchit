@@ -33,6 +33,7 @@ export class UserCandidatesEditComponent implements OnInit{
     phoneNumber: null,
     zvanje: null
   };
+
   constructor(private route:ActivatedRoute,
               private kandidatGetById: KandidatGetByIdEndpoint,
               private kandidatEdit: KandidatUpdateEndpoint,
@@ -68,4 +69,5 @@ export class UserCandidatesEditComponent implements OnInit{
       this.notificationService.showModalNotification(true, "Edit korisnika","Uspješno ste editovali korisnika");
     });
   }
+
 }

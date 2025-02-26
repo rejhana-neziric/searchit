@@ -15,7 +15,7 @@
           </div>
           <div class="d-flex flex-row align-items-center mt-1 ms-auto delete">
             <button class="btn btn-danger" (click)="openDeleteModal(korisnik.id)">Delete</button>
-            <button class="btn btn-edit">Edit</button>
+            <button class="btn btn-edit" [routerLink]="['/companies-edit', korisnik.id]">Edit</button>
           </div>
         </div>
       </div>

@@ -46,6 +46,9 @@ import {ChatAllComponent} from "./components/chat/chat-all/chat-all.component";
 import {
   UserCandidatesEditComponent
 } from "./components/admin-panel/users/user-candidates-edit/user-candidates-edit.component";
+import {
+  UserCompaniesEditComponent
+} from "./components/admin-panel/users/user-companies-edit/user-companies-edit.component";
 
 
 export const routes: Routes = [
@@ -222,6 +225,12 @@ export const routes: Routes = [
   {
     path:'candidates-edit/:id',
     component: UserCandidatesEditComponent,
+    canActivate: [AuthorizationGuard],
+    data: {roles: ['Admin']}
+  },
+  {
+    path:'companies-edit/:id',
+    component: UserCompaniesEditComponent,
     canActivate: [AuthorizationGuard],
     data: {roles: ['Admin']}
   },

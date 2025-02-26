@@ -1,0 +1,77 @@
+<app-navbar></app-navbar>
+
+<div class="content d-flex flex-column container mt-5">
+
+  <!-- Breadcrumbs -->
+  <div class="d-flex flex-row nav-link pregled-breadcrumbs text-dark">
+    <a type="button nav-link" style="color: #84B59F;; font-size: larger;  text-decoration: none;"
+       [routerLink]="['/home/']">Home > </a>
+    <a type="button nav-link" style="color: #84B59F;; font-size: larger;  text-decoration: none;"
+       [routerLink]="['/users/']"> > Users > </a>
+    <p style="color: #84B59F; font-size: larger;"> > Edit user</p>
+  </div>
+  <!-- Breadcrumbs -->
+</div>
+
+<div class="container d-flex content flex-column">
+  <form class="container d-flex">
+    <div class="col-6">
+      <div class="mb-5 m-5">
+        <label for="logo" class="fw-bold fs-5 naslov">Logo:</label>
+        <div>
+          <img *ngIf="form.logo" [src]="'data:image/png;base64,' + form.logo" alt="Trenutni logo" class="img-thumbnail" width="25%" style="display: inline">
+          <input type="file" id="logo" (change)="onFileSelected($event)" class="form-control" style="width: 75%; display: inline; margin-top: 50px;">
+        </div>
+      </div>
+
+      <div class="mb-5 m-5">
+        <label for="naziv" class="fw-bold fs-5 naslov">Username:</label>
+        <input type="text" name="naziv" id="naziv" [(ngModel)]="form.naziv"
+               class="form-control input-field">
+      </div>
+
+      <div class="mb-5 m-5">
+        <label for="lokacija" class="fw-bold fs-5 naslov">Lokacija:</label>
+        <input type="text" name="lokacija" id="lokacija" [(ngModel)]="form.lokacija"
+               class="form-control input-field">
+      </div>
+      <div class="mb-5 m-5">
+        <label for="website" class="fw-bold fs-5 naslov">Website:</label>
+        <input type="text" name="website" id="website" [(ngModel)]="form.website"
+               class="form-control input-field">
+      </div>
+      <div class="mb-5 m-5">
+        <label for="twitter" class="fw-bold fs-5 naslov">Twitter:</label>
+        <input type="text" name="twitter" id="twitter" [(ngModel)]="form.twitter"
+               class="form-control input-field">
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="mb-5 m-5">
+        <label for="kratkiOpis" class="fw-bold fs-5 naslov">Kratki opis:</label>
+        <input type="text" name="kratkiOpis" id="kratkiOpis" [(ngModel)]="form.kratkiOpis"
+               class="form-control input-field">
+      </div>
+      <div class="mb-5 m-5">
+        <label for="opis" class="fw-bold fs-5 naslov">Opis:</label>
+        <textarea type="text" name="opis" id="opis" [(ngModel)]="form.opis"
+                  class="form-control input-field"> </textarea>
+      </div>
+      <div class="mb-5 m-5">
+        <label for="linkedIn" class="fw-bold fs-5 naslov">LinkedIn:</label>
+        <input type="text" name="linkedIn" id="linkedIn" [(ngModel)]="form.linkedIn"
+               class="form-control input-field">
+      </div>
+      <div class="mb-5 m-5">
+        <label for="brojZaposlenih" class="fw-bold fs-5 naslov">Broj zaposlenih:</label>
+        <select [(ngModel)]="form.brojZaposlenih" id="brojZaposlenih" name="brojZaposlenih">
+          <option *ngFor="let val of listaBrojZaposlenih" [value]="val">{{ val }}</option>
+        </select>
+
+      </div>
+    </div>
+  </form>
+  <button class="btn" (click)="edit()">Save</button>
+</div>
+
+<app-footer></app-footer>
