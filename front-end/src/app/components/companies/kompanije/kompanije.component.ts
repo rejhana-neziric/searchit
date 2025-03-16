@@ -36,6 +36,7 @@ import {SharedService} from "../../../services/shared.service";
 import {KompanijaService} from "../../../services/kompanija.service";
 import {LokacijaGetResponseLokacija} from "../../../endpoints/lokacija-endpoint/get/lokacija-get-response";
 import {LokacijaGetEndpoint} from "../../../endpoints/lokacija-endpoint/get/lokacija-get-endpoint";
+import {TranslatePipe} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-kompanije',
@@ -51,7 +52,8 @@ import {LokacijaGetEndpoint} from "../../../endpoints/lokacija-endpoint/get/loka
     NotificationToastComponent,
     RouterLink,
     NgClass,
-    FooterComponent
+    FooterComponent,
+    TranslatePipe
   ],
   templateUrl: './kompanije.component.html',
   styleUrl: './kompanije.component.css'

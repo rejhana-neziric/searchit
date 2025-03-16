@@ -17,6 +17,7 @@ import {KandidatDeleteEndpoint} from "../../../endpoints/kandidat-endpoint/delet
 import {ModalComponent} from "../../notifications/modal/modal.component";
 import {ModalService} from "../../../services/modal-service";
 import {SharedService} from "../../../services/shared.service";
+import {TranslatePipe} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-account-details-candidate',
@@ -32,7 +33,8 @@ import {SharedService} from "../../../services/shared.service";
     NgClass,
     DatePipe,
     NotificationToastComponent,
-    ModalComponent
+    ModalComponent,
+    TranslatePipe
   ],
   templateUrl: './account-details-candidate.component.html',
   styleUrl: './account-details-candidate.component.css'

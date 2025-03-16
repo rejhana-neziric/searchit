@@ -19,6 +19,7 @@ import {KompanijaDeleteEndpoint} from "../../../endpoints/kompanija-endpoint/del
 import {ModalComponent} from "../../notifications/modal/modal.component";
 import {ModalService} from "../../../services/modal-service";
 import {SharedService} from "../../../services/shared.service";
+import {TranslatePipe} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-account-details-company',
@@ -32,7 +33,8 @@ import {SharedService} from "../../../services/shared.service";
     ReactiveFormsModule,
     NgForOf,
     ModalComponent,
-    NgClass
+    NgClass,
+    TranslatePipe
   ],
   templateUrl: './account-details-company.component.html',
   styleUrl: './account-details-company.component.css'

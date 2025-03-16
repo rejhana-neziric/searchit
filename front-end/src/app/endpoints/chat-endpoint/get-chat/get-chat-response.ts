@@ -1,5 +1,8 @@
 export interface PorukaGetChatResponse {
-  poruke: PorukaGetChatResponsePoruka[];
+  poruke: {
+    $values: PorukaGetChatResponsePoruka[];
+    $id:number;
+  };
   total_poruka: number;
   broj_neprocitanih: number;
 }
@@ -18,6 +21,7 @@ export interface PorukaGetChatResponsePoruka {
 export interface GroupedMessage {
   posiljalacIme: string;
   posiljalacId: string | null;
+  //unreadMessages:number | null;
   messages: {
     id: number;
     korisnik_id: string;

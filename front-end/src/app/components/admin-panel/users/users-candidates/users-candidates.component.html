@@ -16,8 +16,8 @@
             <span class="fw-normal fs-5" style="color: #3d3b3b"> {{ korisnik.email }} </span>
           </div>
           <div class="d-flex flex-row align-items-center mt-1 ms-auto delete">
-            <button class="btn btn-danger" (click)="openDeleteModal(korisnik.id.toString())">Delete</button>
-            <button class="btn btn-edit" [routerLink]="['/candidates-edit', korisnik.id]">Edit</button>
+            <button class="btn btn-danger" (click)="openDeleteModal(korisnik.id.toString())">{{ 'DELETE' | translate }}</button>
+            <button class="btn btn-edit" [routerLink]="['/candidates-edit', korisnik.id]">{{'EDIT' | translate}}</button>
           </div>
         </div>
       </div>

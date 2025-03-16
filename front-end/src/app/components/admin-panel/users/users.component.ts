@@ -17,6 +17,7 @@ import {FavoritesOglasiComponent} from "../../saved/favorites-oglasi/favorites-o
 import {MatButtonToggle, MatButtonToggleGroup} from "@angular/material/button-toggle";
 import {UsersCandidatesComponent} from "./users-candidates/users-candidates.component";
 import {UserCompaniesComponent} from "./user-companies/user-companies.component";
+import {TranslatePipe} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-users',
@@ -37,7 +38,8 @@ import {UserCompaniesComponent} from "./user-companies/user-companies.component"
     MatButtonToggle,
     MatButtonToggleGroup,
     UsersCandidatesComponent,
-    UserCompaniesComponent
+    UserCompaniesComponent,
+    TranslatePipe
   ],
   templateUrl: './users.component.html',
   styleUrl: './users.component.css'

@@ -1,9 +1,10 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {Router, RouterLink} from "@angular/router";
-import {NgClass} from "@angular/common";
+import {CommonModule, NgClass} from "@angular/common";
 import {AuthService} from "../../../../services/auth-service";
 import {NotificationService} from "../../../../services/notification-service";
+import {TranslatePipe} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-signup-kandidat',
@@ -12,7 +13,9 @@ import {NotificationService} from "../../../../services/notification-service";
     FormsModule,
     ReactiveFormsModule,
     RouterLink,
-    NgClass
+    NgClass,
+    TranslatePipe,
+    CommonModule
   ],
   templateUrl: './signup-kandidat.component.html',
   styleUrl: './signup-kandidat.component.css'

@@ -6,6 +6,7 @@ import {
   GetBrojZaposlenihEndpoint
 } from "../../../../endpoints/kompanija-endpoint/get-broj-zaposlenih-range/get-broj-zaposlenih-endpoint";
 import {SignupKompanijaOpisComponent} from "../signup-kompanija-opis/signup-kompanija-opis.component";
+import {TranslatePipe} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-signup-kompanija',
@@ -18,7 +19,8 @@ import {SignupKompanijaOpisComponent} from "../signup-kompanija-opis/signup-komp
     NgForOf,
     NgIf,
     NgOptimizedImage,
-    SignupKompanijaOpisComponent
+    SignupKompanijaOpisComponent,
+    TranslatePipe
   ],
   templateUrl: './signup-kompanija.component.html',
   styleUrl: './signup-kompanija.component.css'

@@ -16,19 +16,21 @@ import {FooterComponent} from "../../layout/footer/footer.component";
 import {CommonModule} from "@angular/common";
 import {ModalComponent} from "../../notifications/modal/modal.component";
 import {ModalService} from "../../../services/modal-service";
+import {TranslatePipe} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-oglas-dodaj',
   standalone: true,
-    imports: [
-        NavbarComponent,
-        FormsModule,
-        RouterLink,
-        NgClass,
-        FooterComponent,
-        CommonModule,
-        ModalComponent
-    ],
+  imports: [
+    NavbarComponent,
+    FormsModule,
+    RouterLink,
+    NgClass,
+    FooterComponent,
+    CommonModule,
+    ModalComponent,
+    TranslatePipe
+  ],
   templateUrl: './oglas-dodaj.component.html',
   styleUrl: './oglas-dodaj.component.css',
   providers: [DatePipe]

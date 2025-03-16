@@ -6,6 +6,7 @@ import {take} from "rxjs";
 import {User} from "../../../modals/user";
 import {NotificationService} from "../../../services/notification-service";
 import {NgIf} from "@angular/common";
+import {TranslatePipe} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-send-email',
@@ -13,7 +14,8 @@ import {NgIf} from "@angular/common";
   imports: [
     ReactiveFormsModule,
     NgIf,
-    RouterLink
+    RouterLink,
+    TranslatePipe
   ],
   templateUrl: './send-email.component.html',
   styleUrl: './send-email.component.css'

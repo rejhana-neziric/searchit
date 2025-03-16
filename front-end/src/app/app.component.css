@@ -1,0 +1,13 @@
+button {
+  background: none;
+  outline: none;
+  cursor: pointer;
+}
+
+button:hover {
+  text-decoration: underline;
+}
+
+.btnDiv{
+  padding-right:35px;
+}

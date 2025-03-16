@@ -18,6 +18,7 @@ import {NotificationService} from "../../../services/notification-service";
 import {NotificationToastComponent} from "../../notifications/notification-toast/notification-toast.component";
 import {FooterComponent} from "../../layout/footer/footer.component";
 import {RouterLink} from "@angular/router";
+import {TranslatePipe} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-dashboard',
@@ -26,7 +27,8 @@ import {RouterLink} from "@angular/router";
     NavbarComponent,
     NotificationToastComponent,
     FooterComponent,
-    RouterLink
+    RouterLink,
+    TranslatePipe
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'

@@ -22,24 +22,26 @@ import {
 import {ModalComponent} from "../notifications/modal/modal.component";
 import {ModalService} from "../../services/modal-service";
 import {SharedService} from "../../services/shared.service";
+import {TranslatePipe} from "@ngx-translate/core";
 
 
 @Component({
   selector: 'app-applications',
   standalone: true,
-    imports: [
-        NavbarComponent,
-        DatePipe,
-        NgForOf,
-        NgIf,
-        NgxPaginationModule,
-        NotificationToastComponent,
-        ReactiveFormsModule,
-        FormsModule,
-        RouterLink,
-        FooterComponent,
-        ModalComponent
-    ],
+  imports: [
+    NavbarComponent,
+    DatePipe,
+    NgForOf,
+    NgIf,
+    NgxPaginationModule,
+    NotificationToastComponent,
+    ReactiveFormsModule,
+    FormsModule,
+    RouterLink,
+    FooterComponent,
+    ModalComponent,
+    TranslatePipe
+  ],
   templateUrl: './applications.component.html',
   styleUrl: './applications.component.css'
 })

@@ -1,3 +1,143 @@
+<!--<app-navbar></app-navbar>-->
+
+<!--<div class="container d-flex flex-column">-->
+
+<!--  &lt;!&ndash; Breadcrumbs &ndash;&gt;-->
+<!--  <div class="d-flex flex-row nav-link pregled-breadcrumbs text-dark">-->
+<!--    <a type="button nav-link" style="color: #84B59F;; font-size: larger;  text-decoration: none;"-->
+<!--       [routerLink]="['/home/']">Home > </a>-->
+<!--    <p style="color: #84B59F; font-size: larger;"> > CV-->
+<!--  </div>-->
+<!--  &lt;!&ndash; Breadcrumbs &ndash;&gt;-->
+
+<!--  <div class="d-flex flex-row justify-content-center align-items-center" style=" margin-bottom: 50px; margin-top: 10px">-->
+<!--    <span class="fw-bold fs-2" style="color: #84B59F; margin-left: auto; margin-right: auto; ">Your CVs</span>-->
+<!--    <button class="btn-confirm" [routerLink]="'/cv-create'">Create new CV</button>-->
+<!--  </div>-->
+
+<!--  <div class="content d-flex flex-column">-->
+
+<!--    &lt;!&ndash; Search &ndash;&gt;-->
+<!--    <div *ngIf="imaRezultataPretrage || pretragaNaziv != ''" class="search-box">-->
+<!--      <input class="form-control" type="text" [(ngModel)]="pretragaNaziv" [ngModelOptions]="{standalone: true}"-->
+<!--             (ngModelChange)="onSearchChange($event)"-->
+<!--             placeholder="Search by cv name.">-->
+<!--      <i class="fa-solid fa-magnifying-glass"></i>-->
+<!--    </div>-->
+<!--    &lt;!&ndash; Search &ndash;&gt;-->
+
+<!--    &lt;!&ndash; CV &ndash;&gt;-->
+<!--    <div class="cvs" *ngIf="imaRezultataPretrage">-->
+<!--      <div class="cv"-->
+<!--           *ngFor="let cv of renderCV() | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: total }">-->
+<!--        <div class="cv-content d-flex flex-row align-items-center">-->
+<!--          <div class="ms-4">-->
+
+<!--            <div>-->
+<!--               <span *ngIf="cv.objavljen" class="fs-6 d-flex flex-row">-->
+<!--                <div class="published">-->
+<!--                                 Published-->
+<!--                </div>-->
+<!--              </span>-->
+<!--              <span *ngIf="!cv.objavljen" class="fs-6 d-flex flex-row">-->
+<!--                <div class="published" style="background-color: lightgray;">-->
+<!--                                 Draft-->
+<!--                </div>-->
+<!--              </span>-->
+<!--            </div>-->
+<!--            <span class="fw-bold fs-3" style="color: #84B59F">{{ cv.naziv }}</span>-->
+<!--            <br>-->
+<!--            <span class="fw-normal fs-6">{{ cv.profesionalniSazetak }}</span>-->
+<!--            <br>-->
+
+<!--          </div>-->
+
+
+<!--          <div class="d-flex flex-column justify-content-between" style="padding: 10px; order: 3; flex:2">-->
+<!--            <span-->
+<!--              class="fw-normal fs-6 d-flex flex-row justify-content-end">Edited: {{ cv.datumModificiranja | date:'d.M.yyyy' }} </span>-->
+
+<!--            <a class="d-flex flex-row nav-link button-section">-->
+<!--              <button class="btn-danger"-->
+<!--                      type="button" (click)="openDeleteModal(cv)">-->
+<!--                Delete-->
+<!--              </button>-->
+<!--              <button *ngIf="cv.objavljen" class="btn-confirm" type="button"-->
+<!--                      style="margin-left: 10px" (click)="openUnPublishModal(cv?.id)">Unpublish-->
+<!--              </button>-->
+<!--              <button *ngIf="!cv.objavljen" class="btn-confirm" type="button"-->
+<!--                      style="margin-left: 10px" (click)="openPublishModal(cv?.id)">Publish-->
+<!--              </button>-->
+<!--              <button class="btn-confirm" type="button"-->
+<!--                      style="margin-left: 10px" [routerLink]="['/cv-details/', cv?.id]">Details-->
+<!--              </button>-->
+<!--            </a>-->
+<!--          </div>-->
+
+<!--          <app-notification-toast></app-notification-toast>-->
+
+<!--        </div>-->
+
+<!--      </div>-->
+<!--      &lt;!&ndash; Paginacija &ndash;&gt;-->
+<!--      <div *ngIf="imaRezultataPretrage" class="d-flex justify-content-center pe-5">-->
+<!--        <pagination-controls class="pagination ps-0" (pageChange)="pageChangeEvent($event)"></pagination-controls>-->
+<!--      </div>-->
+<!--      &lt;!&ndash; Paginacija &ndash;&gt;-->
+<!--    </div>-->
+<!--    &lt;!&ndash; CV &ndash;&gt;-->
+<!--  </div>-->
+
+<!--  &lt;!&ndash; Nema rezultata pretrage  &ndash;&gt;-->
+<!--  <div *ngIf="!imaRezultataPretrage && pretragaNaziv != ''" class="p-4 border border-2 shadow bg-body-tertiary"-->
+<!--       style="border-color: #84B59F; border-width: 10px; background-color: #fff; border-radius: 15px; width: 100%; margin: 50px auto 300px;">-->
+<!--    <span class="fs-4 mb-4">No results for {{ this.pretragaNaziv }}</span> <br>-->
+<!--    <div class="mt-3 fs-6">-->
+<!--      <span>Search Help</span>-->
+<!--      <ul>-->
+<!--        <li>Check your search for typos and spelling errors.</li>-->
+<!--        <li>Try more general keywords.</li>-->
+<!--        <li>Try different keywords.</li>-->
+<!--      </ul>-->
+<!--    </div>-->
+<!--  </div>-->
+
+<!--  <div *ngIf="!imaRezultataPretrage && pretragaNaziv == ''" class="p-4 border border-2 shadow bg-body-tertiary"-->
+<!--       style="border-color: #84B59F; border-width: 10px; background-color: #fff; border-radius: 15px; width: 100%; margin: 50px auto 300px;">-->
+<!--    <span class="fs-5 mb-4">You haven't created any CVs yet.</span> <br>-->
+<!--    <br>-->
+<!--    <button class="btn-confirm"-->
+<!--            style="width: 140px" [routerLink]="['/cv-create/']">Create CV-->
+<!--    </button>-->
+<!--  </div>-->
+
+<!--  &lt;!&ndash; Nema rezultata pretrage  &ndash;&gt;-->
+
+<!--  <app-modal-->
+<!--    modalId="deleteModal"-->
+<!--    title="Confirm Delete"-->
+<!--    body="Are you sure you want to delete this item?"-->
+<!--    [buttons]="deleteButtons"-->
+<!--  ></app-modal>-->
+
+<!--  <app-modal-->
+<!--    modalId="publishModal"-->
+<!--    title="Confirm Publish"-->
+<!--    body="Are you sure you want to publish this CV?"-->
+<!--    [buttons]="publishButtons"-->
+<!--  ></app-modal>-->
+
+<!--  <app-modal-->
+<!--    modalId="unpublishModal"-->
+<!--    title="Confirm Unpublish"-->
+<!--    body="Are you sure you want to unpublish this CV?"-->
+<!--    [buttons]="unpublishButtons"-->
+<!--  ></app-modal>-->
+
+<!--</div>-->
+
+
+<!--<app-footer></app-footer>-->
 <app-navbar></app-navbar>
 
 <div class="container d-flex flex-column">
@@ -5,14 +145,14 @@
   <!-- Breadcrumbs -->
   <div class="d-flex flex-row nav-link pregled-breadcrumbs text-dark">
     <a type="button nav-link" style="color: #84B59F;; font-size: larger;  text-decoration: none;"
-       [routerLink]="['/home/']">Home > </a>
-    <p style="color: #84B59F; font-size: larger;"> > CV
+       [routerLink]="['/home/']">{{ 'HOME' | translate }} ></a>
+    <p style="color: #84B59F; font-size: larger;"> > {{ 'CV' | translate }}</p>
   </div>
   <!-- Breadcrumbs -->
 
   <div class="d-flex flex-row justify-content-center align-items-center" style=" margin-bottom: 50px; margin-top: 10px">
-    <span class="fw-bold fs-2" style="color: #84B59F; margin-left: auto; margin-right: auto; ">Your CVs</span>
-    <button class="btn-confirm" [routerLink]="'/cv-create'">Create new CV</button>
+    <span class="fw-bold fs-2" style="color: #84B59F; margin-left: auto; margin-right: auto; ">{{ 'YOUR_CVS' | translate }}</span>
+    <button class="btn-confirm" [routerLink]="'/cv-create'">{{ 'CREATE_NEW_CV' | translate }}</button>
   </div>
 
   <div class="content d-flex flex-column">
@@ -21,7 +161,7 @@
     <div *ngIf="imaRezultataPretrage || pretragaNaziv != ''" class="search-box">
       <input class="form-control" type="text" [(ngModel)]="pretragaNaziv" [ngModelOptions]="{standalone: true}"
              (ngModelChange)="onSearchChange($event)"
-             placeholder="Search by cv name.">
+             [placeholder]="'SEARCH_BY_CV_NAME' | translate">
       <i class="fa-solid fa-magnifying-glass"></i>
     </div>
     <!-- Search -->
@@ -36,12 +176,12 @@
             <div>
                <span *ngIf="cv.objavljen" class="fs-6 d-flex flex-row">
                 <div class="published">
-                                 Published
+                                 {{ 'PUBLISHED' | translate }}
                 </div>
               </span>
               <span *ngIf="!cv.objavljen" class="fs-6 d-flex flex-row">
                 <div class="published" style="background-color: lightgray;">
-                                 Draft
+                                 {{ 'DRAFT' | translate }}
                 </div>
               </span>
             </div>
@@ -55,21 +195,21 @@
 
           <div class="d-flex flex-column justify-content-between" style="padding: 10px; order: 3; flex:2">
             <span
-              class="fw-normal fs-6 d-flex flex-row justify-content-end">Edited: {{ cv.datumModificiranja | date:'d.M.yyyy' }} </span>
+              class="fw-normal fs-6 d-flex flex-row justify-content-end">{{ 'EDITED' | translate }}: {{ cv.datumModificiranja | date:'d.M.yyyy' }} </span>
 
             <a class="d-flex flex-row nav-link button-section">
               <button class="btn-danger"
                       type="button" (click)="openDeleteModal(cv)">
-                Delete
+                {{ 'DELETE' | translate }}
               </button>
               <button *ngIf="cv.objavljen" class="btn-confirm" type="button"
-                      style="margin-left: 10px" (click)="openUnPublishModal(cv?.id)">Unpublish
+                      style="margin-left: 10px" (click)="openUnPublishModal(cv?.id)">{{ 'UNPUBLISH' | translate }}
               </button>
               <button *ngIf="!cv.objavljen" class="btn-confirm" type="button"
-                      style="margin-left: 10px" (click)="openPublishModal(cv?.id)">Publish
+                      style="margin-left: 10px" (click)="openPublishModal(cv?.id)">{{ 'PUBLISH' | translate }}
               </button>
               <button class="btn-confirm" type="button"
-                      style="margin-left: 10px" [routerLink]="['/cv-details/', cv?.id]">Details
+                      style="margin-left: 10px" [routerLink]="['/cv-details/', cv?.id]">{{ 'DETAILS' | translate }}
               </button>
             </a>
           </div>
@@ -91,23 +231,23 @@
   <!-- Nema rezultata pretrage  -->
   <div *ngIf="!imaRezultataPretrage && pretragaNaziv != ''" class="p-4 border border-2 shadow bg-body-tertiary"
        style="border-color: #84B59F; border-width: 10px; background-color: #fff; border-radius: 15px; width: 100%; margin: 50px auto 300px;">
-    <span class="fs-4 mb-4">No results for {{ this.pretragaNaziv }}</span> <br>
+    <span class="fs-4 mb-4">{{ 'NO_RESULTS' | translate }}: {{ this.pretragaNaziv }}</span> <br>
     <div class="mt-3 fs-6">
-      <span>Search Help</span>
+      <span>{{ 'SEARCH_HELP' | translate }}</span>
       <ul>
-        <li>Check your search for typos and spelling errors.</li>
-        <li>Try more general keywords.</li>
-        <li>Try different keywords.</li>
+        <li>{{ 'CHECK_TYPO' | translate }}</li>
+        <li>{{ 'TRY_GENERAL_KEYWORDS' | translate }}</li>
+        <li>{{ 'TRY_DIFFERENT_KEYWORDS' | translate }}</li>
       </ul>
     </div>
   </div>
 
   <div *ngIf="!imaRezultataPretrage && pretragaNaziv == ''" class="p-4 border border-2 shadow bg-body-tertiary"
        style="border-color: #84B59F; border-width: 10px; background-color: #fff; border-radius: 15px; width: 100%; margin: 50px auto 300px;">
-    <span class="fs-5 mb-4">You haven't created any CVs yet.</span> <br>
+    <span class="fs-5 mb-4">{{ 'NO_CVS_YET' | translate }}</span> <br>
     <br>
     <button class="btn-confirm"
-            style="width: 140px" [routerLink]="['/cv-create/']">Create CV
+            style="width: 140px" [routerLink]="['/cv-create/']">{{ 'CREATE_CV' | translate }}
     </button>
   </div>
 
@@ -115,26 +255,25 @@
 
   <app-modal
     modalId="deleteModal"
-    title="Confirm Delete"
-    body="Are you sure you want to delete this item?"
+    title="{{ 'CONFIRM_DELETE' | translate }}"
+    body="{{ 'ARE_YOU_SURE_DELETE' | translate }}"
     [buttons]="deleteButtons"
   ></app-modal>
 
   <app-modal
     modalId="publishModal"
-    title="Confirm Publish"
-    body="Are you sure you want to publish this CV?"
+    title="{{ 'CONFIRM_PUBLISH' | translate }}"
+    body="{{ 'ARE_YOU_SURE_PUBLISH' | translate }}"
     [buttons]="publishButtons"
   ></app-modal>
 
   <app-modal
     modalId="unpublishModal"
-    title="Confirm Unpublish"
-    body="Are you sure you want to unpublish this CV?"
+    title="{{ 'CONFIRM_UNPUBLISH' | translate }}"
+    body="{{ 'ARE_YOU_SURE_UNPUBLISH' | translate }}"
     [buttons]="unpublishButtons"
   ></app-modal>
 
 </div>
-
 
 <app-footer></app-footer>

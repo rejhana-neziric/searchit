@@ -2,22 +2,20 @@
 
 <div class="d-flex flex-column container me-auto ms-auto">
 
-
   <!-- Breadcrumbs -->
   <div class="d-flex flex-row nav-link pregled-breadcrumbs text-dark">
-    <a type="button nav-link" style="color: #84B59F;; font-size: larger;  text-decoration: none;"
-       [routerLink]="['/home/']">Home > </a>
-    <p *ngIf="loggedUser?.role == 'Kandidat'" style="color: #84B59F; font-size: larger;" [routerLink]="['/cv/']"> > CV >
+    <a type="button nav-link" style="color: #84B59F; font-size: larger; text-decoration: none;"
+       [routerLink]="['/home/']">{{ 'home' | translate }} > </a>
+    <p *ngIf="loggedUser?.role == 'Kandidat'" style="color: #84B59F; font-size: larger;" [routerLink]="['/cv/']"> > {{ 'cv' | translate }} >
     <p *ngIf="loggedUser?.role == 'Kandidat'" style="color: #84B59F; font-size: larger;"> > {{ this.cv?.naziv }}
     <p *ngIf="loggedUser?.role == 'Kompanija'" style="color: #84B59F; font-size: larger;"
-       [routerLink]="['/applicants/']"> > Applicants >
+       [routerLink]="['/applicants/']"> > {{ 'applicants' | translate }} >
     <p *ngIf="loggedUser?.role == 'Kompanija'" style="color: #84B59F; font-size: larger;">
       > {{ this.cv?.ime }} {{ this.cv?.prezime }}
   </div>
   <!-- Breadcrumbs -->
 
   <div class="fw-bold tekst mb-4">{{ this.cv?.naziv }}</div>
-
 
   <!--Personal Details-->
   <div class="fs-5 me-auto ms-auto mb-2"> {{ this.cv?.ime }} {{ this.cv?.prezime }}</div>
@@ -26,18 +24,16 @@
   <div class="me-auto">{{ this.cv?.phoneNumber }}</div>
   <!--Personal Details-->
 
-
   <!--Professional Summary-->
   <div *ngIf="this.cv?.profesionalniSazetak" class="section">
-    <div class="fw-bold tekst mb-4 fs-5 mt-2 mb-2 d-flex justify-content-center">Professional Summary</div>
+    <div class="fw-bold tekst mb-4 fs-5 mt-2 mb-2 d-flex justify-content-center">{{ 'professional_summary' | translate }}</div>
     <div>{{ this.cv?.profesionalniSazetak }}</div>
   </div>
   <!--Professional Summary-->
 
-
   <!--Education-->
   <div *ngIf="this.cv?.edukacija?.$values!.length > 0" class="section">
-    <div class="fw-bold tekst mb-4 fs-5 mt-2 mb-2 d-flex justify-content-center">Education</div>
+    <div class="fw-bold tekst mb-4 fs-5 mt-2 mb-2 d-flex justify-content-center">{{ 'education' | translate }}</div>
     <div class="edukacije"
          *ngFor="let edukacija of this.cv?.edukacija?.$values">
 
@@ -63,100 +59,44 @@
   </div>
   <!--Education-->
 
-
   <!--Employment History-->
   <div *ngIf="this.cv?.zaposlenje?.$values!.length > 0" class="section">
-    <div class="fw-bold tekst mb-4 fs-5 mt-2 mb-2 d-flex justify-content-center">Employment History</div>
+    <div class="fw-bold tekst mb-4 fs-5 mt-2 mb-2 d-flex justify-content-center">{{ 'employment_history' | translate }}</div>
     <div class="zaposlenje"
-         *ngFor="let zasposljenje of this.cv?.zaposlenje?.$values">
+         *ngFor="let zaposlenje of this.cv?.zaposlenje?.$values">
 
       <div class="employment-content d-flex row align-items-center">
         <div class="d-flex column justify-content-between">
           <div class="fw-bold">
-            {{ zasposljenje.nazivKompanije }} - {{ zasposljenje.nazivPozicije }}
+            {{ zaposlenje.nazivKompanije }} - {{ zaposlenje.nazivPozicije }}
           </div>
           <div>
-            <div *ngIf="zasposljenje.datumPocetka && zasposljenje.datumZavrsetka">
-              {{ zasposljenje.datumPocetka | date: 'MMMM yyyy' }}
-              -  {{ zasposljenje.datumZavrsetka | date: 'MMMM yyyy' }}
+            <div *ngIf="zaposlenje.datumPocetka && zaposlenje.datumZavrsetka">
+              {{ zaposlenje.datumPocetka | date: 'MMMM yyyy' }}
+              -  {{ zaposlenje.datumZavrsetka | date: 'MMMM yyyy' }}
             </div>
           </div>
         </div>
-        <div *ngIf="zasposljenje.opis">
-          {{ zasposljenje.opis }}
+        <div *ngIf="zaposlenje.opis">
+          {{ zaposlenje.opis }}
         </div>
       </div>
     </div>
   </div>
   <!--Employment History-->
 
-  <div class="vjestine-tehnicke-vjestine mb-4 ">
-
-    <!--Skills-->
-    <div *ngIf="this.cv?.vjestine?.$values!.length > 0" class="section">
-      <div class="fw-bold tekst mb-4 fs-5 mt-2 mb-2 d-flex justify-content-center">Skills</div>
-      <div class="vjestine"
-           *ngFor="let vjestina of this.cv?.vjestine?.$values">
-
-        {{ vjestina }}
-      </div>
-    </div>
-    <!--Skills-->
-
-    <!--Technical Skills-->
-    <div *ngIf="this.cv?.tehnickeVjestine?.$values!.length > 0" class="section">
-      <div class="fw-bold tekst mb-4 fs-5 mt-2 mb-2 d-flex justify-content-center">Technical Skills</div>
-      <div class="tehnickeVjestine"
-           *ngFor="let vjestina of this.cv?.tehnickeVjestine?.$values">
-
-        {{ vjestina }}
-      </div>
-    </div>
-    <!--Technical Skills-->
-
-  </div>
-
-
-  <!--Courses-->
-  <div *ngIf="this.cv?.kursevi?.$values!.length > 0" class="section">
-    <div class="fw-bold tekst mb-4 fs-5 mt-2 mb-2 d-flex justify-content-center">Courses</div>
-    <div class="kursevi"
-         *ngFor="let kurs of this.cv?.kursevi?.$values">
-
-      {{ kurs }}
-    </div>
-  </div>
-  <!--Courses-->
-
-
-  <!--Websites & Links-->
-  <div *ngIf="this.cv?.url?.$values!.length > 0" class="section">
-    <div class="fw-bold tekst mb-4 fs-5 mt-2 mb-2 d-flex justify-content-center">Websites & Links</div>
-    <div class="linkovi "
-         *ngFor="let link of this.cv?.url?.$values">
-
-      {{ link.naziv }}: {{ link.putanja }}
-    </div>
-  </div>
-  <!--Websites & Links-->
-
-  <div *ngIf="loggedUser?.role == 'Kandidat'" class="button-section">
+  <div class="button-section" *ngIf="loggedUser?.role == 'Kandidat'">
     <div class="d-flex flex-row mt-2">
-      <button type="button" class="btn-danger" (click)="openDeleteModal()">Delete
-      </button>
-      <button type="button" class="btn-confirm"
-              (click)="edit(this.cv?.id!)">Edit
-      </button>
-      <button *ngIf="objavljen" type="button" class="btn-confirm"
-              (click)="openUnPublishModal(this.cv?.id)"> Unpublish
-      </button>
-      <button *ngIf="!objavljen" type="button" class="btn-confirm"
-              (click)="openPublishModal(this.cv?.id)"> Publish
-      </button>
+      <button type="button" class="btn-danger" (click)="openDeleteModal()">{{ 'delete' | translate }}</button>
+      <button type="button" class="btn-confirm" (click)="edit(this.cv?.id!)">{{ 'edit' | translate }}</button>
+      <button *ngIf="objavljen" type="button" class="btn-confirm" (click)="openUnPublishModal(this.cv?.id)">{{ 'unpublish' | translate }}</button>
+      <button *ngIf="!objavljen" type="button" class="btn-confirm" (click)="openPublishModal(this.cv?.id)">{{ 'publish' | translate }}</button>
     </div>
   </div>
 
-  <div *ngIf="loggedUser?.role == 'Kompanija'" class="button-section">
+</div>
+
+<div *ngIf="loggedUser?.role == 'Kompanija'" class="button-section">
 
 
     <div class="d-flex flex-column mt-2 align-content-end">
@@ -182,8 +122,6 @@
       </div>
     </div>
   </div>
-
-</div>
 
 <app-notification-toast></app-notification-toast>
 

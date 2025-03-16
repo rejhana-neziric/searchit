@@ -49,6 +49,7 @@ import {
 import {
   UserCompaniesEditComponent
 } from "./components/admin-panel/users/user-companies-edit/user-companies-edit.component";
+import {ChatsComponent} from "./components/chat/chats/chats.component";
 
 
 export const routes: Routes = [
@@ -218,7 +219,7 @@ export const routes: Routes = [
   },
   {
     path: 'messages',
-    component: ChatAllComponent,
+    component: ChatsComponent,
     canActivate: [AuthorizationGuard],
     data: {roles: ['Admin', 'Kandidat', 'Kompanija']}
   },

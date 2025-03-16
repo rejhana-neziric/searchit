@@ -17,6 +17,7 @@ import {KompanijeGetRequest} from "../../../../endpoints/kompanija-endpoint/get/
 import {KompanijaDeleteEndpoint} from "../../../../endpoints/kompanija-endpoint/delete/kompanija-delete-endpoint";
 import {ModalService} from "../../../../services/modal-service";
 import {ModalComponent} from "../../../notifications/modal/modal.component";
+import {TranslatePipe} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-user-companies',
@@ -33,7 +34,8 @@ import {ModalComponent} from "../../../notifications/modal/modal.component";
     MatButtonToggle,
     MatButtonToggleGroup,
     FormsModule,
-    ModalComponent
+    ModalComponent,
+    TranslatePipe
   ],
   templateUrl: './user-companies.component.html',
   styleUrl: './user-companies.component.css'

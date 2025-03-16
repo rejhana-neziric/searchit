@@ -9,6 +9,7 @@ import {Subscription} from "rxjs";
 import {NotificationService} from "../../../services/notification-service";
 import {NgClass} from "@angular/common";
 import { isPlatformBrowser } from '@angular/common';
+import {TranslatePipe} from "@ngx-translate/core";
 
 declare var bootstrap: any;
 
@@ -20,7 +21,8 @@ declare var bootstrap: any;
     MatDialogContent,
     MatDialogActions,
     MatButton,
-    NgClass
+    NgClass,
+    TranslatePipe
   ],
   templateUrl: './notification-modal.component.html',
   styleUrl: './notification-modal.component.css'

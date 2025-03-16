@@ -10,6 +10,7 @@ import {FooterComponent} from "../../layout/footer/footer.component";
 import {CVUpdateEndpoint} from "../../../endpoints/cv-endpoint/update/cv-update-endpoint";
 import {ModalComponent} from "../../notifications/modal/modal.component";
 import {ModalService} from "../../../services/modal-service";
+import {TranslatePipe} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-cv-preview',
@@ -22,7 +23,8 @@ import {ModalService} from "../../../services/modal-service";
     DatePipe,
     RouterLink,
     FooterComponent,
-    ModalComponent
+    ModalComponent,
+    TranslatePipe
   ],
   templateUrl: './cv-preview.component.html',
   styleUrl: './cv-preview.component.css'

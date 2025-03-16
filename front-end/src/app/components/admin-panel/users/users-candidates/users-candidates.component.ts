@@ -19,6 +19,7 @@ import {FormsModule} from "@angular/forms";
 import {KandidatDeleteEndpoint} from "../../../../endpoints/kandidat-endpoint/delete/kandidat-delete-endpoint";
 import {ModalService} from "../../../../services/modal-service";
 import {ModalComponent} from "../../../notifications/modal/modal.component";
+import {TranslatePipe} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-users-candidates',
@@ -36,7 +37,8 @@ import {ModalComponent} from "../../../notifications/modal/modal.component";
     MatButtonToggle,
     MatButtonToggleGroup,
     FormsModule,
-    ModalComponent
+    ModalComponent,
+    TranslatePipe
   ],
   templateUrl: './users-candidates.component.html',
   styleUrl: './users-candidates.component.css'

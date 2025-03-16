@@ -22,6 +22,7 @@ import {
 } from "../../../endpoints/kandidat-oglas-endpoint/get/kandidat-oglas-get-response";
 import {OglasGetByIdResponse} from "../../../endpoints/oglas-endpoint/get-by-id/oglas-get-by-id-response";
 import {FooterComponent} from "../../layout/footer/footer.component";
+import {TranslatePipe} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-my-jobs',
@@ -35,7 +36,8 @@ import {FooterComponent} from "../../layout/footer/footer.component";
     NgIf,
     NgxPaginationModule,
     NotificationToastComponent,
-    FooterComponent
+    FooterComponent,
+    TranslatePipe
   ],
   templateUrl: './my-jobs.component.html',
   styleUrl: './my-jobs.component.css'

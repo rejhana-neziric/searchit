@@ -27,6 +27,7 @@ import {ModalComponent} from "../../notifications/modal/modal.component";
 import {ModalService} from "../../../services/modal-service";
 import {KandidatGetByIdResponse} from "../../../endpoints/kandidat-endpoint/get-by-id/kandidat-get-by-id-response";
 import {KandidatGetByIdEndpoint} from "../../../endpoints/kandidat-endpoint/get-by-id/kandidat-get-by-id-endpoint";
+import {TranslatePipe} from "@ngx-translate/core";
 
 interface Section {
   id: string;
@@ -54,7 +55,8 @@ interface Section {
     ReactiveFormsModule,
     RouterLink,
     FooterComponent,
-    ModalComponent
+    ModalComponent,
+    TranslatePipe
   ],
   templateUrl: './create-cv.component.html',
   styleUrl: './create-cv.component.css'

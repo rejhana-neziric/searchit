@@ -18,6 +18,7 @@ import {NotificationToastComponent} from "../../notifications/notification-toast
 import {ModalComponent} from "../../notifications/modal/modal.component";
 import {ModalService} from "../../../services/modal-service";
 import {OglasiService} from "../../../services/oglasi.service";
+import {TranslatePipe} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-oglas-detalji',
@@ -30,7 +31,8 @@ import {OglasiService} from "../../../services/oglasi.service";
     RouterLink,
     FooterComponent,
     NotificationToastComponent,
-    ModalComponent
+    ModalComponent,
+    TranslatePipe
   ],
   templateUrl: './oglas-detalji.component.html',
   styleUrl: './oglas-detalji.component.css'

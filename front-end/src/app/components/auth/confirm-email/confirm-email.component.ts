@@ -6,13 +6,15 @@ import {User} from "../../../modals/user";
 import {ConfirmEmail} from "../../../modals/confirmEmail";
 import {NotificationService} from "../../../services/notification-service";
 import {NgIf} from "@angular/common";
+import {TranslatePipe} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-confirm-email',
   standalone: true,
   imports: [
     RouterLink,
-    NgIf
+    NgIf,
+    TranslatePipe
   ],
   templateUrl: './confirm-email.component.html',
   styleUrl: './confirm-email.component.css'

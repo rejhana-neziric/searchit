@@ -11,22 +11,22 @@
       <ul class="navbar-nav flex-row py-1">
 
         <li class="nav-item" [ngClass]="{'active-link': isActiveRoute('/home')}">
-          <a class="nav-link active px-3  fw-bold fs-5 text-underline mt-1" [routerLink]="'/home'">Home</a>
+          <a class="nav-link active px-3  fw-bold fs-5 text-underline mt-1" [routerLink]="'/home'">{{ 'NAVBAR.HOME' | translate }}</a>
         </li>
 
         <li class="nav-item" *ngIf=" loggedUser?.role == 'Kandidat' || loggedUser?.role == 'Admin'|| (authService.user$ | async) === null"
             [ngClass]="{'active-link': isActiveRoute('/jobs')}">
-          <a class="nav-link active px-3  fw-bold fs-5 text-underline mt-1" [routerLink]="'/jobs'">Jobs</a>
+          <a class="nav-link active px-3  fw-bold fs-5 text-underline mt-1" [routerLink]="'/jobs'">{{ 'NAVBAR.JOBS' |translate }}</a>
 
         <li class="nav-item" *ngIf="loggedUser?.role == 'Kompanija'"
             [ngClass]="{'active-link': isActiveRoute('/my-jobs')}">
           <a class="nav-link active px-3 fw-bold fs-5 text-underline mt-1"
-             [routerLink]="'/my-jobs'">My jobs</a>
+             [routerLink]="'/my-jobs'">{{ 'NAVBAR.MY_JOBS' | translate }}</a>
         </li>
 
 
         <li class="nav-item" [ngClass]="{'active-link': isActiveRoute('/companies')}">
-          <a class="nav-link active px-3  fw-bold fs-5 text-underline mt-1" [routerLink]="'/companies'">Companies</a>
+          <a class="nav-link active px-3  fw-bold fs-5 text-underline mt-1" [routerLink]="'/companies'">{{ 'NAVBAR.COMPANIES' | translate }}</a>
         </li>
 
 
@@ -35,77 +35,76 @@
                                                      || isActiveRoute('/cv-create')
                                                      || isActiveRoute('/cv-preview')
                                                      || isActiveRoute('/cv-details/:id')}">
-          <a class="nav-link active px-3  fw-bold fs-5 text-underline mt-1" [routerLink]="'/cv'">CV</a>
+          <a class="nav-link active px-3  fw-bold fs-5 text-underline mt-1" [routerLink]="'/cv'">{{ 'NAVBAR.CV' | translate }}</a>
         </li>
 
         <li class="nav-item" *ngIf="loggedUser?.role == 'Kandidat'" [ngClass]="{'active-link': isActiveRoute('/applications')}">
-          <a class="nav-link active px-3 fw-bold fs-5 text-underline mt-1" [routerLink]="'/applications'">Applications</a>
+          <a class="nav-link active px-3 fw-bold fs-5 text-underline mt-1" [routerLink]="'/applications'">{{ 'NAVBAR.APPLICATIONS' | translate }}</a>
         </li>
 
         <li class="nav-item" *ngIf="loggedUser?.role == 'Kandidat'"
             [ngClass]="{'active-link': isActiveRoute('/favorites')}">
           <a class="nav-link active px-3 fw-bold fs-5 text-underline mt-1"
-             [routerLink]="'/favorites'">Saved</a>
+             [routerLink]="'/favorites'">{{ 'NAVBAR.SAVED' | translate }}</a>
         </li>
 
         <li class="nav-item" *ngIf="loggedUser?.role == 'Kompanija'"
             [ngClass]="{'active-link': isActiveRoute('/cvs')}">
           <a class="nav-link active px-3 fw-bold fs-5 text-underline mt-1"
-             [routerLink]="'/cvs'">CVs</a>
+             [routerLink]="'/cvs'">{{ 'NAVBAR.CVS'  | translate}}</a>
         </li>
 
         <li class="nav-item" *ngIf="loggedUser?.role == 'Kompanija'" [ngClass]="{'active-link': isActiveRoute('/applicants')}">
-          <a class="nav-link active px-3 fw-bold fs-5 text-underline mt-1" [routerLink]="'/applicants'">Applicants</a>
+          <a class="nav-link active px-3 fw-bold fs-5 text-underline mt-1" [routerLink]="'/applicants'">{{'NAVBAR.APPLICANTS' | translate}}</a>
         </li>
 
         <li class="nav-item" *ngIf="loggedUser?.role == 'Kompanija'"
             [ngClass]="{'active-link': isActiveRoute('/favorites-applicants')}">
           <a class="nav-link active px-3 fw-bold fs-5 text-underline mt-1"
-             [routerLink]="'/favorites-applicants'">Saved</a>
+             [routerLink]="'/favorites-applicants'">{{ 'NAVBAR.SAVED' | translate}}</a>
         </li>
 
         <li class="nav-item" *ngIf="loggedUser?.role == 'Kompanija'"
-            [ngClass]="{'active-link': isActiveRoute('/chat')}">
+            [ngClass]="{'active-link': isActiveRoute('/messages')}">
           <a class="nav-link active px-3 fw-bold fs-5 text-underline mt-1"
-             [routerLink]="'/chat'">Chat</a>
+             [routerLink]="'/messages'">{{'NAVBAR.CHAT' | translate}}</a>
         </li>
 
         <li class="nav-item" *ngIf="loggedUser?.role == 'Kandidat'"
-            [ngClass]="{'active-link': isActiveRoute('/chat')}">
+            [ngClass]="{'active-link': isActiveRoute('/messages')}">
           <a class="nav-link active px-3 fw-bold fs-5 text-underline mt-1"
-             [routerLink]="'/chat'">Chat</a>
+             [routerLink]="'/messages'">{{'NAVBAR.CHAT' | translate}}</a>
         </li>
 
         <li class="nav-item" *ngIf="(authService.user$ | async) === null">
           <a class="nav-link active px-3 fw-bold fs-5 text-underline mt-1" (click)="navigateAndScrollToSection('aboutUs')">
-            About Us
+            {{ 'NAVBAR.ABOUT_US' | translate }}
           </a>
         </li>
 
         <li class="nav-item" *ngIf="loggedUser?.role == 'Admin'"
             [ngClass]="{'active-link': isActiveRoute('/users')}">
           <a class="nav-link active px-3 fw-bold fs-5 text-underline mt-1"
-             [routerLink]="'/users'">Users</a>
+             [routerLink]="'/users'">{{'NAVBAR.USERS'| translate}}</a>
         </li>
 
         <li class="nav-item" *ngIf="loggedUser?.role == 'Admin'"
             [ngClass]="{'active-link': isActiveRoute('/dashboard')}">
           <a class="nav-link active px-3 fw-bold fs-5 text-underline mt-1"
-             [routerLink]="'/dashboard'">Dashboard</a>
+             [routerLink]="'/dashboard'">{{'NAVBAR.DASHBOARD' | translate}}</a>
         </li>
 
         <li class="nav-item" *ngIf="(authService.user$ | async) === null">
-          <a class="nav-link active fs-5 text-underline log-in" [routerLink]="'/login'" href="">Log in</a>
+          <a class="nav-link active fs-5 text-underline log-in" [routerLink]="'/login'" href="">{{'NAVBAR.LOGIN' | translate}}</a>
         </li>
 
         <li class="nav-item" *ngIf="(authService.user$ | async) === null">
-          <a class="nav-link active fs-5 text-underline sign-up" style="color: white" [routerLink]="'/signup'">Sign
-            up</a>
+          <a class="nav-link active fs-5 text-underline sign-up" style="color: white" [routerLink]="'/signup'">{{'NAVBAR.SIGN_UP' | translate}}</a>
         </li>
 
         <li class="nav-item" *ngIf="(authService.user$ | async) as user">
           <a class="nav-link active fs-5 text-underline sign-up" style="color: white"
-             (click)="logout()">Log out</a>
+             (click)="logout()">{{'NAVBAR.LOGOUT' | translate}}</a>
         </li>
 
         <li class="nav-item d-flex justify-content-center align-items-end" *ngIf="(authService.user$ | async) as user">

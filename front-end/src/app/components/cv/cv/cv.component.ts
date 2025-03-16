@@ -21,6 +21,7 @@ import {ModalService} from "../../../services/modal-service";
 import {ModalComponent} from "../../notifications/modal/modal.component";
 import {SharedService} from "../../../services/shared.service";
 import {CvService} from "../../../services/cv.service";
+import {TranslatePipe} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-cv',
@@ -36,7 +37,8 @@ import {CvService} from "../../../services/cv.service";
     NgxPaginationModule,
     NotificationToastComponent,
     FooterComponent,
-    ModalComponent
+    ModalComponent,
+    TranslatePipe
   ],
   templateUrl: './cv.component.html',
   styleUrl: './cv.component.css'

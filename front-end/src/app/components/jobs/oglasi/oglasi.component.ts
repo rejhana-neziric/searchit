@@ -47,6 +47,7 @@ import {
 import {LokacijaGetEndpoint} from "../../../endpoints/lokacija-endpoint/get/lokacija-get-endpoint";
 import {IskustvoGetResponseIskustvo} from "../../../endpoints/iskustvo-endpoint/get/iskustvo-get-response";
 import {IskustvoGetEndpoint} from "../../../endpoints/iskustvo-endpoint/get/iskustvo-get-endpoint";
+import {TranslatePipe} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-oglasi',
@@ -65,6 +66,7 @@ import {IskustvoGetEndpoint} from "../../../endpoints/iskustvo-endpoint/get/isku
     NotificationToastComponent,
     FooterComponent,
     ModalComponent,
+    TranslatePipe,
   ],
   templateUrl: './oglasi.component.html',
   styleUrl: './oglasi.component.css'

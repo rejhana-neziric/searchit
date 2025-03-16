@@ -20,33 +20,31 @@ namespace JobSearchingWebApp.Endpoints.Poruka.GetChat
         [HttpGet]
         public override async Task<PorukaGetChatResponse> MyAction( [FromQuery]PorukaGetChatRequest request, CancellationToken cancellationToken)
         {
-            var porukeKorisnici = _context.PorukeKorisnici.Include(p => p.Poruka)
-                .Include(p => p.Posiljalac)
-                .Include(k => k.Korisnik)
-                .Where(x => (x.PosiljalacId == request.korisnik1_id && x.KorisnikId == request.korisnik2_id) 
-                || (x.PosiljalacId == request.korisnik2_id && x.KorisnikId == request.korisnik1_id))
-                .ToList();
+          var porukeKorisnici = await _context.PorukeKorisnici
+          .Include(p => p.Poruka)
+          .Include(p => p.Posiljalac)
+          .Include(k => k.Korisnik)
+          .Where(x => (x.PosiljalacId == request.korisnik1_id && x.KorisnikId == request.korisnik2_id)
+                   || (x.PosiljalacId == request.korisnik2_id && x.KorisnikId == request.korisnik1_id))
+          .Select(message => new PorukaGetChatResponsePoruka
+          {
+              id = message.Id,
+              posiljatelj_id = message.PosiljalacId,
+              posiljatelj_ime = message.Posiljalac.UserName ?? "",
+              primatelj_id = message.KorisnikId,
+              primatelj_ime = message.Korisnik.UserName ?? "",
+              is_seen = message.Poruka.IsSeen,
+              sadrzaj = message.Poruka.Sadrzaj ?? "",
+              vrijeme_slanja = message.Poruka.VrijemeSlanja
+          })
+          .OrderBy(c => c.vrijeme_slanja)
+          .ToListAsync(cancellationToken);
 
-            var responsePoruke = porukeKorisnici.Select(message => new PorukaGetChatResponsePoruka()
+            return new PorukaGetChatResponse
             {
-                id = message.Id,
-                posiljatelj_id = message.PosiljalacId,
-                posiljatelj_ime = message.Posiljalac.UserName ?? "",
-                primatelj_id = message.KorisnikId,
-                primatelj_ime = message.Korisnik.UserName ?? "",
-                is_seen = _context.Poruke.Where(x => x.Id == message.PorukaId).First().IsSeen,
-                sadrzaj = _context.Poruke.Where(x => x.Id == message.PorukaId).FirstOrDefault().Sadrzaj ?? "",
-                vrijeme_slanja = _context.Poruke.Where(x => x.Id == message.PorukaId).FirstOrDefault().VrijemeSlanja
-            }).OrderBy(c => c.vrijeme_slanja).ToList();
-
-            var totalMessages = responsePoruke.Count;
-            var totalUnseenMessages = responsePoruke.Count(p => !p.is_seen);
-
-            return new PorukaGetChatResponse ()
-            {
-                poruke = responsePoruke,
-                broj_neprocitanih = totalUnseenMessages,
-                total_poruka = totalMessages
+                poruke = porukeKorisnici,
+                broj_neprocitanih = porukeKorisnici.Count(p => !p.is_seen),
+                total_poruka = porukeKorisnici.Count
             };
         }
     }

@@ -34,6 +34,7 @@ import {application} from "express";
 import {FavoritesKompanijeComponent} from "../saved/favorites-kompanije/favorites-kompanije.component";
 import {FavoritesOglasiComponent} from "../saved/favorites-oglasi/favorites-oglasi.component";
 import {MatButtonToggle, MatButtonToggleGroup} from "@angular/material/button-toggle";
+import {TranslatePipe} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-applicants',
@@ -53,7 +54,8 @@ import {MatButtonToggle, MatButtonToggleGroup} from "@angular/material/button-to
     FavoritesKompanijeComponent,
     FavoritesOglasiComponent,
     MatButtonToggle,
-    MatButtonToggleGroup
+    MatButtonToggleGroup,
+    TranslatePipe
   ],
   templateUrl: './applicants.component.html',
   styleUrl: './applicants.component.css'

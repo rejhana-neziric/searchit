@@ -5,10 +5,10 @@
   <div class="sections">
     <div class="d-flex flex-row ps-4 pt-5">
       <img class="mt-1" style="width: 25px; height: 30px;" src="../../../../assets/img/sections.png" alt="">
-      <p class="fs-3 fw-bold ps-2">Sections</p>
+      <p class="fs-3 fw-bold ps-2">{{'SECTIONS' | translate}}</p>
     </div>
     <div class="ps-4 pt-1">
-      Select a section you want to add to your CV.
+      {{'SELECT_SECTION' | translate}}
     </div>
     <div class="sidebar">
       <div *ngFor="let section of sections"
@@ -30,12 +30,12 @@
 
       <div class="d-flex flex-row justify-content-between">
         <div>
-          <p class="fs-3 fw-bold m-0">Personal Details</p>
+          <p class="fs-3 fw-bold m-0">{{'PERSONAL_DETAILS' | translate}}</p>
           <hr class="m-0">
         </div>
 
         <button class="btn-confirm" style="width: 180px" (click)="importDetails()">
-          Import Personal Details
+          {{'IMPORT_PERSONAL' | translate}}
         </button>
       </div>
 
@@ -44,11 +44,11 @@
         <form [formGroup]="form" class="form-grid" (ngSubmit)="savePersonalDetails('section2')" autocomplete="off">
 
           <div class="mt-2 mb-4 ms-2 my-3">
-            <label class="required">CV Name</label>
+            <label class="required">{{ 'CV_NAME' | translate }}</label>
             <input formControlName="naziv" type="text" class="form-control"
                    [class.is-invalid]="submitted && form.get('naziv')?.errors">
             <span class="text-danger" *ngIf="submitted && form.get('naziv')?.hasError('required')">
-                        CV Name is required!
+                        {{'CV_NAME_REQUIRED' | translate}}
                     </span>
           </div>
 
@@ -57,44 +57,44 @@
             <div class="firstpart">
 
               <div class="mt-2 mb-4">
-                <label class="required">First Name</label>
+                <label class="required">{{'FIRST_NAME'| translate}}</label>
                 <input formControlName="firstName" type="text" class="form-control"
                        [class.is-invalid]="submitted && form.get('firstName')?.errors">
                 <span class="text-danger" *ngIf="submitted && form.get('firstName')?.hasError('required')">
-                        First Name is required!
+                        {{'first_name_required' | translate}}
                     </span>
                 <span class="text-danger" *ngIf="submitted && form.get('firstName')?.hasError('min')">
-                       First Name must be at least 3 characters!
+                       {{'first_name_minlength' | translate}}
                     </span>
                 <span class="text-danger" *ngIf="submitted && form.get('firstName')?.hasError('max')">
-                        First Name must be less than 30 characters!
+                        {{'first_name_maxlength' | translate}}
                     </span>
               </div>
 
               <div class="mt-2 mb-4">
-                <label class="required">Last Name</label>
+                <label class="required">{{'last_name' | translate}}</label>
                 <input formControlName="lastName" type="text" class="form-control"
                        [class.is-invalid]="submitted && form.get('lastName')?.errors">
                 <span class="text-danger" *ngIf="submitted && form.get('lastName')?.hasError('required')">
-                        Last Name is required!
+                        {{'last_name_required' | translate}}
                     </span>
                 <span class="text-danger" *ngIf="submitted && form.get('lastName')?.hasError('min')">
-                       Last Name must be at least 3 characters!
+                       {{'last_name_minlength' | translate}}
                     </span>
                 <span class="text-danger" *ngIf="submitted && form.get('lastName')?.hasError('max')">
-                        Last Name must be less than 30 characters!
+                       {{'last_name_maxlength' | translate}}
                     </span>
               </div>
 
               <div class="mt-2 mb-4">
-                <label class="required">Email</label>
+                <label class="required">{{'email_placeholder' | translate}}</label>
                 <input formControlName="email" type="text" class="form-control"
                        [class.is-invalid]="submitted && form.get('email')?.errors">
                 <span class="text-danger" *ngIf="submitted && form.get('email')?.hasError('required')">
-                        Email is required!
+                       {{'email_required' | translate}}
                     </span>
                 <span class="text-danger" *ngIf="submitted && form.get('email')?.hasError('email')">
-                        Email is invalid!
+                       {{'invalid_email' | translate}}
                     </span>
               </div>
 
@@ -107,7 +107,7 @@
               <div class="mt-2 mb-4">
 
                 <div class="mt-2 mb-4">
-                  <label>Phone Number</label>
+                  <label>{{'phone_number' | translate}}</label>
                   <input type="text" [value]=phoneNumber class="form-control" disabled>
                 </div>
 
@@ -115,7 +115,7 @@
                   *ngIf="(!kandidat?.phoneNumberConfirmed && isImportDetails)"
                   class="mt-2 mb-4">
                   <div  class=" w-auto ms-0" style="height: 30px; color: red"
-                          >Please confirm phone number in your account settings
+                          >{{'CONF_PH_NUM'| translate}}
                   </div>
 
                 </div>
@@ -123,13 +123,13 @@
               </div>
 
               <div class="mt-2 mb-4">
-                <label>City</label>
+                <label>{{ 'City' | translate }}</label>
                 <input formControlName="city" type="text" class="form-control"
                        [class.is-invalid]="submitted && form.get('city')?.errors">
               </div>
 
               <div class="mt-2 mb-4">
-                <label>Country</label>
+                <label>{{ 'Country' | translate }}</label>
                 <input formControlName="country" type="text" class="form-control"
                        [class.is-invalid]="submitted && form.get('country')?.errors">
               </div>
@@ -145,17 +145,17 @@
 
           <div class="button-section">
             <button type="submit" class="btn-confirm"
-            >Next section
+            >{{'nextSection' | translate}}
             </button>
             <br>
             <div class="d-flex flex-row mt-2">
 
               <button type="button" class="btn-cancel"
-                      (click)="cancel()">Cancel
+                      (click)="cancel()">{{'cancel' | translate}}
               </button>
 
               <button type="button" class="btn-confirm"
-                      (click)="cvPreview()" [routerLink]="'/cv-preview'">CV Preview
+                      (click)="cvPreview()" [routerLink]="'/cv-preview'">{{ 'CV_Preview' | translate }}
               </button>
             </div>
 
@@ -167,12 +167,12 @@
     </div>
     <div *ngIf="selectedSectionId === 'section2'" class="section2 section">
       <!-- Content for Section 2 -->
-      <p class="fs-3 fw-bold m-0">Professional Summary</p>
+      <p class="fs-3 fw-bold m-0">{{'PROFESSIONAL_SUMMARY' | translate}}</p>
       <hr class="m-0">
 
-      <label class="mt-2">Write 2-4 short & energetic sentences to interest the reader! Mention your role, experience &
-        most
-        importantly - your biggest achievements, best qualities and skills.</label>
+      <label class="mt-2">
+        {{'professionalSummaryLabel'|translate}}
+      </label>
 
       <textarea
         [(ngModel)]="professionalSummary"
@@ -184,10 +184,10 @@
 
         <div class="d-flex flex-row mt-2">
           <button type="button" class="btn-confirm"
-                  (click)="selectedSectionId = 'section1'">Previous section
+                  (click)="selectedSectionId = 'section1'">{{'previousSection' |translate}}
           </button>
           <button type="button" class="btn-confirm ms-2"
-                  (click)="completedProfessinalSummary()">Next section
+                  (click)="completedProfessinalSummary()">{{'nextSection' | translate}}
           </button>
         </div>
 
@@ -195,11 +195,11 @@
         <div class="d-flex flex-row mt-2">
 
           <button type="button" class="btn-cancel"
-                  (click)="cancel()">Cancel
+                  (click)="cancel()">{{'cancel' | translate}}
           </button>
 
           <button type="button" class="btn-confirm"
-                  (click)="cvPreview()" [routerLink]="'/cv-preview'">CV Preview
+                  (click)="cvPreview()" [routerLink]="'/cv-preview'">{{'cvPreview' | translate}}
           </button>
         </div>
 
@@ -211,9 +211,9 @@
     <!-- Education -->
     <div *ngIf="selectedSectionId === 'section3'" class="section3 section">
 
-      <p class="fs-3 fw-bold m-0">Education</p>
+      <p class="fs-3 fw-bold m-0">{{'education' | translate}}</p>
       <hr class="m-0">
-      <label class="mt-2">Provide details about your educational background.</label>
+      <label class="mt-2">{{'educationDetails' | translate}}</label>
 
       <div class="accordion" id="educationAccordion">
         <div *ngFor="let education of educations; let i = index" class="accordion-item">
@@ -241,7 +241,7 @@
                 <div class="row mt-5">
                   <div class="col-12 col-md-6">
                     <div class="mb-3">
-                      <label for="schoolName{{i}}" class="form-label required">School Name:</label>
+                      <label for="schoolName{{i}}" class="form-label required">{{'schoolName' | translate}}</label>
                       <input type="text" class="form-control" id="schoolName{{i}}" [(ngModel)]="education.nazivSkole"
                              name="schoolName{{i}}">
                     </div>
@@ -255,21 +255,21 @@
                   </div>
                   <div class="col-12 col-md-6">
                     <div class="mb-3">
-                      <label for="startDate{{i}}" class="form-label required">Start Date:</label>
+                      <label for="startDate{{i}}" class="form-label required">{{'startDate' | translate}}</label>
                       <input type="date" class="form-control" id="startDate{{i}}" [(ngModel)]="education.datumPocetka"
                              name="startDate{{i}}">
                     </div>
                   </div>
                   <div class="col-12 col-md-6">
                     <div class="mb-3">
-                      <label for="endDate{{i}}" class="form-label required">End Date:</label>
+                      <label for="endDate{{i}}" class="form-label required">{{'endDate' |translate}}</label>
                       <input type="date" class="form-control" id="endDate{{i}}" [(ngModel)]="education.datumZavrsetka"
                              name="endDate{{i}}">
                     </div>
                   </div>
 
                   <div class="mb-3">
-                    <label for="description{{i}}" class="form-label">Description:</label>
+                    <label for="description{{i}}" class="form-label">{{'description' | translate}}:</label>
                     <textarea class="form-control" id="description{{i}}" [(ngModel)]="education.opis"
                               name="description{{i}}"></textarea>
                   </div>
@@ -281,16 +281,16 @@
           </div>
         </div>
       </div>
-      <button class="mt-3 btn-add" (click)="addEducation()"> + Add New Education</button>
+      <button class="mt-3 btn-add" (click)="addEducation()"> {{'newEducation' | translate}}</button>
 
       <div class="button-section">
 
         <div class="d-flex flex-row mt-2">
           <button type="button" class="btn-confirm"
-                  (click)="selectedSectionId = 'section2'">Previous section
+                  (click)="selectedSectionId = 'section2'">{{'previousSection' |translate}}
           </button>
           <button type="button" class="btn-confirm ms-2"
-                  (click)="completedSectionWithList('section3', 'section4', this.educations)">Next section
+                  (click)="completedSectionWithList('section3', 'section4', this.educations)">{{'nextSection'|translate}}
           </button>
         </div>
 
@@ -298,11 +298,11 @@
         <div class="d-flex flex-row mt-2">
 
           <button type="button" class="btn-cancel"
-                  (click)="cancel()">Cancel
+                  (click)="cancel()">{{'cancel'|translate}}
           </button>
 
           <button type="button" class="btn-confirm"
-                  (click)="cvPreview()" [routerLink]="'/cv-preview'">CV Preview
+                  (click)="cvPreview()" [routerLink]="'/cv-preview'">{{'cvPreview'|translate}}
           </button>
         </div>
 
@@ -314,9 +314,9 @@
     <!-- Employment History -->
     <div *ngIf="selectedSectionId === 'section4'" class="section4 section">
 
-      <p class="fs-3 fw-bold m-0">Employment History</p>
+      <p class="fs-3 fw-bold m-0">{{'EMPLOYMENT_HISTORY'|translate}}</p>
       <hr class="m-0">
-      <label class="mt-2"> Detail your work history, including roles, companies, and key achievements.</label>
+      <label class="mt-2">{{'employmentHistoryLabel'|translate}} </label>
 
       <div class="accordion" id="employmentAccordion">
         <div *ngFor="let employment of employments; let i = index" class="accordion-item">
@@ -344,7 +344,7 @@
                 <div class="row mt-5">
                   <div class="col-12 col-md-6">
                     <div class="mb-3">
-                      <label for="nazivKompanije{{i}}" class="form-label required">Company Name:</label>
+                      <label for="nazivKompanije{{i}}" class="form-label required">{{'companyName'}}:</label>
                       <input type="text" class="form-control" id="nazivKompanije{{i}}"
                              [(ngModel)]="employment.nazivKompanije"
                              name="nazivKompanije{{i}}">
@@ -352,7 +352,7 @@
                   </div>
                   <div class="col-12 col-md-6">
                     <div class="mb-3">
-                      <label for="nazivPozicije{{i}}" class="form-label required">Position:</label>
+                      <label for="nazivPozicije{{i}}" class="form-label required">{{'position'}}</label>
                       <input type="text" class="form-control" id="nazivPozicije{{i}}"
                              [(ngModel)]="employment.nazivPozicije"
                              name="nazivPozicije{{i}}">
@@ -360,7 +360,7 @@
                   </div>
                   <div class="col-12 col-md-6">
                     <div class="mb-3">
-                      <label for="datumPocetka{{i}}" class="form-label required">Start Date:</label>
+                      <label for="datumPocetka{{i}}" class="form-label required">{{'startDate' | translate}}</label>
                       <input type="date" class="form-control" id="datumPocetka{{i}}"
                              [(ngModel)]="employment.datumPocetka"
                              name="datumPocetka{{i}}">
@@ -368,7 +368,7 @@
                   </div>
                   <div class="col-12 col-md-6">
                     <div class="mb-3">
-                      <label for="datumZavrsetka{{i}}" class="form-label required">End Date:</label>
+                      <label for="datumZavrsetka{{i}}" class="form-label required">{{'endDate' | translate}}</label>
                       <input type="date" class="form-control" id="datumZavrsetka{{i}}"
                              [(ngModel)]="employment.datumZavrsetka"
                              name="datumZavrsetka{{i}}">
@@ -376,7 +376,7 @@
                   </div>
 
                   <div class="mb-3">
-                    <label for="opis{{i}}" class="form-label">Description:</label>
+                    <label for="opis{{i}}" class="form-label">{{'description'|translate}}:</label>
                     <textarea class="form-control" id="opis{{i}}" [(ngModel)]="employment.opis"
                               name="opis{{i}}"></textarea>
                   </div>
@@ -388,13 +388,13 @@
           </div>
         </div>
       </div>
-      <button class="mt-3 btn-add" (click)="addEmployment()"> + Add New Employment</button>
+      <button class="mt-3 btn-add" (click)="addEmployment()">{{'newEmployment'|translate}}</button>
 
       <div class="button-section">
 
         <div class="d-flex flex-row mt-2">
           <button type="button" class="btn-confirm"
-                  (click)="selectedSectionId = 'section3'">Previous section
+                  (click)="selectedSectionId = 'section3'">{{'previousSection' | translate}}
           </button>
           <button type="button" class="btn-confirm ms-2"
                   (click)="completedSectionWithList('section4', 'section5', this.employments)">Next section
@@ -405,11 +405,11 @@
         <div class="d-flex flex-row mt-2">
 
           <button type="button" class="btn-cancel"
-                  (click)="cancel()">Cancel
+                  (click)="cancel()">{{'cancel'|translate}}
           </button>
 
           <button type="button" class="btn-confirm"
-                  (click)="cvPreview()" [routerLink]="'/cv-preview'">CV Preview
+                  (click)="cvPreview()" [routerLink]="'/cv-preview'">{{'cvPreview'|translate}}
           </button>
         </div>
 
@@ -420,7 +420,7 @@
     <!-- Skills -->
     <div *ngIf="selectedSectionId === 'section5'" class="section5 section">
 
-      <p class="fs-3 fw-bold m-0">Skills</p>
+      <p class="fs-3 fw-bold m-0">{{ 'skills' | translate }}</p>
       <hr class="m-0 mb-5">
 
 
@@ -446,7 +446,7 @@
 
           <div class="d-flex flex-row mt-2">
             <button type="button" class="btn-confirm"
-                    (click)="selectedSectionId = 'section4'">Previous section
+                    (click)="selectedSectionId = 'section4'">{{'previousSection' | translate}}
             </button>
             <button type="button" class="btn-confirm ms-2"
                     (click)="completedSectionWithList('section5', 'section6', this.selectedSkills)">Next section
@@ -457,11 +457,11 @@
           <div class="d-flex flex-row mt-2">
 
             <button type="button" class="btn-cancel"
-                    (click)="cancel()">Cancel
+                    (click)="cancel()">{{ 'cancel' | translate}}
             </button>
 
             <button type="button" class="btn-confirm"
-                    (click)="cvPreview()" [routerLink]="'/cv-preview'">CV Preview
+                    (click)="cvPreview()" [routerLink]="'/cv-preview'">{{'CV_Preview' | translate}}
             </button>
           </div>
         </div>
@@ -475,7 +475,7 @@
     <!-- Technical Skills -->
     <div *ngIf="selectedSectionId === 'section6'" class="section6 section">
 
-      <p class="fs-3 fw-bold m-0">Technical Skills</p>
+      <p class="fs-3 fw-bold m-0">{{'technicalSkills' | translate}}</p>
       <hr class="m-0">
 
       <div class="skills-container">
@@ -500,7 +500,7 @@
 
           <div class="d-flex flex-row mt-2">
             <button type="button" class="btn-confirm"
-                    (click)="selectedSectionId = 'section5'">Previous section
+                    (click)="selectedSectionId = 'section5'">{{'previousSection' | translate}}
             </button>
             <button type="button" class="btn-confirm ms-2"
                     (click)="completedSectionWithList('section6', 'section7', this.selectedTechnicalSkills)">Next
@@ -512,11 +512,11 @@
           <div class="d-flex flex-row mt-2">
 
             <button type="button" class="btn-cancel"
-                    (click)="cancel()">Cancel
+                    (click)="cancel()">{{ 'cancel' | translate }}
             </button>
 
             <button type="button" class="btn-confirm"
-                    (click)="cvPreview()" [routerLink]="'/cv-preview'">CV Preview
+                    (click)="cvPreview()" [routerLink]="'/cv-preview'">{{'cvPreview' | translate}}
             </button>
           </div>
 
@@ -530,7 +530,7 @@
     <!-- Courses -->
     <div *ngIf="selectedSectionId === 'section7'" class="section7 section">
 
-      <p class="fs-3 fw-bold m-0">Courses</p>
+      <p class="fs-3 fw-bold m-0">{{ 'courses'|translate }}</p>
       <hr class="m-0 mb-5">
 
       <div *ngFor="let course of courses; let i = index; trackBy: trackByFn" class="course-item">
@@ -555,17 +555,17 @@
 
       </div>
 
-      <button class="mt-3 btn-add" (click)="addCourse()"> + Add New Course</button>
+      <button class="mt-3 btn-add" (click)="addCourse()">{{'newCourse'|translate}}</button>
 
 
       <div class="button-section">
 
         <div class="d-flex flex-row mt-2">
           <button type="button" class="btn-confirm"
-                  (click)="selectedSectionId = 'section6'">Previous section
+                  (click)="selectedSectionId = 'section6'">{{'previousSection'|translate}}
           </button>
           <button type="button" class="btn-confirm ms-2"
-                  (click)="completedSectionWithList('section7', 'section8', this.courses)">Next section
+                  (click)="completedSectionWithList('section7', 'section8', this.courses)">{{'nextSection'|translate}}
           </button>
         </div>
 
@@ -573,11 +573,11 @@
         <div class="d-flex flex-row mt-2">
 
           <button type="button" class="btn-cancel"
-                  (click)="cancel()">Cancel
+                  (click)="cancel()">{{ 'cancel'|translate }}
           </button>
 
           <button type="button" class="btn-confirm"
-                  (click)="cvPreview()" [routerLink]="'/cv-preview'">CV Preview
+                  (click)="cvPreview()" [routerLink]="'/cv-preview'">{{'cvPreview'|translate}}
           </button>
         </div>
 
@@ -590,11 +590,10 @@
     <!-- Websites & Social Links -->
     <div *ngIf="selectedSectionId === 'section8'" class="section8 section">
 
-      <p class="fs-3 fw-bold m-0">Websites & Social Links</p>
+      <p class="fs-3 fw-bold m-0">{{'websites'|translate}}</p>
       <hr class="m-0">
 
-      <label class="mt-2 mb-2">Provide relevant links to your personal website, portfolio, or professional
-        profiles.</label>
+      <label class="mt-2 mb-2">{{'websitesLabel' |translate}}</label>
 
       <div *ngFor="let url of urls; let i = index" class="mb-3">
         <div class="url-input d-flex flex-row justify-content-between align-items-center" style="width: 95%;">
@@ -632,7 +631,7 @@
 
       <app-notification-toast></app-notification-toast>
 
-      <button class="mt-3 btn-add" (click)="addUrl()"> + Add New Link</button>
+      <button class="mt-3 btn-add" (click)="addUrl()"> {{'newLink' |translate}}</button>
 
       <div class="button-section">
 
@@ -640,17 +639,17 @@
 
 
           <button type="button" class="btn-confirm"
-                  (click)="selectedSectionId = 'section7'">Previous section
+                  (click)="selectedSectionId = 'section7'">{{'previousSection'|translate}}
           </button>
 
 
           <button *ngIf="this.cvEditId == null" type="button"
                   class="btn-confirm ms-2"
-                  (click)="openCreateCVModal()">Create CV
+                  (click)="openCreateCVModal()">{{'createCV'|translate}}
           </button>
 
           <button *ngIf="this.cvEdit" type="button" class="btn-confirm"
-                  (click)="openSaveModal()">Save
+                  (click)="openSaveModal()">{{'SAVE' |translate}}
           </button>
         </div>
 
@@ -659,11 +658,11 @@
         <div class="d-flex flex-row mt-2">
 
           <button type="button" class="btn-cancel"
-                  (click)="cancel()">Cancel
+                  (click)="cancel()">{{'cancel'|translate}}
           </button>
 
           <button type="button" class="btn-confirm"
-                  (click)="cvPreview()" [routerLink]="'/cv-preview'">CV Preview
+                  (click)="cvPreview()" [routerLink]="'/cv-preview'">{{'CV_Preview'|translate}}
           </button>
         </div>
 
@@ -678,19 +677,19 @@
 
 <app-modal
   modalId="saveModal"
-  title="Confirm Changes"
-  body="Are you sure you want to save changes?"
+  [title]="'CONFIRM_CHANGES' | translate"
+  [body]="'SAVE_CHANGES_MESSAGE' | translate"
   [buttons]="saveButtons"
 ></app-modal>
 
 <app-modal
   modalId="createCVModal"
-  title="Publish CV"
-  body="Are you sure you want to publish CV?"
+  [title]="'PUBLISH_CV' | translate"
+  [body]="'PUBLISH_CV_MESSAGE' | translate"
   [buttons]="createCVButtons"
 >
   <div style="color: red">
-    Note: published CVs will be visible to all companies, while draft is visible only to you.
+    {{'note'|translate}}
   </div>
 </app-modal>
 

@@ -35,7 +35,7 @@ export class ChatAllComponent implements OnInit{
   groupedMessages: GroupedMessage[] = []
   pretragaNaziv: string = ""
   newChat:any;
-    selecetedChat: GroupedMessage | null = null;
+  selecetedChat: GroupedMessage | null = null;
   korisnik1Id: string = '';
   korisnik2Id: string | null = '';
   selectedChat: GroupedMessage | null = null;
@@ -92,8 +92,6 @@ export class ChatAllComponent implements OnInit{
 
     const formattedDate = messageTime.toISOString().split('T')[0];
     const formattedTime = messageTime.toISOString().split('T')[1].slice(0,5);
-    console.log(formattedTime);
-    console.log(formattedDate);
     const formattedTimeDate = `${formattedDate} - ${formattedTime}`;
 
     return formattedTimeDate;

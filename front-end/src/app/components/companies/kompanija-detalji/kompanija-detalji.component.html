@@ -5,8 +5,7 @@
 <div class="d-flex flex-column pregled me-auto ms-auto">
   <div class="d-flex flex-row nav-link pregled-breadcrumbs text-dark">
     <a type="button nav-link" style="color: #84B59F;; font-size: large;  text-decoration: none;"
-       [routerLink]="['/companies/']">Companies > </a>
-    <p style="color: #84B59F; font-size: large;"> > Company details</p>
+       [routerLink]="['/companies/']">{{ 'COMPANY.COMPANY_DETAILS' | translate }}</a>
   </div>
   <div class="pregled-kompanija">
     <div class="d-flex flex-column">
@@ -18,42 +17,29 @@
 
         <div class="d-flex flex-column" style="margin-left: 25px; margin-bottom: 5px">
           <span class="fw-bold fs-3 tekst" style="color: #84B59F">{{ kompanija?.naziv }}</span>
-          <a class="fw-normal fs-6 py-2" href=" {{ kompanija?.website }}">
+          <a class="fw-normal fs-6 py-2" href="{{ kompanija?.website }}">
             <img style=" height: 15px; width: 15px;" alt="" src="../../../../assets/img/websitelink.png">
             {{ kompanija?.website }}</a>
-          <span class="fw-normal fs-5 py-2">{{ kompanija?.brojZaposlenih }} Employees</span>
+          <span class="fw-normal fs-5 py-2">{{ 'COMPANY.EMPLOYEES' | translate }}: {{ kompanija?.brojZaposlenih }}</span>
 
           <span class="fw-normal fs-5 py-2">
-                    <img style=" height: 15px; width: 15px;" alt="" src="../../../../assets/img/location.png">
-            {{ kompanija?.lokacija }}</span>
+            <img style=" height: 15px; width: 15px;" alt="" src="../../../../assets/img/location.png">
+            {{ 'COMPANY.LOCATION' | translate }}: {{ kompanija?.lokacija }}</span>
         </div>
         <div style="width: 170px; margin-left: auto;" class="d-flex flex-column justify-content-around">
           <div>
-                  <span *ngIf="kompanija?.brojOtvorenihPozicija! > 0"
-                        class="fs-6 d-flex flex-row justify-content-end ">
-                <div class="open-positions">
-                                 Open positions {{ kompanija?.brojOtvorenihPozicija }}
-                </div>
-              </span>
+            <span *ngIf="kompanija?.brojOtvorenihPozicija! > 0"
+                  class="fs-6 d-flex flex-row justify-content-end ">
+              <div class="open-positions">
+                {{ 'POSITION.OPEN_POSITIONS' | translate }}: {{ kompanija?.brojOtvorenihPozicija }}
+              </div>
+            </span>
             <span *ngIf="kompanija?.brojOtvorenihPozicija! == 0"
                   class="fs-6 d-flex flex-row justify-content-end ">
-                 <div class="open-positions" style="background-color: lightgray">
-                                No open positions
-                </div>
-              </span>
-          </div>
-          <div class="d-flex flex-row justify-content-end align-content-center">
-
-            <a href="{{kompanija?.twitter}}">
-              <img style=" height: 45px; width: 45px;" alt="{{kompanija?.twitter}}"
-                   src="../../../../assets/img/twitter.png">
-            </a>
-
-            <a href="{{kompanija?.linkedIn}}">
-              <img style=" height: 54px; width: 50px; padding-bottom: 6px" alt="{{kompanija?.linkedIn}}"
-                   src="../../../../assets/img/linkedin.png">
-            </a>
-
+              <div class="open-positions" style="background-color: lightgray">
+                {{ 'POSITION.NO_OPEN_POSITIONS' | translate }}
+              </div>
+            </span>
           </div>
         </div>
 
@@ -62,17 +48,17 @@
         <br>
         <p class="pregled-naslovi fs-5">{{ kompanija?.kratkiOpis }}</p>
         <br>
-        <p class="pregled-naslovi fw-bold fs-6">Description:</p>
+        <p class="pregled-naslovi fw-bold fs-6">{{ 'COMPANY.DESCRIPTION' | translate }}:</p>
         <span>{{ kompanija?.opis }}</span>
         <br> <br>
       </div>
     </div>
     <div class="d-flex flex-row ms-auto mt-5 d-flex justify-content-end">
-      <button class="btn-confirm" href="" type="button">Contact!</button>
+      <button class="btn-confirm" href="" type="button">{{ 'COMPANY.CONTACT' | translate }}</button>
     </div>
   </div>
 
-  <span class="fw-bold fs-2" style="color: #84B59F; margin: 50px auto;">Open Positions</span>
+  <span class="fw-bold fs-2" style="color: #84B59F; margin: 50px auto;">{{ 'COMPANY.OPEN_POSITIONS' | translate }}</span>
 
   <div>
 
@@ -96,7 +82,7 @@
           </div>
           <a style="margin-left:auto; margin-top: 100px;">
             <button class="btn-confirm me-2" href=""
-                    [routerLink]="['/jobs/', oglas?.id]" type="button">Details
+                    [routerLink]="['/jobs/', oglas?.id]" type="button">{{ 'COMPANY.DETAILS' | translate }}
             </button>
           </a>
           <app-notification-toast></app-notification-toast>
@@ -107,7 +93,7 @@
 
     <div *ngIf="oglasi.length == 0"
          class="p-4 border border-2 shadow bg-body-tertiary no-result-section">
-      <span class="fs-5 ">Sorry, there are not currently opened positions. </span> <br>
+      <span class="fs-5 ">{{ 'COMPANY.NO_OPEN_POSITIONS' | translate }}</span> <br>
     </div>
 
   </div>

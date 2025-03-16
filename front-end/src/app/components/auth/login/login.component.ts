@@ -4,6 +4,7 @@ import {FormsModule} from "@angular/forms";
 import {NgClass, NgIf} from "@angular/common";
 import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {take} from "rxjs";
+import {TranslatePipe} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-login',
@@ -12,7 +13,8 @@ import {take} from "rxjs";
     FormsModule,
     NgClass,
     RouterLink,
-    NgIf
+    NgIf,
+    TranslatePipe
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'

@@ -1,7 +1,7 @@
 <div class="content d-flex flex-column">
-  <!--Korisnici-->
+  <!-- {{ 'USERS' | translate }} -->
   <div class="korisnici-section d-flex flex-column">
-    <!--Korisnik-->
+    <!-- {{ 'USER' | translate }} -->
     <div class="korisnik"
          *ngFor="let korisnik of kompanije | paginate:{itemsPerPage:itemsPerPage, currentPage:currentPage, totalItems:total}">
 
@@ -14,8 +14,12 @@
             <span class="fw-normal fs-5" style="color: #3d3b3b"> {{ korisnik.website }} </span>
           </div>
           <div class="d-flex flex-row align-items-center mt-1 ms-auto delete">
-            <button class="btn btn-danger" (click)="openDeleteModal(korisnik.id)">Delete</button>
-            <button class="btn btn-edit" [routerLink]="['/companies-edit', korisnik.id]">Edit</button>
+            <button class="btn btn-danger" (click)="openDeleteModal(korisnik.id)">
+              {{ 'DELETE' | translate }}
+            </button>
+            <button class="btn btn-edit" [routerLink]="['/companies-edit', korisnik.id]">
+              {{ 'EDIT' | translate }}
+            </button>
           </div>
         </div>
       </div>
@@ -25,7 +29,7 @@
 
 <app-modal
   modalId="deleteModal"
-  title="Confirm Delete"
-  body="Are you sure you want to delete this user?"
+  title="{{ 'CONFIRM_DELETE' | translate }}"
+  body="{{ 'DELETE_CONFIRMATION' | translate }}"
   [buttons]="deleteButtons"
 ></app-modal>

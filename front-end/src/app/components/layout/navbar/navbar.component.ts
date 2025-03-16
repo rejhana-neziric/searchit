@@ -1,9 +1,10 @@
-import {booleanAttribute, Component, Input, OnInit} from '@angular/core';
-import {ActivatedRoute, Router, RouterLink} from "@angular/router";
-import {AsyncPipe, NgClass, NgIf} from "@angular/common";
-import {AuthService} from "../../../services/auth-service";
-import {User} from "../../../modals/user";
-import {firstValueFrom, take} from "rxjs";
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router, RouterLink } from "@angular/router";
+import { AsyncPipe, NgClass, NgIf } from "@angular/common";
+import { AuthService } from "../../../services/auth-service";
+import { User } from "../../../modals/user";
+import { firstValueFrom, take } from "rxjs";
+import {TranslatePipe, TranslateService} from '@ngx-translate/core'; // Dodaj import za TranslateService
 
 @Component({
   selector: 'app-navbar',
@@ -12,17 +13,20 @@ import {firstValueFrom, take} from "rxjs";
     RouterLink,
     NgIf,
     NgClass,
-    AsyncPipe
+    AsyncPipe,
+    TranslatePipe
   ],
   templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.css'
+  styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
   loggedUser: User | null = null;
 
-  constructor(private router: Router,
-              public authService: AuthService) {
-  }
+  constructor(
+    private router: Router,
+    public authService: AuthService,
+    private translate: TranslateService // Injektuj TranslateService
+  ) {}
 
   async ngOnInit(): Promise<void> {
     try {
@@ -57,5 +61,10 @@ export class NavbarComponent implements OnInit {
   logout() {
     this.authService.logout();
     this.loggedUser = null;
+  }
+
+  // Funkcija za prevođenje, možete koristiti ovo i u HTML-u direktno kroz pipe
+  translateKey(key: string) {
+    return this.translate.instant(key); // Koristi instant() za prevođenje odmah
   }
 }

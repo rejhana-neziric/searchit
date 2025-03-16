@@ -25,24 +25,26 @@ import {ModalComponent} from "../../notifications/modal/modal.component";
 import {ModalService} from "../../../services/modal-service";
 import {SharedService} from "../../../services/shared.service";
 import {OglasiService} from "../../../services/oglasi.service";
+import {TranslatePipe} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-favorites-oglasi',
   standalone: true,
-    imports: [
-        DatePipe,
-        NavbarComponent,
-        NgForOf,
-        NgIf,
-        NgxPaginationModule,
-        NotificationToastComponent,
-        ReactiveFormsModule,
-        RouterLink,
-        FormsModule,
-        MatButtonToggleGroup,
-        MatButtonToggle,
-        ModalComponent
-    ],
+  imports: [
+    DatePipe,
+    NavbarComponent,
+    NgForOf,
+    NgIf,
+    NgxPaginationModule,
+    NotificationToastComponent,
+    ReactiveFormsModule,
+    RouterLink,
+    FormsModule,
+    MatButtonToggleGroup,
+    MatButtonToggle,
+    ModalComponent,
+    TranslatePipe
+  ],
   templateUrl: './favorites-oglasi.component.html',
   styleUrl: './favorites-oglasi.component.css'
 })

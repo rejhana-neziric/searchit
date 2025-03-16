@@ -11,6 +11,7 @@ import {FavoritesKompanijeComponent} from "../favorites-kompanije/favorites-komp
 import {User} from "../../../modals/user";
 import {AuthService} from "../../../services/auth-service";
 import {FooterComponent} from "../../layout/footer/footer.component";
+import {TranslatePipe} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-favorites',
@@ -28,7 +29,8 @@ import {FooterComponent} from "../../layout/footer/footer.component";
     MatButtonToggleGroup,
     FavoritesOglasiComponent,
     FavoritesKompanijeComponent,
-    FooterComponent
+    FooterComponent,
+    TranslatePipe
   ],
   templateUrl: './favorites.component.html',
   styleUrl: './favorites.component.css'

@@ -17,7 +17,7 @@
             <a class="accordion-button nav-link text-dark collapsed" type="button" data-bs-toggle="collapse"
                data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="false"
                aria-controls="panelsStayOpen-collapseOne">
-              Location
+              {{ 'COMPANY.LOCATION' | translate }}
             </a>
           </h2>
           <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse"
@@ -43,7 +43,7 @@
             <a class="accordion-button nav-link text-dark collapsed" type="button" data-bs-toggle="collapse"
                data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false"
                aria-controls="panelsStayOpen-collapseTwo">
-              Number of Employees
+              {{ 'numberOfEmployees' |translate }}
             </a>
           </h2>
           <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse"
@@ -67,7 +67,7 @@
               <a class="accordion-button nav-link text-dark collapsed" type="button" data-bs-toggle="collapse"
                  data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false"
                  aria-controls="panelsStayOpen-collapseThree">
-                Open Positions
+                {{'OPEN_POSITIONS' | translate}}
               </a>
             </h2>
             <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse"
@@ -77,14 +77,14 @@
                   <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault-true"
                          (change)="openPositionsFilter('Positions available')">
                   <label class="form-check-label" for="flexCheckDefault-true">
-                    Positions available
+                    {{'POSITIONS_AVAILABLE' |translate}}
                   </label>
                 </div>
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked-false"
                          (change)="openPositionsFilter('No open positions')">
                   <label class="form-check-label" for="flexCheckChecked-false">
-                    No open positions
+                    {{'NO_OPEN_POSITIONS' | translate}}
                   </label>
                 </div>
 
@@ -106,14 +106,14 @@
                 <input class="form-check-input" type="checkbox" value="" (change)="sortirajPoKompaniji()"
                        id="flexCheckChecked-company-name">
                 <label class="form-check-label" for="flexCheckChecked-company-name">
-                  Company Name
+                  {{'companyName' | translate}}
                 </label>
               </div>
               <div class="form-check pt-2">
                 <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked-open-positions"
                        (change)="sortirajPoOtvorenimPozicijama()">
                 <label class="form-check-label" for="flexCheckChecked-open-positions">
-                  Number of Open Positions
+                  {{'NUMBER_OF_OPEN_POSITIONS' | translate}}
                 </label>
               </div>
               <div *ngIf="isNumberOfOpenPositions" class="ps-2">
@@ -122,7 +122,7 @@
                          id="flexRadioAscending-open-positions"
                          checked (change)="promijeniSortiranjeZaOtvorenePozicije()">
                   <label class="form-check-label" for="flexRadioAscending-open-positions">
-                    Ascending
+                    {{'ASCENDING' | translate}}
                   </label>
                 </div>
                 <div class="form-check">
@@ -130,7 +130,7 @@
                          id="flexRadioDescending-open-positions"
                          (change)="promijeniSortiranjeZaOtvorenePozicije()">
                   <label class="form-check-label" for="flexRadioDescending-open-positions">
-                    Descending
+                    {{'DESCENDING' | translate}}
                   </label>
                 </div>
               </div>
@@ -149,8 +149,7 @@
 
     <!-- Message Section -->
     <div class="message-section">
-      Discover the best IT companies to jumpstart your career - use our search and filters to find the perfect match for
-      your skills and aspirations.
+      {{'MESSAGE_SECTION' | translate}}
     </div>
     <!-- Message Section -->
 
@@ -159,7 +158,7 @@
       <form class="search-form">
         <input class="form-control" type="text" [(ngModel)]="pretragaNaziv" [ngModelOptions]="{standalone: true}"
                (ngModelChange)="onSearchChange($event)"
-               placeholder="Search by company name.">
+               placeholder="{{'SEARCH_COMPANY' | translate}}">
         <i class="fa-solid fa-magnifying-glass"></i>
       </form>
     </div>
@@ -194,7 +193,7 @@
             <div class="d-flex flex-column justify-content-between " style="padding: 10px; order: 3; flex:2">
               <span *ngIf="kompanija.brojOtvorenihPozicija! > 0" class="fs-6 d-flex flex-row justify-content-end ">
                 <div class="open-positions">
-                                 Open positions {{ kompanija.brojOtvorenihPozicija }}
+                                 {{'OPEN_POSITIONS' | translate}} {{ kompanija.brojOtvorenihPozicija }}
                 </div>
               </span>
               <span *ngIf="kompanija.brojOtvorenihPozicija! == 0" class="fs-6 d-flex flex-row justify-content-end ">
@@ -241,7 +240,7 @@
 
               <div class="d-flex flex-column py-3">
                 <span class="fw-bold fs-3 " style="color: #84B59F">{{ odabranaKompanija?.naziv }}</span>
-                <span class="fw-normal fs-5 py-2">{{ odabranaKompanija?.brojZaposlenih }} Employees</span>
+                <span class="fw-normal fs-5 py-2">{{ odabranaKompanija?.brojZaposlenih }} {{'EMPLOYEES' | translate}}</span>
                 <span class="fw-normal fs-5 py-2">
                     <img style=" height: 15px; width: 15px;" alt="" src="../../../../assets/img/location.png">
                   {{ odabranaKompanija?.lokacija }}</span>
@@ -250,13 +249,13 @@
                  <span *ngIf="odabranaKompanija?.brojOtvorenihPozicija! > 0"
                        class="fs-6 d-flex flex-row justify-content-end ">
                 <div class="open-positions">
-                                 Open positions {{ odabranaKompanija?.brojOtvorenihPozicija }}
+                                 {{'OPEN_POSITIONS' | translate}} {{ odabranaKompanija?.brojOtvorenihPozicija }}
                 </div>
                  </span>
                 <span *ngIf="odabranaKompanija?.brojOtvorenihPozicija! == 0"
                       class="fs-6 d-flex flex-row justify-content-end ">
                  <div class="open-positions" style="background-color: lightgray">
-                                No open positions
+                                {{'NO_OPEN_POSITIONS' | translate}}
                  </div>
                   </span>
               </div>
@@ -265,14 +264,14 @@
               <br>
               <p class="pregled-naslovi fs-5">{{ odabranaKompanija?.kratkiOpis }}</p>
               <br>
-              <p class="pregled-naslovi fw-bold fs-6">Description:</p>
+              <p class="pregled-naslovi fw-bold fs-6">{{'description' | translate}}</p>
               <span>{{ odabranaKompanija?.opis }}</span>
               <br> <br>
             </div>
           </div>
           <div class="d-flex flex-row me-auto ms-auto mt-3 justify-content-center">
             <button class="btn-confirm"
-               [routerLink]="['/chat/']">Contact</button>
+               [routerLink]="['/chat/']">{{'CONTACT' | translate}}</button>
             <button class="btn-confirm"
                [routerLink]="['/companies/', odabranaKompanija?.id]">Details</button>
           </div>
@@ -297,20 +296,20 @@
     <!-- Nema rezultata pretrage  -->
     <div *ngIf="!imaRezultataPretrage && pretragaNaziv != ''"
          class="p-4 border border-2 shadow bg-body-tertiary no-result-section">
-      <span class="fs-4 mb-4">No results for {{ this.pretragaNaziv }}</span> <br>
+      <span class="fs-4 mb-4">{{'NO_RESULTS_FOR' | translate}} {{ this.pretragaNaziv }}</span> <br>
       <div class="mt-3 fs-6">
-        <span>Search Help</span>
+        <span>{{'SEARCH_HELP' | translate}}</span>
         <ul>
-          <li>Check your search for typos and spelling errors.</li>
-          <li>Try more general keywords.</li>
-          <li>Try different keywords.</li>
+          <li>{{'CHECK_SEARCH' | translate}}</li>
+          <li>{{'GENERAL_KEYWORDS' | translate}}</li>
+          <li>{{'DIFFERENT_KEYWORDS' | translate}}</li>
         </ul>
       </div>
     </div>
 
     <div *ngIf="!imaRezultataPretrage && pretragaNaziv == ''"
          class="p-4 border border-2 shadow bg-body-tertiary no-result-section">
-      <span class="fs-5 mb-4">We're sorry. We were not able to find a match.</span> <br>
+      <span class="fs-5 mb-4">{{'NO_MATCH' | translate}}</span> <br>
     </div>
 
   </div>

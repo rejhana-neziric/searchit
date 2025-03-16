@@ -5,6 +5,7 @@ import {FormsModule} from "@angular/forms";
 import {NgIf} from "@angular/common";
 import {NavbarComponent} from "../../layout/navbar/navbar.component";
 import {NotificationService} from "../../../services/notification-service";
+import {TranslatePipe} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-two-factor-authentication',
@@ -12,7 +13,8 @@ import {NotificationService} from "../../../services/notification-service";
   imports: [
     FormsModule,
     NgIf,
-    NavbarComponent
+    NavbarComponent,
+    TranslatePipe
   ],
   templateUrl: './two-factor-authentication.component.html',
   styleUrl: './two-factor-authentication.component.css'

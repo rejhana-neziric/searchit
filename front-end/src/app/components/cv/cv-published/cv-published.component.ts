@@ -27,6 +27,7 @@ import {firstValueFrom} from "rxjs";
 import {HttpErrorResponse} from "@angular/common/http";
 import {KandidatGetByIdEndpoint} from "../../../endpoints/kandidat-endpoint/get-by-id/kandidat-get-by-id-endpoint";
 import {KandidatOglasGetEndpoint} from "../../../endpoints/kandidat-oglas-endpoint/get/kandidat-oglas-get-endpoint";
+import {TranslatePipe} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-cv-published',
@@ -41,7 +42,8 @@ import {KandidatOglasGetEndpoint} from "../../../endpoints/kandidat-oglas-endpoi
     ReactiveFormsModule,
     RouterLink,
     FormsModule,
-    FooterComponent
+    FooterComponent,
+    TranslatePipe
   ],
   templateUrl: './cv-published.component.html',
   styleUrl: './cv-published.component.css'

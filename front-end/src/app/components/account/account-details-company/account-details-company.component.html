@@ -3,7 +3,7 @@
 <div class="main">
 
   <div class="section-headline">
-    <h3 class="fw-bold">Account details </h3>
+    <h3 class="fw-bold">{{ 'accountDetails' | translate }} </h3>
     <hr class="text-underline">
   </div>
 
@@ -15,7 +15,7 @@
         (click)="toggle2FA()"
         [ngClass]="{'enabled': is2FAEnabled, 'disabled': !is2FAEnabled}"
       >
-        {{ is2FAEnabled ? 'Disable 2FA' : 'Enable 2FA' }}
+        {{ is2FAEnabled ? ('disable2FA' | translate) : ('enable2FA' | translate) }}
       </button>
     </div>
 
@@ -24,15 +24,15 @@
 
 
         <div class="mt-2 mb-4 my-3">
-          <label class="required">Enter the verification token send to your email.</label>
+          <label class="required">{{'verificationToken' | translate}}</label>
           <input formControlName="token" type="text" class="form-control"
                  [class.is-invalid]="submittedConfirmCode && confirmCodeForm.get('token')?.errors">
           <span class="text-danger" *ngIf="submittedConfirmCode && confirmCodeForm.get('token')?.hasError('required')">
-                        Verification code is required!
+                        {{'verificationCodeRequired' | translate}}
                     </span>
         </div>
 
-        <button class="btn-confirm w-auto ms-0" style="height: 30px">Submit</button>
+        <button class="btn-confirm w-auto ms-0" style="height: 30px">{{ 'submit' | translate }}</button>
 
       </form>
     </div>
@@ -48,23 +48,23 @@
 
           <label for="logo" class="btn btn-confirm mt-2 w-auto">
             <input id="logo" type="file" (change)="onLogoChange($event)">
-            Change Logo
+            {{ 'changeLogo' | translate }}
           </label>
         </div>
 
 
         <div class="ms-5">
-          <label class="fs-5">Company Name</label>
+          <label class="fs-5">{{'companyName'|translate}}</label>
           <input formControlName="companyName" type="text" class="form-control"
                  [class.is-invalid]="submitted && companyForm.get('companyName')?.errors">
           <span class="text-danger" *ngIf="submitted && companyForm.get('companyName')?.hasError('required')">
-                        Company Name is required!
+                       {{'companyNameRequired' | translate }}
                     </span>
           <span class="text-danger" *ngIf="submitted && companyForm.get('companyName')?.hasError('min')">
-                       Company Name be at least 3 characters!
+                       {{'companyNameMin' | translate}}
                     </span>
           <span class="text-danger" *ngIf="submitted && companyForm.get('companyName')?.hasError('max')">
-                        Company Name be less than 30 characters!
+                        {{'companyNameMax'| translate}}
                     </span>
         </div>
 
@@ -76,27 +76,27 @@
         <div class="firstpart">
 
           <div class="mt-2 mb-4">
-            <label>Username</label>
+            <label>{{'username'|translate}}</label>
             <input type="text" [value]=loggedCompany?.userName class="form-control" disabled>
           </div>
 
           <div class="mt-2 mb-4">
-            <label>Email</label>
+            <label>{{ 'email' | translate }}</label>
             <input type="text" [value]=loggedCompany?.email class="form-control" disabled>
           </div>
 
 
           <div class="mt-2 mb-4">
-            <label>Year Founded</label>
+            <label>{{'yearFounded' | translate}}</label>
             <input type="text" [value]=loggedCompany?.godinaOsnivanja class="form-control" disabled>
           </div>
 
           <div class="mt-2 mb-4">
-            <label>Location</label>
+            <label>{{ 'location' | translate}}</label>
             <input formControlName="location" type="text" class="form-control"
                    [class.is-invalid]="submitted && companyForm.get('location')?.errors">
             <span class="text-danger" *ngIf="submitted && companyForm.get('location')?.hasError('required')">
-                        Location is required!
+                       {{'locationRequired' | translate}}
                     </span>
           </div>
 
@@ -107,7 +107,7 @@
         <div class="secondpart">
 
           <div class="mt-2 mb-4">
-            <label>Number of Employees</label>
+            <label>{{'numberOfEmployees' | translate}}</label>
             <select formControlName="numberOfEmployees" class="form-control"
                     [class.is-invalid]="submitted && companyForm.get('numberOfEmployees')?.errors">
               <option *ngFor="let option of numberOfEmployeesRange" [value]="option">
@@ -115,23 +115,23 @@
               </option>
             </select>
             <span class="text-danger" *ngIf="submitted && companyForm.get('numberOfEmployees')?.hasError('required')">
-                  Number of Employees is required!
+                  {{'numberOfEmployeesRequired' | translate}}
             </span>
           </div>
 
           <div class="mt-2 mb-4">
-            <label>Website</label>
+            <label>{{'website' | translate}}</label>
             <input formControlName="website" type="text" class="form-control">
           </div>
 
           <div class="mt-2 mb-4">
-            <label>LinkedIn</label>
+            <label>{{'linkedin' | translate}}</label>
             <input formControlName="linkedin" type="text" class="form-control">
           </div>
 
 
           <div class="mt-2 mb-4">
-            <label>Twitter</label>
+            <label>{{ 'twitter' | translate}}</label>
             <input formControlName="twitter" type="text" class="form-control">
           </div>
 
@@ -143,11 +143,11 @@
       <div class="d-flex flex-row">
 
         <div class="mt-2 mb-4" style="width: 100%;">
-          <label>Short Description</label>
+          <label>{{'shortDescription' |translate}}</label>
           <textarea formControlName="shortDecription" type="text" class="form-control" rows="3"
                     [class.is-invalid]="submitted && companyForm.get('shortDecription')?.errors"> </textarea>
           <span class="text-danger" *ngIf="submitted && companyForm.get('shortDecription')?.hasError('required')">
-                        Short Description is required!
+                       {{'shortDescriptionRequired'|translate}}
                     </span>
         </div>
 
@@ -156,12 +156,12 @@
       <div class="d-flex flex-row">
 
         <div class="mt-2 mb-4" style="width: 100%;">
-          <label>Description</label>
+          <label>{{ 'description' | translate}}</label>
           <textarea #textareaElement formControlName="decription" type="text" class="form-control"
                     (input)="adjustTextareaHeight(textareaElement)">
                     [class.is-invalid]="submitted && companyForm.get('decription')?.errors"> </textarea>
           <span class="text-danger" *ngIf="submitted && companyForm.get('decription')?.hasError('required')">
-                        Description is required!
+                        {{'descriptionRequired'|translate}}
                     </span>
         </div>
 
@@ -171,13 +171,13 @@
       <div class="form-group d-flex flex-row justify-content-between">
 
         <div>
-          <button type="button" class="btn-danger" style="width: 120px" (click)="openDeleteModal()">Delete account
+          <button type="button" class="btn-danger" style="width: 120px" (click)="openDeleteModal()">{{ 'deleteAccount' | translate }}
           </button>
         </div>
 
         <div class="d-flex flex-row">
-          <button type="button" class="btn-cancel" (click)="cancel()">Cancel</button>
-          <button type="button" class="btn-confirm ms-2 w-auto" (click)="openSaveModal()">Save change</button>
+          <button type="button" class="btn-cancel" (click)="cancel()">{{ 'cancel' | translate}}</button>
+          <button type="button" class="btn-confirm ms-2 w-auto" (click)="openSaveModal()">{{'saveChanges' | translate}}</button>
         </div>
 
       </div>
@@ -194,14 +194,14 @@
 <app-modal
   modalId="deleteModal"
   title="Delete Account"
-  body="Are you sure you want to delete account?"
+  body="'deleteAccountConfirmation' | translate"
   [buttons]="deleteButtons"
 ></app-modal>
 
 <app-modal
   modalId="saveModal"
   title="Confirm Changes"
-  body=" Are you sure you want to save changes?"
+  body="'confirmChangesConfirmation' | translate"
   [buttons]="saveButtons"
 ></app-modal>
 

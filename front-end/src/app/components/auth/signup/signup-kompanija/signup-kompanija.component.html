@@ -6,106 +6,85 @@
 
       <div class="naslov fs-1 fw-bold p-1 bd-highlight">
         <a class="nav-link active text-dark fs-1 fw-bold "
-           [routerLink]="'/home'">searchit</a>
+           [routerLink]="'/home'">{{ 'COMPANY_SEARCH' | translate }}</a>
         <hr class="naslov-underline">
       </div>
 
-      <div class="form-group ">
-        <label for="naziv" class="required">Company Name</label>
+      <div class="form-group">
+        <label for="naziv" class="required">{{ 'COMPANY_NAME' | translate }}</label>
         <input
           type="text"
           class="form-control"
-          name="naziv"
+          name="naziv" id="naziv"
           [(ngModel)]="form.naziv"
           required
           minlength="3"
           maxlength="30"
-          placeholder="Enter company name"
+          placeholder="{{ 'ENTER_COMPANY_NAME' | translate }}"
           #naziv="ngModel"
           [ngClass]="{ 'is-invalid': f.submitted && naziv.errors }"
         />
-        @if (naziv.errors && f.submitted) {
-          <div class="invalid-feedback">
-            @if (naziv.errors['required']) {
-              <div>Company Name is required!</div>
-            }
-            @if (naziv.errors['minlength']) {
-              <div>Company Name must be at least 3 characters!</div>
-            }
-            @if (naziv.errors['maxlength']) {
-              <div>Company Name must be less than 30 characters!</div>
-            }
-          </div>
-        }
+        <div *ngIf="naziv.errors && f.submitted" class="invalid-feedback">
+          <div *ngIf="naziv.errors['required']">{{ 'NAME_REQUIRED' | translate }}</div>
+          <div *ngIf="naziv.errors['minlength']">{{ 'NAME_MIN_LENGTH' | translate }}</div>
+          <div *ngIf="naziv.errors['maxlength']">{{ 'NAME_MAX_LENGTH' | translate }}</div>
+        </div>
       </div>
 
-      <div class="form-group ">
-        <label for="godinaOsnivanja" class="required">Year Founded</label>
+      <div class="form-group">
+        <label for="godinaOsnivanja" class="required">{{ 'YEAR_FOUNDED' | translate }}</label>
         <select
-
           class="form-control"
-          name="godinaOsnivanja"
+          name="godinaOsnivanja" id="godinaOsnivanja"
           [(ngModel)]="form.godinaOsnivanja"
           required
           #godinaOsnivanja="ngModel"
           [ngClass]="{ 'is-invalid': f.submitted && godinaOsnivanja.errors }"
         >
-          <option disabled selected>Select a year</option>
+          <option disabled selected>{{ 'SELECT_YEAR' | translate }}</option>
           <option *ngFor="let year of godine" [value]="year">{{ year }}</option>
         </select>
-        @if (godinaOsnivanja.errors && f.submitted) {
-          <div class="invalid-feedback">
-            @if (godinaOsnivanja.errors['required']) {
-              <div>Year Founded is required!</div>
-            }
-          </div>
-        }
+        <div *ngIf="godinaOsnivanja.errors && f.submitted" class="invalid-feedback">
+          <div *ngIf="godinaOsnivanja.errors['required']">{{ 'YEAR_REQUIRED' | translate }}</div>
+        </div>
       </div>
 
-      <div class="form-group ">
-        <label for="lokacija" class="required">Location</label>
+      <div class="form-group">
+        <label for="lokacija" class="required">{{ 'LOCATION' | translate }}</label>
         <input
           type="text"
           class="form-control"
-          name="lokacija"
+          name="lokacija" id="lokacija"
           [(ngModel)]="form.lokacija"
           required
           #lokacija="ngModel"
           [ngClass]="{ 'is-invalid': f.submitted && lokacija.errors }"
         />
-        @if (lokacija.errors && f.submitted) {
-          <div class="invalid-feedback">
-            @if (lokacija.errors['required']) {
-              <div>Location is required!</div>
-            }
-          </div>
-        }
+        <div *ngIf="lokacija.errors && f.submitted" class="invalid-feedback">
+          <div *ngIf="lokacija.errors['required']">{{ 'LOCATION_REQUIRED' | translate }}</div>
+        </div>
       </div>
 
       <div class="form-group">
-        <label for="brojZaposlenih" class="required">Number of Employees</label>
+        <label for="brojZaposlenih" class="required">{{ 'NUMBER_OF_EMPLOYEES' | translate }}</label>
         <select
           class="form-control"
-          name="brojZaposlenih"
+          name="brojZaposlenih" id="brojZaposlenih"
           [(ngModel)]="form.brojZaposlenih"
           required
           #brojZaposlenih="ngModel"
           [ngClass]="{ 'is-invalid': f.submitted && brojZaposlenih.errors }"
         >
-          <option value="" disabled selected>Select a number of employees</option>
+          <option value="" disabled selected>{{ 'SELECT_EMPLOYEE_NUMBER' | translate }}</option>
           <option *ngFor="let number of brojZaposlenihRange" [value]="number">{{ number }}</option>
         </select>
-        @if (brojZaposlenih.errors && f.submitted) {
-          <div class="invalid-feedback">
-            @if (brojZaposlenih.errors['required']) {
-              <div>Number of Employees is required!</div>
-            }
-          </div>
-        }
+        <div *ngIf="brojZaposlenih.errors && f.submitted" class="invalid-feedback">
+          <div *ngIf="brojZaposlenih.errors['required']">{{ 'EMPLOYEES_REQUIRED' | translate }}</div>
+        </div>
       </div>
 
       <div class="form-group">
-        <label for="logo" class="required">Upload Company Logo</label>
+        <label for="logo" class="required">{{ 'UPLOAD_LOGO' | translate }}</label>
         <input
           type="file"
           class="form-control-file"
@@ -114,10 +93,9 @@
           style="display: block"
         />
         <div *ngIf="selectedImage">
-          <img [src]="selectedImage" alt="Selected Logo"  style="width: 150px; height: auto; margin-top: 15px"/>
+          <img [src]="selectedImage" alt="Selected Logo" style="width: 150px; height: auto; margin-top: 15px"/>
         </div>
       </div>
-
 
     </div>
     <!-- First column -->
@@ -126,47 +104,47 @@
     <div class="secondpart">
 
       <div class="form-group">
-        <label for="website">Website</label>
+        <label for="website">{{ 'WEBSITE' | translate }}</label>
         <input
           type="url"
           class="form-control"
-          name="website"
+          name="website" id="website"
           [(ngModel)]="form.website"
-          placeholder="e.g., https://www.yourcompany.com"
+          placeholder="{{ 'WEBSITE_PLACEHOLDER' | translate }}"
           #website="ngModel"
           [ngClass]="{ 'is-invalid': f.submitted && website.errors }"
         />
       </div>
 
       <div class="form-group">
-        <label for="linkedin">LinkedIn</label>
+        <label for="linkedin">{{ 'LINKEDIN' | translate }}</label>
         <input
           type="url"
           class="form-control"
-          name="linkedin"
+          name="linkedin" id="linkedin"
           [(ngModel)]="form.linkedin"
-          placeholder="e.g., https://www.linkedin.com/in/your-profile"
+          placeholder="{{ 'LINKEDIN_PLACEHOLDER' | translate }}"
           #linkedin="ngModel"
           [ngClass]="{ 'is-invalid': f.submitted && linkedin.errors }"
         />
       </div>
 
       <div class="form-group">
-        <label for="twitter">Twitter</label>
+        <label for="twitter">{{ 'TWITTER' | translate }}</label>
         <input
           type="url"
           class="form-control"
-          name="twitter"
+          name="twitter" id="twitter"
           [(ngModel)]="form.twitter"
-          placeholder="e.g., https://twitter.com/yourhandle"
+          placeholder="{{ 'TWITTER_PLACEHOLDER' | translate }}"
           #twitter="ngModel"
           [ngClass]="{ 'is-invalid': f.submitted && twitter.errors }"
         />
       </div>
 
       <div class="form-group d-flex justify-content-between">
-        <button class="btn-confirm" (click)="triggerEvent()">Back</button>
-        <button class="btn-confirm">Next</button>
+        <button class="btn-confirm" (click)="triggerEvent()">{{ 'BACK' | translate }}</button>
+        <button class="btn-confirm">{{ 'NEXT' | translate }}</button>
       </div>
 
     </div>
@@ -181,6 +159,3 @@
     <app-signup-kompanija-opis [kompanija]="kompanija" (customEvent)="showRegisterDetails()"></app-signup-kompanija-opis>
   </div>
 </div>
-
-
-

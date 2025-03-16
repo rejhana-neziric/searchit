@@ -19,6 +19,7 @@ import {
 } from "../../../../endpoints/kompanija-endpoint/get-broj-zaposlenih-range/get-broj-zaposlenih-response";
 import {NgForOf, NgIf} from "@angular/common";
 import {FooterComponent} from "../../../layout/footer/footer.component";
+import {TranslatePipe} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-user-companies-edit',
@@ -29,7 +30,8 @@ import {FooterComponent} from "../../../layout/footer/footer.component";
     FormsModule,
     NgForOf,
     FooterComponent,
-    NgIf
+    NgIf,
+    TranslatePipe
   ],
   templateUrl: './user-companies-edit.component.html',
   styleUrl: './user-companies-edit.component.css'

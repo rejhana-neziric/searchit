@@ -1,6 +1,6 @@
 <div class="naslov fs-1 fw-bold p-1 bd-highlight">
   <a class="nav-link active text-dark fs-1 fw-bold "
-     [routerLink]="'/home'">searchit</a>
+     [routerLink]="'/home'">{{ 'searchit' | translate }}</a>
   <hr class="naslov-underline">
 </div>
 
@@ -13,32 +13,31 @@
   >
 
     <div class="form-group">
-      <label for="kratkiOpis" class="required">Short Description</label>
+      <label for="kratkiOpis" class="required">{{ 'short_description' | translate }}</label>
       <textarea
         class="form-control"
-        name="kratkiOpis"
+        name="kratkiOpis" id="kratkiOpis"
         [(ngModel)]="form.kratkiOpis"
         required
         minlength="10"
         maxlength="150"
-        placeholder="Enter a brief summary of your company e.g., 'Innovative tech company specializing in AI solutions.'"
+        placeholder="{{ 'short_description_placeholder' | translate }}"
         #kratkiOpis="ngModel"
         [ngClass]="{ 'is-invalid': f.submitted && kratkiOpis.errors }"
         rows="3"
       ></textarea>
-
     </div>
 
     <div class="form-group">
-      <label for="opis" class="required">Description</label>
+      <label for="opis" class="required">{{ 'description' | translate }}</label>
       <textarea
         type="text"
         class="form-control"
-        name="opis"
+        name="opis" id="opis"
         [(ngModel)]="form.opis"
         required
         minlength="10"
-        placeholder="Enter a detailed description of your company e.g., 'Founded in 2020, we are a leading provider of AI solutions...'"
+        placeholder="{{ 'description_placeholder' | translate }}"
         #opis="ngModel"
         [ngClass]="{ 'is-invalid': f.submitted && opis.errors }"
         rows="6"
@@ -46,24 +45,24 @@
       @if (opis.errors && f.submitted) {
         <div class="invalid-feedback">
           @if (opis.errors['required']) {
-            <div>Description is required!</div>
+            <div>{{ 'description_required' | translate }}</div>
           }
           @if (opis.errors['minlength']) {
-            <div>Description must be at least 10 characters!</div>
+            <div>{{ 'description_minlength' | translate }}</div>
           }
         </div>
       }
     </div>
 
     <div class="form-group d-flex justify-content-between">
-      <button class="btn-confirm" (click)="triggerEvent()">Back</button>
-      <button class="btn-confirm">Sign up</button>
+      <button class="btn-confirm" (click)="triggerEvent()">{{ 'back' | translate }}</button>
+      <button class="btn-confirm">{{ 'sign_up' | translate }}</button>
     </div>
 
     <div class="form-group">
       @if (f.submitted && isSignUpFailed) {
         <div class="alert alert-danger" role="alert">
-          Signup failed: {{ errorMessage }}
+          {{ 'signup_failed' | translate }}: {{ errorMessage }}
         </div>
       }
     </div>
@@ -72,16 +71,9 @@
 }
 
 @else {
-  <div class="alert alert-success">Your account has been created.</div>
+  <div class="alert alert-success">{{ 'account_created' | translate }}</div>
 
   <div class="d-flex flex-row justify-content-end">
-    <button class="btn-confirm mt-2" [routerLink]="'/login'">Login</button>
+    <button class="btn-confirm mt-2" [routerLink]="'/login'">{{ 'login' | translate }}</button>
   </div>
 }
-
-
-
-
-
-
-

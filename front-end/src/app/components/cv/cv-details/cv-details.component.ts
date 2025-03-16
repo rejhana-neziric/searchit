@@ -23,6 +23,7 @@ import {ModalComponent} from "../../notifications/modal/modal.component";
 import {ModalService} from "../../../services/modal-service";
 import {CvService} from "../../../services/cv.service";
 import {KompanijaService} from "../../../services/kompanija.service";
+import {TranslatePipe} from "@ngx-translate/core";
 
 
 @Component({
@@ -36,7 +37,8 @@ import {KompanijaService} from "../../../services/kompanija.service";
     RouterLink,
     FooterComponent,
     NotificationToastComponent,
-    ModalComponent
+    ModalComponent,
+    TranslatePipe
   ],
   templateUrl: './cv-details.component.html',
   styleUrl: './cv-details.component.css'

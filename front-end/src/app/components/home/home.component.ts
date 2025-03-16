@@ -3,6 +3,7 @@ import {NavbarComponent} from "../layout/navbar/navbar.component";
 import {RouterLink} from "@angular/router";
 import {NotificationService} from "../../services/notification-service";
 import {FooterComponent} from "../layout/footer/footer.component";
+import {TranslatePipe} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-home',
@@ -10,7 +11,8 @@ import {FooterComponent} from "../layout/footer/footer.component";
   imports: [
     NavbarComponent,
     RouterLink,
-    FooterComponent
+    FooterComponent,
+    TranslatePipe
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'

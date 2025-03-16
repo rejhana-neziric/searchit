@@ -1,13 +1,13 @@
 <div class="container">
   <div class="container text-center" *ngIf="success">
-    <div class="alert alert-success">Your email has been confirmed.</div>
+    <div class="alert alert-success">{{'CONFIRMED_EMAIL' | translate}}</div>
     <a class="btn btn-confirm ms-3" [routerLink]="'/login'">
-      Login
+      {{'NAVBAR.LOGIN' | translate}}
     </a>
   </div>
   <div class="container text-center" *ngIf="!success">
     <a class="btn btn-link" (click)="resendEmailConfirmationLink()">
-      Click here to resend email confirmation link
+      {{'RESEND_EMAIL' | translate}}
     </a>
   </div>
 </div>

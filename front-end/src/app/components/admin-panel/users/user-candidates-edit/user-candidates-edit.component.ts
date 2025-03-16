@@ -8,6 +8,7 @@ import {FormsModule} from "@angular/forms";
 import {KandidatUpdateEndpoint} from "../../../../endpoints/kandidat-endpoint/update/kandidat-update-endpoint";
 import {NotificationService} from "../../../../services/notification-service";
 import {NotificationToastComponent} from "../../../notifications/notification-toast/notification-toast.component";
+import {TranslatePipe} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-user-candidates-edit',
@@ -15,7 +16,8 @@ import {NotificationToastComponent} from "../../../notifications/notification-to
   imports: [
     NavbarComponent,
     RouterLink,
-    FormsModule
+    FormsModule,
+    TranslatePipe
   ],
   templateUrl: './user-candidates-edit.component.html',
   styleUrl: './user-candidates-edit.component.css'

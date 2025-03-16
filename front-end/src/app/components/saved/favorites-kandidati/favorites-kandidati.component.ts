@@ -36,28 +36,30 @@ import {
 import {FooterComponent} from "../../layout/footer/footer.component";
 import {ModalComponent} from "../../notifications/modal/modal.component";
 import {ModalService} from "../../../services/modal-service";
+import {TranslatePipe} from "@ngx-translate/core";
 
 
 @Component({
   selector: 'app-favorites-kandidati',
   standalone: true,
-    imports: [
-        NavbarComponent,
-        FavoritesKompanijeComponent,
-        FavoritesOglasiComponent,
-        MatButtonToggle,
-        MatButtonToggleGroup,
-        NgIf,
-        NgForOf,
-        NgxPaginationModule,
-        NotificationToastComponent,
-        ReactiveFormsModule,
-        RouterLink,
-        FormsModule,
-        DatePipe,
-        FooterComponent,
-        ModalComponent
-    ],
+  imports: [
+    NavbarComponent,
+    FavoritesKompanijeComponent,
+    FavoritesOglasiComponent,
+    MatButtonToggle,
+    MatButtonToggleGroup,
+    NgIf,
+    NgForOf,
+    NgxPaginationModule,
+    NotificationToastComponent,
+    ReactiveFormsModule,
+    RouterLink,
+    FormsModule,
+    DatePipe,
+    FooterComponent,
+    ModalComponent,
+    TranslatePipe
+  ],
   templateUrl: './favorites-kandidati.component.html',
   styleUrl: './favorites-kandidati.component.css'
 })

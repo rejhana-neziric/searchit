@@ -1,11 +1,21 @@
 <div class="forbidden-container">
-  <h1 >Access Denied</h1>
-  <p>Sorry, you don't have the necessary permissions to view this page.</p>
+  <h1>{{ 'FORBIDDEN.TITLE' | translate }}</h1>
+  <p>{{ 'FORBIDDEN.MESSAGE' | translate }}</p>
 
-  <p>Please try one of the following:</p>
+  <p>{{ 'FORBIDDEN.INSTRUCTIONS' | translate }}</p>
   <ul>
-    <li><strong>Return to the <a (click)="goHome()">homepage</a></strong> and try a different section.</li>
-    <li><strong>Contact your administrator</strong> if you believe this is a mistake.</li>
-    <li><strong><a (click)="contactSupport()">Contact Support</a></strong> if you need help.</li>
+    <li>
+      <strong>
+        <a (click)="goHome()">{{ 'FORBIDDEN.RETURN_HOME' | translate }}</a>
+      </strong>
+    </li>
+    <li>
+      <strong>{{ 'FORBIDDEN.CONTACT_ADMIN' | translate }}</strong>
+    </li>
+    <li>
+      <strong>
+        <a (click)="contactSupport()">{{ 'FORBIDDEN.CONTACT_SUPPORT' | translate }}</a>
+      </strong>
+    </li>
   </ul>
 </div>

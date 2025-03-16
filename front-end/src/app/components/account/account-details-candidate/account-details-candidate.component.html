@@ -3,37 +3,32 @@
 <div class="main">
 
   <div class="section-headline">
-    <h3 class="fw-bold">Account details </h3>
+    <h3 class="fw-bold">{{ 'accountDetails' | translate }}</h3>
     <hr class="text-underline">
   </div>
 
   <div class="container">
 
-      <!-- Two-factor authentication manage -->
+    <!-- Two-factor authentication manage -->
     <div class="two-factor-auth ms-2">
       <button
         (click)="toggle2FA()"
-        [ngClass]="{'enabled': is2FAEnabled, 'disabled': !is2FAEnabled}"
-      >
-        {{ is2FAEnabled ? 'Disable 2FA' : 'Enable 2FA' }}
+        [ngClass]="{'enabled': is2FAEnabled, 'disabled': !is2FAEnabled}">{{ is2FAEnabled ? ('disable2FA' | translate) : ('enable2FA' | translate) }}
       </button>
     </div>
 
     <div *ngIf="confirmCode && loggedUser?.phoneNumberConfirmed" class="mt-2 mb-4 ms-2">
       <form [formGroup]="confirmCodeForm" class="form-grid" (ngSubmit)="confirmVerificationCode()" autocomplete="off">
-
-
         <div class="mt-2 mb-4 my-3">
-          <label class="required">Enter the verification token send to your phone number and email.</label>
+          <label class="required">{{ 'verificationToken' | translate }}</label>
           <input formControlName="token" type="text" class="form-control"
                  [class.is-invalid]="submittedConfirmCode && confirmCodeForm.get('token')?.errors">
           <span class="text-danger" *ngIf="submittedConfirmCode && confirmCodeForm.get('token')?.hasError('required')">
-                        Verification code is required!
+                        {{ 'verificationCodeRequired' | translate }}
                     </span>
         </div>
 
-        <button class="btn-confirm w-auto ms-0" style="height: 30px">Submit</button>
-
+        <button class="btn-confirm w-auto ms-0" style="height: 30px">{{ 'submit' | translate }}</button>
       </form>
     </div>
     <!-- Two-factor authentication manage -->
@@ -44,37 +39,37 @@
         <div class="firstpart">
 
           <div class="mt-2 mb-4">
-            <label>Username</label>
+            <label>{{ 'username' | translate }}</label>
             <input type="text" [value]=loggedUser?.userName class="form-control" disabled>
           </div>
 
           <div class="mt-2 mb-4">
-            <label>Email</label>
+            <label>{{ 'email' | translate }}</label>
             <input type="text" [value]=loggedUser?.email class="form-control" disabled>
           </div>
 
           <div class="mt-2 mb-4">
-            <label>First Name</label>
+            <label>{{ 'firstName' | translate }}</label>
             <input type="text" [value]=loggedUser?.ime class="form-control" disabled>
           </div>
 
           <div class="mt-2 mb-4">
-            <label>Last Name</label>
+            <label>{{ 'lastName' | translate }}</label>
             <input type="text" [value]=loggedUser?.prezime class="form-control" disabled>
           </div>
 
           <div class="mt-2 mb-4">
-            <label>Title</label>
+            <label>{{ 'title' | translate }}</label>
             <input formControlName="title" type="text" class="form-control"
                    [class.is-invalid]="submitted && candidateForm.get('title')?.errors">
             <span class="text-danger" *ngIf="submitted && candidateForm.get('title')?.hasError('required')">
-                        Title is required!
+                        {{ 'titleRequired' | translate }}
                     </span>
             <span class="text-danger" *ngIf="submitted && candidateForm.get('title')?.hasError('min')">
-                       Title must be at least 3 characters!
+                       {{ 'titleMinLength' | translate }}
                     </span>
             <span class="text-danger" *ngIf="submitted && candidateForm.get('title')?.hasError('max')">
-                        Title must be less than 50 characters!
+                        {{ 'titleMaxLength' | translate }}
                     </span>
           </div>
 
@@ -85,61 +80,54 @@
         <div class="secondpart">
 
           <div class="mt-2 mb-4">
-            <label>Date of Birth</label>
+            <label>{{ 'dateOfBirth' | translate }}</label>
             <input type="date" [value]="loggedUser?.datumRodjenja | date:'yyyy-MM-dd' " class="form-control" disabled>
           </div>
 
           <div class="mt-2 mb-4">
-            <label>Residence</label>
+            <label>{{ 'residence' | translate }}</label>
             <input formControlName="residence" type="text" class="form-control"
                    [class.is-invalid]="submitted && candidateForm.get('residence')?.errors">
             <span class="text-danger" *ngIf="submitted && candidateForm.get('residence')?.hasError('required')">
-                        Residence is required!
+                        {{ 'residenceRequired' | translate }}
                     </span>
           </div>
 
-
           <div class="mt-2 mb-4">
-            <label>Phone Number</label>
+            <label>{{ 'phoneNumber' | translate }}</label>
             <input formControlName="phoneNumber" type="text" class="form-control"
                    [class.is-invalid]="submitted && candidateForm.get('phoneNumber')?.errors">
             <span class="text-danger" *ngIf="submitted && candidateForm.get('phoneNumber')?.hasError('required')">
-                       Phone number is required!
+                       {{ 'phoneNumberRequired' | translate }}
                     </span>
 
             <span class="text-danger" *ngIf="submitted && candidateForm.get('phoneNumber')?.hasError('pattern')">
-                      Invalid phone number format!
+                      {{ 'invalidPhoneNumberFormat' | translate }}
                     </span>
           </div>
 
           <div *ngIf="!loggedUser?.phoneNumberConfirmed" class="mt-2 mb-4">
             <button *ngIf="!confirmNumber" class="btn-confirm w-auto ms-0" style="height: 30px"
-                    (click)="sendVerificationCode()">Confirm phone number
+                    (click)="sendVerificationCode()">{{ 'confirmPhoneNumber' | translate }}
             </button>
 
             <div *ngIf="confirmNumber">
               <form [formGroup]="confirmPhoneNumberForm" class="form-grid" (ngSubmit)="confirmPhoneNumber()"
                     autocomplete="off">
-
-
                 <div class="mt-2 mb-4 my-3">
-                  <label class="required">Enter the verification token send to your phone number.</label>
+                  <label class="required">{{ 'verificationTokenPhone' | translate }}</label>
                   <input formControlName="token" type="text" class="form-control"
                          [class.is-invalid]="submittedConfirmNumber && confirmPhoneNumberForm.get('token')?.errors">
                   <span class="text-danger"
                         *ngIf="submittedConfirmNumber && confirmPhoneNumberForm.get('token')?.hasError('required')">
-                        Verification code is required!
+                        {{ 'verificationCodeRequired' | translate }}
                     </span>
                 </div>
 
-                <button class="btn-confirm w-auto ms-0" style="height: 30px">Verify phone number</button>
-
+                <button class="btn-confirm w-auto ms-0" style="height: 30px">{{ 'verifyPhoneNumber' | translate }}</button>
               </form>
             </div>
-
-
           </div>
-
         </div>
         <!-- Second column -->
       </div>
@@ -147,13 +135,12 @@
       <div class="form-group d-flex flex-row justify-content-between">
 
         <div>
-          <button type="button" class="btn-danger w-auto"(click)="openDeleteModal()">Delete account
-          </button>
+          <button type="button" class="btn-danger w-auto" (click)="openDeleteModal()">{{ 'deleteAccount' | translate }}</button>
         </div>
 
         <div>
-          <button type="button" class="btn-cancel" (click)="cancel()">Cancel</button>
-          <button type="button" class="btn-confirm ms-2 w-auto" (click)="openSaveModal()">Save change</button>
+          <button type="button" class="btn-cancel" (click)="cancel()">{{ 'cancel' | translate }}</button>
+          <button type="button" class="btn-confirm ms-2 w-auto" (click)="openSaveModal()">{{ 'saveChanges' | translate }}</button>
         </div>
 
       </div>
@@ -168,19 +155,15 @@
 
 <app-modal
   modalId="deleteModal"
-  title="Delete Account"
-  body="Are you sure you want to delete account?"
+  title="{{ 'deleteAccount' | translate }}"
+  body="{{ 'deleteAccountConfirmation' | translate }}"
   [buttons]="deleteButtons"
 ></app-modal>
 
 <app-modal
   modalId="saveModal"
-  title="Confirm Changes"
-  body=" Are you sure you want to save changes?"
+  title="{{ 'confirmChanges' | translate }}"
+  body="{{ 'confirmChangesConfirmation' | translate }}"
   [buttons]="saveButtons"
 ></app-modal>
-
-
-
-
 

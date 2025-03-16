@@ -2,84 +2,73 @@
   <div class="login-container">
 
     <div class="naslov fs-1 fw-bold p-1 bd-highlight">
-      <a class="nav-link active text-dark fs-1 fw-bold "
-         [routerLink]="'/home'">searchit</a>
+      <a class="nav-link active text-dark fs-1 fw-bold" [routerLink]="'/home'">searchit</a>
       <hr class="naslov-underline">
     </div>
 
-    @if (!isLoggedIn) {
-      <form
-        name="form"
-        (ngSubmit)="f.form.valid && onSubmit()"
-        #f="ngForm"
-        novalidate
-      >
+    <div *ngIf="!isLoggedIn">
+      <form name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
 
         <div class="form-group">
-          <label for="username">Username</label>
+          <label for="username">{{'username' | translate}}</label>
           <input
             type="text"
             class="form-control"
-            name="username"
+            name="username" id="username"
             [(ngModel)]="form.username"
             required
             #username="ngModel"
             [ngClass]="{ 'is-invalid': f.submitted && username.errors }"
           />
-          @if (username.errors && f.submitted) {
-            <div class="invalid-feedback">Username is required!</div>
-          }
+          <div *ngIf="username.errors && f.submitted" class="invalid-feedback">
+            <div *ngIf="username.errors['required']">{{'username_required' | translate}}</div>
+          </div>
         </div>
 
         <div class="form-group">
-          <label for="password">Password</label>
+          <label for="password">{{'password' | translate}}</label>
           <input
             type="password"
             class="form-control"
-            name="password"
+            name="password" id="password"
             [(ngModel)]="form.password"
             required
             minlength="6"
             #password="ngModel"
             [ngClass]="{ 'is-invalid': f.submitted && password.errors }"
           />
-          @if (password.errors && f.submitted) {
-            <div class="invalid-feedback">
-              @if (password.errors['required']) {
-                <div>Password is required!</div>
-              }
-              @if (password.errors['minlength']) {
-                <div>Password must be at least 6 characters</div>
-              }
-            </div>
-          }
+          <div *ngIf="password.errors && f.submitted" class="invalid-feedback">
+            <div *ngIf="password.errors['required']">{{'password_required' | translate}}</div>
+            <div *ngIf="password.errors['minlength']">{{'password_minlength' | translate}}</div>
+          </div>
         </div>
 
         <div *ngIf="errorMessage && errorMessage === 'Please confirm your email.'">
-          <a class="btn btn-link" (click)="resendEmailConfirmationLink()">
-            Click here to resend email confirmation link in case you didn't receive it.
-          </a>
+          <a class="btn btn-link" (click)="resendEmailConfirmationLink()">{{'resend_email_confirmation' | translate}}</a>
         </div>
 
         <div class="form-group d-flex justify-content-end">
-          <button class="btn-confirm">Login</button>
+          <button class="btn-confirm">{{'login' | translate}}</button>
         </div>
 
         <div class="form-group">
-          @if (f.submitted && isLoginFailed) {
+          <div *ngIf="f.submitted && isLoginFailed">
             <div class="alert alert-danger" role="alert">
-              Login failed: {{ errorMessage }}
+              <span>{{'login_failed' | translate}}</span> {{ errorMessage }}
             </div>
-          }
+          </div>
         </div>
 
       </form>
-    } @else {
-      <div class="alert alert-success">Successfully logged in.</div>
-    }
+    </div>
 
-    <div class="d-flex flex-row">Don't have an account?
-       <div style="font-weight: bold; color: var(--secondary-color); margin-left: 3px;" [routerLink]="['/signup']">Sign up</div>
+    <div *ngIf="isLoggedIn">
+      <div class="alert alert-success">{{'successful_login' | translate}}</div>
+    </div>
+
+    <div class="d-flex flex-row">
+      <span>{{'dont_have_account' | translate}}</span>
+      <div style="font-weight: bold; color: var(--secondary-color); margin-left: 3px;" [routerLink]="['/signup']">{{'sign_up' | translate}}</div>
     </div>
 
   </div>

@@ -11,20 +11,22 @@ import {OglasGetRequest} from "../../../endpoints/oglas-endpoint/get/oglas-get-r
 import {OglasGetEndpoint} from "../../../endpoints/oglas-endpoint/get/oglas-get-endpoint";
 import {OglasGetResponseOglasi} from "../../../endpoints/oglas-endpoint/get/oglas-get-response";
 import {FooterComponent} from "../../layout/footer/footer.component";
+import {TranslatePipe} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-kompanija-detalji',
   standalone: true,
-    imports: [
-        NavbarComponent,
-        DatePipe,
-        NgForOf,
-        RouterLink,
-        NgIf,
-        NgxPaginationModule,
-        NotificationToastComponent,
-        FooterComponent
-    ],
+  imports: [
+    NavbarComponent,
+    DatePipe,
+    NgForOf,
+    RouterLink,
+    NgIf,
+    NgxPaginationModule,
+    NotificationToastComponent,
+    FooterComponent,
+    TranslatePipe
+  ],
   templateUrl: './kompanija-detalji.component.html',
   styleUrl: './kompanija-detalji.component.css'
 })

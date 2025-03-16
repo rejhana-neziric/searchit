@@ -32,21 +32,23 @@ import {ModalComponent} from "../../notifications/modal/modal.component";
 import {ModalService} from "../../../services/modal-service";
 import {SharedService} from "../../../services/shared.service";
 import {KompanijaService} from "../../../services/kompanija.service";
+import {TranslatePipe} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-favorites-kompanije',
   standalone: true,
-    imports: [
-        DatePipe,
-        NgForOf,
-        NgIf,
-        NgxPaginationModule,
-        NotificationToastComponent,
-        ReactiveFormsModule,
-        FormsModule,
-        RouterLink,
-        ModalComponent
-    ],
+  imports: [
+    DatePipe,
+    NgForOf,
+    NgIf,
+    NgxPaginationModule,
+    NotificationToastComponent,
+    ReactiveFormsModule,
+    FormsModule,
+    RouterLink,
+    ModalComponent,
+    TranslatePipe
+  ],
   templateUrl: './favorites-kompanije.component.html',
   styleUrl: './favorites-kompanije.component.css'
 })

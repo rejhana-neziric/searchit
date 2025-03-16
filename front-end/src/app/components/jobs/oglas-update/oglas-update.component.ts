@@ -15,6 +15,7 @@ import {
 import {ModalService} from "../../../services/modal-service";
 import {FooterComponent} from "../../layout/footer/footer.component";
 import {ModalComponent} from "../../notifications/modal/modal.component";
+import {TranslatePipe} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-oglas-update',
@@ -30,6 +31,7 @@ import {ModalComponent} from "../../notifications/modal/modal.component";
     NgIf,
     FooterComponent,
     ModalComponent,
+    TranslatePipe,
   ],
   templateUrl: './oglas-update.component.html',
   styleUrl: './oglas-update.component.css',

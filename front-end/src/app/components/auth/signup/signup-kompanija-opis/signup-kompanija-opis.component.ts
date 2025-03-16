@@ -4,6 +4,7 @@ import {NgClass, NgForOf, NgIf} from "@angular/common";
 import {Router, RouterLink} from "@angular/router";
 import {AuthService} from "../../../../services/auth-service";
 import {NotificationService} from "../../../../services/notification-service";
+import {TranslatePipe} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-signup-kompanija-opis',
@@ -14,7 +15,8 @@ import {NotificationService} from "../../../../services/notification-service";
     NgIf,
     ReactiveFormsModule,
     RouterLink,
-    NgClass
+    NgClass,
+    TranslatePipe
   ],
   templateUrl: './signup-kompanija-opis.component.html',
   styleUrl: './signup-kompanija-opis.component.css'

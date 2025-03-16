@@ -7,113 +7,114 @@
   <div class="d-flex flex-row nav-link pregled-breadcrumbs text-dark">
     <a type="button nav-link" style="color: #84B59F;; font-size: larger;  text-decoration: none;"
        [routerLink]="['/home/']">Home > </a>
-    <p style="color: #84B59F; font-size: larger;" [routerLink]="['/my-drafts/']"> > My drafts >
-    <p style="color: #84B59F; font-size: larger;"> > Edit job draft
+    <p style="color: #84B59F; font-size: larger;" [routerLink]="['/my-drafts/']"> > {{'MY_DRAFTS' | translate}} >
+    <p style="color: #84B59F; font-size: larger;"> > {{'edit_job_drat' | translate}}
   </div>
   <!-- Breadcrumbs -->
 
   <div class="d-flex flex-row justify-content-center align-items-center" style=" margin-bottom: 40px; margin-top: 30px">
-    <span class="fw-bold fs-2" style="color: #84B59F; margin-left: auto; margin-right: auto; ">Edit job draft</span>
-    <button class="btn-confirm" [routerLink]="'/jobs-add'">My drafts</button>
+    <span class="fw-bold fs-2" style="color: #84B59F; margin-left: auto; margin-right: auto; ">{{'edit_job_drat' | translate}}</span>
+    <button class="btn-confirm" [routerLink]="'/jobs-add'">{{'MY_DRAFTS' | translate}}</button>
   </div>
 
   <form name="form" #f = "ngForm">
     <div class="formGroup">
-      <label for="naziv_pozicije" class="required fw-bold fs-5 naslov">Job Title</label>
+      <label for="naziv_pozicije" class="required fw-bold fs-5 naslov">{{'job_title' | translate}}</label>
       <input
         type="text"
         class="form-control input-field"
         name="naziv_pozicije"
+        id = "naziv_pozicije"
         [(ngModel)]="form.naziv_pozicije"
         required
         minlength="3"
         maxlength="30"
-        placeholder="Specify the position's title, such as Software Developer, Network Engineer, or IT Support Specialist."
+        placeholder="{{'placeholderPosition' | translate}}"
         #naziv_pozicije="ngModel"
         [ngClass]="{ 'is-invalid': f.submitted && naziv_pozicije.errors }"
       />
       @if (naziv_pozicije.errors && f.submitted) {
         <div class="invalid-feedback">
           @if (naziv_pozicije.errors['required']) {
-            <div>Job Title is required!</div>
+            <div>{{'job_title_required' | translate}}</div>
           }
           @if (naziv_pozicije.errors['minlength']) {
-            <div>Job Title must be at least 3 characters!</div>
+            <div>{{'job_title_min' | translate}}</div>
           }
           @if (naziv_pozicije.errors['maxlength']) {
-            <div>Job Title must be less than 30 characters!</div>
+            <div>{{'job_title_max' | translate}}</div>
           }
         </div>
       }
     </div>
 
     <div class="form-group">
-      <label for="opis_pozicije" class="required fw-bold fs-5 naslov">Job Description</label>
+      <label for="opis_pozicije" class="required fw-bold fs-5 naslov">{{'JOB_DESCRIPTION' | translate}}</label>
       <textarea
         type="text"
         class="form-control input-field job-desc"
-        name="opis_pozicije"
+        name="opis_pozicije" id ="opis_pozicije"
         [(ngModel)]="form.opis_oglasa.opis_pozicije"
         required
         minlength="10"
         maxlength="255"
-        placeholder="Provide a detailed description of the job responsibilities, including specific tasks, projects, and expectations."
+        placeholder="{{'placeholderDesc' | translate}}"
         #opis_pozicije="ngModel"
         [ngClass]="{ 'is-invalid': f.submitted && opis_pozicije.errors }"
       ></textarea>
       @if (opis_pozicije.errors && f.submitted) {
         <div class="invalid-feedback">
           @if (opis_pozicije.errors['required']) {
-            <div>Job Description is required!</div>
+            <div>{{'job_desc_required' | translate}}</div>
           }
           @if (opis_pozicije.errors['minlength']) {
-            <div>Job Description must be at least 10 characters!</div>
+            <div>{{'job_desc_min' | translate}}</div>
           }
           @if (opis_pozicije.errors['maxlength']) {
-            <div>Job Description must be less than 255 characters!</div>
+            <div>{{'job_desc_max' | translate}}</div>
           }
         </div>
       }
     </div>
 
     <div class="form-group">
-      <label for="lokacija" class="required fw-bold fs-5 naslov">Location</label>
+      <label for="lokacija" class="required fw-bold fs-5 naslov">{{ 'location' | translate }}</label>
       <div *ngFor="let lok of form.lokacija; let i = index">
         <input
           type="text"
           class="form-control input-field lokacije-input"
-          name="naziv_pozicije{{i}}"
+          name="naziv_pozicije{{i}}" id="lokacija"
           [(ngModel)]="form.lokacija[i].naziv"
           required
           minlength="4"
           maxlength="15"
-          placeholder="Specify the location of the job, whether it's on-site, remote, or a combination."
+          placeholder="{{'placeholderLocation' | translate}}"
           #lokacija="ngModel"
           [ngClass]="{ 'is-invalid': f.submitted && lokacija.errors }"
         />
 
         <!-- Error messages -->
         <div *ngIf="lokacija.errors && f.submitted" class="invalid-feedback">
-          <div *ngIf="lokacija.errors['required']">Location is required!</div>
-          <div *ngIf="lokacija.errors['minlength']">Location must be at least 4 characters!</div>
-          <div *ngIf="lokacija.errors['maxlength']">Location must be less than 15 characters!</div>
+          <div *ngIf="lokacija.errors['required']">{{'locationRequired' | translate}}</div>
+          <div *ngIf="lokacija.errors['minlength']">{{'location_min' | translate}}</div>
+          <div *ngIf="lokacija.errors['maxlength']">{{'location_max' | translate}}</div>
         </div>
       </div>
 
       <!-- Button to add a new location -->
-      <button type="button" class="mt-3 btn-add">+ Add New Location</button>
+      <button type="button" class="mt-3 btn-add">{{'newLocation' | translate}}</button>
     </div>
 
     <div class="form-group">
-      <label for="tip_posla" class="required fw-bold fs-5 naslov">Job Type</label>
+      <label for="tip_posla" class="required fw-bold fs-5 naslov">{{'JOB_TYPE' | translate}}</label>
       <div class="row radio-container p-2">
         <div class="col-sm-2 form-check">
-          <input class="form-check-input" type="radio" id="rbFullTime" name="jobType"
+          <input class="form-check-input" type="radio" id="rbFullTime" name="jobType" id="tip_posla"
                  value="Full Time"
                  [(ngModel)]="form.tip_posla"
                  #tip_posla="ngModel"
                  [ngClass]="{ 'is-invalid': f.submitted && tip_posla.errors }">
-          <label class="form-check-label" for="rbFullTime">Full Time</label>
+          <label class="form-check-label" for="rbFullTime">{{'full_time' | translate}}</label>
         </div>
         <div class="col-sm-2 form-check">
           <input class="form-check-input" type="radio" id="rbPartTime" name="jobType"
@@ -121,7 +122,7 @@
                  [(ngModel)]="form.tip_posla"
                  #tip_posla="ngModel"
                  [ngClass]="{ 'is-invalid': f.submitted && tip_posla.errors }">
-          <label class="form-check-label" for="rbPartTime">Part Time</label>
+          <label class="form-check-label" for="rbPartTime">{{'part_time' | translate}}</label>
         </div>
         <div class="col-1 form-check">
           <input class="form-check-input" type="radio" id="rbInternship" name="jobType"
@@ -129,14 +130,14 @@
                  [(ngModel)]="form.tip_posla"
                  #tip_posla="ngModel"
                  [ngClass]="{ 'is-invalid': f.submitted && tip_posla.errors }">
-          <label class="form-check-label" for="rbInternship">Internship</label>
+          <label class="form-check-label" for="rbInternship">{{ 'internship' | translate }}</label>
         </div>
       </div>
     </div>
 
 
     <div class="form-group">
-      <label for="iskustvo" class="required fw-bold fs-5 naslov">Experience</label>
+      <label for="iskustvo" class="required fw-bold fs-5 naslov">{{'EXPERIENCE' | translate}}</label>
       <div class="row check-container">
         <div class="col-sm-2 form-check">
           <input
@@ -162,13 +163,13 @@
         </div>
       </div>
 
-      <span class="p-2 fs-6">Minimum years of experience is: </span>
+      <span class="p-2 fs-6">{{'MIN_EXP' | translate}}: </span>
       <input type="number" id="minExperience" name="minExperience" min="0" max="10" step="1" value="1"
              class="numSpinner"
              [(ngModel)]="form.opis_oglasa.minimum_godina_iskustva"
              #minimum_godina_iskustva="ngModel"
              [ngClass]="{ 'is-invalid': f.submitted && minimum_godina_iskustva.errors }">
-      <span class="p-2">and preferred years of experience are: </span>
+      <span class="p-2">{{'preferred_years' | translate}} </span>
       <input type="number" id="maxExperience" name="maxExperience" min="1" max="40" step="1" value="1"
              class="numSpinner"
              [(ngModel)]="form.opis_oglasa.preferirane_godine_iskustva"
@@ -179,34 +180,34 @@
 
 
     <div class="form-group">
-      <label for="plata" class="required fw-bold fs-5 naslov">Salary</label>
+      <label for="plata" class="required fw-bold fs-5 naslov">{{ 'salary' | translate}}</label>
       <input
         type="text"
         class="form-control input-field"
-        name="plata"
+        name="plata" id="plata"
         [(ngModel)]="form.plata"
         required
-        placeholder="Specify the position's salary, such as 15KM/hr or 2000KM monthly"
+        placeholder="{{'salary_placeholder' | translate}}"
         #plata="ngModel"
         [ngClass]="{ 'is-invalid': f.submitted && plata.errors }"
       />
       @if (naziv_pozicije.errors && f.submitted) {
         <div class="invalid-feedback">
           @if (naziv_pozicije.errors['required']) {
-            <div>Salary is required!</div>
+            <div>{{'salary_required' | translate}}</div>
           }
         </div>
       }
     </div>
 
     <div class="form-group">
-      <label for="kvalifikacija" class="fw-bold fs-5 naslov">Qualification</label>
+      <label for="kvalifikacija" class="fw-bold fs-5 naslov">{{ 'QUALIFICATION' | translate }}</label>
       <textarea
         type="text"
         class="form-control input-field job-desc"
-        name="kvalifikacija"
+        name="kvalifikacija" id = "kvalifikacija"
         [(ngModel)]="form.opis_oglasa.kvalifikacije"
-        placeholder="Outline the required qualifications, including education, certifications, and relevant experience."
+        placeholder="{{'qualification_placeholder' | translate}}"
         #kvalifikacija="ngModel"
         [ngClass]="{ 'is-invalid': f.submitted && kvalifikacija.errors }"
       ></textarea>
@@ -214,13 +215,13 @@
 
 
     <div class="form-group">
-      <label for="vjestine" class="fw-bold fs-5 naslov">Skills</label>
+      <label for="vjestine" class="fw-bold fs-5 naslov">{{ 'skills' | translate }}</label>
       <textarea
         type="text"
         class="form-control input-field job-desc"
-        name="vjestine"
+        name="vjestine" id="vjestine"
         [(ngModel)]="form.opis_oglasa.vjestine"
-        placeholder="List the technical and soft skills required for the position. This could include programming languages, software proficiency, communication skills, etc."
+        placeholder="{{'skills_placeholder' | translate}}"
         #vjestine="ngModel"
         [ngClass]="{ 'is-invalid': f.submitted && vjestine.errors }"
       ></textarea>
@@ -228,13 +229,13 @@
 
 
     <div class="form-group">
-      <label for="benefiti" class="fw-bold fs-5 naslov">Benefits</label>
+      <label for="benefiti" class="fw-bold fs-5 naslov">{{ 'BENEFITS' | translate }}</label>
       <textarea
         type="text"
         class="form-control input-field job-desc"
-        name="benefiti"
+        name="benefiti" id = "benefiti"
         [(ngModel)]="form.opis_oglasa.benefiti"
-        placeholder="Highlight any additional perks, benefits, or unique aspects of your company culture."
+        placeholder="{{'benefits_placeholder' | translate}}"
         #benefiti="ngModel"
         [ngClass]="{ 'is-invalid': f.submitted && benefiti.errors }"
       ></textarea>
@@ -242,11 +243,11 @@
 
 
     <div class="form-group">
-      <label for="rok_prijave" class="required naslov fw-bold fs-5">Application Deadline</label>
+      <label for="rok_prijave" class="required naslov fw-bold fs-5">{{'APPLICATION_DEADLINE'| translate}}</label>
       <input
         type="date"
         class="form-control"
-        name="datumRodjenja"
+        name="datumRodjenja" id = "rok_prijave"
         [(ngModel)]="form.rok_prijave"
         required
         #rok_prijave="ngModel"
@@ -255,18 +256,17 @@
       @if (rok_prijave.errors && f.submitted) {
         <div class="invalid-feedback">
           @if (rok_prijave.errors['required']) {
-            <div>Application Deadline is required!</div>
+            <div>{{'deadline_required' | translate}}</div>
           }
         </div>
       }
     </div>
 
     <div style="color: red; margin-top: 20px">
-      Note: If you publish the post, it will be visible to all candidates, allowing them to send applications.
-      Alternatively, if you save it as a draft, you can edit and publish the job post later.
-    </div>
+    {{'application_note' | translate}}
+     </div>
     <div class="form-group d-flex justify-content-between">
-      <button class="btn-confirm">Back</button>
+      <button class="btn-confirm">{{ 'back' | translate }}</button>
       <div>
         <!-- Publish Button -->
         <button
@@ -275,7 +275,7 @@
           (click)="openPublishModal()"
 
         >
-          Publish
+          {{'PUBLISH' | translate}}
         </button>
 
         <!-- Save Draft Button -->
@@ -284,7 +284,7 @@
           type="button"
           (click)="onSubmitDraft($event)"
         >
-          Save draft
+          {{ 'save_draft' | translate }}
         </button>
       </div>
 
@@ -296,12 +296,12 @@
 
 <app-modal
   modalId="publishModal"
-  title="Confirm Publish"
-  body="Are you sure you want to publish this job post?"
+  title="{{'CONFIRM_PUBLISH' | translate}}"
+  body="{{'publish_job_post' | translate}}"
   [buttons]="publishButtons"
 >
   <div style="color: red">
-    Note: If you publish the post, it will be visible to all candidates, allowing them to send applications.
+   {{'note_job_post' | translate}}
   </div>
 </app-modal>
 
