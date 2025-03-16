@@ -179,4 +179,8 @@ export class MyJobsComponent implements OnInit{
     let dani = Math.floor((datum.getTime() - danasnjiDatum.getTime()) / 1000 / 60 / 60 / 24);
     return dani;
   }
+
+  navigateToEditJob(id: number) {
+    this.router.navigate(['/edit-job', id], { skipLocationChange: false });
+  }
 }

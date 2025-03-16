@@ -23,6 +23,10 @@ import {
 import {OglasGetByIdResponse} from "../../../endpoints/oglas-endpoint/get-by-id/oglas-get-by-id-response";
 import {FooterComponent} from "../../layout/footer/footer.component";
 import {TranslatePipe} from "@ngx-translate/core";
+import {OglasDeleteEndpoint} from "../../../endpoints/oglas-endpoint/delete/oglas-delete-endpoint";
+import {OglasDeleteRequest} from "../../../endpoints/oglas-endpoint/delete/oglas-delete-request";
+import {OglasSoftDeleteRequest} from "../../../endpoints/oglas-endpoint/soft-delete/oglas-soft-delete-request";
+import {OglasSoftDeleteEndpoint} from "../../../endpoints/oglas-endpoint/soft-delete/oglas-soft-delete-endpoint";
 
 @Component({
   selector: 'app-my-drafts',
@@ -63,6 +67,7 @@ export class OglasiDraftComponent implements OnInit{
               private router: Router,
               private oglasGetEndpoint: OglasGetEndpoint,
               private kandidatOglasGetEndpoint: KandidatOglasGetEndpoint,
+              private oglasDeleteEndpoint: OglasSoftDeleteEndpoint,
               @Inject(PLATFORM_ID) private platformId: any) {
   }
 
@@ -181,5 +186,18 @@ export class OglasiDraftComponent implements OnInit{
     let datum = new Date(oglas?.rokPrijave);
     let dani = Math.floor((datum.getTime() - danasnjiDatum.getTime()) / 1000 / 60 / 60 / 24);
     return dani;
+  }
+
+  deleteOglas(id: number) {
+    const oglasRequest: OglasSoftDeleteRequest = {
+      oglas_id : id
+    };
+
+    this.oglasDeleteEndpoint.obradi(oglasRequest).subscribe((x)=>{
+      console.log("Uspjesno izbrisan");
+      this.getAll();
+      this.getApplicants();
+      this.setTotal();
+    })
   }
 }

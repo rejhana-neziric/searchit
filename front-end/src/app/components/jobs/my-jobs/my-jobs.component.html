@@ -57,6 +57,78 @@
     </form>
   </div>
   <!-- Search box -->
+  <div class="oglasi">
+    <div class="oglas"
+         *ngFor="let oglas of renderOglas() | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: total }"
+         [routerLink]="['/jobs/', oglas?.id]">
+      <div class="oglas-content d-flex flex-row align-content-center">
+        <div class="my-1">
+          <div>
+               <span *ngIf="razlikaDatuma(oglas) > 0 " class="fs-6 d-flex flex-row justify-content-start ">
+                  <div class="status" style="">
+                          {{ 'open_until' | translate }}: {{ oglas.rokPrijave | date:'d.M.yyyy' }}
+                        </div>
+                 </span>
+            <span *ngIf="razlikaDatuma(oglas) < 0" class="fs-6 d-flex flex-row justify-content-start ">
+                          <div class="status" style=" background-color: lightgray;">
+                          {{ 'closed' | translate }}
+                        </div>
+                  </span>
+          </div>
+          <span class="fw-bold fs-3 mt-1" style="color: #84B59F">{{ oglas?.nazivPozicije }}</span>
+          <br>
+          <span class="fw-normal fs-5" *ngFor="let iskustvo of oglas.iskustvo.$values">  {{ iskustvo.naziv }}</span>
+          <br>
+          <span class="fw-normal fs-6 job-type-location location mt-5 "
+                *ngFor="let lokacija of oglas.lokacija.$values">{{ lokacija.naziv }}</span>
+        </div>
+
+        <div class="d-flex flex-column justify-content-between " style="padding: 10px; order: 3; flex:2">
+          <div>
+                     <span *ngIf="calculateNumberOfApplicants(oglas) > 0 "
+                           class="fs-6 d-flex flex-row justify-content-end ">
+                          <div class="status">
+                         {{ 'applicants' | translate }} {{ calculateNumberOfApplicants(oglas) }}
+                        </div>
+                  </span>
+
+            <span *ngIf="calculateNumberOfApplicants(oglas) == 0 " class="fs-6 d-flex flex-row justify-content-end ">
+                          <div class="status" style=" background-color: lightgray;">
+                        {{ 'no_applicants' | translate }}
+                        </div>
+                  </span>
+          </div>
+
+          <div class="d-flex flex-row mt-5 justify-content-end">
+            <button *ngIf="!oglas.objavljen" type="button" class="btn-danger">
+              {{ 'remove' | translate }}
+            </button>
+
+            <button *ngIf="!oglas.objavljen" class="btn-confirm" type="button"
+                    (click)="navigateToEditJob(oglas.id)"
+                    style="margin-left: 10px">{{ 'edit' | translate }}
+            </button>
+
+            <button class="btn-confirm" type="button"
+                    style="margin-left: 10px" [routerLink]="['/jobs/', oglas.id]">{{ 'details' | translate }}
+            </button>
+
+          </div>
+        </div>
+
+        <app-notification-toast></app-notification-toast>
+      </div>
+    </div>
+    <!-- Oglasi -->
+
+    <!-- Pagination -->
+    <div *ngIf="imaRezultataPretrage" class="d-flex justify-content-center pe-5">
+      <pagination-controls class="pagination ps-0"
+                           (pageChange)="pageChangeEvent($event, true)"></pagination-controls>
+    </div>
+    <!-- Pagination -->
+
+  </div>
 
   <!-- No results message -->
   <div *ngIf="renderOglas().length == 0 && pretragaNaziv != ''" class="p-4 border border-2 shadow bg-body-tertiary"
