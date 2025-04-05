@@ -1,11 +1,13 @@
-﻿namespace JobSearchingWebApp.Endpoints.Oglas.Update
+﻿using Newtonsoft.Json;
+
+namespace JobSearchingWebApp.Endpoints.Oglas.Update
 {
     public class OglasUpdateRequest
     {
         public int oglas_id { get; set; }
 
         public string? naziv_pozicije { get; set; }
-
+        [JsonProperty("datum_modificiranja")]
         public DateTime? rok_prijave { get; set; } 
         public OglasUpdateOpisOglasa opis_oglasa { get; set; }
         public string? plata { get; set; }

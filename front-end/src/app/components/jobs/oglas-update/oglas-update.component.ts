@@ -111,18 +111,18 @@ export class OglasUpdateComponent {
   }
 
 
-  onSubmit(): void {
-    this.form.oglas_id = this.oglas_id;
-    this.form.objavljen = true;
-    this.form.datum_modificiranja = new Date().toISOString();
-    console.log('glavna funk', JSON.stringify(this.form));
-    const sanitizedFormValue = this.removeIds(this.form);
-    console.log('Sanitized form data:', JSON.stringify(sanitizedFormValue));
+    onSubmit(): void {
+      this.form.oglas_id = this.oglas_id;
+      this.form.objavljen = true;
+      this.form.datum_modificiranja = new Date().toISOString();
+      console.log('glavna funk', JSON.stringify(this.form));
+      const sanitizedFormValue = this.removeIds(this.form);
+      console.log('Sanitized form data:', JSON.stringify(sanitizedFormValue));
 
-    this.oglasUpdateEndpoint.obradi(sanitizedFormValue).subscribe(response => {
-      console.log("Oglas uspjesno dodan", response);
-    });
-  }
+      this.oglasUpdateEndpoint.obradi(sanitizedFormValue).subscribe(response => {
+        console.log("Oglas uspjesno dodan", response);
+      });
+    }
 
   // onCheckboxChange(event: Event, value: string): void {
   //   const input = event.target as HTMLInputElement;

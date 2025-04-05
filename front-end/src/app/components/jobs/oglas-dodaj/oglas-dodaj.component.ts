@@ -103,6 +103,8 @@ import {TranslatePipe} from "@ngx-translate/core";
     this.oglasDodajEndpoint.obradi(this.form).subscribe(response => {
       console.log("Oglas successfully added", response);
     });
+
+    this.router.navigateByUrl('/my-drafts');
   }
 
   onSubmit() {

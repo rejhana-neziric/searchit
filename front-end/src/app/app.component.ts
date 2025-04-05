@@ -78,8 +78,6 @@ import { NotificationModalComponent } from "./components/notifications/notificat
 import { OglasDodajComponent } from "./components/jobs/oglas-dodaj/oglas-dodaj.component";
 import { OglasiDraftComponent } from "./components/jobs/oglasi-draft/oglasi-draft.component";
 import { ChatCandidateComponent } from "./components/chat/chat-candidate/chat-candidate.component";
-
-// Uvoz za ngx-translate
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -97,7 +95,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
     OglasDodajComponent,
     OglasiDraftComponent,
     ChatCandidateComponent,
-    TranslateModule // Dodaj TranslateModule ovdje
+    TranslateModule
   ],
   providers: [],
   templateUrl: './app.component.html',
@@ -106,15 +104,14 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 export class AppComponent implements OnInit {
   constructor(
     private router: Router,
-    @Inject(PLATFORM_ID) private platformId: Object, // Provjera okruženja
+    @Inject(PLATFORM_ID) private platformId: Object,
     private authService: AuthService,
     private translate: TranslateService
   ) {
-    // Dodavanje jezika u aplikaciju
-    this.translate.addLangs(['en', 'bs']);
-    this.translate.setDefaultLang('en'); // Postavljanje podrazumijevanog jezika
 
-    // Korištenje jezika 'en' po defaultu
+    this.translate.addLangs(['en', 'bs']);
+    this.translate.setDefaultLang('en');
+
     this.translate.use('en');
   }
 

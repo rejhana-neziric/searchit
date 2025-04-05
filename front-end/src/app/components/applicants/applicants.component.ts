@@ -145,16 +145,6 @@ export class ApplicantsComponent implements OnInit{
     return filtered;
   }
 
-    // if (!this.selectedFilter) {
-    //   return this.kandidati;
-    // }
-    //
-    // return this.kandidati.filter(applicant =>
-    //   applicant.oglasId === this.selectedFilter
-    // );
-  //}
-
-
   private setTotal() {
     this.total = this.kandidati.length;
   }
