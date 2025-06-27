@@ -2,7 +2,7 @@
 
 This project is a job-searching web application developed as part of a group project for the *Razvoj softvera I* (Software Development I) course at the Faculty of Information Technology.
 
-## 🧠 Project Overview
+## 📄 Project Overview
 
 The application enables users to:
 - Browse and search job advertisements
