@@ -40,7 +40,7 @@ TypeAdapterConfig<KompanijaGetByIdResponse, Kompanija>.NewConfig()
 
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(config.GetConnectionString("db_local")), ServiceLifetime.Scoped);
+    options.UseSqlServer(config.GetConnectionString("DefaultConnection")), ServiceLifetime.Scoped);
 
 // Add services to the container.
 
@@ -125,6 +125,27 @@ builder.Services.AddScoped<EmailService>();
 builder.Services.AddScoped<SmsService>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddMapster();
+
+Env.Load();
+
+builder.Configuration.AddEnvironmentVariables();
+
+var connectionString = $"Data Source={Environment.GetEnvironmentVariable("DB_HOST")};" +
+                       $"Initial Catalog={Environment.GetEnvironmentVariable("DB_NAME")};" +
+                       "Trusted_Connection=true;"+
+                       "MultipleActiveResultSets=true;" +
+                       "TrustServerCertificate=true;";
+
+
+builder.Configuration["ConnectionStrings:DefaultConnection"] = connectionString;
+
+var apiKey = builder.Configuration["MailJet:ApiKey"];
+var secretKey = builder.Configuration["MailJet:SecretKey"];
+
+var jwtKey = builder.Configuration["JwtSettings:Key"];
+var issuer = builder.Configuration["JwtSettings:Issuer"];
+var audience = builder.Configuration["JwtSettings:Audience"];
+var expires = builder.Configuration["JwtSettings:ExpiresInDays"];
 
 builder.Services.AddCors();
 
