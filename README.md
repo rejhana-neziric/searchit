@@ -1,6 +1,6 @@
 # Job Searching Web Application
 
-This project is a job-searching web application developed as part of a group project for the *Razvoj softvera I* (Software Development I) course at the Faculty of Information Technology.
+This project is a job-searching web application developed as part of a group project for the *Razvoj softvera I* (Software Development I) course at the Faculty of Information Technologies, developed by my colleague [Naida Tabak](https://github.com/naidak) and me.  
 
 ## 📄 Project Overview
 
