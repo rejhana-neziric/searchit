@@ -1,0 +1,136 @@
+<app-navbar></app-navbar>
+
+<div class="d-flex flex-column container me-auto ms-auto" style="height: fit-content">
+
+  <!-- Breadcrumbs -->
+  <div class="d-flex flex-row nav-link pregled-breadcrumbs text-dark">
+    <a type="button nav-link" style="color: #84B59F; font-size: larger; text-decoration: none;" [routerLink]="['/home/']">
+      {{ 'breadcrumb.home' | translate }} >
+    </a>
+    <p style="color: #84B59F; font-size: larger;" [routerLink]="['/cv/']">
+      > {{ 'breadcrumb.cv' | translate }} >
+    </p>
+    <p style="color: #84B59F; font-size: larger;" [routerLink]="['/cv-create/']">
+      > {{ 'breadcrumb.create_cv' | translate }} >
+    </p>
+    <p style="color: #84B59F; font-size: larger;">
+      > {{ 'breadcrumb.cv_preview' | translate }}
+    </p>
+  </div>
+  <!-- Breadcrumbs -->
+
+  <div class="fw-bold tekst mb-4">{{ 'cv_preview.title' | translate }} - {{ this.cv.naziv }}</div>
+
+  <!-- Personal Details -->
+  <div class="fs-5 me-auto ms-auto mb-2"> {{ this.cv.ime }} {{ this.cv.prezime }}</div>
+  <div class="me-auto ms-auto">{{ this.cv.grad }} {{ this.cv.drzava }}</div>
+  <div class="ms-auto">{{ this.cv.email }}</div>
+  <div class="me-auto">{{ this.cv.phoneNumber }}</div>
+  <!-- Personal Details -->
+
+  <!-- Professional Summary -->
+  <div *ngIf="this.cv.profesionalniSazetak" class="section">
+    <div class="fw-bold tekst mb-4 fs-5 mt-2 mb-2 d-flex justify-content-center">
+      {{ 'cv_preview.professional_summary' | translate }}
+    </div>
+    <div>{{ this.cv.profesionalniSazetak }}</div>
+  </div>
+  <!-- Professional Summary -->
+
+  <!-- Education -->
+  <div *ngIf="this.cv.edukacija.length > 0" class="section">
+    <div class="fw-bold tekst mb-4 fs-5 mt-2 mb-2 d-flex justify-content-center">
+      {{ 'cv_preview.education' | translate }}
+    </div>
+    <div class="edukacije" *ngFor="let edukacija of this.cv.edukacija">
+      <div class="education-content d-flex row align-items-center">
+        <div class="d-flex column justify-content-between">
+          <div class="fw-bold">{{ edukacija.nazivSkole }}</div>
+          <div>
+            <div *ngIf="edukacija.datumPocetka && edukacija.datumZavrsetka">
+              {{ edukacija.datumPocetka | date: 'MMMM yyyy' }} - {{ edukacija.datumZavrsetka | date: 'MMMM yyyy' }}
+            </div>
+            <div *ngIf="edukacija.grad" class="d-flex justify-content-end">{{ edukacija.grad }}</div>
+          </div>
+        </div>
+        <div *ngIf="edukacija.opis">{{ edukacija.opis }}</div>
+      </div>
+    </div>
+  </div>
+  <!-- Education -->
+
+  <!-- Employment History -->
+  <div *ngIf="this.cv.zaposlenje.length > 0" class="section">
+    <div class="fw-bold tekst mb-4 fs-5 mt-2 mb-2 d-flex justify-content-center">
+      {{ 'cv_preview.employment_history' | translate }}
+    </div>
+    <div class="zaposlenje" *ngFor="let zasposljenje of this.cv.zaposlenje">
+      <div class="employment-content d-flex row align-items-center">
+        <div class="d-flex column justify-content-between">
+          <div class="fw-bold">{{ zasposljenje.nazivKompanije }} - {{ zasposljenje.nazivPozicije }}</div>
+          <div>
+            <div *ngIf="zasposljenje.datumPocetka && zasposljenje.datumZavrsetka">
+              {{ zasposljenje.datumPocetka | date: 'MMMM yyyy' }} - {{ zasposljenje.datumZavrsetka | date: 'MMMM yyyy' }}
+            </div>
+          </div>
+        </div>
+        <div *ngIf="zasposljenje.opis">{{ zasposljenje.opis }}</div>
+      </div>
+    </div>
+  </div>
+  <!-- Employment History -->
+
+  <!-- Skills -->
+  <div *ngIf="this.cv.vjestine" class="section">
+    <div class="fw-bold tekst mb-4 fs-5 mt-2 mb-2 d-flex justify-content-center">
+      {{ 'cv_preview.skills' | translate }}
+    </div>
+    <div class="vjestine" *ngFor="let vjestina of this.cv.vjestine">{{ vjestina }}</div>
+  </div>
+  <!-- Skills -->
+
+  <!-- Technical Skills -->
+  <div *ngIf="this.cv.tehnickeVjestine" class="section">
+    <div class="fw-bold tekst mb-4 fs-5 mt-2 mb-2 d-flex justify-content-center">
+      {{ 'cv_preview.technical_skills' | translate }}
+    </div>
+    <div class="tehnickeVjestine" *ngFor="let vjestina of this.cv.tehnickeVjestine">{{ vjestina }}</div>
+  </div>
+  <!-- Technical Skills -->
+
+  <!-- Buttons -->
+  <div class="button-section">
+    <div class="d-flex flex-row mt-2">
+      <button type="button" class="btn-cancel" (click)="cancel()">
+        {{ 'buttons.cancel' | translate }}
+      </button>
+      <button *ngIf="!edit" type="button" class="btn-confirm" (click)="openCreateCVModal()">
+        {{ 'buttons.create_cv' | translate }}
+      </button>
+      <button *ngIf="edit" type="button" class="btn-confirm" (click)="save()">
+        {{ 'buttons.save' | translate }}
+      </button>
+      <button *ngIf="edit" type="button" class="btn-confirm" [routerLink]="['/cv-create/', Number(this.cvEditId)]">
+        {{ 'buttons.edit' | translate }}
+      </button>
+      <button *ngIf="!edit" type="button" class="btn-confirm" [routerLink]="['/cv-create/']">
+        {{ 'buttons.edit' | translate }}
+      </button>
+    </div>
+  </div>
+  <!-- Buttons -->
+
+</div>
+
+<app-modal
+  modalId="createCVModal"
+  [title]="'modal.publish_cv' | translate"
+  [body]="'modal.publish_cv_body' | translate"
+  [buttons]="createCVButtons"
+>
+  <div style="color: red">
+    {{ 'modal.note' | translate }}
+  </div>
+</app-modal>
+
+<app-footer></app-footer>

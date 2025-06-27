@@ -1,0 +1,46 @@
+.container {
+  width: 70%;
+  margin-top: 80px;
+  padding-bottom: 80px;
+}
+
+.tekst {
+  color: #84B59F;
+  font-size: xx-large;
+}
+
+.text-underline{
+  width: 43px;
+  height: 5px;
+  color: #1d7b4f;
+  margin-top: -10px;
+}
+
+.education-content, .employment-content {
+  margin-bottom: 15px;
+  border-radius: 30px;
+  background: #FFF;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  width: 100%;
+  height: 100px;
+  position: relative;
+  min-width: 567px;
+  padding-left: 50px;
+  padding-right: 50px;
+}
+
+.vjestine, .tehnickeVjestine{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.vjestine-tehnicke-vjestine {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.button-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}

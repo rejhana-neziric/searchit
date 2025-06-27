@@ -1,0 +1,146 @@
+<div class="register-form">
+  <div class="register-container">
+
+    <div class="naslov fs-1 fw-bold p-1 bd-highlight">
+      <a class="nav-link active text-dark fs-1 fw-bold" [routerLink]="'/home'">searchit</a>
+      <hr class="naslov-underline">
+    </div>
+
+    <div *ngIf="!isSigned">
+      <form name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
+
+        <div class="form-group">
+          <label for="ime" class="required">{{ 'first_name' | translate }}</label>
+          <input
+            type="text"
+            class="form-control"
+            name="ime" id="ime"
+            [(ngModel)]="form.ime"
+            required
+            minlength="3"
+            maxlength="30"
+            placeholder="{{ 'enter_first_name' | translate }}"
+            #ime="ngModel"
+            [ngClass]="{ 'is-invalid': f.submitted && ime.errors }"
+          />
+          <div *ngIf="ime.errors && f.submitted" class="invalid-feedback">
+            <div *ngIf="ime.errors['required']">{{ 'first_name_required' | translate }}</div>
+            <div *ngIf="ime.errors['minlength']">{{ 'first_name_minlength' | translate }}</div>
+            <div *ngIf="ime.errors['maxlength']">{{ 'first_name_maxlength' | translate }}</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="prezime" class="required">{{ 'last_name' | translate }}</label>
+          <input
+            type="text"
+            class="form-control"
+            name="prezime" id="prezime"
+            [(ngModel)]="form.prezime"
+            required
+            minlength="3"
+            maxlength="30"
+            placeholder="{{ 'enter_last_name' | translate }}"
+            #prezime="ngModel"
+            [ngClass]="{ 'is-invalid': f.submitted && prezime.errors }"
+          />
+          <div *ngIf="prezime.errors && f.submitted" class="invalid-feedback">
+            <div *ngIf="prezime.errors['required']">{{ 'last_name_required' | translate }}</div>
+            <div *ngIf="prezime.errors['minlength']">{{ 'last_name_minlength' | translate }}</div>
+            <div *ngIf="prezime.errors['maxlength']">{{ 'last_name_maxlength' | translate }}</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="zvanje" class="required">{{ 'title' | translate }}</label>
+          <input
+            type="text"
+            class="form-control"
+            name="zvanje" id="zvanje"
+            [(ngModel)]="form.zvanje"
+            required
+            minlength="3"
+            maxlength="50"
+            placeholder="{{ 'enter_title' | translate }}"
+            #zvanje="ngModel"
+            [ngClass]="{ 'is-invalid': f.submitted && zvanje.errors }"
+          />
+          <div *ngIf="zvanje.errors && f.submitted" class="invalid-feedback">
+            <div *ngIf="zvanje.errors['required']">{{ 'title_required' | translate }}</div>
+            <div *ngIf="zvanje.errors['minlength']">{{ 'title_minlength' | translate }}</div>
+            <div *ngIf="zvanje.errors['maxlength']">{{ 'title_maxlength' | translate }}</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="datumRodjenja" class="required">{{ 'date_of_birth' | translate }}</label>
+          <input
+            type="date"
+            class="form-control"
+            name="datumRodjenja" id="datumRodjenja"
+            [(ngModel)]="form.datumRodjenja"
+            required
+            #datumRodjenja="ngModel"
+            [ngClass]="{ 'is-invalid': f.submitted && datumRodjenja.errors }"
+          />
+          <div *ngIf="datumRodjenja.errors && f.submitted" class="invalid-feedback">
+            <div *ngIf="datumRodjenja.errors['required']">{{ 'date_of_birth_required' | translate }}</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="mjestoPrebivalista" class="required">{{ 'residence' | translate }}</label>
+          <input
+            type="text"
+            class="form-control"
+            name="mjestoPrebivalista" id="mjestoPrebivalista"
+            [(ngModel)]="form.mjestoPrebivalista"
+            required
+            placeholder="{{ 'enter_residence' | translate }}"
+            #mjestoPrebivalista="ngModel"
+            [ngClass]="{ 'is-invalid': f.submitted && mjestoPrebivalista.errors }"
+          />
+          <div *ngIf="mjestoPrebivalista.errors && f.submitted" class="invalid-feedback">
+            <div *ngIf="mjestoPrebivalista.errors['required']">{{ 'residence_required' | translate }}</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="phoneNumber" class="required">{{ 'phone_number' | translate }}</label>
+          <input
+            type="tel"
+            class="form-control"
+            name="phoneNumber" id="phoneNumber"
+            [(ngModel)]="form.phoneNumber"
+            required
+            placeholder="{{ 'enter_phone_number' | translate }}"
+            #phoneNumber="ngModel"
+            [ngClass]="{ 'is-invalid': f.submitted && phoneNumber.errors }"
+          />
+          <div *ngIf="phoneNumber.errors && f.submitted" class="invalid-feedback">
+            <div *ngIf="phoneNumber.errors['required']">{{ 'phone_number_required' | translate }}</div>
+          </div>
+        </div>
+
+        <div class="form-group d-flex justify-content-between">
+          <button class="btn-confirm" (click)="triggerEvent()">{{ 'back' | translate }}</button>
+          <button class="btn-confirm">{{ 'sign_up' | translate }}</button>
+        </div>
+
+        <div class="form-group">
+          <div *ngIf="f.submitted && isSignUpFailed">
+            <div class="alert alert-danger" role="alert">
+              {{ 'signup_failed' | translate }}: {{ errorMessage }}
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div *ngElse>
+      <div class="alert alert-success">{{ 'account_created' | translate }}</div>
+      <div class="d-flex flex-row justify-content-end">
+        <button class="btn-confirm mt-2" [routerLink]="'/login'">{{ 'login' | translate }}</button>
+      </div>
+    </div>
+  </div>
+</div>

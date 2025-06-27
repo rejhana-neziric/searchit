@@ -1,0 +1,33 @@
+  <div class="content d-flex flex-column">
+  <!--Korisnici-->
+  <div class="korisnici-section d-flex flex-column">
+    <!--Korisnik-->
+    <div class="korisnik"
+         *ngFor="let korisnik of kandidati | paginate:{itemsPerPage:itemsPerPage, currentPage:currentPage, totalItems:total}">
+
+      <div class="korisnik-content d-flex flex-row" [class.selected]="korisnik===selektovaniKandidat">
+        <div class="d-flex flex-column justify-content-center" style="order: 2; flex:5">
+          <div class="fw-bold fs-3" style="color: #84B59F">
+            <div>
+              <span> {{ korisnik.ime }} </span>
+              <span> {{ korisnik.prezime }} </span>
+              <span> - {{ korisnik.username }} </span>
+            </div>
+            <span class="fw-normal fs-5" style="color: #3d3b3b"> {{ korisnik.email }} </span>
+          </div>
+          <div class="d-flex flex-row align-items-center mt-1 ms-auto delete">
+            <button class="btn btn-danger" (click)="openDeleteModal(korisnik.id.toString())">{{ 'DELETE' | translate }}</button>
+            <button class="btn btn-edit" [routerLink]="['/candidates-edit', korisnik.id]">{{'EDIT' | translate}}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <app-modal
+    modalId="deleteModal"
+    title="Confirm Delete"
+    body="Are you sure you want to delete this user?"
+    [buttons]="deleteButtons"
+  ></app-modal>

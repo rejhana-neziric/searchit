@@ -1,0 +1,35 @@
+<div class="content d-flex flex-column">
+  <!-- {{ 'USERS' | translate }} -->
+  <div class="korisnici-section d-flex flex-column">
+    <!-- {{ 'USER' | translate }} -->
+    <div class="korisnik"
+         *ngFor="let korisnik of kompanije | paginate:{itemsPerPage:itemsPerPage, currentPage:currentPage, totalItems:total}">
+
+      <div class="korisnik-content d-flex flex-row" [class.selected]="korisnik===selektovanaKompanija">
+        <div class="d-flex flex-column justify-content-center" style="order: 2; flex:5">
+          <div class="fw-bold fs-3" style="color: #84B59F">
+            <div>
+              <span> {{ korisnik.naziv }} </span>
+            </div>
+            <span class="fw-normal fs-5" style="color: #3d3b3b"> {{ korisnik.website }} </span>
+          </div>
+          <div class="d-flex flex-row align-items-center mt-1 ms-auto delete">
+            <button class="btn btn-danger" (click)="openDeleteModal(korisnik.id)">
+              {{ 'DELETE' | translate }}
+            </button>
+            <button class="btn btn-edit" [routerLink]="['/companies-edit', korisnik.id]">
+              {{ 'EDIT' | translate }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-modal
+  modalId="deleteModal"
+  title="{{ 'CONFIRM_DELETE' | translate }}"
+  body="{{ 'DELETE_CONFIRMATION' | translate }}"
+  [buttons]="deleteButtons"
+></app-modal>

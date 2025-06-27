@@ -1,0 +1,135 @@
+
+body {
+  background-color: #EFEFEF;
+  padding-top: 80px;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+:root {
+  --primary-color: #DDD8C4;
+  --secondary-color: #84B59F;
+  --hover-button-color: rgba(221, 216, 196, 0.74);
+  --background-color: #F8F9FA;
+}
+
+.section-headline {
+  width: 80%;
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 100px;
+}
+
+.img-right-arrow {
+  width: 50px;
+  height: 50px;
+  order: 2;
+  flex: 1;
+}
+
+.img-left-arrow {
+  width: 50px;
+  height: 50px;
+  order: 1;
+  flex: 1;
+}
+
+.pregled-oglas-kompanija-content{
+  background: #FFF;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  min-width: 567px;
+  height: max-content;
+  min-height: 600px;
+  border-radius: 25px;
+  margin-top: 120px;
+  margin-right: 20px;
+
+}
+
+.required::after {
+  content: ' *';
+  color: red;
+}
+
+.btn-confirm {
+  background-color: var(--primary-color);
+  border-radius: 7px;
+  text-decoration: none;
+  color: #3d3b3b;
+  font-size: 16px;
+  width: 100px;
+  margin-left: 10px;
+  border: none;
+  height: 40px;
+}
+
+.btn-confirm:hover {
+  background-color: rgba(221, 216, 196, 0.74);
+}
+
+/*
+.btn-cancel {
+  background-color: grey;
+  border-radius: 7px;
+  text-decoration: none;
+  color: white;
+  font-size: 16px;
+  width: 100px;
+  border: none;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+}
+*/
+
+.btn-cancel {
+  background-color: #ffffff;
+  border-radius: 7px;
+  text-decoration: none;
+  color: dimgrey;
+  font-size: 16px;
+  width: 100px;
+  border: 1px solid dimgrey;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+}
+
+.btn-cancel:hover {
+  background-color: rgba(239, 239, 239, 0.74);
+}
+
+.btn-danger{
+  border-radius: 7px;
+  text-decoration: none;
+  font-size: 16px;
+  border: none;
+  height: 40px;
+  width: 100px;
+}
+
+
+.two-factor-auth button {
+  padding: 8px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.two-factor-auth button.enabled {
+  background-color: var(--secondary-color); /* Green */
+  color: white;
+}
+
+.two-factor-auth button.disabled {
+  background-color: lightgray; /* Red */
+  color: black;
+}
+
+.two-factor-auth button:hover {
+  opacity: 0.8;
+}
+

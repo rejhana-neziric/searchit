@@ -1,0 +1,79 @@
+<div class="naslov fs-1 fw-bold p-1 bd-highlight">
+  <a class="nav-link active text-dark fs-1 fw-bold "
+     [routerLink]="'/home'">{{ 'searchit' | translate }}</a>
+  <hr class="naslov-underline">
+</div>
+
+@if (!isSigned) {
+  <form
+    name="form"
+    (ngSubmit)="f.form.valid && onSubmit()"
+    #f="ngForm"
+    novalidate
+  >
+
+    <div class="form-group">
+      <label for="kratkiOpis" class="required">{{ 'short_description' | translate }}</label>
+      <textarea
+        class="form-control"
+        name="kratkiOpis" id="kratkiOpis"
+        [(ngModel)]="form.kratkiOpis"
+        required
+        minlength="10"
+        maxlength="150"
+        placeholder="{{ 'short_description_placeholder' | translate }}"
+        #kratkiOpis="ngModel"
+        [ngClass]="{ 'is-invalid': f.submitted && kratkiOpis.errors }"
+        rows="3"
+      ></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="opis" class="required">{{ 'description' | translate }}</label>
+      <textarea
+        type="text"
+        class="form-control"
+        name="opis" id="opis"
+        [(ngModel)]="form.opis"
+        required
+        minlength="10"
+        placeholder="{{ 'description_placeholder' | translate }}"
+        #opis="ngModel"
+        [ngClass]="{ 'is-invalid': f.submitted && opis.errors }"
+        rows="6"
+      ></textarea>
+      @if (opis.errors && f.submitted) {
+        <div class="invalid-feedback">
+          @if (opis.errors['required']) {
+            <div>{{ 'description_required' | translate }}</div>
+          }
+          @if (opis.errors['minlength']) {
+            <div>{{ 'description_minlength' | translate }}</div>
+          }
+        </div>
+      }
+    </div>
+
+    <div class="form-group d-flex justify-content-between">
+      <button class="btn-confirm" (click)="triggerEvent()">{{ 'back' | translate }}</button>
+      <button class="btn-confirm">{{ 'sign_up' | translate }}</button>
+    </div>
+
+    <div class="form-group">
+      @if (f.submitted && isSignUpFailed) {
+        <div class="alert alert-danger" role="alert">
+          {{ 'signup_failed' | translate }}: {{ errorMessage }}
+        </div>
+      }
+    </div>
+  </form>
+
+}
+
+@else {
+  <div class="alert alert-success">{{ 'account_created' | translate }}</div>
+
+  <div class="d-flex flex-row justify-content-end">
+    <button class="btn-confirm mt-2" [routerLink]="'/login'">{{ 'login' | translate }}</button>
+  </div>
+}

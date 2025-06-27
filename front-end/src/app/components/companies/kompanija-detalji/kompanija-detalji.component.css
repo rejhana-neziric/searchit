@@ -1,0 +1,91 @@
+.pregled {
+  width: 70%;
+  margin-top: 80px;
+  padding-bottom: 80px;
+}
+
+.pregled-breadcrumbs {
+  padding: 0;
+}
+
+.pregled-kompanija {
+  margin-top: 80px;
+}
+
+.img-logo {
+  width: 100px;
+  height: 100px;
+  padding-right: 10px;
+}
+
+.tekst {
+  color: #84B59F;
+  font-size: xxx-large;
+}
+
+body {
+  font-size: 2vw;
+}
+
+.open-positions {
+  background-color: var(--secondary-color);
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.oglasi {
+
+}
+
+.oglas {
+  width: 75%;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.oglas-content {
+  margin-bottom: 15px;
+  border-radius: 30px;
+  background: #FFF;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  min-width: 567px;
+  height: 166px;
+  position: relative;
+}
+
+.img-logo {
+  width: 80px;
+  height: 80px;
+  padding: 15px;
+}
+
+.deadline {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 15px;
+}
+
+.job-type-location {
+  background-color: var(--secondary-color);
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.job-type{
+  margin-left: 25px ;
+}
+
+.location{
+  margin-right: 10px;
+}
+
+.no-result-section {
+  border-color: var(--secondary-color);
+  border-width: 10px;
+  background-color: #fff;
+  border-radius: 15px;
+  width: 95%;
+  margin-left: auto;
+  margin-right: auto;
+}

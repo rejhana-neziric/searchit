@@ -1,0 +1,189 @@
+.sections {
+  background-color: var(--primary-color);
+  height: 130vh;
+  order: 1;
+  flex: 1;
+}
+
+.sections-content {
+  order: 2;
+  flex: 5;
+  display: flex;
+  justify-content: center;
+  margin-top: 100px;
+}
+
+.section {
+  width: 75%;
+}
+
+.sidebar {
+  margin-top: 15px;
+}
+
+.section-item {
+  cursor: pointer;
+  font-size: small;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);
+  margin-top: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+hr{
+  width: 43px;
+  height: 5px;
+  color: var(--secondary-color);
+}
+
+.tick {
+  margin-left: 10px;
+  color: #88ab89;
+}
+
+.section-item:hover {
+  background-color: #e0e0e0;
+}
+
+.section-item.active {
+  background-color: #e0e0e0;
+}
+
+.section-item.completed {
+  padding: 5px;
+}
+
+.form-group {
+  text-decoration: none;
+  margin-bottom: 20px;
+}
+
+.btn-cancel {
+  width: 130px;
+}
+
+.button-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.icon {
+  transition: transform 0.5s ease;
+}
+
+.icon.expanded {
+  transform: rotate(180deg);
+}
+
+.accordion-item {
+  border: none;
+  text-decoration: none;
+  margin-top: 10px;
+  background-color: #fff;
+}
+
+.accordion-header, .accordion-button{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: none;
+  text-decoration: none;
+  background-color: #fff;
+}
+
+.accordion-header:hover {
+  .icon-del{
+    display: inline;
+    margin-right: 15px;
+  }
+}
+
+.accordion-button::after{
+  display: none;
+}
+
+.month-year-picker .mat-calendar-period-button {
+  pointer-events: none;
+}
+
+.month-year-picker .mat-calendar-period-button, .month-year-picker .mat-calendar-next-button, .month-year-picker .mat-calendar-previous-button {
+  display: none;
+}
+
+.btn-add{
+  color:  var(--secondary-color);
+  font-weight: bolder;
+  width: 100%;
+  text-decoration: none;
+  border: none;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.btn-add:hover{
+  background-color: #FFFFFF;
+}
+
+.icon-del{
+  display: none;
+}
+
+.container, .skills-container {
+  background-color: #FFFFFF;
+  border-radius: 7px;
+  padding: 30px;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  margin: 50px auto;
+  display:block;
+}
+
+.firstpart, .secondpart{
+  padding: 0;
+}
+
+.btn-confirm {
+  width: 130px;
+}
+
+.skills-content {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.skill-item {
+  flex: 1 100%;
+  margin-bottom: 10px;
+}
+.course-input:hover {
+  .icon-del{
+    display: flex;
+    margin-left: 5px;
+  }
+}
+
+.url-input:hover {
+  .icon-del{
+    display: flex;
+    margin-left: 5px;
+  }
+}
+
+@media (min-width:768px) {
+  .content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .firstpart, .secondpart{
+    padding: 10px;
+  }
+
+  .skill-item {
+    flex: 1 1 50%;
+    margin-bottom: 10px;
+  }
+}

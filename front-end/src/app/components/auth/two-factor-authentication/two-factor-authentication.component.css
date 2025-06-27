@@ -1,0 +1,9 @@
+.two-factor-container{
+  background-color: #EFEFEF;
+  border: none;
+  height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}

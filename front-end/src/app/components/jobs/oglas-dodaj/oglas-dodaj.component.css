@@ -1,0 +1,90 @@
+.text-underline{
+  width: 43px;
+  height: 5px;
+  color: #1d7b4f;
+  margin-top: -10px;
+}
+
+.btn-confirm {
+  background-color: var(--primary-color);
+  border-radius: 7px;
+  text-decoration: none;
+  color: #3d3b3b;
+  font-size: 16px;
+  width: 120px;
+  border: none;
+  height: 40px;
+}
+
+.btn-confirm:hover {
+  background-color: rgba(221, 216, 196, 0.74);
+}
+
+.form-group {
+  margin-top: 15px;
+}
+
+.naslov{
+  color: var(--secondary-color);
+  margin-top: 10px;
+}
+
+.input-field{
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 0;
+  outline: none;
+}
+
+.input-field:focus{
+  border: 1px solid var(--secondary-color);
+}
+
+.job-desc{
+  height: 150px; /* Set height to 10px */
+  display: block;
+}
+
+.radio-container {
+  display: flex;
+  justify-content: left;
+}
+
+.numSpinner{
+  width: 40px; /* Adjust width as needed */
+  font-size: 14px; /* Adjust font size */
+}
+
+input[type="radio"]:checked {
+  border-color: var(--secondary-color);
+}
+
+input[type="radio"]:checked:after {
+  background: var(--secondary-color);
+}
+
+.container {
+  width: 65%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 80px;
+  padding-bottom: 100px;
+
+}
+
+.btn-add{
+  color:  var(--secondary-color);
+  font-weight: bolder;
+  width: 100%;
+  text-decoration: none;
+  border: none;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.btn-add:hover{
+  background-color: #FFFFFF;
+}
+
+.lokacije-input{
+  margin-top:10px;
+}

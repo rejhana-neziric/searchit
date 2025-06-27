@@ -1,0 +1,69 @@
+.search-box {
+  display: inline-block;
+  min-width: 567px;
+  border-radius: 3px;
+  padding: 4px 55px 4px 15px;
+  position: relative;
+  background: #fff;
+  border: 1px solid #ddd;
+  margin-top: 20px;
+
+  &.hovered,
+  &:hover,
+  &:active {
+    border: 1px solid #aaa;
+  }
+
+  input[type=text] {
+    border: none;
+    box-shadow: none;
+    display: inline-block;
+    padding: 0;
+    background: transparent;
+
+    &:hover,
+    &:focus,
+    &:active {
+      box-shadow: none;
+    }
+  }
+}
+
+.content {
+  width: 100%;
+  margin-top: 80px;
+}
+
+.kompanije {
+  margin-top: 30px;
+  padding-bottom: 150px;
+}
+
+.kompanija-content {
+  margin-bottom: 15px;
+  border-radius: 30px;
+  background: #FFF;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  width: 100%;
+  height: 166px;
+  position: relative;
+  min-width: 567px;
+}
+
+.img-logo {
+  width: 80px;
+  height: 80px;
+  padding: 15px;
+}
+
+.location {
+  background-color: var(--secondary-color);
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.open-positions {
+  background-color: var(--secondary-color);
+  border-radius: 5px;
+  padding: 5px;
+}

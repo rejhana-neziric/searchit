@@ -1,0 +1,161 @@
+<app-navbar></app-navbar>
+
+<div class="d-flex flex-column container me-auto ms-auto">
+
+  <!-- Breadcrumbs -->
+  <div class="d-flex flex-row nav-link pregled-breadcrumbs text-dark">
+    <a type="button nav-link" style="color: #84B59F; font-size: larger; text-decoration: none;"
+       [routerLink]="['/home/']">{{ 'home' | translate }} > </a>
+    <p *ngIf="loggedUser?.role == 'Kandidat'" style="color: #84B59F; font-size: larger;" [routerLink]="['/cv/']"> > {{ 'cv' | translate }} >
+    <p *ngIf="loggedUser?.role == 'Kandidat'" style="color: #84B59F; font-size: larger;"> > {{ this.cv?.naziv }}
+    <p *ngIf="loggedUser?.role == 'Kompanija'" style="color: #84B59F; font-size: larger;"
+       [routerLink]="['/applicants/']"> > {{ 'applicants' | translate }} >
+    <p *ngIf="loggedUser?.role == 'Kompanija'" style="color: #84B59F; font-size: larger;">
+      > {{ this.cv?.ime }} {{ this.cv?.prezime }}
+  </div>
+  <!-- Breadcrumbs -->
+
+  <div class="fw-bold tekst mb-4">{{ this.cv?.naziv }}</div>
+
+  <!--Personal Details-->
+  <div class="fs-5 me-auto ms-auto mb-2"> {{ this.cv?.ime }} {{ this.cv?.prezime }}</div>
+  <div class="me-auto ms-auto">{{ this.cv?.grad }} {{ this.cv?.drzava }}</div>
+  <div class="ms-auto">{{ this.cv?.email }}</div>
+  <div class="me-auto">{{ this.cv?.phoneNumber }}</div>
+  <!--Personal Details-->
+
+  <!--Professional Summary-->
+  <div *ngIf="this.cv?.profesionalniSazetak" class="section">
+    <div class="fw-bold tekst mb-4 fs-5 mt-2 mb-2 d-flex justify-content-center">{{ 'professional_summary' | translate }}</div>
+    <div>{{ this.cv?.profesionalniSazetak }}</div>
+  </div>
+  <!--Professional Summary-->
+
+  <!--Education-->
+  <div *ngIf="this.cv?.edukacija?.$values!.length > 0" class="section">
+    <div class="fw-bold tekst mb-4 fs-5 mt-2 mb-2 d-flex justify-content-center">{{ 'education' | translate }}</div>
+    <div class="edukacije"
+         *ngFor="let edukacija of this.cv?.edukacija?.$values">
+
+      <div class="education-content d-flex row align-items-center">
+        <div class="d-flex column justify-content-between">
+          <div class="fw-bold">
+            {{ edukacija.nazivSkole }}
+          </div>
+          <div>
+            <div *ngIf="edukacija.datumPocetka && edukacija.datumZavrsetka">
+              {{ edukacija.datumPocetka | date: 'MMMM yyyy' }} -  {{ edukacija.datumZavrsetka | date: 'MMMM yyyy' }}
+            </div>
+            <div *ngIf="edukacija.grad" class="d-flex justify-content-end">
+              {{ edukacija.grad }}
+            </div>
+          </div>
+        </div>
+        <div *ngIf="edukacija.opis">
+          {{ edukacija.opis }}
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--Education-->
+
+  <!--Employment History-->
+  <div *ngIf="this.cv?.zaposlenje?.$values!.length > 0" class="section">
+    <div class="fw-bold tekst mb-4 fs-5 mt-2 mb-2 d-flex justify-content-center">{{ 'employment_history' | translate }}</div>
+    <div class="zaposlenje"
+         *ngFor="let zaposlenje of this.cv?.zaposlenje?.$values">
+
+      <div class="employment-content d-flex row align-items-center">
+        <div class="d-flex column justify-content-between">
+          <div class="fw-bold">
+            {{ zaposlenje.nazivKompanije }} - {{ zaposlenje.nazivPozicije }}
+          </div>
+          <div>
+            <div *ngIf="zaposlenje.datumPocetka && zaposlenje.datumZavrsetka">
+              {{ zaposlenje.datumPocetka | date: 'MMMM yyyy' }}
+              -  {{ zaposlenje.datumZavrsetka | date: 'MMMM yyyy' }}
+            </div>
+          </div>
+        </div>
+        <div *ngIf="zaposlenje.opis">
+          {{ zaposlenje.opis }}
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--Employment History-->
+
+  <div class="button-section" *ngIf="loggedUser?.role == 'Kandidat'">
+    <div class="d-flex flex-row mt-2">
+      <button type="button" class="btn-danger" (click)="openDeleteModal()">{{ 'delete' | translate }}</button>
+      <button type="button" class="btn-confirm" (click)="edit(this.cv?.id!)">{{ 'edit' | translate }}</button>
+      <button *ngIf="objavljen" type="button" class="btn-confirm" (click)="openUnPublishModal(this.cv?.id)">{{ 'unpublish' | translate }}</button>
+      <button *ngIf="!objavljen" type="button" class="btn-confirm" (click)="openPublishModal(this.cv?.id)">{{ 'publish' | translate }}</button>
+    </div>
+  </div>
+
+</div>
+
+<div *ngIf="loggedUser?.role == 'Kompanija'" class="button-section">
+
+
+    <div class="d-flex flex-column mt-2 align-content-end">
+
+      <div class="d-flex flex-row justify-content-end mt-2">
+        <button type="button" class="btn-confirm"
+        > Contact
+        </button>
+      </div>
+
+      <div class="d-flex flex-row mt-3">
+        <button type="button" class="btn-danger" (click)="openDeleteModal()">Reject
+
+        </button>
+        <button type="button" class="btn-danger ms-2" (click)="openDeleteModal()">Disqualify
+        </button>
+        <button type="button" class="btn-confirm"
+                [routerLink]="'/cv-create'"> Shortlist
+        </button>
+        <button type="button" class="btn-confirm"
+                (click)="openAcceptModal()">Accept
+        </button>
+      </div>
+    </div>
+  </div>
+
+<app-notification-toast></app-notification-toast>
+
+<app-modal
+  modalId="deleteModal"
+  title="Confirm Delete"
+  body="Are you sure you want to delete this cv?"
+  [buttons]="deleteButtons"
+></app-modal>
+
+<app-modal
+  modalId="publishModal"
+  title="Confirm Publish"
+  body="Are you sure you want to publish this CV?"
+  [buttons]="publishButtons"
+></app-modal>
+
+<app-modal
+  modalId="unpublishModal"
+  title="Confirm Unpublish"
+  body="Are you sure you want to unpublish this CV?"
+  [buttons]="unpublishButtons"
+></app-modal>
+
+<app-modal
+  modalId="acceptModal"
+  title="Confirm Acception"
+  body="Are you sure you want to accept this applicant?"
+  [buttons]="acceptButtons"
+>
+  <div style="color: red">
+    Note: With accept you proceed with the candidate's application, possibly moving them forward in the hiring
+    process (e.g., to an interview).
+  </div>
+</app-modal>
+
+<app-footer></app-footer>

@@ -1,0 +1,125 @@
+<!-- Navbar -->
+<div>
+
+  <div class="nav-bar px-5 py-1 d-flex">
+    <div class="naslov fs-1 fw-bold me-auto p-1 bd-highlight">
+      <a class="nav-link active text-dark fs-1 fw-bold "
+         [routerLink]="'/home'">searchit</a>
+      <hr style="color: #1d7b4f">
+    </div>
+    <div class="nav p-2">
+      <ul class="navbar-nav flex-row py-1">
+
+        <li class="nav-item" [ngClass]="{'active-link': isActiveRoute('/home')}">
+          <a class="nav-link active px-3  fw-bold fs-5 text-underline mt-1" [routerLink]="'/home'">{{ 'NAVBAR.HOME' | translate }}</a>
+        </li>
+
+        <li class="nav-item" *ngIf=" loggedUser?.role == 'Kandidat' || loggedUser?.role == 'Admin'|| (authService.user$ | async) === null"
+            [ngClass]="{'active-link': isActiveRoute('/jobs')}">
+          <a class="nav-link active px-3  fw-bold fs-5 text-underline mt-1" [routerLink]="'/jobs'">{{ 'NAVBAR.JOBS' |translate }}</a>
+
+        <li class="nav-item" *ngIf="loggedUser?.role == 'Kompanija'"
+            [ngClass]="{'active-link': isActiveRoute('/my-jobs')}">
+          <a class="nav-link active px-3 fw-bold fs-5 text-underline mt-1"
+             [routerLink]="'/my-jobs'">{{ 'NAVBAR.MY_JOBS' | translate }}</a>
+        </li>
+
+
+        <li class="nav-item" [ngClass]="{'active-link': isActiveRoute('/companies')}">
+          <a class="nav-link active px-3  fw-bold fs-5 text-underline mt-1" [routerLink]="'/companies'">{{ 'NAVBAR.COMPANIES' | translate }}</a>
+        </li>
+
+
+        <li class="nav-item" *ngIf="loggedUser?.role == 'Kandidat'"
+                             [ngClass]="{'active-link': isActiveRoute('/cv')
+                                                     || isActiveRoute('/cv-create')
+                                                     || isActiveRoute('/cv-preview')
+                                                     || isActiveRoute('/cv-details/:id')}">
+          <a class="nav-link active px-3  fw-bold fs-5 text-underline mt-1" [routerLink]="'/cv'">{{ 'NAVBAR.CV' | translate }}</a>
+        </li>
+
+        <li class="nav-item" *ngIf="loggedUser?.role == 'Kandidat'" [ngClass]="{'active-link': isActiveRoute('/applications')}">
+          <a class="nav-link active px-3 fw-bold fs-5 text-underline mt-1" [routerLink]="'/applications'">{{ 'NAVBAR.APPLICATIONS' | translate }}</a>
+        </li>
+
+        <li class="nav-item" *ngIf="loggedUser?.role == 'Kandidat'"
+            [ngClass]="{'active-link': isActiveRoute('/favorites')}">
+          <a class="nav-link active px-3 fw-bold fs-5 text-underline mt-1"
+             [routerLink]="'/favorites'">{{ 'NAVBAR.SAVED' | translate }}</a>
+        </li>
+
+        <li class="nav-item" *ngIf="loggedUser?.role == 'Kompanija'"
+            [ngClass]="{'active-link': isActiveRoute('/cvs')}">
+          <a class="nav-link active px-3 fw-bold fs-5 text-underline mt-1"
+             [routerLink]="'/cvs'">{{ 'NAVBAR.CVS'  | translate}}</a>
+        </li>
+
+        <li class="nav-item" *ngIf="loggedUser?.role == 'Kompanija'" [ngClass]="{'active-link': isActiveRoute('/applicants')}">
+          <a class="nav-link active px-3 fw-bold fs-5 text-underline mt-1" [routerLink]="'/applicants'">{{'NAVBAR.APPLICANTS' | translate}}</a>
+        </li>
+
+        <li class="nav-item" *ngIf="loggedUser?.role == 'Kompanija'"
+            [ngClass]="{'active-link': isActiveRoute('/favorites-applicants')}">
+          <a class="nav-link active px-3 fw-bold fs-5 text-underline mt-1"
+             [routerLink]="'/favorites-applicants'">{{ 'NAVBAR.SAVED' | translate}}</a>
+        </li>
+
+        <li class="nav-item" *ngIf="loggedUser?.role == 'Kompanija'"
+            [ngClass]="{'active-link': isActiveRoute('/messages')}">
+          <a class="nav-link active px-3 fw-bold fs-5 text-underline mt-1"
+             [routerLink]="'/messages'">{{'NAVBAR.CHAT' | translate}}</a>
+        </li>
+
+        <li class="nav-item" *ngIf="loggedUser?.role == 'Kandidat'"
+            [ngClass]="{'active-link': isActiveRoute('/messages')}">
+          <a class="nav-link active px-3 fw-bold fs-5 text-underline mt-1"
+             [routerLink]="'/messages'">{{'NAVBAR.CHAT' | translate}}</a>
+        </li>
+
+        <li class="nav-item" *ngIf="(authService.user$ | async) === null">
+          <a class="nav-link active px-3 fw-bold fs-5 text-underline mt-1" (click)="navigateAndScrollToSection('aboutUs')">
+            {{ 'NAVBAR.ABOUT_US' | translate }}
+          </a>
+        </li>
+
+        <li class="nav-item" *ngIf="loggedUser?.role == 'Admin'"
+            [ngClass]="{'active-link': isActiveRoute('/users')}">
+          <a class="nav-link active px-3 fw-bold fs-5 text-underline mt-1"
+             [routerLink]="'/users'">{{'NAVBAR.USERS'| translate}}</a>
+        </li>
+
+        <li class="nav-item" *ngIf="loggedUser?.role == 'Admin'"
+            [ngClass]="{'active-link': isActiveRoute('/dashboard')}">
+          <a class="nav-link active px-3 fw-bold fs-5 text-underline mt-1"
+             [routerLink]="'/dashboard'">{{'NAVBAR.DASHBOARD' | translate}}</a>
+        </li>
+
+        <li class="nav-item" *ngIf="(authService.user$ | async) === null">
+          <a class="nav-link active fs-5 text-underline log-in" [routerLink]="'/login'" href="">{{'NAVBAR.LOGIN' | translate}}</a>
+        </li>
+
+        <li class="nav-item" *ngIf="(authService.user$ | async) === null">
+          <a class="nav-link active fs-5 text-underline sign-up" style="color: white" [routerLink]="'/signup'">{{'NAVBAR.SIGN_UP' | translate}}</a>
+        </li>
+
+        <li class="nav-item" *ngIf="(authService.user$ | async) as user">
+          <a class="nav-link active fs-5 text-underline sign-up" style="color: white"
+             (click)="logout()">{{'NAVBAR.LOGOUT' | translate}}</a>
+        </li>
+
+        <li class="nav-item d-flex justify-content-center align-items-end" *ngIf="(authService.user$ | async) as user">
+          <a *ngIf="loggedUser && loggedUser?.role == 'Kandidat'" [routerLink]="'/account-candidate'" href="">
+            <img class="img-profile" src="../../../../assets/img/profilna-ikona.png" alt="image">
+          </a>
+          <a *ngIf="loggedUser && loggedUser?.role == 'Kompanija'" [routerLink]="'/account-company'" href="">
+            <img class="img-profile" src="../../../../assets/img/profilna-ikona.png" alt="image">
+          </a>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+
+</div>
+<!-- Navbar -->
+

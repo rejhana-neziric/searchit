@@ -1,0 +1,35 @@
+<app-navbar></app-navbar>
+
+<div class="content d-flex flex-column">
+
+  <!-- Breadcrumbs -->
+  <div class="d-flex flex-row nav-link pregled-breadcrumbs text-dark">
+    <a type="button nav-link" style="color: #84B59F; font-size: larger; text-decoration: none;" [routerLink]="['/home/']">
+      {{ 'BREADCRUMBS.HOME' | translate }} >
+    </a>
+    <p style="color: #84B59F; font-size: larger;"> > {{ 'BREADCRUMBS.SAVED' | translate }}</p>
+  </div>
+  <!-- Breadcrumbs -->
+
+  <span class="fw-bold fs-2" style="color: #84B59F; margin-left: auto; margin-right: auto; margin-top: 10px; margin-bottom: 50px">
+    {{ 'PAGE.TITLE' | translate }}
+  </span>
+
+  <!-- Jobs-companies-toggle -->
+  <mat-button-toggle-group [(ngModel)]="selectedValue" class="mt-3 pb-4" value="Jobs" style="margin-left: auto; margin-right: auto;">
+    <mat-button-toggle value="Jobs">{{ 'TOGGLE.JOBS' | translate }}</mat-button-toggle>
+    <mat-button-toggle value="Companies" class="ms-4">{{ 'TOGGLE.COMPANIES' | translate }}</mat-button-toggle>
+  </mat-button-toggle-group>
+
+  <div *ngIf="selectedValue === 'Jobs'" style="width: 95%; margin-left: auto; margin-right: auto;">
+    <app-favorites-oglasi></app-favorites-oglasi>
+  </div>
+
+  <div *ngIf="selectedValue === 'Companies'" style="width: 95%; margin-left: auto; margin-right: auto;">
+    <app-favorites-kompanije></app-favorites-kompanije>
+  </div>
+  <!-- Jobs-companies-toggle -->
+
+</div>
+
+<app-footer></app-footer>

@@ -1,0 +1,123 @@
+<app-navbar></app-navbar>
+
+<!-- Pregled oglasa  -->
+<div class="d-flex flex-column pregled me-auto ms-auto">
+  <div class="d-flex flex-row nav-link pregled-breadcrumbs text-dark">
+    <a type="button nav-link" style="color: #84B59F; font-size: large; text-decoration: none;"
+       [routerLink]="['/home/']">{{ 'HOME' | translate }} > </a>
+    <p [routerLink]="['/jobs/']" style="color: #84B59F; font-size: large;"> > {{ 'JOBS' | translate }} ></p>
+    <p style="color: #84B59F; font-size: large;"> > {{ 'JOB_DETAILS' | translate }}</p>
+  </div>
+  <div class="pregled-oglas">
+    <div class="d-flex flex-column">
+      <div class="d-flex flex-row">
+        <img [src]="ucitajLogo(oglas?.logo!)" class="img-logo" alt="image">
+        <div class="d-flex flex-column" style="margin-left: 25px; margin-bottom: 5px">
+          <p class="fw-bold tekst mb-0">{{ oglas?.nazivPozicije }}</p>
+          <p class="fw-normal fs-5">{{ oglas?.kompanijaNaziv }}</p>
+        </div>
+        <div style="width: 270px; margin-left: auto;">
+          <div style="background-color: #84B59F; border-radius: 5px; width: 250px; padding: 10px; margin-bottom: 20px">
+            {{ 'MIN_YEARS_EXPERIENCE' | translate }} {{ oglas?.opisOglasa!.minimumGodinaIskustva }}
+          </div>
+          <div class="fw-bold fs-6">
+            <img style="width: 30px" src="../../../../assets/img/sat.png"> {{ this.razlikaDatuma(this.oglas!) }}
+            {{ 'DAYS_LEFT' | translate }}
+          </div>
+        </div>
+      </div>
+      <div class="d-flex flex-row mt-5">
+        <div>
+          <div class="fw-bold fs-6 mb-2">{{ 'JOB_TYPE' | translate }}</div>
+          <span class="fw-normal fs-6 p-1" style="background-color: #84B59F; border-radius: 5px; width: 80px">
+            {{ oglas?.tipPosla }}
+          </span>
+        </div>
+        <div class="ms-5">
+          <div class="fw-bold fs-6 mb-2">{{ 'LOCATION' | translate }}</div>
+          <span class="fw-normal fs-6 p-1 me-2" style="background-color: #84B59F; border-radius: 5px; width: 80px"
+                *ngFor="let lokacija of oglas?.lokacija?.$values">{{ lokacija.naziv }}</span>
+        </div>
+        <div class="" style="margin-left: auto; width: 370px">
+          <div class="d-flex flex-row mb-2">
+            <img class="p-1" src="../../../../assets/img/datum.png" style="height: 35px" alt="image">
+            <div class="fw-bold fs-6 p-1" style="width: 200px">{{ 'PUBLISHED' | translate }}</div>
+            <img class="p-1" style="height: 30px" src="../../../../assets/img/linija.png" alt="image">
+            <div class="fw-bold fs-6 p-1">{{ oglas?.datumObjave | date:'d.M.yyyy' }}</div>
+          </div>
+          <div class="d-flex flex-row">
+            <img class="p-1" src="../../../../assets/img/datum.png" style="height: 35px" alt="image">
+            <div class="fw-bold fs-6 p-1" style="width: 200px">{{ 'APPLICATION_DEADLINE' | translate }}</div>
+            <img class="p-1" style="height: 30px" src="../../../../assets/img/linija.png" alt="image">
+            <div class="fw-bold fs-6 p-1">{{ oglas?.rokPrijave | date:'d.M.yyyy' }}</div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <br>
+        <p class="pregled-naslovi fw-bold fs-6">{{ 'JOB_DESCRIPTION' | translate }}:</p>
+        <span>{{ oglas?.opisOglasa!.opisPozicije }}</span>
+        <br><br>
+        <p class="pregled-naslovi fw-bold fs-6">{{ 'SKILLS' | translate }}:</p>
+        <span>{{ oglas?.opisOglasa!.vjestine }}</span>
+        <br><br>
+        <p class="pregled-naslovi fw-bold fs-6">{{ 'QUALIFICATION' | translate }}:</p>
+        <span>{{ oglas?.opisOglasa!.kvalifikacija }}</span>
+        <br><br>
+        <p class="pregled-naslovi fw-bold fs-6">{{ 'BENEFITS' | translate }}:</p>
+        <span>{{ oglas?.opisOglasa!.benefiti }}</span>
+      </div>
+      <div class="d-flex flex-row ms-auto mt-5">
+        <button class="btn-confirm" type="button" (click)="openCVChooseModal()">{{ 'APPLY_NOW' | translate }}</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-notification-toast></app-notification-toast>
+
+<app-modal
+  modalId="chooseCVModal"
+  [title]="'CHOOSE_CV' | translate"
+  [body]="'CHOOSE_CV_BODY' | translate"
+  [buttons]="chooseCVButtons"
+>
+  <div *ngIf="cv.length > 0">
+    <div *ngFor="let cv of cv" (click)="selectCV(cv)">
+      <div class="cv-content d-flex flex-row justify-content-between align-items-center"
+           [class.selected]="cvIdApply === cv.id">
+        <div class="ms-4">
+          <span class="fw-bold fs-6" style="color: #84B59F">{{ cv.naziv }}</span>
+        </div>
+
+        <div>
+          <span *ngIf="cv.objavljen" class="fs-7 d-flex flex-row">
+            <div class="published">
+              {{ 'PUBLISHED' | translate }}
+            </div>
+          </span>
+          <span *ngIf="!cv.objavljen" class="fs-6 d-flex flex-row">
+            <div class="published" style="background-color: lightgray;">
+              {{ 'DRAFT' | translate }}
+            </div>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-body">
+    <div *ngIf="cvIdApply == null" style="color: red">
+      {{ 'NO_CV_SELECTED' | translate }}
+    </div>
+  </div>
+</app-modal>
+
+<app-modal
+  modalId="applyModal"
+  [title]="'CONFIRM_APPLICATION' | translate"
+  [body]="'CONFIRM_APPLICATION_BODY' | translate:{cvName: selectedCV?.naziv}"
+  [buttons]="applyButtons"
+></app-modal>
+
+<app-footer></app-footer>

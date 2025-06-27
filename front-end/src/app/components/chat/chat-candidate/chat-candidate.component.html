@@ -1,0 +1,97 @@
+<!--<div class="poruke-container">
+  <h2>Poruke</h2>
+
+  <div *ngIf="poruke.length === 0">
+    <p>Nema poruka za prikaz.</p>
+  </div>
+
+  <div *ngFor="let poruka of poruke" class="poruka-item">
+    <p><strong>ID poruke:</strong> {{ poruka.id }}</p>
+    <p><strong>Korisnik ID:</strong> {{ poruka.korisnik_id || 'Nepoznat' }}</p>
+    <p><strong>Pošiljalac:</strong> {{ poruka.ime_posiljatelja || 'Nepoznat' }}</p>
+    <p><strong>Pošiljalac ID:</strong> {{ poruka.posiljatelj_id || 'Nepoznat' }}</p>
+    <p><strong>Sadržaj:</strong> {{ poruka.sadrzaj }}</p>
+    <p><strong>Vrijeme slanja:</strong> {{ poruka.vrijeme_slanja || 'Nepoznato' }}</p>
+    <p><strong>Poruka ID:</strong> {{ poruka.poruka_id }}</p>
+    <p><strong>Primljena:</strong> {{ poruka.is_primljena ? 'Da' : 'Ne' }}</p>
+    <p><strong>Pročitana:</strong> {{ poruka.is_seen ? 'Da' : 'Ne' }}</p>
+  </div>
+</div>
+-->
+
+<app-navbar></app-navbar>
+<div class="container d-flex flex-column">
+<div class="d-flex flex-row nav-link pregled-breadcrumbs text-dark">
+  <a type="button nav-link" style="color: #84B59F;; font-size: larger;  text-decoration: none;"
+     [routerLink]="['/home/']">Home > </a>
+  <p style="color: #84B59F; font-size: larger;"> > Messages
+</div>
+
+<div class="d-flex flex-row justify-content-center align-items-center" style=" margin-bottom: 50px; margin-top: 10px">
+  <span class="fw-bold fs-2" style="color: #84B59F; margin-right: auto; ">Your messages</span>
+  <button class="btn-confirm" [routerLink]="'/jobs'">New chat</button>
+</div>
+
+  <div class="content d-flex flex-row justify-content-between">
+
+    <!-- Messages  -->
+    <div class="messages">
+
+<div class="search-box mt-4">
+  <form class="search-form">
+    <input class="form-control" type="text" placeholder="Search"
+    [(ngModel)]="pretragaNaziv" (ngModelChange)="onSearchChange($event)">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </form>
+
+
+  <div class="chat-list">
+    <div *ngFor="let chat of groupedMessages" class="chat-item"
+    [ngClass]="{'selected-chat':chat ===selectedChat}"
+         (click)="selectChat(chat)"
+    >
+      <div class="chat-info">
+        <div class="d-flex flex-row align-content-center justify-content-between">
+          <div class="chat-name">{{chat.posiljalacIme}}</div>
+        </div>
+      </div>
+      <div class="chat-message">{{chat.messages[chat.messages.length-1].sadrzaj | slice: 0:30}}...
+      </div>
+      <div class="chat-meta">
+        <div class="chat-time">{{formatTime(chat.messages[chat.messages.length-1].vrijeme_slanja)}}</div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+<div class="messsage-container">
+  <div class="main-chat" *ngIf="selectedChat">
+    <div class="chat-header d-flex flex-row justify-content-between">
+      {{selectedChat.posiljalacIme}}
+
+      <div class="button-section">
+        <button type="button" class="btn-confirm" style="height: 30px" data-bs-dismiss="modal">Chat</button>
+        <button type="button" class="btn-cancel ms-2" style="height: 30px">Files
+        </button>
+      </div>
+    </div>
+    <div class="chat-messages">
+      <div *ngFor="let message of selectedChat.messages" class="chat-message-item">
+        <span class="message-sender">{{selectedChat.posiljalacIme}}</span>
+        <span class="message-content">{{message.sadrzaj}}</span>
+        <span class="message-time">{{formatTime(message.vrijeme_slanja)}}</span>
+      </div>
+    </div>
+    <div class="chat-input">
+      <input [(ngModel)]="newChat" type="text" placeholder="Type a message...">
+      <button class="btn-confirm" (click)="sendMessage()">Send</button>
+    </div>
+  </div>
+
+  <div class="main-chat-placeholder" *ngIf="!selectedChat">
+    Select a chat to start messaging
+  </div>
+</div>
+</div>
+</div>
+<app-footer></app-footer>

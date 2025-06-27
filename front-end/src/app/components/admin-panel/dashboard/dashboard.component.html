@@ -1,0 +1,53 @@
+<app-navbar></app-navbar>
+
+<div class="dashboard-container">
+
+  <div class="d-flex flex-row justify-content-center align-items-center" style="margin-bottom: 50px; margin-top: 10px">
+    <span class="fw-bold fs-2" style="color: #84B59F; margin-left: auto; margin-right: auto;">
+      {{ 'DASHBOARD' | translate }}
+    </span>
+    <button class="btn-confirm w-auto" [routerLink]="'/users'">{{ 'MANAGE_USERS' | translate }}</button>
+  </div>
+
+  <div class="dashboard-content">
+
+    <div class="card">
+      <h3>{{ 'ACTIVE_USERS' | translate }}</h3>
+      <p>{{ 'TOTAL' | translate }}: {{ activeUsers }}</p>
+      <p>{{ 'CANDIDATES' | translate }}: {{ candidates }}</p>
+      <p>{{ 'COMPANIES' | translate }}: {{ companies }}</p>
+    </div>
+
+    <div class="card">
+      <h3>{{ 'DELETED_USERS' | translate }}</h3>
+      <p>{{ 'TOTAL' | translate }}: {{ inactiveUsers }}</p>
+      <p>{{ 'CANDIDATES' | translate }}: {{ inactiveCandidates }}</p>
+      <p>{{ 'COMPANIES' | translate }}: {{ inactiveCompanies }}</p>
+    </div>
+
+    <div class="card">
+      <h3>{{ 'JOB_POSTS' | translate }}</h3>
+      <p>{{ 'TOTAL' | translate }}: {{ totalJobs }}</p>
+      <p>{{ 'OPEN' | translate }}: {{ openJobs }}</p>
+      <p>{{ 'CLOSED' | translate }}: {{ closedJobs }}</p>
+    </div>
+
+    <div class="card">
+      <h3>{{ 'CVS' | translate }}</h3>
+      <p>{{ 'TOTAL' | translate }}: {{ totalCVs }}</p>
+      <p>{{ 'PUBLISHED' | translate }}: {{ publishedCVs }}</p>
+      <p>{{ 'UNPUBLISHED' | translate }}: {{ unpublishedCVs }}</p>
+    </div>
+
+    <div class="card">
+      <h3>{{ 'APPLICANTS' | translate }}</h3>
+      <p>{{ 'TOTAL' | translate }}: {{ totalApplicants }}</p>
+      <p>{{ 'ACCEPTED' | translate }}: {{ acceptedApplicants }}</p>
+    </div>
+
+  </div>
+
+  <app-notification-toast></app-notification-toast>
+</div>
+
+<app-footer></app-footer>

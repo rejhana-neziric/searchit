@@ -1,0 +1,699 @@
+<app-navbar></app-navbar>
+
+<div class="main d-flex flex-row">
+
+  <div class="sections">
+    <div class="d-flex flex-row ps-4 pt-5">
+      <img class="mt-1" style="width: 25px; height: 30px;" src="../../../../assets/img/sections.png" alt="">
+      <p class="fs-3 fw-bold ps-2">{{'SECTIONS' | translate}}</p>
+    </div>
+    <div class="ps-4 pt-1">
+      {{'SELECT_SECTION' | translate}}
+    </div>
+    <div class="sidebar">
+      <div *ngFor="let section of sections"
+           [class.active]="section.id === selectedSectionId"
+           [class.completed]="section.isCompleted"
+           (click)="selectSection(section.id)"
+           class="section-item">
+        {{ section.name }}
+        <span *ngIf="section.isCompleted" class="tick">
+        <img src="../../../../assets/img/tick.png" alt="" style="width: 30px"></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sections-content">
+
+    <div *ngIf="selectedSectionId === 'section1'" class="section1 section d-flex flex-column">
+      <!-- Content for Section 1 -->
+
+      <div class="d-flex flex-row justify-content-between">
+        <div>
+          <p class="fs-3 fw-bold m-0">{{'PERSONAL_DETAILS' | translate}}</p>
+          <hr class="m-0">
+        </div>
+
+        <button class="btn-confirm" style="width: 180px" (click)="importDetails()">
+          {{'IMPORT_PERSONAL' | translate}}
+        </button>
+      </div>
+
+
+      <div class="container">
+        <form [formGroup]="form" class="form-grid" (ngSubmit)="savePersonalDetails('section2')" autocomplete="off">
+
+          <div class="mt-2 mb-4 ms-2 my-3">
+            <label class="required">{{ 'CV_NAME' | translate }}</label>
+            <input formControlName="naziv" type="text" class="form-control"
+                   [class.is-invalid]="submitted && form.get('naziv')?.errors">
+            <span class="text-danger" *ngIf="submitted && form.get('naziv')?.hasError('required')">
+                        {{'CV_NAME_REQUIRED' | translate}}
+                    </span>
+          </div>
+
+          <div class="content">
+
+            <div class="firstpart">
+
+              <div class="mt-2 mb-4">
+                <label class="required">{{'FIRST_NAME'| translate}}</label>
+                <input formControlName="firstName" type="text" class="form-control"
+                       [class.is-invalid]="submitted && form.get('firstName')?.errors">
+                <span class="text-danger" *ngIf="submitted && form.get('firstName')?.hasError('required')">
+                        {{'first_name_required' | translate}}
+                    </span>
+                <span class="text-danger" *ngIf="submitted && form.get('firstName')?.hasError('min')">
+                       {{'first_name_minlength' | translate}}
+                    </span>
+                <span class="text-danger" *ngIf="submitted && form.get('firstName')?.hasError('max')">
+                        {{'first_name_maxlength' | translate}}
+                    </span>
+              </div>
+
+              <div class="mt-2 mb-4">
+                <label class="required">{{'last_name' | translate}}</label>
+                <input formControlName="lastName" type="text" class="form-control"
+                       [class.is-invalid]="submitted && form.get('lastName')?.errors">
+                <span class="text-danger" *ngIf="submitted && form.get('lastName')?.hasError('required')">
+                        {{'last_name_required' | translate}}
+                    </span>
+                <span class="text-danger" *ngIf="submitted && form.get('lastName')?.hasError('min')">
+                       {{'last_name_minlength' | translate}}
+                    </span>
+                <span class="text-danger" *ngIf="submitted && form.get('lastName')?.hasError('max')">
+                       {{'last_name_maxlength' | translate}}
+                    </span>
+              </div>
+
+              <div class="mt-2 mb-4">
+                <label class="required">{{'email_placeholder' | translate}}</label>
+                <input formControlName="email" type="text" class="form-control"
+                       [class.is-invalid]="submitted && form.get('email')?.errors">
+                <span class="text-danger" *ngIf="submitted && form.get('email')?.hasError('required')">
+                       {{'email_required' | translate}}
+                    </span>
+                <span class="text-danger" *ngIf="submitted && form.get('email')?.hasError('email')">
+                       {{'invalid_email' | translate}}
+                    </span>
+              </div>
+
+            </div>
+            <!-- First column -->
+
+            <!-- Second column -->
+            <div class="secondpart">
+
+              <div class="mt-2 mb-4">
+
+                <div class="mt-2 mb-4">
+                  <label>{{'phone_number' | translate}}</label>
+                  <input type="text" [value]=phoneNumber class="form-control" disabled>
+                </div>
+
+                <div
+                  *ngIf="(!kandidat?.phoneNumberConfirmed && isImportDetails)"
+                  class="mt-2 mb-4">
+                  <div  class=" w-auto ms-0" style="height: 30px; color: red"
+                          >{{'CONF_PH_NUM'| translate}}
+                  </div>
+
+                </div>
+
+              </div>
+
+              <div class="mt-2 mb-4">
+                <label>{{ 'City' | translate }}</label>
+                <input formControlName="city" type="text" class="form-control"
+                       [class.is-invalid]="submitted && form.get('city')?.errors">
+              </div>
+
+              <div class="mt-2 mb-4">
+                <label>{{ 'Country' | translate }}</label>
+                <input formControlName="country" type="text" class="form-control"
+                       [class.is-invalid]="submitted && form.get('country')?.errors">
+              </div>
+            </div>
+            <!-- Second column -->
+
+          </div>
+
+          <div class="form-group d-flex flex-row justify-content-between">
+
+
+          </div>
+
+          <div class="button-section">
+            <button type="submit" class="btn-confirm"
+            >{{'nextSection' | translate}}
+            </button>
+            <br>
+            <div class="d-flex flex-row mt-2">
+
+              <button type="button" class="btn-cancel"
+                      (click)="cancel()">{{'cancel' | translate}}
+              </button>
+
+              <button type="button" class="btn-confirm"
+                      (click)="cvPreview()" [routerLink]="'/cv-preview'">{{ 'CV_Preview' | translate }}
+              </button>
+            </div>
+
+          </div>
+        </form>
+      </div>
+
+
+    </div>
+    <div *ngIf="selectedSectionId === 'section2'" class="section2 section">
+      <!-- Content for Section 2 -->
+      <p class="fs-3 fw-bold m-0">{{'PROFESSIONAL_SUMMARY' | translate}}</p>
+      <hr class="m-0">
+
+      <label class="mt-2">
+        {{'professionalSummaryLabel'|translate}}
+      </label>
+
+      <textarea
+        [(ngModel)]="professionalSummary"
+        rows="8"
+        style="width: 100%; margin-top: 20px"
+      ></textarea>
+
+      <div class="button-section">
+
+        <div class="d-flex flex-row mt-2">
+          <button type="button" class="btn-confirm"
+                  (click)="selectedSectionId = 'section1'">{{'previousSection' |translate}}
+          </button>
+          <button type="button" class="btn-confirm ms-2"
+                  (click)="completedProfessinalSummary()">{{'nextSection' | translate}}
+          </button>
+        </div>
+
+        <br>
+        <div class="d-flex flex-row mt-2">
+
+          <button type="button" class="btn-cancel"
+                  (click)="cancel()">{{'cancel' | translate}}
+          </button>
+
+          <button type="button" class="btn-confirm"
+                  (click)="cvPreview()" [routerLink]="'/cv-preview'">{{'cvPreview' | translate}}
+          </button>
+        </div>
+
+      </div>
+
+
+    </div>
+
+    <!-- Education -->
+    <div *ngIf="selectedSectionId === 'section3'" class="section3 section">
+
+      <p class="fs-3 fw-bold m-0">{{'education' | translate}}</p>
+      <hr class="m-0">
+      <label class="mt-2">{{'educationDetails' | translate}}</label>
+
+      <div class="accordion" id="educationAccordion">
+        <div *ngFor="let education of educations; let i = index" class="accordion-item">
+          <h2 class="accordion-header" id="heading{{i}}">
+            <button class="accordion-button nav-link text-dark" (click)="toggleEducation(i)"
+                    [attr.aria-expanded]="education.isExpanded" [attr.aria-controls]="'collapse' + i">
+              {{ education.nazivSkole || 'New Education' }}
+              <span class="icon ms-auto" [ngClass]="{'expanded': education.isExpanded}"><svg
+                xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path
+                d="M480-344 240-584l56-56 184 184 184-184 56 56-240 240Z"/></svg></span>
+            </button>
+            <span class="icon-del" (click)="deleteEducation(i)">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                         fill="#EA3323">
+                      <path
+                        d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/>
+                    </svg>
+                  </span>
+          </h2>
+          <div [id]="'collapse' + i" class="accordion-collapse collapse" [ngClass]="{'show': education.isExpanded}"
+               [attr.aria-labelledby]="'heading' + i" data-bs-parent="#educationAccordion">
+            <div class="accordion-body">
+              <form>
+
+                <div class="row mt-5">
+                  <div class="col-12 col-md-6">
+                    <div class="mb-3">
+                      <label for="schoolName{{i}}" class="form-label required">{{'schoolName' | translate}}</label>
+                      <input type="text" class="form-control" id="schoolName{{i}}" [(ngModel)]="education.nazivSkole"
+                             name="schoolName{{i}}">
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <div class="mb-3">
+                      <label for="city{{i}}" class="form-label">City:</label>
+                      <input type="text" class="form-control" id="city{{i}}" [(ngModel)]="education.grad"
+                             name="city{{i}}">
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <div class="mb-3">
+                      <label for="startDate{{i}}" class="form-label required">{{'startDate' | translate}}</label>
+                      <input type="date" class="form-control" id="startDate{{i}}" [(ngModel)]="education.datumPocetka"
+                             name="startDate{{i}}">
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <div class="mb-3">
+                      <label for="endDate{{i}}" class="form-label required">{{'endDate' |translate}}</label>
+                      <input type="date" class="form-control" id="endDate{{i}}" [(ngModel)]="education.datumZavrsetka"
+                             name="endDate{{i}}">
+                    </div>
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="description{{i}}" class="form-label">{{'description' | translate}}:</label>
+                    <textarea class="form-control" id="description{{i}}" [(ngModel)]="education.opis"
+                              name="description{{i}}"></textarea>
+                  </div>
+
+
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="mt-3 btn-add" (click)="addEducation()"> {{'newEducation' | translate}}</button>
+
+      <div class="button-section">
+
+        <div class="d-flex flex-row mt-2">
+          <button type="button" class="btn-confirm"
+                  (click)="selectedSectionId = 'section2'">{{'previousSection' |translate}}
+          </button>
+          <button type="button" class="btn-confirm ms-2"
+                  (click)="completedSectionWithList('section3', 'section4', this.educations)">{{'nextSection'|translate}}
+          </button>
+        </div>
+
+        <br>
+        <div class="d-flex flex-row mt-2">
+
+          <button type="button" class="btn-cancel"
+                  (click)="cancel()">{{'cancel'|translate}}
+          </button>
+
+          <button type="button" class="btn-confirm"
+                  (click)="cvPreview()" [routerLink]="'/cv-preview'">{{'cvPreview'|translate}}
+          </button>
+        </div>
+
+      </div>
+    </div>
+    <!-- Education -->
+
+
+    <!-- Employment History -->
+    <div *ngIf="selectedSectionId === 'section4'" class="section4 section">
+
+      <p class="fs-3 fw-bold m-0">{{'EMPLOYMENT_HISTORY'|translate}}</p>
+      <hr class="m-0">
+      <label class="mt-2">{{'employmentHistoryLabel'|translate}} </label>
+
+      <div class="accordion" id="employmentAccordion">
+        <div *ngFor="let employment of employments; let i = index" class="accordion-item">
+          <h2 class="accordion-header" id="heading{{i}}">
+            <button class="accordion-button nav-link text-dark" (click)="toggleEmployment(i)"
+                    [attr.aria-expanded]="employment.isExpanded" [attr.aria-controls]="'collapse' + i">
+              {{ employment.nazivKompanije || 'New Employment' }}
+              <span class="icon ms-auto" [ngClass]="{'expanded': employment.isExpanded}"><svg
+                xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path
+                d="M480-344 240-584l56-56 184 184 184-184 56 56-240 240Z"/></svg></span>
+            </button>
+            <span class="icon-del" (click)="deleteEmployment(i)">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                         fill="#EA3323">
+                      <path
+                        d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/>
+                    </svg>
+                  </span>
+          </h2>
+          <div [id]="'collapse' + i" class="accordion-collapse collapse" [ngClass]="{'show': employment.isExpanded}"
+               [attr.aria-labelledby]="'heading' + i" data-bs-parent="#employmentAccordion">
+            <div class="accordion-body">
+              <form>
+
+                <div class="row mt-5">
+                  <div class="col-12 col-md-6">
+                    <div class="mb-3">
+                      <label for="nazivKompanije{{i}}" class="form-label required">{{'companyName'}}:</label>
+                      <input type="text" class="form-control" id="nazivKompanije{{i}}"
+                             [(ngModel)]="employment.nazivKompanije"
+                             name="nazivKompanije{{i}}">
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <div class="mb-3">
+                      <label for="nazivPozicije{{i}}" class="form-label required">{{'position'}}</label>
+                      <input type="text" class="form-control" id="nazivPozicije{{i}}"
+                             [(ngModel)]="employment.nazivPozicije"
+                             name="nazivPozicije{{i}}">
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <div class="mb-3">
+                      <label for="datumPocetka{{i}}" class="form-label required">{{'startDate' | translate}}</label>
+                      <input type="date" class="form-control" id="datumPocetka{{i}}"
+                             [(ngModel)]="employment.datumPocetka"
+                             name="datumPocetka{{i}}">
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <div class="mb-3">
+                      <label for="datumZavrsetka{{i}}" class="form-label required">{{'endDate' | translate}}</label>
+                      <input type="date" class="form-control" id="datumZavrsetka{{i}}"
+                             [(ngModel)]="employment.datumZavrsetka"
+                             name="datumZavrsetka{{i}}">
+                    </div>
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="opis{{i}}" class="form-label">{{'description'|translate}}:</label>
+                    <textarea class="form-control" id="opis{{i}}" [(ngModel)]="employment.opis"
+                              name="opis{{i}}"></textarea>
+                  </div>
+
+
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="mt-3 btn-add" (click)="addEmployment()">{{'newEmployment'|translate}}</button>
+
+      <div class="button-section">
+
+        <div class="d-flex flex-row mt-2">
+          <button type="button" class="btn-confirm"
+                  (click)="selectedSectionId = 'section3'">{{'previousSection' | translate}}
+          </button>
+          <button type="button" class="btn-confirm ms-2"
+                  (click)="completedSectionWithList('section4', 'section5', this.employments)">Next section
+          </button>
+        </div>
+
+        <br>
+        <div class="d-flex flex-row mt-2">
+
+          <button type="button" class="btn-cancel"
+                  (click)="cancel()">{{'cancel'|translate}}
+          </button>
+
+          <button type="button" class="btn-confirm"
+                  (click)="cvPreview()" [routerLink]="'/cv-preview'">{{'cvPreview'|translate}}
+          </button>
+        </div>
+
+      </div>
+    </div>
+    <!-- Employment History -->
+
+    <!-- Skills -->
+    <div *ngIf="selectedSectionId === 'section5'" class="section5 section">
+
+      <p class="fs-3 fw-bold m-0">{{ 'skills' | translate }}</p>
+      <hr class="m-0 mb-5">
+
+
+      <div class="skills-container">
+
+        <div class="skills-content">
+          <div *ngFor="let skill of skills" class="skill-item">
+            <label class="fs-6 mb-2">
+              <input
+                type="checkbox"
+                [value]="skill"
+                [checked]="selectedSkills.includes(skill)"
+                (change)="onSkillChange(skill, $event, this.selectedSkills)"
+              />
+              {{ skill }}
+            </label>
+          </div>
+
+        </div>
+
+
+        <div class="button-section">
+
+          <div class="d-flex flex-row mt-2">
+            <button type="button" class="btn-confirm"
+                    (click)="selectedSectionId = 'section4'">{{'previousSection' | translate}}
+            </button>
+            <button type="button" class="btn-confirm ms-2"
+                    (click)="completedSectionWithList('section5', 'section6', this.selectedSkills)">Next section
+            </button>
+          </div>
+
+          <br>
+          <div class="d-flex flex-row mt-2">
+
+            <button type="button" class="btn-cancel"
+                    (click)="cancel()">{{ 'cancel' | translate}}
+            </button>
+
+            <button type="button" class="btn-confirm"
+                    (click)="cvPreview()" [routerLink]="'/cv-preview'">{{'CV_Preview' | translate}}
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+
+    </div>
+    <!-- Skills -->
+
+    <!-- Technical Skills -->
+    <div *ngIf="selectedSectionId === 'section6'" class="section6 section">
+
+      <p class="fs-3 fw-bold m-0">{{'technicalSkills' | translate}}</p>
+      <hr class="m-0">
+
+      <div class="skills-container">
+
+        <div class="skills-content">
+          <div *ngFor="let technicalSkill of technicalSkills" class="skill-item">
+            <label class="fs-6 mb-2">
+              <input
+                type="checkbox"
+                [value]="technicalSkill"
+                [checked]="selectedTechnicalSkills.includes(technicalSkill)"
+                (change)="onSkillChange(technicalSkill, $event, this.selectedTechnicalSkills)"
+              />
+              {{ technicalSkill }}
+            </label>
+          </div>
+
+        </div>
+
+
+        <div class="button-section">
+
+          <div class="d-flex flex-row mt-2">
+            <button type="button" class="btn-confirm"
+                    (click)="selectedSectionId = 'section5'">{{'previousSection' | translate}}
+            </button>
+            <button type="button" class="btn-confirm ms-2"
+                    (click)="completedSectionWithList('section6', 'section7', this.selectedTechnicalSkills)">Next
+              section
+            </button>
+          </div>
+
+          <br>
+          <div class="d-flex flex-row mt-2">
+
+            <button type="button" class="btn-cancel"
+                    (click)="cancel()">{{ 'cancel' | translate }}
+            </button>
+
+            <button type="button" class="btn-confirm"
+                    (click)="cvPreview()" [routerLink]="'/cv-preview'">{{'cvPreview' | translate}}
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+    <!-- Technical Skills -->
+
+    <!-- Courses -->
+    <div *ngIf="selectedSectionId === 'section7'" class="section7 section">
+
+      <p class="fs-3 fw-bold m-0">{{ 'courses'|translate }}</p>
+      <hr class="m-0 mb-5">
+
+      <div *ngFor="let course of courses; let i = index; trackBy: trackByFn" class="course-item">
+        <div class="course-input d-flex align-items-center">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Enter course name"
+            [(ngModel)]="courses[i]"
+            name="courseName{{ i }}"
+            style="width: 95%; margin-bottom: 10px"
+          />
+
+          <span class="icon-del" (click)="removeCourse(i)">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                         fill="#EA3323">
+                      <path
+                        d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/>
+                    </svg>
+                  </span>
+        </div>
+
+      </div>
+
+      <button class="mt-3 btn-add" (click)="addCourse()">{{'newCourse'|translate}}</button>
+
+
+      <div class="button-section">
+
+        <div class="d-flex flex-row mt-2">
+          <button type="button" class="btn-confirm"
+                  (click)="selectedSectionId = 'section6'">{{'previousSection'|translate}}
+          </button>
+          <button type="button" class="btn-confirm ms-2"
+                  (click)="completedSectionWithList('section7', 'section8', this.courses)">{{'nextSection'|translate}}
+          </button>
+        </div>
+
+        <br>
+        <div class="d-flex flex-row mt-2">
+
+          <button type="button" class="btn-cancel"
+                  (click)="cancel()">{{ 'cancel'|translate }}
+          </button>
+
+          <button type="button" class="btn-confirm"
+                  (click)="cvPreview()" [routerLink]="'/cv-preview'">{{'cvPreview'|translate}}
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+    <!-- Courses -->
+
+
+    <!-- Websites & Social Links -->
+    <div *ngIf="selectedSectionId === 'section8'" class="section8 section">
+
+      <p class="fs-3 fw-bold m-0">{{'websites'|translate}}</p>
+      <hr class="m-0">
+
+      <label class="mt-2 mb-2">{{'websitesLabel' |translate}}</label>
+
+      <div *ngFor="let url of urls; let i = index" class="mb-3">
+        <div class="url-input d-flex flex-row justify-content-between align-items-center" style="width: 95%;">
+
+          <input
+            type="text"
+            class="form-control"
+            id="urlName{{i}}"
+            [(ngModel)]="url.naziv"
+            name="urlName{{i}}"
+            placeholder="Enter url name"
+
+          />
+
+
+          <input
+            type="text"
+            class="form-control ms-2"
+            id="urlLink{{i}}"
+            [(ngModel)]="url.putanja"
+            name="urlLink{{i}}"
+            placeholder="Enter url"
+          />
+
+          <span class="icon-del" (click)="removeUrl(i)">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                         fill="#EA3323">
+                      <path
+                        d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/>
+                    </svg>
+                  </span>
+        </div>
+
+      </div>
+
+      <app-notification-toast></app-notification-toast>
+
+      <button class="mt-3 btn-add" (click)="addUrl()"> {{'newLink' |translate}}</button>
+
+      <div class="button-section">
+
+        <div class="d-flex flex-row mt-2">
+
+
+          <button type="button" class="btn-confirm"
+                  (click)="selectedSectionId = 'section7'">{{'previousSection'|translate}}
+          </button>
+
+
+          <button *ngIf="this.cvEditId == null" type="button"
+                  class="btn-confirm ms-2"
+                  (click)="openCreateCVModal()">{{'createCV'|translate}}
+          </button>
+
+          <button *ngIf="this.cvEdit" type="button" class="btn-confirm"
+                  (click)="openSaveModal()">{{'SAVE' |translate}}
+          </button>
+        </div>
+
+        <br>
+
+        <div class="d-flex flex-row mt-2">
+
+          <button type="button" class="btn-cancel"
+                  (click)="cancel()">{{'cancel'|translate}}
+          </button>
+
+          <button type="button" class="btn-confirm"
+                  (click)="cvPreview()" [routerLink]="'/cv-preview'">{{'CV_Preview'|translate}}
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Websites & Social Links -->
+</div>
+
+
+<app-modal
+  modalId="saveModal"
+  [title]="'CONFIRM_CHANGES' | translate"
+  [body]="'SAVE_CHANGES_MESSAGE' | translate"
+  [buttons]="saveButtons"
+></app-modal>
+
+<app-modal
+  modalId="createCVModal"
+  [title]="'PUBLISH_CV' | translate"
+  [body]="'PUBLISH_CV_MESSAGE' | translate"
+  [buttons]="createCVButtons"
+>
+  <div style="color: red">
+    {{'note'|translate}}
+  </div>
+</app-modal>
+
+
+<app-footer></app-footer>
+
+

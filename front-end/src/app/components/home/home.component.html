@@ -1,0 +1,125 @@
+<app-navbar></app-navbar>
+
+<div class="container-fluid bgPage">
+
+  <!-- Carousel -->
+  <div id="carouselExampleInterval" class="carousel carousel-dark slide bgCarousel" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="0" class="active"
+              aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="1"
+              aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="2"
+              aria-label="Slide 3"></button>
+    </div>
+    <div class="carousel-inner">
+      <div class="carousel-item active" data-bs-interval="4000">
+        <div class="section1 d-flex flex-row align-middle">
+          <div class="d-flex flex-column">
+            <div>
+              <p class="fs-4 fw-bold">{{ 'carousel.slide1.title' | translate }}</p>
+              <br>
+              <p class="fs-5 fw-bold">{{ 'carousel.slide1.subtitle' | translate }}</p>
+              <br>
+              <p class="fs-6">{{ 'carousel.slide1.text' | translate }}</p>
+            </div>
+            <br>
+            <div>
+              <button class="btn-confirm ms-0" [routerLink]="'/jobs'">
+                {{ 'carousel.slide1.button' | translate }}
+              </button>
+            </div>
+          </div>
+          <div class="bd-highlight slika">
+            <img class="img" src="./assets/img/rukovanje.png" alt="image" style="width: 350px;">
+          </div>
+        </div>
+      </div>
+
+      <div class="carousel-item" data-bs-interval="4000">
+        <div class="section2 d-flex flex-row align-middle">
+          <div class="d-flex flex-column">
+            <div>
+              <p class="fs-4 fw-bold">{{ 'carousel.slide2.title' | translate }}</p>
+              <br>
+              <p class="fs-5 fw-bold">{{ 'carousel.slide2.subtitle' | translate }}</p>
+              <br>
+              <p class="fs-6">{{ 'carousel.slide2.text' | translate }}</p>
+            </div>
+            <br>
+            <br>
+            <div>
+              <button class="btn-confirm ms-0" [routerLink]="'/cvs'">
+                {{ 'carousel.slide2.button' | translate }}
+              </button>
+            </div>
+          </div>
+          <div class="bd-highlight slika">
+            <img class="img" src="./assets/img/dream-job.png" alt="image" style="width: 330px;">
+          </div>
+        </div>
+      </div>
+
+      <div class="carousel-item" data-bs-interval="4000">
+        <div class="section3 d-flex flex-row align-middle">
+          <div class="d-flex flex-column">
+            <div>
+              <p class="fs-4 fw-bold">{{ 'carousel.slide3.title' | translate }}</p>
+              <br>
+              <p class="fs-5 fw-bold">{{ 'carousel.slide3.subtitle' | translate }}</p>
+              <br>
+              <p class="fs-6">{{ 'carousel.slide3.text' | translate }}</p>
+            </div>
+            <br>
+            <br>
+            <div>
+              <button class="btn-confirm ms-0" [routerLink]="'/companies'">
+                {{ 'carousel.slide3.button' | translate }}
+              </button>
+            </div>
+          </div>
+          <div class="bd-highlight slika">
+            <img class="img" src="./assets/img/dream-job.png" alt="image" style="width: 330px;">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Carousel -->
+
+  <!-- About Us -->
+  <div id="aboutUs">
+    <div class="container-fluid tekst mb-5">
+      <span class="fw-bold fs-2 d-flex justify-content-center"
+            style="color: #84B59F; margin: 10px auto 50px;">
+        {{ 'aboutUs.title' | translate }}
+      </span>
+      <br>
+      <div class="row">
+        <div class="col tekst-dio p-3 fs-6">
+          <img class="icon" src="./assets/img/mask-group-6.png" alt="">
+          <br>
+          {{ 'aboutUs.section1' | translate }}
+        </div>
+        <div class="col order-5 tekst-dio fs-6 p-3">
+          <img class="icon" src="./assets/img/mask-group-3.png" alt="">
+          <br>
+          {{ 'aboutUs.section2' | translate }}
+        </div>
+        <div class="col order-1 tekst-dio p-3 fs-6">
+          <img class="icon" src="./assets/img/mask-group-4.png" alt="">
+          <br>
+          {{ 'aboutUs.section3' | translate }}
+        </div>
+        <div class="col order-1 tekst-dio fs-6 p-3">
+          <img class="icon" src="./assets/img/mask-group-5.png" alt="">
+          <br>
+          {{ 'aboutUs.section4' | translate }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<app-footer></app-footer>

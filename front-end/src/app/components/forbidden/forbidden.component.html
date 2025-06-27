@@ -1,0 +1,21 @@
+<div class="forbidden-container">
+  <h1>{{ 'FORBIDDEN.TITLE' | translate }}</h1>
+  <p>{{ 'FORBIDDEN.MESSAGE' | translate }}</p>
+
+  <p>{{ 'FORBIDDEN.INSTRUCTIONS' | translate }}</p>
+  <ul>
+    <li>
+      <strong>
+        <a (click)="goHome()">{{ 'FORBIDDEN.RETURN_HOME' | translate }}</a>
+      </strong>
+    </li>
+    <li>
+      <strong>{{ 'FORBIDDEN.CONTACT_ADMIN' | translate }}</strong>
+    </li>
+    <li>
+      <strong>
+        <a (click)="contactSupport()">{{ 'FORBIDDEN.CONTACT_SUPPORT' | translate }}</a>
+      </strong>
+    </li>
+  </ul>
+</div>

@@ -1,0 +1,108 @@
+.accordion-item, .accordion-button{
+  background-color: var(--primary-color);
+  border: none;
+}
+
+.filter-search-section {
+  background-color: var(--primary-color);
+  height: 1500px;
+  order: 1;
+  flex: 1;
+}
+
+.rigth-section {
+  order: 2;
+  flex: 5;
+}
+
+.message-section{
+  padding: 50px 40px;
+  font-size: x-large;
+  color: #262525;;
+  font-family: Cambria;
+}
+
+.search-box {
+  padding: 4px 55px 4px 15px;
+  background: #fff;
+  border: 1px solid #ddd;
+  margin-bottom: 20px;
+  margin-left: 40px;
+  width: 47%;
+
+  &.hovered,
+  &:hover,
+  &:active {
+    border: 1px solid #aaa;
+  }
+
+  input[type=text] {
+    border: none;
+    box-shadow: none;
+    display: inline-block;
+    padding: 0;
+    background: transparent;
+
+    &:hover,
+    &:focus,
+    &:active {
+      box-shadow: none;
+    }
+  }
+}
+
+.kompanije {
+  width: 47%;
+  margin-left: 40px;
+
+}
+
+.kompanija-content {
+  margin-bottom: 15px;
+  border-radius: 30px;
+  background: #FFF;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  width: 100%;
+  height: 166px;
+  position: relative;
+  min-width: 567px;
+}
+
+.kompanija-content.selected {
+  border-color: var(--secondary-color);
+  border-style: solid;
+}
+
+.img-logo {
+  width: 80px;
+  height: 80px;
+  padding: 15px;
+}
+
+.location {
+  background-color: var(--secondary-color);
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.open-positions {
+  background-color: var(--secondary-color);
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.kompanija-pregled {
+  width: 50%;
+  margin-left: 40px;
+
+}
+
+.no-result-section {
+  border-color: var(--secondary-color);
+  border-width: 10px;
+  background-color: #fff;
+  border-radius: 15px;
+  width: 95%;
+  margin-left: auto;
+  margin-right: auto;
+}

@@ -1,0 +1,70 @@
+<app-navbar></app-navbar>
+
+<div class="container">
+  <!-- Breadcrumbs -->
+  <div class="d-flex flex-row nav-link pregled-breadcrumbs text-dark">
+    <a type="button nav-link" style="color: #84B59F; font-size: larger; text-decoration: none;"
+       [routerLink]="['/home/']">{{ 'home' | translate }} ></a>
+    <p style="color: #84B59F; font-size: larger;"> > {{ 'messages' | translate }}</p>
+  </div>
+
+  <div class="d-flex flex-row justify-content-between align-items-center" style="margin-bottom: 50px; margin-top: 10px;">
+    <span class="fw-bold fs-2" style="color: #84B59F;">{{ 'your_messages' | translate }}</span>
+  </div>
+
+  <!-- Chat container -->
+  <div class="chat-container d-flex">
+
+    <!-- Left side: Chat list -->
+    <div class="chat-list">
+      <div class="search-box mt-4">
+        <form class="search-form">
+          <input class="form-control" type="text" [(ngModel)]="pretragaNaziv" [ngModelOptions]="{standalone: true}"
+                 (ngModelChange)="onSearchChange($event)"
+                 [placeholder]="'search' | translate">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </form>
+      </div>
+
+      <div *ngFor="let chat of groupedMessages" class="chat-item" (click)="getChatMessages(chat.posiljalacId); markAsRead(chat)" >
+        <div class="chat-info">
+          <div class="chat-name">{{chat.posiljalacIme}}</div>
+          <div class="chat-message">
+            {{ chat.messages.length > 0 ? (chat.messages[chat.messages.length - 1].sadrzaj | slice:0:30) : 'No messages' | translate }}
+          </div>
+        </div>
+        <div class="chat-meta">
+          <div class="chat-time">{{formatTime(chat.messages[chat.messages.length-1].vrijeme_slanja)}}</div>
+          <div *ngIf="chat.unreadMessages>0" class="unread-messages">{{chat.unreadMessages}}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right side: Displaying messages -->
+    <div class="main-chat" *ngIf="selectedChatMessages.length > 0">
+      <div class="chat-header d-flex justify-content-between">
+        <h3>{{ 'chat_with' | translate }} {{ selectedChatMessages[0].posiljatelj_ime }}</h3>
+        <div class="button-section">
+          <button type="button" class="btn-confirm" data-bs-dismiss="modal">{{ 'chat' | translate }}</button>
+        </div>
+      </div>
+
+      <div class="chat-messages">
+        <div *ngFor="let poruka of selectedChatMessages">
+          <p><strong>{{ poruka.posiljatelj_ime }}:</strong> {{ poruka.sadrzaj }}</p>
+        </div>
+      </div>
+
+      <div class="chat-input">
+        <input type="text" [placeholder]="'type_a_message' | translate" [(ngModel)]="newMessage">
+        <button class="btn-confirm" (click)="sendMessage(newMessage, selectedChatMessages[0])">{{ 'send' | translate }}</button>
+      </div>
+    </div>
+
+    <!-- Placeholder if no chat is selected -->
+    <div class="main-chat-placeholder" *ngIf="!selectedChatMessages.length">
+      {{ 'select_a_chat_to_start' | translate }}
+    </div>
+
+  </div>
+</div>
